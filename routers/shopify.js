@@ -16,4 +16,9 @@ router.post("/save-token", async (req, res) => {
   res.status(200).json({ message: "Token saved successfully" });
 });
 
+
+router.get("/", async (req, res) => {
+  res.send("SHOPIFY!")
+})
+
 module.exports = router;
