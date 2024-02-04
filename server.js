@@ -797,4 +797,4 @@ async function generateCusotmizedSlip(slipData) {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-export const handler = serverless(api);
+export const handler = serverless(app);
