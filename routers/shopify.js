@@ -4,21 +4,24 @@ const { PrismaClient } = require("../generated/client"); // Adjust the path base
 const prisma = new PrismaClient();
 router.post("/save-token", async (req, res) => {
   const { email, token } = req.body;
-  const updatedUser = await prisma.user.update({
-    where: {
-      email: email,
-    },
-    data: {
-      token: token,
-    },
-  });
-  console.log("updatedUser", updatedUser);
-  res.status(200).json({ message: "Token saved successfully" });
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        token: token,
+      },
+    });
+    console.log("updatedUser", updatedUser);
+    return res.status(200).json({ message: "Token saved successfully" });
+  } catch (e) {
+    return res.status(500).json({ message: "Error saving token" });
+  }
 });
 
-
 router.get("/", async (req, res) => {
-  res.send("SHOPIFY!")
-})
+  res.send("SHOPIFY!");
+});
 
 module.exports = router;
