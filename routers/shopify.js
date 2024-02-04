@@ -20,6 +20,10 @@ router.post("/save-token", async (req, res) => {
   }
 });
 
+router.get("/save-token", async (req, res) => {
+  res.send("save-token");
+})
+
 router.get("/", async (req, res) => {
   res.send("SHOPIFY!");
 });
