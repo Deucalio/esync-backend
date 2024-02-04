@@ -140,6 +140,7 @@ app.post("/otp", async (req, res) => {
   }
 
   const otp = generateOTP();
+  console.log("otp: ", otp)
 
   // const { data, error } = await resend.emails.send({
   //   from: "ESync@mail.nakson.services",
