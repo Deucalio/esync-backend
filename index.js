@@ -106,16 +106,12 @@ app.get("/api", async (req, res) => {
   const userEmail = req.headers["email"];
   console.log("usermeail: ", userEmail);
 
-  if (!userEmail) {
-    return res.status(400).json({ errorMessage: "Email not found" });
-  }
-
   // res.send(userEmail);
 
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: "https://nakson.myshopify.com/admin/api/2023-10/orders.json?status=open&limit=200",
+    url: "https://nakson.myshopify.com/admin/api/2023-10/orders.json?status=open&limit=20",
     headers: {
       "X-Shopify-Access-Token": "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",
     },
