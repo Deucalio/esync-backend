@@ -16,7 +16,7 @@ router.post("/save-token", async (req, res) => {
     console.log("updatedUser", updatedUser);
     return res.status(200).json({ message: "Token saved successfully" });
   } catch (e) {
-    return res.status(500).json({ message: "Error saving token" });
+    return res.status(500).json({ message: "Error saving token", e: e });
   }
 });
 
