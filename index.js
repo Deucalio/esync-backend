@@ -100,7 +100,7 @@ app.get("/test", async (req, res) => {
   res.status(200).json({ message: "User has been inserted" });
 });
 
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
   // res.send("Hello World!");
   // const users = await User.find({});
   const userEmail = req.headers["email"];
@@ -126,256 +126,256 @@ app.get("/", async (req, res) => {
 });
 
 // LOGIN AND REGISTER ENDPOINTS
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  // console.log("req.body", req.body);
+// app.post("/login", async (req, res) => {
+//   const { email, password } = req.body;
+//   // console.log("req.body", req.body);
 
-  if (!email || !password)
-    return res.status(400).json({ errorMessage: "Incorrect field" });
+//   if (!email || !password)
+//     return res.status(400).json({ errorMessage: "Incorrect field" });
 
-  const existingUser = await prisma.user.findFirst({
-    where: { email: email },
-  });
+//   const existingUser = await prisma.user.findFirst({
+//     where: { email: email },
+//   });
 
-  if (!existingUser)
-    return res.status(404).json({ errorMessage: "Wrong email or password" });
+//   if (!existingUser)
+//     return res.status(404).json({ errorMessage: "Wrong email or password" });
 
-  const passwordCorrect = await bcrypt.compare(password, existingUser.password);
-  if (!passwordCorrect)
-    return res.status(401).json({ errorMessage: "Wrong email or password" });
+//   const passwordCorrect = await bcrypt.compare(password, existingUser.password);
+//   if (!passwordCorrect)
+//     return res.status(401).json({ errorMessage: "Wrong email or password" });
 
-  res.status(200).json({
-    user: { email, password: "123" },
-    message: "User has been logged in successfully",
-  });
-});
+//   res.status(200).json({
+//     user: { email, password: "123" },
+//     message: "User has been logged in successfully",
+//   });
+// });
 
-app.post("/otp", async (req, res) => {
-  // Check if the email is valid and already exists in the database
-  const { email } = req.body;
+// app.post("/otp", async (req, res) => {
+//   // Check if the email is valid and already exists in the database
+//   const { email } = req.body;
 
-  const user = await prisma.user.findFirst({
-    where: { email: email },
-  });
+//   const user = await prisma.user.findFirst({
+//     where: { email: email },
+//   });
 
-  if (user) {
-    return res.status(409).json({ message: "Email already exists" });
-  }
+//   if (user) {
+//     return res.status(409).json({ message: "Email already exists" });
+//   }
 
-  const otp = generateOTP();
+//   const otp = generateOTP();
 
-  const { data, error } = await resend.emails.send({
-    from: "ESync@mail.nakson.services",
-    to: [`${email}`],
-    subject: "One-Time Password (OTP) Verification",
-    html: `
-    <p style="font-weight: bold;">Please use the following OTP to complete the verification process:</p>
-    <p style="background-color: #f5f5f5; padding: 10px; font-size: 16px; font-weight: bold;">OTP Code: ${otp}</p>
-    `,
-  });
+//   const { data, error } = await resend.emails.send({
+//     from: "ESync@mail.nakson.services",
+//     to: [`${email}`],
+//     subject: "One-Time Password (OTP) Verification",
+//     html: `
+//     <p style="font-weight: bold;">Please use the following OTP to complete the verification process:</p>
+//     <p style="background-color: #f5f5f5; padding: 10px; font-size: 16px; font-weight: bold;">OTP Code: ${otp}</p>
+//     `,
+//   });
 
-  res.status(200).json(otp);
-});
+//   res.status(200).json(otp);
+// });
 
-app.post("/register", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
-  console.log("req.body", req.body);
+// app.post("/register", async (req, res) => {
+//   const { firstName, lastName, email, password } = req.body;
+//   console.log("req.body", req.body);
 
-  const salt = await bcrypt.genSalt();
-  const passwordHash = await bcrypt.hash(password, salt);
-  // data:  {
-  //   firstName: 'asd',
-  //   lastName: 'asd',
-  //   email: 'john.doe123@example.com',
-  //   password: '23'
-  // }
-  try {
-    // Insert a user with a store
-    const user = await prisma.user.create({
-      data: {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: passwordHash, // Hash the password using a secure method
-        phone: "null",
-        address: "null",
-        token: "null",
-      },
-    });
-    console.log("User Inserted:", user);
-  } catch (error) {
-    console.error("Error inserting sample data:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  } finally {
-    await prisma.$disconnect();
-  }
-  res.status(200).json({ message: "User has been registered successfully" });
-});
+//   const salt = await bcrypt.genSalt();
+//   const passwordHash = await bcrypt.hash(password, salt);
+//   // data:  {
+//   //   firstName: 'asd',
+//   //   lastName: 'asd',
+//   //   email: 'john.doe123@example.com',
+//   //   password: '23'
+//   // }
+//   try {
+//     // Insert a user with a store
+//     const user = await prisma.user.create({
+//       data: {
+//         firstName: firstName,
+//         lastName: lastName,
+//         email: email,
+//         password: passwordHash, // Hash the password using a secure method
+//         phone: "null",
+//         address: "null",
+//         token: "null",
+//       },
+//     });
+//     console.log("User Inserted:", user);
+//   } catch (error) {
+//     console.error("Error inserting sample data:", error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+//   res.status(200).json({ message: "User has been registered successfully" });
+// });
 
-// _____________________
+// // _____________________
 
-app.get("/orders", async (req, res) => {
-  res.send("hello");
-  // let orders = [];
+// app.get("/orders", async (req, res) => {
+//   res.send("hello");
+//   // let orders = [];
 
-  // let config = {
-  //   method: "get",
-  //   maxBodyLength: Infinity,
-  //   url: "https://{shop_name}.myshopify.com/admin/api/2023-10/orders.json?status=open&limit=200&financial_status=unpaid&fulfillment_status=unfulfilled",
-  //   headers: {
-  //     "X-Shopify-Access-Token": "{access_token}",
-  //   },
-  // };
+//   // let config = {
+//   //   method: "get",
+//   //   maxBodyLength: Infinity,
+//   //   url: "https://{shop_name}.myshopify.com/admin/api/2023-10/orders.json?status=open&limit=200&financial_status=unpaid&fulfillment_status=unfulfilled",
+//   //   headers: {
+//   //     "X-Shopify-Access-Token": "{access_token}",
+//   //   },
+//   // };
 
-  // let order_req = await axios.request(config);
-  // order_req = order_req.data.orders.filter((order) =>
-  //   order.tags.toLowerCase().includes("")
-  // );
-  // order_req.forEach((order) => {
-  //   orders.push({
-  //     ...order,
-  //     shop_name: "{shop_name}",
-  //   });
-  // });
+//   // let order_req = await axios.request(config);
+//   // order_req = order_req.data.orders.filter((order) =>
+//   //   order.tags.toLowerCase().includes("")
+//   // );
+//   // order_req.forEach((order) => {
+//   //   orders.push({
+//   //     ...order,
+//   //     shop_name: "{shop_name}",
+//   //   });
+//   // });
 
-  // res.send(orders);
-});
-// _____________________
+//   // res.send(orders);
+// });
+// // _____________________
 
-app.post("/orders", async (req, res) => {
-  const { orders: orders } = req.body;
-  let booked = [];
+// app.post("/orders", async (req, res) => {
+//   const { orders: orders } = req.body;
+//   let booked = [];
 
-  console.log("orders received: ", orders.length, "\n");
+//   console.log("orders received: ", orders.length, "\n");
 
-  for (let order of orders) {
-    booked.push({
-      booked_packet_weight: 100,
-      booked_packet_no_piece: 1,
-      booked_packet_collect_amount: Number(order.total_outstanding),
-      booked_packet_order_id: order.name,
-      origin_city: 475, // Hyderabad
-      destination_city: Number(order.correct_city.id),
-      shipment_id: "875539",
-      shipment_name_eng: "Nakson",
-      shipment_email: "nakson.pk@gmail.com",
-      shipment_phone: "03481273957",
-      shipment_address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad",
-      consignment_name_eng:
-        order.shipping_address.first_name +
-        " " +
-        order.shipping_address.last_name,
-      // "Abey yar"
-      consignment_phone: String(order.shipping_address.phone)
-        ? String(order.shipping_address.phone)
-        : "No Phone",
-      // "101010101",
-      consignment_address:
-        order.shipping_address.address1 + " " + order.shipping_address.address2,
-      // "asdasdasdasdasdasdasdasdasdasdasdasdasd",
-      special_instructions: "booked thorugh automated system of nakson",
-      shipment_type: "",
-    });
-  }
+//   for (let order of orders) {
+//     booked.push({
+//       booked_packet_weight: 100,
+//       booked_packet_no_piece: 1,
+//       booked_packet_collect_amount: Number(order.total_outstanding),
+//       booked_packet_order_id: order.name,
+//       origin_city: 475, // Hyderabad
+//       destination_city: Number(order.correct_city.id),
+//       shipment_id: "875539",
+//       shipment_name_eng: "Nakson",
+//       shipment_email: "nakson.pk@gmail.com",
+//       shipment_phone: "03481273957",
+//       shipment_address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad",
+//       consignment_name_eng:
+//         order.shipping_address.first_name +
+//         " " +
+//         order.shipping_address.last_name,
+//       // "Abey yar"
+//       consignment_phone: String(order.shipping_address.phone)
+//         ? String(order.shipping_address.phone)
+//         : "No Phone",
+//       // "101010101",
+//       consignment_address:
+//         order.shipping_address.address1 + " " + order.shipping_address.address2,
+//       // "asdasdasdasdasdasdasdasdasdasdasdasdasd",
+//       special_instructions: "booked thorugh automated system of nakson",
+//       shipment_type: "",
+//     });
+//   }
 
-  let data = JSON.stringify({
-    api_key: process.env.LEOPARDS_API_KEY,
-    api_password: process.env.LEOPARDS_API_PASSWORD,
-    packets: booked,
-  });
+//   let data = JSON.stringify({
+//     api_key: process.env.LEOPARDS_API_KEY,
+//     api_password: process.env.LEOPARDS_API_PASSWORD,
+//     packets: booked,
+//   });
 
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: "http://new.leopardscod.com/webservice/batchBookPacket/format/json",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-  let booked_orders_details = [];
-  let response = "";
-  try {
-    response = await axios.request(config).then((response) => {
-      return response.data;
-    });
+//   let config = {
+//     method: "post",
+//     maxBodyLength: Infinity,
+//     url: "http://new.leopardscod.com/webservice/batchBookPacket/format/json",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     data: data,
+//   };
+//   let booked_orders_details = [];
+//   let response = "";
+//   try {
+//     response = await axios.request(config).then((response) => {
+//       return response.data;
+//     });
 
-    let saved_data = [
-      // Order ID, Track Number
-    ];
+//     let saved_data = [
+//       // Order ID, Track Number
+//     ];
 
-    for (let i = 0; i < response.data.length; i++) {
-      saved_data.push([orders[i].id, response.data[i].track_number]);
-    }
+//     for (let i = 0; i < response.data.length; i++) {
+//       saved_data.push([orders[i].id, response.data[i].track_number]);
+//     }
 
-    // const status = await fulfillShopifyOrders(saved_data);
-    // console.log("status: ", status);
+//     // const status = await fulfillShopifyOrders(saved_data);
+//     // console.log("status: ", status);
 
-    console.log(saved_data, "\n");
+//     console.log(saved_data, "\n");
 
-    for (let i = 0; i < response.data.length; i++) {
-      booked_orders_details.push({
-        shop_name: orders[i].order_status_url.split("/")[2],
-        service_type: orders[i].service_type.toUpperCase(),
-        courier: "Leopards",
-        consignee_info: {
-          name: booked[i].consignment_name_eng,
-          address: booked[i].consignment_address.replace(/[\r\n]/gm, ""),
-          phone: booked[i].consignment_phone,
-        },
-        shipper_info: {
-          name: "Nakson",
-          address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
-          phone: "03481273957",
-        },
-        destination: orders[i].correct_city,
-        shipping_instructions: "Call the consignee before delivery",
-        date: new Date().toLocaleString().split(",")[0],
-        pieces: booked[i].booked_packet_no_piece,
-        weight: booked[i].booked_packet_weight,
-        amount: booked[i].booked_packet_collect_amount,
-        track_number: response.data[i].track_number,
-        booked_packet_order_name: response.data[i].booked_packet_order_id,
-        collectType:
-          booked[i].booked_packet_collect_amount === 0
-            ? "Non-COD Parcel"
-            : "COD Parcel",
-      });
-    }
-  } catch (err) {
-    console.log("Error: ", err);
-  }
+//     for (let i = 0; i < response.data.length; i++) {
+//       booked_orders_details.push({
+//         shop_name: orders[i].order_status_url.split("/")[2],
+//         service_type: orders[i].service_type.toUpperCase(),
+//         courier: "Leopards",
+//         consignee_info: {
+//           name: booked[i].consignment_name_eng,
+//           address: booked[i].consignment_address.replace(/[\r\n]/gm, ""),
+//           phone: booked[i].consignment_phone,
+//         },
+//         shipper_info: {
+//           name: "Nakson",
+//           address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+//           phone: "03481273957",
+//         },
+//         destination: orders[i].correct_city,
+//         shipping_instructions: "Call the consignee before delivery",
+//         date: new Date().toLocaleString().split(",")[0],
+//         pieces: booked[i].booked_packet_no_piece,
+//         weight: booked[i].booked_packet_weight,
+//         amount: booked[i].booked_packet_collect_amount,
+//         track_number: response.data[i].track_number,
+//         booked_packet_order_name: response.data[i].booked_packet_order_id,
+//         collectType:
+//           booked[i].booked_packet_collect_amount === 0
+//             ? "Non-COD Parcel"
+//             : "COD Parcel",
+//       });
+//     }
+//   } catch (err) {
+//     console.log("Error: ", err);
+//   }
 
-  let pdfBytes = await generateCusotmizedSlip(booked_orders_details);
+//   let pdfBytes = await generateCusotmizedSlip(booked_orders_details);
 
-  res.status(200).send({
-    message: "Orders have been Booked",
-    booked_orders: booked_orders_details,
-    pdfBytes,
-  });
-});
+//   res.status(200).send({
+//     message: "Orders have been Booked",
+//     booked_orders: booked_orders_details,
+//     pdfBytes,
+//   });
+// });
 
-app.post("/slip", async (req, res) => {
-  const pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
-  res.status(200).send({
-    message: "Function has been called",
-    pdfBytes,
-  });
-});
+// app.post("/slip", async (req, res) => {
+//   const pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
+//   res.status(200).send({
+//     message: "Function has been called",
+//     pdfBytes,
+//   });
+// });
 
-app.post("/cancel", async (req, res) => {
-  let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
-  res.status(200).send({
-    message: "Function has been called",
-    pdfBytes,
-  });
-});
+// app.post("/cancel", async (req, res) => {
+//   let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
+//   res.status(200).send({
+//     message: "Function has been called",
+//     pdfBytes,
+//   });
+// });
 
-app.get("/api/hello", (req, res) => {
-  res.status(200).send({
-    message: "Hello from server.js",
-  });
-});
+// app.get("/api/hello", (req, res) => {
+//   res.status(200).send({
+//     message: "Hello from server.js",
+//   });
+// });
 
 async function fetchPdfBytes(url) {
   const response = await fetch(url);
