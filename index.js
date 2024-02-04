@@ -31,7 +31,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-const multer = require("multer");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("./generated/client"); // Adjust the path based on your project structure
 
@@ -41,24 +40,6 @@ const prisma = new PrismaClient();
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000);
 };
-
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, "images"), // Save files to the 'images' folder
-  filename: async (req, file, cb) => {
-    // Find the user with the email provided in the request
-    const user = await prisma.user.findFirst({
-      where: { email: req.body.email },
-    });
-    const uniqueFilename = `${user.id}-${req.body.storeName}`;
-    cb(null, uniqueFilename);
-  },
-});
-
-const upload = multer({ storage });
-
-app.post("/upload", upload.single("image"), (req, res) => {
-  res.json({ success: true, message: "Image uploaded successfully" });
-});
 
 // ROUTES FOR CONNECTING SHOPIFY STORE
 app.use("/shopify", require("./routers/shopify"));
