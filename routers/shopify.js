@@ -16,13 +16,14 @@ router.post("/save-token", async (req, res) => {
     console.log("updatedUser", updatedUser);
     return res.status(200).json({ message: "Token saved successfully" });
   } catch (e) {
+    console.log("Error is: ", e);
     return res.status(500).json({ message: "Error saving token", e: e });
   }
 });
 
 router.get("/save-token", async (req, res) => {
   res.send("save-token");
-})
+});
 
 router.get("/", async (req, res) => {
   res.send("SHOPIFY!");
