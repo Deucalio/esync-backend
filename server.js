@@ -37,7 +37,7 @@ const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("./generated/client"); // Adjust the path based on your project structure
 
 const prisma = new PrismaClient();
-
+const serverless = require("serverless-http");
 // FUNCTIONS
 
 const generateOTP = () => {
@@ -797,3 +797,4 @@ async function generateCusotmizedSlip(slipData) {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+export const handler = serverless(api);
