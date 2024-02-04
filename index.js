@@ -60,45 +60,45 @@ const upload = multer({ storage });
 
 // _____________-
 
-app.post("/upload", upload.single("image"), (req, res) => {
-  res.json({ success: true, message: "Image uploaded successfully" });
-});
+// app.post("/upload", upload.single("image"), (req, res) => {
+//   res.json({ success: true, message: "Image uploaded successfully" });
+// });
 
-// ROUTES FOR CONNECTING SHOPIFY STORE
-app.use("/shopify", require("./routers/shopify"));
-// _________________________________
+// // ROUTES FOR CONNECTING SHOPIFY STORE
+// app.use("/shopify", require("./routers/shopify"));
+// // _________________________________
 
-app.get("/test", async (req, res) => {
-  try {
-    // Insert a user with a store
-    // const user = await prisma.user.create({
-    //   data: {
-    //     firstName: "Huzaifa",
-    //     lastName: "Doe",
-    //     email: "john.doe@example.com",
-    //     password: "hashed_password", // Hash the password using a secure method
-    //     phone: "1234567890",
-    //     address: "123 Main St, City",
-    //   },
-    // });
+// app.get("/test", async (req, res) => {
+//   try {
+//     // Insert a user with a store
+//     // const user = await prisma.user.create({
+//     //   data: {
+//     //     firstName: "Huzaifa",
+//     //     lastName: "Doe",
+//     //     email: "john.doe@example.com",
+//     //     password: "hashed_password", // Hash the password using a secure method
+//     //     phone: "1234567890",
+//     //     address: "123 Main St, City",
+//     //   },
+//     // });
 
-    const store = await prisma.store.create({
-      data: {
-        userId: 2, // Specify the userId for the associated user
-        name: "SHOPIFY STORE",
-        imageURL: "https://example.com/store-image.jpg",
-        storeInfo: { key: "value" },
-      },
-    });
+//     const store = await prisma.store.create({
+//       data: {
+//         userId: 2, // Specify the userId for the associated user
+//         name: "SHOPIFY STORE",
+//         imageURL: "https://example.com/store-image.jpg",
+//         storeInfo: { key: "value" },
+//       },
+//     });
 
-    console.log("store Inserted:", store);
-  } catch (error) {
-    console.error("Error inserting sample data:", error);
-  } finally {
-    await prisma.$disconnect();
-  }
-  res.status(200).json({ message: "User has been inserted" });
-});
+//     console.log("store Inserted:", store);
+//   } catch (error) {
+//     console.error("Error inserting sample data:", error);
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+//   res.status(200).json({ message: "User has been inserted" });
+// });
 
 app.get("/api", async (req, res) => {
   // res.send("Hello World!");
