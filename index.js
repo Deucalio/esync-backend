@@ -100,6 +100,10 @@ const upload = multer({ storage });
 //   res.status(200).json({ message: "User has been inserted" });
 // });
 
+app.get("/", (req, res) => {
+  res.status(200).send("Hello World!");
+});
+
 app.get("/api", async (req, res) => {
   // res.send("Hello World!");
   // const users = await User.find({});
