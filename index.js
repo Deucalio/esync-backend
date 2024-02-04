@@ -26,8 +26,8 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
-app.get("/api", async (req, res) => {
-  res.send("API is running");
+app.get("/orders", async (req, res) => {
+  res.send("ORDERS ARE HERE");
 });
 
 app.listen(port, () => {
