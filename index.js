@@ -17,8 +17,8 @@ const bwipjs = require("bwip-js");
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 require("dotenv").config();
-// const { Resend } = require("resend");
-// const resend = new Resend(process.env.RESEND_API_KEY);
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(bodyParser.json());
 app.use(cors({}));
 // resend.apiKeys.create({ name: "Production" });
@@ -135,22 +135,22 @@ app.post("/otp", async (req, res) => {
     where: { email: email },
   });
 
-  if (user) {
-    return res.status(409).json({ message: "Email already exists" });
-  }
+  // if (user) {
+  //   return res.status(409).json({ message: "Email already exists" });
+  // }
 
   const otp = generateOTP();
   console.log("otp: ", otp);
 
-  // const { data, error } = await resend.emails.send({
-  //   from: "ESync@mail.nakson.services",
-  //   to: [`${email}`],
-  //   subject: "One-Time Password (OTP) Verification",
-  //   html: `
-  //   <p style="font-weight: bold;">Please use the following OTP to complete the verification process:</p>
-  //   <p style="background-color: #f5f5f5; padding: 10px; font-size: 16px; font-weight: bold;">OTP Code: ${otp}</p>
-  //   `,
-  // });
+  const { data, error } = await resend.emails.send({
+    from: "ESync@mail.nakson.services",
+    to: [`${email}`],
+    subject: "One-Time Password (OTP) Verification",
+    html: `
+    <p style="font-weight: bold;">Please use the following OTP to complete the verification process:</p>
+    <p style="background-color: #f5f5f5; padding: 10px; font-size: 16px; font-weight: bold;">OTP Code: ${otp}</p>
+    `,
+  });
 
   res.status(200).json(otp);
 });
