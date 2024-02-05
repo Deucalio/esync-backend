@@ -140,7 +140,7 @@ app.post("/otp", async (req, res) => {
   }
 
   const otp = generateOTP();
-  console.log("otp: ", otp)
+  console.log("otp: ", otp);
 
   // const { data, error } = await resend.emails.send({
   //   from: "ESync@mail.nakson.services",
@@ -171,8 +171,8 @@ app.post("/register", async (req, res) => {
     // Insert a user with a store
     const user = await prisma.user.create({
       data: {
-        firstName: firstName,
-        lastName: lastName,
+        first_name: firstName,
+        last_name: lastName,
         email: email,
         password: passwordHash, // Hash the password using a secure method
         phone: "null",
@@ -187,6 +187,7 @@ app.post("/register", async (req, res) => {
   } finally {
     await prisma.$disconnect();
   }
+
   res.status(200).json({ message: "User has been registered successfully" });
 });
 

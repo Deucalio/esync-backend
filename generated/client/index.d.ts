@@ -993,37 +993,37 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: number | null
-    firstName: string | null
-    lastName: string | null
+    first_name: string | null
+    last_name: string | null
     email: string | null
     password: string | null
     phone: string | null
     address: string | null
-    joinedAt: Date | null
+    joined_at: Date | null
     token: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: number | null
-    firstName: string | null
-    lastName: string | null
+    first_name: string | null
+    last_name: string | null
     email: string | null
     password: string | null
     phone: string | null
     address: string | null
-    joinedAt: Date | null
+    joined_at: Date | null
     token: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
-    firstName: number
-    lastName: number
+    first_name: number
+    last_name: number
     email: number
     password: number
     phone: number
     address: number
-    joinedAt: number
+    joined_at: number
     token: number
     _all: number
   }
@@ -1039,37 +1039,37 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
-    firstName?: true
-    lastName?: true
+    first_name?: true
+    last_name?: true
     email?: true
     password?: true
     phone?: true
     address?: true
-    joinedAt?: true
+    joined_at?: true
     token?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
-    firstName?: true
-    lastName?: true
+    first_name?: true
+    last_name?: true
     email?: true
     password?: true
     phone?: true
     address?: true
-    joinedAt?: true
+    joined_at?: true
     token?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
-    firstName?: true
-    lastName?: true
+    first_name?: true
+    last_name?: true
     email?: true
     password?: true
     phone?: true
     address?: true
-    joinedAt?: true
+    joined_at?: true
     token?: true
     _all?: true
   }
@@ -1162,13 +1162,13 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: number
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
     password: string
     phone: string
     address: string
-    joinedAt: Date
+    joined_at: Date
     token: string
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -1193,13 +1193,13 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    firstName?: boolean
-    lastName?: boolean
+    first_name?: boolean
+    last_name?: boolean
     email?: boolean
     password?: boolean
     phone?: boolean
     address?: boolean
-    joinedAt?: boolean
+    joined_at?: boolean
     token?: boolean
     stores?: boolean | User$storesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1207,13 +1207,13 @@ export namespace Prisma {
 
   export type UserSelectScalar = {
     id?: boolean
-    firstName?: boolean
-    lastName?: boolean
+    first_name?: boolean
+    last_name?: boolean
     email?: boolean
     password?: boolean
     phone?: boolean
     address?: boolean
-    joinedAt?: boolean
+    joined_at?: boolean
     token?: boolean
   }
 
@@ -1230,13 +1230,13 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      firstName: string
-      lastName: string
+      first_name: string
+      last_name: string
       email: string
       password: string
       phone: string
       address: string
-      joinedAt: Date
+      joined_at: Date
       token: string
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1634,13 +1634,13 @@ export namespace Prisma {
    */ 
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'Int'>
-    readonly firstName: FieldRef<"User", 'String'>
-    readonly lastName: FieldRef<"User", 'String'>
+    readonly first_name: FieldRef<"User", 'String'>
+    readonly last_name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
     readonly address: FieldRef<"User", 'String'>
-    readonly joinedAt: FieldRef<"User", 'DateTime'>
+    readonly joined_at: FieldRef<"User", 'DateTime'>
     readonly token: FieldRef<"User", 'String'>
   }
     
@@ -2004,68 +2004,68 @@ export namespace Prisma {
 
   export type StoreAvgAggregateOutputType = {
     id: number | null
-    userId: number | null
+    user_id: number | null
   }
 
   export type StoreSumAggregateOutputType = {
     id: number | null
-    userId: number | null
+    user_id: number | null
   }
 
   export type StoreMinAggregateOutputType = {
     id: number | null
     name: string | null
-    imageURL: string | null
-    userId: number | null
+    image_url: string | null
+    user_id: number | null
   }
 
   export type StoreMaxAggregateOutputType = {
     id: number | null
     name: string | null
-    imageURL: string | null
-    userId: number | null
+    image_url: string | null
+    user_id: number | null
   }
 
   export type StoreCountAggregateOutputType = {
     id: number
     name: number
-    imageURL: number
-    storeInfo: number
-    userId: number
+    image_url: number
+    store_info: number
+    user_id: number
     _all: number
   }
 
 
   export type StoreAvgAggregateInputType = {
     id?: true
-    userId?: true
+    user_id?: true
   }
 
   export type StoreSumAggregateInputType = {
     id?: true
-    userId?: true
+    user_id?: true
   }
 
   export type StoreMinAggregateInputType = {
     id?: true
     name?: true
-    imageURL?: true
-    userId?: true
+    image_url?: true
+    user_id?: true
   }
 
   export type StoreMaxAggregateInputType = {
     id?: true
     name?: true
-    imageURL?: true
-    userId?: true
+    image_url?: true
+    user_id?: true
   }
 
   export type StoreCountAggregateInputType = {
     id?: true
     name?: true
-    imageURL?: true
-    storeInfo?: true
-    userId?: true
+    image_url?: true
+    store_info?: true
+    user_id?: true
     _all?: true
   }
 
@@ -2158,9 +2158,9 @@ export namespace Prisma {
   export type StoreGroupByOutputType = {
     id: number
     name: string
-    imageURL: string
-    storeInfo: JsonValue
-    userId: number
+    image_url: string
+    store_info: JsonValue
+    user_id: number
     _count: StoreCountAggregateOutputType | null
     _avg: StoreAvgAggregateOutputType | null
     _sum: StoreSumAggregateOutputType | null
@@ -2185,18 +2185,18 @@ export namespace Prisma {
   export type StoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    imageURL?: boolean
-    storeInfo?: boolean
-    userId?: boolean
+    image_url?: boolean
+    store_info?: boolean
+    user_id?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["store"]>
 
   export type StoreSelectScalar = {
     id?: boolean
     name?: boolean
-    imageURL?: boolean
-    storeInfo?: boolean
-    userId?: boolean
+    image_url?: boolean
+    store_info?: boolean
+    user_id?: boolean
   }
 
   export type StoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2212,9 +2212,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
-      imageURL: string
-      storeInfo: Prisma.JsonValue
-      userId: number
+      image_url: string
+      store_info: Prisma.JsonValue
+      user_id: number
     }, ExtArgs["result"]["store"]>
     composites: {}
   }
@@ -2612,9 +2612,9 @@ export namespace Prisma {
   interface StoreFieldRefs {
     readonly id: FieldRef<"Store", 'Int'>
     readonly name: FieldRef<"Store", 'String'>
-    readonly imageURL: FieldRef<"Store", 'String'>
-    readonly storeInfo: FieldRef<"Store", 'Json'>
-    readonly userId: FieldRef<"Store", 'Int'>
+    readonly image_url: FieldRef<"Store", 'String'>
+    readonly store_info: FieldRef<"Store", 'Json'>
+    readonly user_id: FieldRef<"Store", 'Int'>
   }
     
 
@@ -2958,13 +2958,13 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
-    firstName: 'firstName',
-    lastName: 'lastName',
+    first_name: 'first_name',
+    last_name: 'last_name',
     email: 'email',
     password: 'password',
     phone: 'phone',
     address: 'address',
-    joinedAt: 'joinedAt',
+    joined_at: 'joined_at',
     token: 'token'
   };
 
@@ -2974,9 +2974,9 @@ export namespace Prisma {
   export const StoreScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    imageURL: 'imageURL',
-    storeInfo: 'storeInfo',
-    userId: 'userId'
+    image_url: 'image_url',
+    store_info: 'store_info',
+    user_id: 'user_id'
   };
 
   export type StoreScalarFieldEnum = (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum]
@@ -3090,26 +3090,26 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: IntFilter<"User"> | number
-    firstName?: StringFilter<"User"> | string
-    lastName?: StringFilter<"User"> | string
+    first_name?: StringFilter<"User"> | string
+    last_name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     phone?: StringFilter<"User"> | string
     address?: StringFilter<"User"> | string
-    joinedAt?: DateTimeFilter<"User"> | Date | string
+    joined_at?: DateTimeFilter<"User"> | Date | string
     token?: StringFilter<"User"> | string
     stores?: StoreListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
     email?: SortOrder
     password?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    joinedAt?: SortOrder
+    joined_at?: SortOrder
     token?: SortOrder
     stores?: StoreOrderByRelationAggregateInput
   }
@@ -3120,25 +3120,25 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    firstName?: StringFilter<"User"> | string
-    lastName?: StringFilter<"User"> | string
+    first_name?: StringFilter<"User"> | string
+    last_name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     phone?: StringFilter<"User"> | string
     address?: StringFilter<"User"> | string
-    joinedAt?: DateTimeFilter<"User"> | Date | string
+    joined_at?: DateTimeFilter<"User"> | Date | string
     token?: StringFilter<"User"> | string
     stores?: StoreListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
     email?: SortOrder
     password?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    joinedAt?: SortOrder
+    joined_at?: SortOrder
     token?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
@@ -3152,13 +3152,13 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"User"> | number
-    firstName?: StringWithAggregatesFilter<"User"> | string
-    lastName?: StringWithAggregatesFilter<"User"> | string
+    first_name?: StringWithAggregatesFilter<"User"> | string
+    last_name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     phone?: StringWithAggregatesFilter<"User"> | string
     address?: StringWithAggregatesFilter<"User"> | string
-    joinedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    joined_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
     token?: StringWithAggregatesFilter<"User"> | string
   }
 
@@ -3168,18 +3168,18 @@ export namespace Prisma {
     NOT?: StoreWhereInput | StoreWhereInput[]
     id?: IntFilter<"Store"> | number
     name?: StringFilter<"Store"> | string
-    imageURL?: StringFilter<"Store"> | string
-    storeInfo?: JsonFilter<"Store">
-    userId?: IntFilter<"Store"> | number
+    image_url?: StringFilter<"Store"> | string
+    store_info?: JsonFilter<"Store">
+    user_id?: IntFilter<"Store"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
   }
 
   export type StoreOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    imageURL?: SortOrder
-    storeInfo?: SortOrder
-    userId?: SortOrder
+    image_url?: SortOrder
+    store_info?: SortOrder
+    user_id?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -3189,18 +3189,18 @@ export namespace Prisma {
     OR?: StoreWhereInput[]
     NOT?: StoreWhereInput | StoreWhereInput[]
     name?: StringFilter<"Store"> | string
-    imageURL?: StringFilter<"Store"> | string
-    storeInfo?: JsonFilter<"Store">
-    userId?: IntFilter<"Store"> | number
+    image_url?: StringFilter<"Store"> | string
+    store_info?: JsonFilter<"Store">
+    user_id?: IntFilter<"Store"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
 
   export type StoreOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    imageURL?: SortOrder
-    storeInfo?: SortOrder
-    userId?: SortOrder
+    image_url?: SortOrder
+    store_info?: SortOrder
+    user_id?: SortOrder
     _count?: StoreCountOrderByAggregateInput
     _avg?: StoreAvgOrderByAggregateInput
     _max?: StoreMaxOrderByAggregateInput
@@ -3214,146 +3214,146 @@ export namespace Prisma {
     NOT?: StoreScalarWhereWithAggregatesInput | StoreScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Store"> | number
     name?: StringWithAggregatesFilter<"Store"> | string
-    imageURL?: StringWithAggregatesFilter<"Store"> | string
-    storeInfo?: JsonWithAggregatesFilter<"Store">
-    userId?: IntWithAggregatesFilter<"Store"> | number
+    image_url?: StringWithAggregatesFilter<"Store"> | string
+    store_info?: JsonWithAggregatesFilter<"Store">
+    user_id?: IntWithAggregatesFilter<"Store"> | number
   }
 
   export type UserCreateInput = {
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
     password: string
     phone: string
     address: string
-    joinedAt?: Date | string
+    joined_at?: Date | string
     token: string
     stores?: StoreCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: number
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
     password: string
     phone: string
     address: string
-    joinedAt?: Date | string
+    joined_at?: Date | string
     token: string
     stores?: StoreUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
     token?: StringFieldUpdateOperationsInput | string
     stores?: StoreUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
     token?: StringFieldUpdateOperationsInput | string
     stores?: StoreUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: number
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
     password: string
     phone: string
     address: string
-    joinedAt?: Date | string
+    joined_at?: Date | string
     token: string
   }
 
   export type UserUpdateManyMutationInput = {
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
     token?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
     token?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreCreateInput = {
     name: string
-    imageURL: string
-    storeInfo: JsonNullValueInput | InputJsonValue
+    image_url: string
+    store_info: JsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutStoresInput
   }
 
   export type StoreUncheckedCreateInput = {
     id?: number
     name: string
-    imageURL: string
-    storeInfo: JsonNullValueInput | InputJsonValue
-    userId: number
+    image_url: string
+    store_info: JsonNullValueInput | InputJsonValue
+    user_id: number
   }
 
   export type StoreUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
-    imageURL?: StringFieldUpdateOperationsInput | string
-    storeInfo?: JsonNullValueInput | InputJsonValue
+    image_url?: StringFieldUpdateOperationsInput | string
+    store_info?: JsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutStoresNestedInput
   }
 
   export type StoreUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    imageURL?: StringFieldUpdateOperationsInput | string
-    storeInfo?: JsonNullValueInput | InputJsonValue
-    userId?: IntFieldUpdateOperationsInput | number
+    image_url?: StringFieldUpdateOperationsInput | string
+    store_info?: JsonNullValueInput | InputJsonValue
+    user_id?: IntFieldUpdateOperationsInput | number
   }
 
   export type StoreCreateManyInput = {
     id?: number
     name: string
-    imageURL: string
-    storeInfo: JsonNullValueInput | InputJsonValue
-    userId: number
+    image_url: string
+    store_info: JsonNullValueInput | InputJsonValue
+    user_id: number
   }
 
   export type StoreUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
-    imageURL?: StringFieldUpdateOperationsInput | string
-    storeInfo?: JsonNullValueInput | InputJsonValue
+    image_url?: StringFieldUpdateOperationsInput | string
+    store_info?: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    imageURL?: StringFieldUpdateOperationsInput | string
-    storeInfo?: JsonNullValueInput | InputJsonValue
-    userId?: IntFieldUpdateOperationsInput | number
+    image_url?: StringFieldUpdateOperationsInput | string
+    store_info?: JsonNullValueInput | InputJsonValue
+    user_id?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -3405,13 +3405,13 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
     email?: SortOrder
     password?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    joinedAt?: SortOrder
+    joined_at?: SortOrder
     token?: SortOrder
   }
 
@@ -3421,25 +3421,25 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
     email?: SortOrder
     password?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    joinedAt?: SortOrder
+    joined_at?: SortOrder
     token?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
     email?: SortOrder
     password?: SortOrder
     phone?: SortOrder
     address?: SortOrder
-    joinedAt?: SortOrder
+    joined_at?: SortOrder
     token?: SortOrder
   }
 
@@ -3525,33 +3525,33 @@ export namespace Prisma {
   export type StoreCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    imageURL?: SortOrder
-    storeInfo?: SortOrder
-    userId?: SortOrder
+    image_url?: SortOrder
+    store_info?: SortOrder
+    user_id?: SortOrder
   }
 
   export type StoreAvgOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    user_id?: SortOrder
   }
 
   export type StoreMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    imageURL?: SortOrder
-    userId?: SortOrder
+    image_url?: SortOrder
+    user_id?: SortOrder
   }
 
   export type StoreMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    imageURL?: SortOrder
-    userId?: SortOrder
+    image_url?: SortOrder
+    user_id?: SortOrder
   }
 
   export type StoreSumOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    user_id?: SortOrder
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -3769,15 +3769,15 @@ export namespace Prisma {
 
   export type StoreCreateWithoutUserInput = {
     name: string
-    imageURL: string
-    storeInfo: JsonNullValueInput | InputJsonValue
+    image_url: string
+    store_info: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreUncheckedCreateWithoutUserInput = {
     id?: number
     name: string
-    imageURL: string
-    storeInfo: JsonNullValueInput | InputJsonValue
+    image_url: string
+    store_info: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreCreateOrConnectWithoutUserInput = {
@@ -3812,31 +3812,31 @@ export namespace Prisma {
     NOT?: StoreScalarWhereInput | StoreScalarWhereInput[]
     id?: IntFilter<"Store"> | number
     name?: StringFilter<"Store"> | string
-    imageURL?: StringFilter<"Store"> | string
-    storeInfo?: JsonFilter<"Store">
-    userId?: IntFilter<"Store"> | number
+    image_url?: StringFilter<"Store"> | string
+    store_info?: JsonFilter<"Store">
+    user_id?: IntFilter<"Store"> | number
   }
 
   export type UserCreateWithoutStoresInput = {
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
     password: string
     phone: string
     address: string
-    joinedAt?: Date | string
+    joined_at?: Date | string
     token: string
   }
 
   export type UserUncheckedCreateWithoutStoresInput = {
     id?: number
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
     password: string
     phone: string
     address: string
-    joinedAt?: Date | string
+    joined_at?: Date | string
     token: string
   }
 
@@ -3857,53 +3857,53 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutStoresInput = {
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
     token?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateWithoutStoresInput = {
     id?: IntFieldUpdateOperationsInput | number
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
     token?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreCreateManyUserInput = {
     id?: number
     name: string
-    imageURL: string
-    storeInfo: JsonNullValueInput | InputJsonValue
+    image_url: string
+    store_info: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
-    imageURL?: StringFieldUpdateOperationsInput | string
-    storeInfo?: JsonNullValueInput | InputJsonValue
+    image_url?: StringFieldUpdateOperationsInput | string
+    store_info?: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    imageURL?: StringFieldUpdateOperationsInput | string
-    storeInfo?: JsonNullValueInput | InputJsonValue
+    image_url?: StringFieldUpdateOperationsInput | string
+    store_info?: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    imageURL?: StringFieldUpdateOperationsInput | string
-    storeInfo?: JsonNullValueInput | InputJsonValue
+    image_url?: StringFieldUpdateOperationsInput | string
+    store_info?: JsonNullValueInput | InputJsonValue
   }
 
 
