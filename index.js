@@ -105,7 +105,7 @@ app.get("/api", async (req, res) => {
 // LOGIN AND REGISTER ENDPOINTS
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  // console.log("req.body", req.body);
+  console.log("req.body", req.body);
 
   if (!email || !password)
     return res.status(400).json({ errorMessage: "Incorrect field" });
@@ -113,7 +113,6 @@ app.post("/login", async (req, res) => {
   const existingUser = await prisma.user.findFirst({
     where: { email: email },
   });
-
   if (!existingUser)
     return res.status(404).json({ errorMessage: "Wrong email or password" });
 
@@ -135,9 +134,9 @@ app.post("/otp", async (req, res) => {
     where: { email: email },
   });
 
-  // if (user) {
-  //   return res.status(409).json({ message: "Email already exists" });
-  // }
+  if (user) {
+    return res.status(409).json({ message: "Email already exists" });
+  }
 
   const otp = generateOTP();
   console.log("otp: ", otp);
