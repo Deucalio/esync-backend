@@ -2014,6 +2014,7 @@ export namespace Prisma {
 
   export type StoreMinAggregateOutputType = {
     id: number | null
+    token: string | null
     name: string | null
     image_url: string | null
     user_id: number | null
@@ -2021,6 +2022,7 @@ export namespace Prisma {
 
   export type StoreMaxAggregateOutputType = {
     id: number | null
+    token: string | null
     name: string | null
     image_url: string | null
     user_id: number | null
@@ -2028,6 +2030,7 @@ export namespace Prisma {
 
   export type StoreCountAggregateOutputType = {
     id: number
+    token: number
     name: number
     image_url: number
     store_info: number
@@ -2048,6 +2051,7 @@ export namespace Prisma {
 
   export type StoreMinAggregateInputType = {
     id?: true
+    token?: true
     name?: true
     image_url?: true
     user_id?: true
@@ -2055,6 +2059,7 @@ export namespace Prisma {
 
   export type StoreMaxAggregateInputType = {
     id?: true
+    token?: true
     name?: true
     image_url?: true
     user_id?: true
@@ -2062,6 +2067,7 @@ export namespace Prisma {
 
   export type StoreCountAggregateInputType = {
     id?: true
+    token?: true
     name?: true
     image_url?: true
     store_info?: true
@@ -2157,6 +2163,7 @@ export namespace Prisma {
 
   export type StoreGroupByOutputType = {
     id: number
+    token: string
     name: string
     image_url: string
     store_info: JsonValue
@@ -2184,6 +2191,7 @@ export namespace Prisma {
 
   export type StoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    token?: boolean
     name?: boolean
     image_url?: boolean
     store_info?: boolean
@@ -2193,6 +2201,7 @@ export namespace Prisma {
 
   export type StoreSelectScalar = {
     id?: boolean
+    token?: boolean
     name?: boolean
     image_url?: boolean
     store_info?: boolean
@@ -2211,6 +2220,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      token: string
       name: string
       image_url: string
       store_info: Prisma.JsonValue
@@ -2611,6 +2621,7 @@ export namespace Prisma {
    */ 
   interface StoreFieldRefs {
     readonly id: FieldRef<"Store", 'Int'>
+    readonly token: FieldRef<"Store", 'String'>
     readonly name: FieldRef<"Store", 'String'>
     readonly image_url: FieldRef<"Store", 'String'>
     readonly store_info: FieldRef<"Store", 'Json'>
@@ -2973,6 +2984,7 @@ export namespace Prisma {
 
   export const StoreScalarFieldEnum: {
     id: 'id',
+    token: 'token',
     name: 'name',
     image_url: 'image_url',
     store_info: 'store_info',
@@ -3167,6 +3179,7 @@ export namespace Prisma {
     OR?: StoreWhereInput[]
     NOT?: StoreWhereInput | StoreWhereInput[]
     id?: IntFilter<"Store"> | number
+    token?: StringFilter<"Store"> | string
     name?: StringFilter<"Store"> | string
     image_url?: StringFilter<"Store"> | string
     store_info?: JsonFilter<"Store">
@@ -3176,6 +3189,7 @@ export namespace Prisma {
 
   export type StoreOrderByWithRelationInput = {
     id?: SortOrder
+    token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
     store_info?: SortOrder
@@ -3188,6 +3202,7 @@ export namespace Prisma {
     AND?: StoreWhereInput | StoreWhereInput[]
     OR?: StoreWhereInput[]
     NOT?: StoreWhereInput | StoreWhereInput[]
+    token?: StringFilter<"Store"> | string
     name?: StringFilter<"Store"> | string
     image_url?: StringFilter<"Store"> | string
     store_info?: JsonFilter<"Store">
@@ -3197,6 +3212,7 @@ export namespace Prisma {
 
   export type StoreOrderByWithAggregationInput = {
     id?: SortOrder
+    token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
     store_info?: SortOrder
@@ -3213,6 +3229,7 @@ export namespace Prisma {
     OR?: StoreScalarWhereWithAggregatesInput[]
     NOT?: StoreScalarWhereWithAggregatesInput | StoreScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Store"> | number
+    token?: StringWithAggregatesFilter<"Store"> | string
     name?: StringWithAggregatesFilter<"Store"> | string
     image_url?: StringWithAggregatesFilter<"Store"> | string
     store_info?: JsonWithAggregatesFilter<"Store">
@@ -3305,6 +3322,7 @@ export namespace Prisma {
   }
 
   export type StoreCreateInput = {
+    token: string
     name: string
     image_url: string
     store_info: JsonNullValueInput | InputJsonValue
@@ -3313,6 +3331,7 @@ export namespace Prisma {
 
   export type StoreUncheckedCreateInput = {
     id?: number
+    token: string
     name: string
     image_url: string
     store_info: JsonNullValueInput | InputJsonValue
@@ -3320,6 +3339,7 @@ export namespace Prisma {
   }
 
   export type StoreUpdateInput = {
+    token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
@@ -3328,6 +3348,7 @@ export namespace Prisma {
 
   export type StoreUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
@@ -3336,6 +3357,7 @@ export namespace Prisma {
 
   export type StoreCreateManyInput = {
     id?: number
+    token: string
     name: string
     image_url: string
     store_info: JsonNullValueInput | InputJsonValue
@@ -3343,6 +3365,7 @@ export namespace Prisma {
   }
 
   export type StoreUpdateManyMutationInput = {
+    token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
@@ -3350,6 +3373,7 @@ export namespace Prisma {
 
   export type StoreUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
@@ -3524,6 +3548,7 @@ export namespace Prisma {
 
   export type StoreCountOrderByAggregateInput = {
     id?: SortOrder
+    token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
     store_info?: SortOrder
@@ -3537,6 +3562,7 @@ export namespace Prisma {
 
   export type StoreMaxOrderByAggregateInput = {
     id?: SortOrder
+    token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
     user_id?: SortOrder
@@ -3544,6 +3570,7 @@ export namespace Prisma {
 
   export type StoreMinOrderByAggregateInput = {
     id?: SortOrder
+    token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
     user_id?: SortOrder
@@ -3768,6 +3795,7 @@ export namespace Prisma {
   }
 
   export type StoreCreateWithoutUserInput = {
+    token: string
     name: string
     image_url: string
     store_info: JsonNullValueInput | InputJsonValue
@@ -3775,6 +3803,7 @@ export namespace Prisma {
 
   export type StoreUncheckedCreateWithoutUserInput = {
     id?: number
+    token: string
     name: string
     image_url: string
     store_info: JsonNullValueInput | InputJsonValue
@@ -3811,6 +3840,7 @@ export namespace Prisma {
     OR?: StoreScalarWhereInput[]
     NOT?: StoreScalarWhereInput | StoreScalarWhereInput[]
     id?: IntFilter<"Store"> | number
+    token?: StringFilter<"Store"> | string
     name?: StringFilter<"Store"> | string
     image_url?: StringFilter<"Store"> | string
     store_info?: JsonFilter<"Store">
@@ -3881,12 +3911,14 @@ export namespace Prisma {
 
   export type StoreCreateManyUserInput = {
     id?: number
+    token: string
     name: string
     image_url: string
     store_info: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreUpdateWithoutUserInput = {
+    token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
@@ -3894,6 +3926,7 @@ export namespace Prisma {
 
   export type StoreUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
@@ -3901,6 +3934,7 @@ export namespace Prisma {
 
   export type StoreUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
