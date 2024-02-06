@@ -1000,7 +1000,6 @@ export namespace Prisma {
     phone: string | null
     address: string | null
     joined_at: Date | null
-    token: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1012,7 +1011,6 @@ export namespace Prisma {
     phone: string | null
     address: string | null
     joined_at: Date | null
-    token: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1024,7 +1022,6 @@ export namespace Prisma {
     phone: number
     address: number
     joined_at: number
-    token: number
     _all: number
   }
 
@@ -1046,7 +1043,6 @@ export namespace Prisma {
     phone?: true
     address?: true
     joined_at?: true
-    token?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1058,7 +1054,6 @@ export namespace Prisma {
     phone?: true
     address?: true
     joined_at?: true
-    token?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1070,7 +1065,6 @@ export namespace Prisma {
     phone?: true
     address?: true
     joined_at?: true
-    token?: true
     _all?: true
   }
 
@@ -1169,7 +1163,6 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at: Date
-    token: string
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1200,7 +1193,6 @@ export namespace Prisma {
     phone?: boolean
     address?: boolean
     joined_at?: boolean
-    token?: boolean
     stores?: boolean | User$storesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1214,7 +1206,6 @@ export namespace Prisma {
     phone?: boolean
     address?: boolean
     joined_at?: boolean
-    token?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1237,7 +1228,6 @@ export namespace Prisma {
       phone: string
       address: string
       joined_at: Date
-      token: string
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1641,7 +1631,6 @@ export namespace Prisma {
     readonly phone: FieldRef<"User", 'String'>
     readonly address: FieldRef<"User", 'String'>
     readonly joined_at: FieldRef<"User", 'DateTime'>
-    readonly token: FieldRef<"User", 'String'>
   }
     
 
@@ -2975,8 +2964,7 @@ export namespace Prisma {
     password: 'password',
     phone: 'phone',
     address: 'address',
-    joined_at: 'joined_at',
-    token: 'token'
+    joined_at: 'joined_at'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3109,7 +3097,6 @@ export namespace Prisma {
     phone?: StringFilter<"User"> | string
     address?: StringFilter<"User"> | string
     joined_at?: DateTimeFilter<"User"> | Date | string
-    token?: StringFilter<"User"> | string
     stores?: StoreListRelationFilter
   }
 
@@ -3122,7 +3109,6 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
-    token?: SortOrder
     stores?: StoreOrderByRelationAggregateInput
   }
 
@@ -3138,7 +3124,6 @@ export namespace Prisma {
     phone?: StringFilter<"User"> | string
     address?: StringFilter<"User"> | string
     joined_at?: DateTimeFilter<"User"> | Date | string
-    token?: StringFilter<"User"> | string
     stores?: StoreListRelationFilter
   }, "id" | "email">
 
@@ -3151,7 +3136,6 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
-    token?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -3171,7 +3155,6 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"User"> | string
     address?: StringWithAggregatesFilter<"User"> | string
     joined_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    token?: StringWithAggregatesFilter<"User"> | string
   }
 
   export type StoreWhereInput = {
@@ -3244,7 +3227,6 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    token: string
     stores?: StoreCreateNestedManyWithoutUserInput
   }
 
@@ -3257,7 +3239,6 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    token: string
     stores?: StoreUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -3269,7 +3250,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
     stores?: StoreUpdateManyWithoutUserNestedInput
   }
 
@@ -3282,7 +3262,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
     stores?: StoreUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -3295,7 +3274,6 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    token: string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -3306,7 +3284,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -3318,7 +3295,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreCreateInput = {
@@ -3436,7 +3412,6 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
-    token?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -3452,7 +3427,6 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
-    token?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -3464,7 +3438,6 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
-    token?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -3855,7 +3828,6 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    token: string
   }
 
   export type UserUncheckedCreateWithoutStoresInput = {
@@ -3867,7 +3839,6 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    token: string
   }
 
   export type UserCreateOrConnectWithoutStoresInput = {
@@ -3894,7 +3865,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateWithoutStoresInput = {
@@ -3906,7 +3876,6 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreCreateManyUserInput = {
