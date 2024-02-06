@@ -20,8 +20,19 @@ router.post("/save-token", async (req, res) => {
   }
 });
 
-router.get("/save-token", async (req, res) => {
-  res.send("save-token");
+router.post("/validate-name", async (req, res) => {
+  // check if the store name is already taken
+  const { shopName } = req.body;
+  const store = await prisma.store.findUnique({
+    where: {
+      name: shopName,
+    },
+  });
+
+  if (store) {
+    return res.status(400).json({ message: "Store name already taken" });
+  }
+  res.status(200).json({ message: "Store name available" });
 });
 
 router.get("/", async (req, res) => {
