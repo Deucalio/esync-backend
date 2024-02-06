@@ -3182,16 +3182,16 @@ export namespace Prisma {
 
   export type StoreWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    name?: string
     AND?: StoreWhereInput | StoreWhereInput[]
     OR?: StoreWhereInput[]
     NOT?: StoreWhereInput | StoreWhereInput[]
     token?: StringFilter<"Store"> | string
-    name?: StringFilter<"Store"> | string
     image_url?: StringFilter<"Store"> | string
     store_info?: JsonFilter<"Store">
     user_id?: IntFilter<"Store"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "name">
 
   export type StoreOrderByWithAggregationInput = {
     id?: SortOrder
