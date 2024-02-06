@@ -2006,6 +2006,7 @@ export namespace Prisma {
     token: string | null
     name: string | null
     image_url: string | null
+    image_public_id: string | null
     user_id: number | null
   }
 
@@ -2014,6 +2015,7 @@ export namespace Prisma {
     token: string | null
     name: string | null
     image_url: string | null
+    image_public_id: string | null
     user_id: number | null
   }
 
@@ -2022,6 +2024,7 @@ export namespace Prisma {
     token: number
     name: number
     image_url: number
+    image_public_id: number
     store_info: number
     user_id: number
     _all: number
@@ -2043,6 +2046,7 @@ export namespace Prisma {
     token?: true
     name?: true
     image_url?: true
+    image_public_id?: true
     user_id?: true
   }
 
@@ -2051,6 +2055,7 @@ export namespace Prisma {
     token?: true
     name?: true
     image_url?: true
+    image_public_id?: true
     user_id?: true
   }
 
@@ -2059,6 +2064,7 @@ export namespace Prisma {
     token?: true
     name?: true
     image_url?: true
+    image_public_id?: true
     store_info?: true
     user_id?: true
     _all?: true
@@ -2155,6 +2161,7 @@ export namespace Prisma {
     token: string
     name: string
     image_url: string
+    image_public_id: string
     store_info: JsonValue
     user_id: number
     _count: StoreCountAggregateOutputType | null
@@ -2183,6 +2190,7 @@ export namespace Prisma {
     token?: boolean
     name?: boolean
     image_url?: boolean
+    image_public_id?: boolean
     store_info?: boolean
     user_id?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -2193,6 +2201,7 @@ export namespace Prisma {
     token?: boolean
     name?: boolean
     image_url?: boolean
+    image_public_id?: boolean
     store_info?: boolean
     user_id?: boolean
   }
@@ -2212,6 +2221,7 @@ export namespace Prisma {
       token: string
       name: string
       image_url: string
+      image_public_id: string
       store_info: Prisma.JsonValue
       user_id: number
     }, ExtArgs["result"]["store"]>
@@ -2613,6 +2623,7 @@ export namespace Prisma {
     readonly token: FieldRef<"Store", 'String'>
     readonly name: FieldRef<"Store", 'String'>
     readonly image_url: FieldRef<"Store", 'String'>
+    readonly image_public_id: FieldRef<"Store", 'String'>
     readonly store_info: FieldRef<"Store", 'Json'>
     readonly user_id: FieldRef<"Store", 'Int'>
   }
@@ -2975,6 +2986,7 @@ export namespace Prisma {
     token: 'token',
     name: 'name',
     image_url: 'image_url',
+    image_public_id: 'image_public_id',
     store_info: 'store_info',
     user_id: 'user_id'
   };
@@ -3165,6 +3177,7 @@ export namespace Prisma {
     token?: StringFilter<"Store"> | string
     name?: StringFilter<"Store"> | string
     image_url?: StringFilter<"Store"> | string
+    image_public_id?: StringFilter<"Store"> | string
     store_info?: JsonFilter<"Store">
     user_id?: IntFilter<"Store"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -3175,6 +3188,7 @@ export namespace Prisma {
     token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
+    image_public_id?: SortOrder
     store_info?: SortOrder
     user_id?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -3188,6 +3202,7 @@ export namespace Prisma {
     NOT?: StoreWhereInput | StoreWhereInput[]
     token?: StringFilter<"Store"> | string
     image_url?: StringFilter<"Store"> | string
+    image_public_id?: StringFilter<"Store"> | string
     store_info?: JsonFilter<"Store">
     user_id?: IntFilter<"Store"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -3198,6 +3213,7 @@ export namespace Prisma {
     token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
+    image_public_id?: SortOrder
     store_info?: SortOrder
     user_id?: SortOrder
     _count?: StoreCountOrderByAggregateInput
@@ -3215,6 +3231,7 @@ export namespace Prisma {
     token?: StringWithAggregatesFilter<"Store"> | string
     name?: StringWithAggregatesFilter<"Store"> | string
     image_url?: StringWithAggregatesFilter<"Store"> | string
+    image_public_id?: StringWithAggregatesFilter<"Store"> | string
     store_info?: JsonWithAggregatesFilter<"Store">
     user_id?: IntWithAggregatesFilter<"Store"> | number
   }
@@ -3301,6 +3318,7 @@ export namespace Prisma {
     token: string
     name: string
     image_url: string
+    image_public_id: string
     store_info: JsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutStoresInput
   }
@@ -3310,6 +3328,7 @@ export namespace Prisma {
     token: string
     name: string
     image_url: string
+    image_public_id: string
     store_info: JsonNullValueInput | InputJsonValue
     user_id: number
   }
@@ -3318,6 +3337,7 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
+    image_public_id?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutStoresNestedInput
   }
@@ -3327,6 +3347,7 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
+    image_public_id?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
     user_id?: IntFieldUpdateOperationsInput | number
   }
@@ -3336,6 +3357,7 @@ export namespace Prisma {
     token: string
     name: string
     image_url: string
+    image_public_id: string
     store_info: JsonNullValueInput | InputJsonValue
     user_id: number
   }
@@ -3344,6 +3366,7 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
+    image_public_id?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
   }
 
@@ -3352,6 +3375,7 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
+    image_public_id?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
     user_id?: IntFieldUpdateOperationsInput | number
   }
@@ -3524,6 +3548,7 @@ export namespace Prisma {
     token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
+    image_public_id?: SortOrder
     store_info?: SortOrder
     user_id?: SortOrder
   }
@@ -3538,6 +3563,7 @@ export namespace Prisma {
     token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
+    image_public_id?: SortOrder
     user_id?: SortOrder
   }
 
@@ -3546,6 +3572,7 @@ export namespace Prisma {
     token?: SortOrder
     name?: SortOrder
     image_url?: SortOrder
+    image_public_id?: SortOrder
     user_id?: SortOrder
   }
 
@@ -3771,6 +3798,7 @@ export namespace Prisma {
     token: string
     name: string
     image_url: string
+    image_public_id: string
     store_info: JsonNullValueInput | InputJsonValue
   }
 
@@ -3779,6 +3807,7 @@ export namespace Prisma {
     token: string
     name: string
     image_url: string
+    image_public_id: string
     store_info: JsonNullValueInput | InputJsonValue
   }
 
@@ -3816,6 +3845,7 @@ export namespace Prisma {
     token?: StringFilter<"Store"> | string
     name?: StringFilter<"Store"> | string
     image_url?: StringFilter<"Store"> | string
+    image_public_id?: StringFilter<"Store"> | string
     store_info?: JsonFilter<"Store">
     user_id?: IntFilter<"Store"> | number
   }
@@ -3883,6 +3913,7 @@ export namespace Prisma {
     token: string
     name: string
     image_url: string
+    image_public_id: string
     store_info: JsonNullValueInput | InputJsonValue
   }
 
@@ -3890,6 +3921,7 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
+    image_public_id?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
   }
 
@@ -3898,6 +3930,7 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
+    image_public_id?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
   }
 
@@ -3906,6 +3939,7 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     image_url?: StringFieldUpdateOperationsInput | string
+    image_public_id?: StringFieldUpdateOperationsInput | string
     store_info?: JsonNullValueInput | InputJsonValue
   }
 

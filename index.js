@@ -4,6 +4,7 @@ const app = express();
 const port = 4000;
 const axios = require("axios");
 const cors = require("cors");
+const cloudinary = require("cloudinary");
 const PDFDocument = require("pdf-lib").PDFDocument;
 const { rgb, concatTransformationMatrix } = require("pdf-lib");
 const StandardFonts = require("pdf-lib").StandardFonts;
@@ -20,9 +21,11 @@ require("dotenv").config();
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(bodyParser.json());
-app.use(cors({
-  origin: "*",
-}));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // resend.apiKeys.create({ name: "Production" });
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -31,6 +34,12 @@ app.use(function (req, res, next) {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
+});
+
+cloudinary.config({
+  cloud_name: process.env.CLD_CLOUD_NAME,
+  api_key: process.env.CLD_API_KEY,
+  api_secret: process.env.CLD_API_SECRET,
 });
 
 const bcrypt = require("bcryptjs");
@@ -48,6 +57,19 @@ app.use("/shopify", require("./routers/shopify"));
 // _________________________________
 
 app.get("/test", async (req, res) => {
+  cloudinary.uploader.destroy(
+    "esyncStoreLogos/mpaoxzqeroj0nkuziwn3",
+    (error, result) => {
+      if (error) {
+        console.error("Error deleting image:", error);
+      } else {
+        console.log("Image deleted:", result);
+      }
+    }
+  );
+
+  return;
+
   try {
     // Insert a user with a store
     // const user = await prisma.user.create({
@@ -63,10 +85,12 @@ app.get("/test", async (req, res) => {
 
     const store = await prisma.store.create({
       data: {
-        userId: 2, // Specify the userId for the associated user
-        name: "SHOPIFY STORE",
-        imageURL: "https://example.com/store-image.jpg",
-        storeInfo: { key: "value" },
+        user_id: 3, // Specify the userId for the associated user
+        name: "DARAZ STORE",
+        image_url: "https://example.com/store-image.jpg",
+        image_public_id: "nukk",
+        store_info: { key: "value" },
+        token: "saasdaasdd",
       },
     });
 

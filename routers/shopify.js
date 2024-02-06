@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { PrismaClient } = require("../generated/client"); // Adjust the path based on your project structure
+const cloudinary = require('cloudinary');
 const prisma = new PrismaClient();
 router.post("/save-token", async (req, res) => {
   const { email, token } = req.body;
@@ -33,6 +34,19 @@ router.post("/validate-name", async (req, res) => {
     return res.status(400).json({ message: "Store name already taken" });
   }
   res.status(200).json({ message: "Store name available" });
+});
+
+// DELETE A STORE
+router.delete("/delete-store", async (req, res) => {
+  const { email } = req.body;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  console.log("id", user.id);
+  res.send(user);
 });
 
 router.get("/", async (req, res) => {
