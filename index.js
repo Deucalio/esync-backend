@@ -20,7 +20,9 @@ require("dotenv").config();
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(bodyParser.json());
-app.use(cors({}));
+app.use(cors({
+  origin: "*",
+}));
 // resend.apiKeys.create({ name: "Production" });
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
