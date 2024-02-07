@@ -13,24 +13,6 @@ datasource db {
 }
 
 model User {
-    id         Int      @id @default(autoincrement())
-    first_name String
-    last_name  String
-    email      String   @unique
-    password   String
-    phone      String
-    address    String
-    joined_at  DateTime @default(now())
-    stores     Store[]
-}
-
-model Store {
-    id              Int    @id @default(autoincrement())
-    token           String @unique
-    name            String @unique
-    image_url       String
-    image_public_id String
-    store_info      Json
-    user_id         Int
-    user            User   @relation(fields: [user_id], references: [id])
+    id   Int    @id @default(autoincrement())
+    name String
 }

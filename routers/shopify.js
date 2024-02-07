@@ -2,6 +2,51 @@ const router = require("express").Router();
 const { PrismaClient } = require("../generated/client"); // Adjust the path based on your project structure
 const cloudinary = require("cloudinary");
 const prisma = new PrismaClient();
+const axios = require("axios");
+
+// Get all Shopify Orders
+
+router.post("/orders", async (req, res) => {
+  // Get the Email
+  const { email } = req.body;
+
+  // Find the store by email
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+    include: {
+      stores: true,
+    },
+  });
+  const userStores = user.stores;
+  const orders = [];
+
+  for (const store of userStores) {
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${store.store_info.shop}/admin/api/2023-10/orders.json`,
+      headers: {
+        "X-Shopify-Access-Token": store.store_info.accessToken,
+      },
+    };
+
+    let order_req = await axios.request(config);
+    order_req = order_req.data.orders.filter((order) =>
+      order.tags.toLowerCase().includes("")
+    );
+    order_req.forEach((order) => {
+      orders.push({
+        ...order,
+        shop_name: store.store_info.shop.slice(0, -14),
+      });
+    });
+  }
+  res.status(200).send(orders);
+});
+
+// ___________
 
 // Add a Store in esync/settings
 

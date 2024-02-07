@@ -57,18 +57,15 @@ app.use("/shopify", require("./routers/shopify"));
 // _________________________________
 
 app.get("/test", async (req, res) => {
-  cloudinary.uploader.destroy(
-    "esyncStoreLogos/mpaoxzqeroj0nkuziwn3",
-    (error, result) => {
-      if (error) {
-        console.error("Error deleting image:", error);
-      } else {
-        console.log("Image deleted:", result);
-      }
-    }
-  );
-
-  return;
+  // Insert a user
+  const newUser = await prisma.user.create({
+    data: {
+      name: "Hamad Ali",
+    },
+  });
+  const user = await prisma.user.findMany();
+  console.log("user: ", user);
+  return res.status(200).send(user);
 
   try {
     // Insert a user with a store
@@ -186,12 +183,7 @@ app.post("/register", async (req, res) => {
 
   const salt = await bcrypt.genSalt();
   const passwordHash = await bcrypt.hash(password, salt);
-  // data:  {
-  //   firstName: 'asd',
-  //   lastName: 'asd',
-  //   email: 'john.doe123@example.com',
-  //   password: '23'
-  // }
+
   try {
     // Insert a user with a store
     const user = await prisma.user.create({
@@ -217,35 +209,9 @@ app.post("/register", async (req, res) => {
 
 // _____________________
 
-app.get("/orders", async (req, res) => {
-  res.send("hello");
-  // let orders = [];
-
-  // let config = {
-  //   method: "get",
-  //   maxBodyLength: Infinity,
-  //   url: "https://{shop_name}.myshopify.com/admin/api/2023-10/orders.json?status=open&limit=200&financial_status=unpaid&fulfillment_status=unfulfilled",
-  //   headers: {
-  //     "X-Shopify-Access-Token": "{access_token}",
-  //   },
-  // };
-
-  // let order_req = await axios.request(config);
-  // order_req = order_req.data.orders.filter((order) =>
-  //   order.tags.toLowerCase().includes("")
-  // );
-  // order_req.forEach((order) => {
-  //   orders.push({
-  //     ...order,
-  //     shop_name: "{shop_name}",
-  //   });
-  // });
-
-  // res.send(orders);
-});
 // _____________________
 
-app.post("/orders", async (req, res) => {
+app.post("/leopards/orders", async (req, res) => {
   const { orders: orders } = req.body;
   let booked = [];
 
