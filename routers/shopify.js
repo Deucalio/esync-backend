@@ -87,6 +87,12 @@ router.post("/get-stores", async (req, res) => {
   res.status(200).json({ stores: user.stores });
 });
 
+// Get all the stores
+router.get("/get-stores", async (req, res) => {
+  const stores = await prisma.store.findMany();
+  res.status(200).json({ stores: stores });
+});
+
 // This is the route Remix will call to and send the store info
 router.post("/save-store-info", async (req, res) => {
   const { token, store_info } = req.body;
@@ -129,7 +135,7 @@ router.delete("/delete-store/:id", async (req, res) => {
   }
   // Get the Public ID of the image
   const publicID = storeExists.image_public_id;
-  console.log("Public ID: ", publicID)
+  console.log("Public ID: ", publicID);
 
   // Delete the image from cloudinary
 
