@@ -70,6 +70,23 @@ router.post("/save-token", async (req, res) => {
   }
 });
 
+// Send all the stores associated with the user
+router.post("/get-stores", async (req, res) => {
+  const { email } = req.body;
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+    include: {
+      stores: true,
+    },
+  });
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+  res.status(200).json({ stores: user.stores });
+});
+
 // This is the route Remix will call to and send the store info
 router.post("/save-store-info", async (req, res) => {
   const { token, store_info } = req.body;
@@ -100,9 +117,8 @@ router.post("/save-store-info", async (req, res) => {
 // ________________
 
 // DELETE A STORE
-router.delete("/delete-store", async (req, res) => {
-  const { storeName } = req.body;
-
+router.delete("/delete-store/:id", async (req, res) => {
+  const storeName = req.params.id;
   const storeExists = await prisma.store.findUnique({
     where: {
       name: storeName,
@@ -111,18 +127,18 @@ router.delete("/delete-store", async (req, res) => {
   if (!storeExists) {
     return res.status(400).json({ message: "Store does not exist" });
   }
-
   // Get the Public ID of the image
   const publicID = storeExists.image_public_id;
+  console.log("Public ID: ", publicID)
 
   // Delete the image from cloudinary
-  cloudinary.uploader.destroy(publicID, (error, result) => {
-    if (error) {
-      console.error("Error deleting image:", error);
-    } else {
-      console.log("Image deleted:", result);
-    }
-  });
+
+  try {
+    const deleteIMG = await cloudinary.uploader.destroy(publicID);
+    console.log("Image deleted: ", deleteIMG);
+  } catch (e) {
+    console.log("Error deleting image: ", e);
+  }
   // Delete the store
   const store = await prisma.store.delete({
     where: {
