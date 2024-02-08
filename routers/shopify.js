@@ -3,11 +3,13 @@ const { PrismaClient } = require("../generated/client"); // Adjust the path base
 const cloudinary = require("cloudinary");
 const prisma = new PrismaClient();
 const axios = require("axios");
+const dummy = require("./dummy");
 
 // Get all Shopify Orders
 
 router.post("/orders", async (req, res) => {
   // Get the Email
+  return res.status(200).send(dummy);
   const { email } = req.body;
 
   // Find the store by email
@@ -45,7 +47,6 @@ router.post("/orders", async (req, res) => {
   }
   res.status(200).send(orders);
 });
-
 // ___________
 
 // Add a Store in esync/settings

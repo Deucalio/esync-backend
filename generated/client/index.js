@@ -90,7 +90,23 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  first_name: 'first_name',
+  last_name: 'last_name',
+  email: 'email',
+  password: 'password',
+  phone: 'phone',
+  address: 'address',
+  joined_at: 'joined_at'
+};
+
+exports.Prisma.StoreScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  name: 'name',
+  image_url: 'image_url',
+  image_public_id: 'image_public_id',
+  store_info: 'store_info',
+  user_id: 'user_id'
 };
 
 exports.Prisma.SortOrder = {
@@ -98,14 +114,25 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Store: 'Store'
 };
 /**
  * Create the Client
@@ -166,8 +193,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "Ly8gc2NoZW1hLnByaXNtYQ0KDQpnZW5lcmF0b3IgY2xpZW50IHsNCiAgICBwcm92aWRlciAgICAgID0gInByaXNtYS1jbGllbnQtanMiDQogICAgYmluYXJ5VGFyZ2V0cyA9IFsibmF0aXZlIiwgImRlYmlhbi1vcGVuc3NsLTMuMC54IiwgImxpbnV4LWFybTY0LW9wZW5zc2wtMS4xLngiLCAicmhlbC1vcGVuc3NsLTEuMC54Il0NCg0KICAgIG91dHB1dCA9ICIuL2dlbmVyYXRlZC9jbGllbnQiDQp9DQoNCmRhdGFzb3VyY2UgZGIgew0KICAgIHByb3ZpZGVyID0gInBvc3RncmVzcWwiDQogICAgdXJsICAgICAgPSBlbnYoIkRBVEFCQVNFX1VSTCIpDQp9DQoNCm1vZGVsIFVzZXIgew0KICAgIGlkICAgSW50ICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpDQogICAgbmFtZSBTdHJpbmcNCn0NCg==",
-  "inlineSchemaHash": "00dddbb32e51747a2c6addefdacdfedaa1fde4921975034d8d61fdbb0041e443",
+  "inlineSchema": "Ly8gc2NoZW1hLnByaXNtYQ0KDQpnZW5lcmF0b3IgY2xpZW50IHsNCiAgICBwcm92aWRlciAgICAgID0gInByaXNtYS1jbGllbnQtanMiDQogICAgYmluYXJ5VGFyZ2V0cyA9IFsibmF0aXZlIiwgImRlYmlhbi1vcGVuc3NsLTMuMC54IiwgImxpbnV4LWFybTY0LW9wZW5zc2wtMS4xLngiLCAicmhlbC1vcGVuc3NsLTEuMC54Il0NCg0KICAgIG91dHB1dCA9ICIuL2dlbmVyYXRlZC9jbGllbnQiDQp9DQoNCmRhdGFzb3VyY2UgZGIgew0KICAgIHByb3ZpZGVyID0gInBvc3RncmVzcWwiDQogICAgdXJsICAgICAgPSBlbnYoIkRBVEFCQVNFX1VSTCIpDQp9DQoNCm1vZGVsIFVzZXIgew0KICAgIGlkICAgICAgICAgSW50ICAgICAgQGlkIEBkZWZhdWx0KGF1dG9pbmNyZW1lbnQoKSkNCiAgICBmaXJzdF9uYW1lIFN0cmluZw0KICAgIGxhc3RfbmFtZSAgU3RyaW5nDQogICAgZW1haWwgICAgICBTdHJpbmcgICBAdW5pcXVlDQogICAgcGFzc3dvcmQgICBTdHJpbmcNCiAgICBwaG9uZSAgICAgIFN0cmluZw0KICAgIGFkZHJlc3MgICAgU3RyaW5nDQogICAgam9pbmVkX2F0ICBEYXRlVGltZSBAZGVmYXVsdChub3coKSkNCiAgICBzdG9yZXMgICAgIFN0b3JlW10NCn0NCg0KbW9kZWwgU3RvcmUgew0KICAgIGlkICAgICAgICAgICAgICBJbnQgICAgQGlkIEBkZWZhdWx0KGF1dG9pbmNyZW1lbnQoKSkNCiAgICB0b2tlbiAgICAgICAgICAgU3RyaW5nIEB1bmlxdWUNCiAgICBuYW1lICAgICAgICAgICAgU3RyaW5nIEB1bmlxdWUNCiAgICBpbWFnZV91cmwgICAgICAgU3RyaW5nDQogICAgaW1hZ2VfcHVibGljX2lkIFN0cmluZw0KICAgIHN0b3JlX2luZm8gICAgICBKc29uDQogICAgdXNlcl9pZCAgICAgICAgIEludA0KICAgIHVzZXIgICAgICAgICAgICBVc2VyICAgQHJlbGF0aW9uKGZpZWxkczogW3VzZXJfaWRdLCByZWZlcmVuY2VzOiBbaWRdKQ0KfQ0K",
+  "inlineSchemaHash": "aacdb095aeb0e03509d7c783589beee660872d81382a57740e8597afc214c4d1",
   "noEngine": false
 }
 
@@ -188,7 +215,7 @@ if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   config.isBundled = true
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"dbName\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"dbName\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"first_name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"last_name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"password\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"phone\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"address\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"joined_at\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"DateTime\",\"default\":{\"name\":\"now\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"stores\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Store\",\"relationName\":\"StoreToUser\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Store\":{\"dbName\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"token\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"image_url\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"image_public_id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"store_info\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Json\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"user_id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"user\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"User\",\"relationName\":\"StoreToUser\",\"relationFromFields\":[\"user_id\"],\"relationToFields\":[\"id\"],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.getQueryEngineWasmModule = undefined
 

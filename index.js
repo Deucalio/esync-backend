@@ -60,13 +60,12 @@ app.get("/test", async (req, res) => {
   // Insert a user
   const newUser = await prisma.user.create({
     data: {
-      name: "Hamad Ali",
+      name: "SUBHAN JANI!!!!!!!!! YOOOOOOOOOOOOOOOOOOOOOOO",
     },
   });
   const user = await prisma.user.findMany();
   console.log("user: ", user);
   return res.status(200).send(user);
-
   try {
     // Insert a user with a store
     // const user = await prisma.user.create({
