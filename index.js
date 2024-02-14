@@ -26,6 +26,7 @@ app.use(
     origin: "*",
   })
 );
+
 // resend.apiKeys.create({ name: "Production" });
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -137,7 +138,6 @@ app.post("/login", async (req, res) => {
   });
   if (!existingUser)
     return res.status(404).json({ errorMessage: "Wrong email or password" });
-
   const passwordCorrect = await bcrypt.compare(password, existingUser.password);
   if (!passwordCorrect)
     return res.status(401).json({ errorMessage: "Wrong email or password" });
@@ -164,7 +164,7 @@ app.post("/otp", async (req, res) => {
   console.log("otp: ", otp);
 
   const { data, error } = await resend.emails.send({
-    from: "ESync@mail.nakson.services",
+    from: "ESync@nakson.services",
     to: [`${email}`],
     subject: "One-Time Password (OTP) Verification",
     html: `
