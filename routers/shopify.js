@@ -180,4 +180,11 @@ router.get("/", async (req, res) => {
   res.send("SHOPIFY!");
 });
 
+// Receive the Webhook from Shopify
+router.post("/webhook", async (req, res) => {
+  const { webhook } = req.body;
+  console.log("Webhook received", webhook);
+  res.status(200).json(webhook);
+});
+
 module.exports = router;
