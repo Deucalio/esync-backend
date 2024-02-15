@@ -68,28 +68,16 @@ router.post("/validate-name", async (req, res) => {
 });
 
 // Send the Token, Add the Name and the Image URL,public ID in to the store table
-router.post("/save-token", async (req, res) => {
-  const { email, token, storeName, imageURL, publicID } = req.body;
+router.post("/save-store", async (req, res) => {
+  const {
+    email,
+    storeName,
+    imageURL,
+    publicID,
+    accesstoken: accessToken,
+    shop,
+  } = req.body;
   try {
-    // check if the store already exists
-    const storeExists = await prisma.store.findUnique({
-      where: {
-        name: storeName,
-      },
-    });
-    if (storeExists) {
-      // if the store already exists, update the token
-      const store = await prisma.store.update({
-        where: {
-          name: storeName,
-        },
-        data: {
-          token: token,
-        },
-      });
-      return res.status(200).json({ message: "Token updated successfully" });
-    }
-
     // Find the user by email
     const user = await prisma.user.findUnique({
       where: {
@@ -100,14 +88,13 @@ router.post("/save-token", async (req, res) => {
     const store = await prisma.store.create({
       data: {
         user_id: user.id, // Specify the userId for the associated user
-        name: storeName,
+        name: storeName, // This is the name user Enter on the ESync/Settings page
         image_url: imageURL,
         image_public_id: publicID,
-        store_info: { key: "value" },
-        token: token,
+        store_info: { platform: "shopify", accessToken, shop },
       },
     });
-    return res.status(200).json({ message: "Store Added successfully" });
+    return res.status(200).json({ store, message: "Store Added successfully" });
   } catch (e) {
     console.log("Error is: ", e);
     return res.status(500).json({ message: "Error saving token", e: e });
@@ -133,37 +120,25 @@ router.post("/get-stores", async (req, res) => {
   res.status(200).json({ stores: user.stores });
 });
 
+// Route to check if the store is Connected
+// This is used to check if the store is connected to the app by Shopify APP
+router.post("/is-store-connected", async (req, res) => {
+  const { shopName } = req.body;
+  // Get all the stores
+  const stores = await prisma.store.findMany();
+
+  const store = stores.find((store) => store.store_info.shop === shopName);
+
+  if (!store) {
+    return res.status(400).json({ message: "Store not found" });
+  }
+  res.status(200).json({ message: "Connected", store: store });
+});
+
 // Get all the stores
 router.get("/get-stores", async (req, res) => {
   const stores = await prisma.store.findMany();
   res.status(200).json({ stores: stores });
-});
-
-// This is the route Remix will call to and send the store info
-router.post("/save-store-info", async (req, res) => {
-  const { token, store_info } = req.body;
-  // Match the token First
-
-  const store = await prisma.store.findUnique({
-    where: {
-      token: token,
-    },
-  });
-
-  if (!store) {
-    return res.status(400).json({ message: "Invalid token" });
-  }
-
-  // Update the store info
-  const updatedStore = await prisma.store.update({
-    where: {
-      token: token,
-    },
-    data: {
-      store_info: store_info,
-    },
-  });
-  res.status(200).json({ message: "Store info updated successfully" });
 });
 
 // ________________
