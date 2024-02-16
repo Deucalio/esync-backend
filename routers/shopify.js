@@ -181,10 +181,17 @@ router.get("/", async (req, res) => {
 });
 
 // Receive the Webhook from Shopify
-router.post("/webhook", async (req, res) => {
+router.post("/webhook/orders_create", async (req, res) => {
   const { webhook } = req.body;
+  if (!webhook) {
+    return res.status(400).json({ message: "Webhook not found" });
+  }
   console.log("Webhook received", webhook);
   res.status(200).json(webhook);
+});
+
+router.get("/webhook", async (req, res) => {
+  res.status(200).json({ message: "Webhook received" });
 });
 
 module.exports = router;
