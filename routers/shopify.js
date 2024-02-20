@@ -9,8 +9,8 @@ const dummy = require("./dummy");
 
 router.post("/orders", async (req, res) => {
   // Get the Email
-  return res.status(200).send(dummy);
   const { email } = req.body;
+  // return res.status(200).send(dummy);
 
   // Find the store by email
   const user = await prisma.user.findUnique({
@@ -28,12 +28,11 @@ router.post("/orders", async (req, res) => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `https://${store.store_info.shop}/admin/api/2023-10/orders.json`,
+      url: `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=250&fulfillment_status=unfulfilled`,
       headers: {
         "X-Shopify-Access-Token": store.store_info.accessToken,
       },
     };
-
     let order_req = await axios.request(config);
     order_req = order_req.data.orders.filter((order) =>
       order.tags.toLowerCase().includes("")
@@ -41,7 +40,11 @@ router.post("/orders", async (req, res) => {
     order_req.forEach((order) => {
       orders.push({
         ...order,
-        shop_name: store.store_info.shop.slice(0, -14),
+        store_info: {
+          domain: store.store_info.shop,
+          shopLogo: store.image_url,
+          name: store.name,
+        },
       });
     });
   }

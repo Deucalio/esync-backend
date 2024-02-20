@@ -52,42 +52,22 @@ const prisma = new PrismaClient();
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000);
 };
-
 // ROUTES FOR CONNECTING SHOPIFY STORE
 app.use("/shopify", require("./routers/shopify"));
 // _________________________________
 
-app.get("/test", async (req, res) => {
-  // Insert a user
-  const newUser = await prisma.user.create({
-    data: {
-      name: "SUBHAN JANI!!!!!!!!! YOOOOOOOOOOOOOOOOOOOOOOO",
-    },
-  });
-  const user = await prisma.user.findMany();
-  console.log("user: ", user);
-  return res.status(200).send(user);
+app.post("/test", async (req, res) => {
+  return res.status(200).send("Hello World!");
+  const { accessToken, shop } = req.body;
   try {
-    // Insert a user with a store
-    // const user = await prisma.user.create({
-    //   data: {
-    //     firstName: "Huzaifa",
-    //     lastName: "Doe",
-    //     email: "john.doe@example.com",
-    //     password: "hashed_password", // Hash the password using a secure method
-    //     phone: "1234567890",
-    //     address: "123 Main St, City",
-    //   },
-    // });
-
     const store = await prisma.store.create({
       data: {
-        user_id: 3, // Specify the userId for the associated user
-        name: "DARAZ STORE",
-        image_url: "https://example.com/store-image.jpg",
-        image_public_id: "nukk",
-        store_info: { key: "value" },
-        token: "saasdaasdd",
+        user_id: 9, // Specify the userId for the associated user
+        name: "Deepsea Life Sciences",
+        image_url:
+          "https://deepsealifesciences.com/cdn/shop/files/logo.png?v=1673523538&width=500",
+        image_public_id: "none",
+        store_info: { platform: "shopify", accessToken, shop },
       },
     });
 
@@ -129,10 +109,8 @@ app.get("/api", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log("req.body", req.body);
-
   if (!email || !password)
     return res.status(400).json({ errorMessage: "Incorrect field" });
-
   const existingUser = await prisma.user.findFirst({
     where: { email: email },
   });
@@ -211,7 +189,19 @@ app.post("/register", async (req, res) => {
 // _____________________
 
 app.post("/leopards/orders", async (req, res) => {
-  const { orders: orders } = req.body;
+  // let pdfBytes = await generateCusotmizedSlip([booked_orders_details]);
+  let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
+  res.status(200).send({
+    message: "Orders have been Booked",
+    booked_orders: booked_orders_details,
+    pdfBytes,
+  });
+  return;
+
+  const { email, orders: orders } = req.body;
+  if (!email || !orders) {
+    return res.status(400).json({ errorMessage: "Incorrect field" });
+  }
   let booked = [];
 
   console.log("orders received: ", orders.length, "\n");
@@ -264,6 +254,7 @@ app.post("/leopards/orders", async (req, res) => {
   let booked_orders_details = [];
   let response = "";
   try {
+    // Send the request to Leopards API
     response = await axios.request(config).then((response) => {
       return response.data;
     });
@@ -274,16 +265,10 @@ app.post("/leopards/orders", async (req, res) => {
 
     for (let i = 0; i < response.data.length; i++) {
       saved_data.push([orders[i].id, response.data[i].track_number]);
-    }
 
-    // const status = await fulfillShopifyOrders(saved_data);
-    // console.log("status: ", status);
-
-    console.log(saved_data, "\n");
-
-    for (let i = 0; i < response.data.length; i++) {
       booked_orders_details.push({
-        shop_name: orders[i].order_status_url.split("/")[2],
+        shop_name: orders[i].store_info.name,
+        shop_logo: orders[i].store_info.shopLogo,
         service_type: orders[i].service_type.toUpperCase(),
         courier: "Leopards",
         consignee_info: {
@@ -310,11 +295,16 @@ app.post("/leopards/orders", async (req, res) => {
             : "COD Parcel",
       });
     }
+
+    // const status = await fulfillShopifyOrders(saved_data);
+    // console.log("status: ", status);
+
+    console.log("saved_data: ", saved_data, "\n");
+    console.log("booked_orders_details: ", booked_orders_details, "\n");
   } catch (err) {
     console.log("Error: ", err);
   }
-
-  let pdfBytes = await generateCusotmizedSlip(booked_orders_details);
+  return;
 
   res.status(200).send({
     message: "Orders have been Booked",
