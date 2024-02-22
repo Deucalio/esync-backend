@@ -8,7 +8,6 @@ const cloudinary = require("cloudinary");
 const PDFDocument = require("pdf-lib").PDFDocument;
 const { rgb, concatTransformationMatrix } = require("pdf-lib");
 const StandardFonts = require("pdf-lib").StandardFonts;
-const PDFFont = require("pdf-lib").PDFFont;
 const bodyParser = require("body-parser");
 const { copyStringIntoBuffer, pdfDocEncodingDecode } = require("pdf-lib");
 const path = require("path");
@@ -22,7 +21,6 @@ const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 const https = require("https");
 app.use(bodyParser.json());
-const GetGoogleFonts = require("get-google-fonts");
 
 app.use(
   cors({
@@ -134,6 +132,20 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
+app.get("/create-barcode/:id", async (req, res) => {
+  const orderTrackNumber = req.params.id;
+  const buffer = await bwipjs.toBuffer({
+    bcid: "code128", // Barcode type
+    text: String(orderTrackNumber), // Text to encode
+    scale: 3, // 3x scaling factor
+    height: 10, // Bar height, in millimeters
+    includetext: true, // Show human-readable text
+    textxalign: "center", // Always good to set this
+  });
+  res.set("Content-Type", "image/png");
+  res.send(buffer);
+});
+
 app.get("/api", async (req, res) => {
   // res.send("Hello World!");
   // const users = await User.find({});
@@ -236,16 +248,20 @@ app.post("/register", async (req, res) => {
 
 // _____________________
 
-// _____________________
-
 app.post("/leopards/orders", async (req, res) => {
   // let pdfBytes = await generateCusotmizedSlip([booked_orders_details]);
   let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
+  // Set response headers for file download
+  res.set({
+    "Content-Type": "application/pdf",
+    "Content-Disposition": 'attachment; filename="Next-Slip.pdf"',
+  });
   console.log("called");
-  return res.status(200).send({
+  res.send({
     message: "Orders have been Booked",
     pdfBytes,
   });
+  return;
 
   const { email, orders: orders } = req.body;
   if (!email || !orders) {
@@ -2270,7 +2286,6 @@ async function generateCusotmizedSlip(slipData) {
         width: 100,
         height: 30,
       });
-
       const qrCodeImage = await mergedPdfDoc.embedPng(qrCodeBytes);
       // add qr code
       page.drawImage(qrCodeImage, {
@@ -2279,7 +2294,6 @@ async function generateCusotmizedSlip(slipData) {
         width: 90,
         height: 90,
       });
-
       const barcodeBuffer = await bwipjs.toBuffer({
         bcid: "code128", // Barcode type
         text: order.track_number,
