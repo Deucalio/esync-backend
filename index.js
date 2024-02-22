@@ -57,6 +57,9 @@ app.use("/shopify", require("./routers/shopify"));
 // _________________________________
 
 app.post("/test", async (req, res) => {
+
+  // Add Depsea Life Sciences
+
   return res.status(200).send("Hello World!");
   const { accessToken, shop } = req.body;
   try {
@@ -191,12 +194,10 @@ app.post("/register", async (req, res) => {
 app.post("/leopards/orders", async (req, res) => {
   // let pdfBytes = await generateCusotmizedSlip([booked_orders_details]);
   let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
-  res.status(200).send({
+  return res.status(200).send({
     message: "Orders have been Booked",
-    booked_orders: booked_orders_details,
     pdfBytes,
   });
-  return;
 
   const { email, orders: orders } = req.body;
   if (!email || !orders) {
@@ -228,14 +229,14 @@ app.post("/leopards/orders", async (req, res) => {
         ? String(order.shipping_address.phone)
         : "No Phone",
       // "101010101",
-      consignment_address:
-        order.shipping_address.address1 + " " + order.shipping_address.address2,
+      consignment_address: `${order.shipping_address.address1} ${
+        order.shipping_address.address2 ? order.shipping_address.address2 : ""
+      }`,
       // "asdasdasdasdasdasdasdasdasdasdasdasdasd",
       special_instructions: "booked thorugh automated system of nakson",
       shipment_type: "",
     });
   }
-
   let data = JSON.stringify({
     api_key: process.env.LEOPARDS_API_KEY,
     api_password: process.env.LEOPARDS_API_PASSWORD,
@@ -304,28 +305,11 @@ app.post("/leopards/orders", async (req, res) => {
   } catch (err) {
     console.log("Error: ", err);
   }
-  return;
 
   res.status(200).send({
     message: "Orders have been Booked",
     booked_orders: booked_orders_details,
-    pdfBytes,
-  });
-});
-
-app.post("/slip", async (req, res) => {
-  const pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
-  res.status(200).send({
-    message: "Function has been called",
-    pdfBytes,
-  });
-});
-
-app.post("/cancel", async (req, res) => {
-  let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
-  res.status(200).send({
-    message: "Function has been called",
-    pdfBytes,
+    // pdfBytes,
   });
 });
 
@@ -343,31 +327,489 @@ async function fetchPdfBytes(url) {
 async function generateCusotmizedSlip(slipData) {
   slipData = [
     {
-      shop_name: "Momdaughts",
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
       service_type: "OVERNIGHT",
       courier: "Leopards",
       consignee_info: {
-        name: "Palwasha Khalid",
-        address: "House#626Astreet3G11/1islamabadiat, mosequat nunc.",
-        phone: "03425093244",
+        name: "Syeda Ruqaiya",
+        address:
+          "Eithad city Muhammad Pur Road house no:22 Naubahar House Sahiwal ",
+        phone: "03216923280",
       },
       shipper_info: {
-        name: "Momdaughts",
-        address: "172-D Momdaughts Office, Unit# 5 Latifabad, Hyderabad.",
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
         phone: "03481273957",
       },
-      destination: { id: 486, name: "Islamabad" },
+      destination: {
+        id: "1236",
+        name: "Sahiwal",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
       shipping_instructions: "Call the consignee before delivery",
-      date: "1/14/2024",
+      date: "2/21/2024",
       pieces: 1,
       weight: 100,
-      amount: 1298,
-      track_number: "HD753212721",
-      booked_packet_order_name: "#MD3590",
+      amount: 1474,
+      track_number: "HD753216481",
+      booked_packet_order_name: "NAK5792",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Momal Haider",
+        address: "House.204, block3, sector c2 , township ",
+        phone: "03218849800",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "789",
+        name: "Lahore",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1798,
+      track_number: "HD753216482",
+      booked_packet_order_name: "NAK5791",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Iqbal Ahmed Qureshi",
+        address: "G-16 Noman terrace phase II Gulshan-e-iqbal Block 11 ",
+        phone: "+923350379050",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "592",
+        name: "Karachi",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 625,
+      track_number: "HD753216483",
+      booked_packet_order_name: "NAK5778",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Khawar Khan",
+        address: "Abdul Razzaq Fazaia college MM Alam Mianwali ",
+        phone: "03234029631",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "939",
+        name: "Mianwali",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1474,
+      track_number: "HD753216484",
+      booked_packet_order_name: "NAK5762",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Arif Ali",
+        address:
+          "Lt col Arif Ali AQ Azad Kashmir regmintel centre mansar camp attock ",
+        phone: "03365404516",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "35",
+        name: "Attock",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1074,
+      track_number: "HD753216485",
+      booked_packet_order_name: "NAK5745",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Ayesha Noreen",
+        address:
+          "Deewan Pulli Ashraf plaza 2nd floor opposite Allama iqbal town civil hospital road Bahawalpur ",
+        phone: "03046800088",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "99",
+        name: "Bahawalpur",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1474,
+      track_number: "HD753216486",
+      booked_packet_order_name: "NAK5739",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "M.aban Aban shah",
+        address: "Higher secondary school pindi road togh bala kohat ",
+        phone: "03339615789",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "724",
+        name: "Kohat",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1474,
+      track_number: "HD753216487",
+      booked_packet_order_name: "NAK5728",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Abdullah Qureshi",
+        address: "Madrsa Zia ul aloom mohala Muhammad Pura ward no 2 khanghr ",
+        phone: "03043395933",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "1067",
+        name: "Muzaffargarh",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1474,
+      track_number: "HD753216488",
+      booked_packet_order_name: "NAK5714",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "KAmran Shah",
+        address: "Kohsar colony new abadi chakra Rawalpindi ",
+        phone: "03015291588",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "1202",
+        name: "Rawalpindi",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1474,
+      track_number: "HD753216489",
+      booked_packet_order_name: "NAK5694",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Asma Maqbool",
+        address: "House no 26 street no 31 burni road gari shahu lahore ",
+        phone: "03214791401",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "789",
+        name: "Lahore",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 5198,
+      track_number: "HD753216490",
+      booked_packet_order_name: "NAK5679",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Hafsa Nasir",
+        address: "225 satellite town backside holy family hospital rawalpindi ",
+        phone: "03014466993",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "1202",
+        name: "Rawalpindi",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 2197,
+      track_number: "HD753216491",
+      booked_packet_order_name: "NAK5633",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Nakson",
+      shop_logo:
+        "https://nakson.pk/cdn/shop/files/nakson_12.png?v=1671209093&width=300",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Bilal Qasim",
+        address: "615E shah rukne alam near Faisal masjid ",
+        phone: "03038026512",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "1017",
+        name: "Multan",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 695,
+      track_number: "HD753216492",
+      booked_packet_order_name: "NAK5603",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Momdaughts",
+      shop_logo:
+        "https://momdaughts.com/cdn/shop/files/shapater_logo.png?v=1666980932&width=500",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Haris Khan",
+        address: "Phase 6 sector f7 street 15 house 347 hayatabad peshawar ",
+        phone: "03149214310",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "1140",
+        name: "Peshawar",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 774,
+      track_number: "HD753216493",
+      booked_packet_order_name: "#MD3766",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Momdaughts",
+      shop_logo:
+        "https://momdaughts.com/cdn/shop/files/shapater_logo.png?v=1666980932&width=500",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Zeeshan Zeeshan",
+        address: "15-A Khyber park sunt nager lahore ",
+        phone: "03004267890",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "789",
+        name: "Lahore",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 774,
+      track_number: "HD753216494",
+      booked_packet_order_name: "#MD3758",
+      collectType: "COD Parcel",
+    },
+    {
+      shop_name: "Momdaughts",
+      shop_logo:
+        "https://momdaughts.com/cdn/shop/files/shapater_logo.png?v=1666980932&width=500",
+      service_type: "OVERNIGHT",
+      courier: "Leopards",
+      consignee_info: {
+        name: "Kamran Chishti",
+        address: "Huzaifa cloth Iqbal bazar ",
+        phone: "03478098205",
+      },
+      shipper_info: {
+        name: "Nakson",
+        address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
+        phone: "03481273957",
+      },
+      destination: {
+        id: "252",
+        name: "KAMALIA",
+        shipment_type: [Array],
+        allow_as_origin: true,
+        allow_as_destination: true,
+      },
+      shipping_instructions: "Call the consignee before delivery",
+      date: "2/21/2024",
+      pieces: 1,
+      weight: 100,
+      amount: 1198,
+      track_number: "HD753216495",
+      booked_packet_order_name: "#MD3733",
       collectType: "COD Parcel",
     },
   ];
-
   let mergedPdfDoc = "";
   let mergedPdfBytes = "";
   mergedPdfDoc = await PDFDocument.create();
@@ -378,14 +820,19 @@ async function generateCusotmizedSlip(slipData) {
   //load font and embed it to pdf documentx
 
   const fontBytes = fs.readFileSync(
-    path.join(__dirname, "../fonts/Impact.ttf")
+    // path.join(__dirname, "../backened/fonts/Impact.ttf")
+    "./fonts/Impact.ttf"
   );
   const Impact = await mergedPdfDoc.embedFont(fontBytes);
 
   const fontBytes2 = fs.readFileSync(
-    path.join(__dirname, "../fonts/open-sans.bold.ttf")
+    // path.join(__dirname, "../backend/fonts/open-sans-bold.ttf")
+    "./fonts/open-sans-bold.ttf"
   );
   const OpenSansBold = await mergedPdfDoc.embedFont(fontBytes2);
+
+  const fontBytes3 = fs.readFileSync("./fonts/OpenSans-Regular.ttf");
+  const Open_Sans = await mergedPdfDoc.embedFont(fontBytes3);
 
   const fontInUse = Open_Sans;
   const fontinBoldUse = OpenSansBold;
@@ -394,6 +841,8 @@ async function generateCusotmizedSlip(slipData) {
   // const height1 = mergedPdfDoc.getPage(0).getHeight();
   // const width1 = mergedPdfDoc.getPage(0).getWidth();
   // console.log("page height: ", height1);
+
+  let courierLogo = fs.readFileSync("./images/leopards-logo.png");
 
   for (let order of slipData) {
     const addressWidth = Math.ceil(
@@ -415,9 +864,23 @@ async function generateCusotmizedSlip(slipData) {
     // Fetch QR Code
     let qrCodeBytes = "";
     try {
-      qrCodeBytes = await fetchPdfBytes(
-        `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${order.track_number},${order.destination.id},${order.amount}`
-      );
+      try {
+        qrCodeBytes = await fetchPdfBytes(
+          `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${order.track_number},${order.destination.id},${order.amount}`
+        );
+      } catch (e) {
+        console.log("Error Fetching Bytes for QRCode: ", e);
+      }
+
+      const courierImage = await mergedPdfDoc.embedPng(courierLogo);
+
+      page.drawImage(courierImage, {
+        x: 470,
+        y: 210 + addressHeight,
+        width: 100,
+        height: 30,
+      });
+
       const qrCodeImage = await mergedPdfDoc.embedPng(qrCodeBytes);
       // add qr code
       page.drawImage(qrCodeImage, {
@@ -447,8 +910,9 @@ async function generateCusotmizedSlip(slipData) {
       });
 
       // Logo Image
-      const uint8Array = fs.readFileSync("../images/md.png");
-      const logoImage = await mergedPdfDoc.embedPng(uint8Array);
+      const logoBytes = await fetchPdfBytes(order.shop_logo);
+
+      const logoImage = await mergedPdfDoc.embedPng(logoBytes);
       page.drawImage(logoImage, {
         x: 14,
         y: 210 + addressHeight,
@@ -456,16 +920,17 @@ async function generateCusotmizedSlip(slipData) {
         height: 50,
       });
 
-      const uint8Array1 = fs.readFileSync("../images/leopards.png");
-      const leopardsImage = await mergedPdfDoc.embedPng(uint8Array1);
-      page.drawImage(leopardsImage, {
-        x: 470,
-        y: 210 + addressHeight,
-        width: 100,
-        height: 30,
-      });
+      // use the images folder to store the images
+      // courierImage = fs.readFileSync("../backened/images/leopards-logo.png");
+
+      // page.drawImage(courierImage, {
+      //   x: 470,
+      //   y: 210 + addressHeight,
+      //   width: 100,
+      //   height: 30,
+      // });
     } catch (err) {
-      console.log("Error fetching QRCODE: ", err);
+      console.log("Error spotted: ", err);
     }
 
     // Order Service Type

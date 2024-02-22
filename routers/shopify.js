@@ -6,7 +6,6 @@ const axios = require("axios");
 const dummy = require("./dummy");
 
 // Get all Shopify Orders
-
 router.post("/orders", async (req, res) => {
   // Get the Email
   const { email } = req.body;
@@ -137,7 +136,6 @@ router.post("/is-store-connected", async (req, res) => {
   }
   res.status(200).json({ message: "Connected", store: store });
 });
-
 // Get all the stores
 router.get("/get-stores", async (req, res) => {
   const stores = await prisma.store.findMany();
