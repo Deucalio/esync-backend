@@ -57,7 +57,6 @@ app.use("/shopify", require("./routers/shopify"));
 // _________________________________
 
 app.post("/test", async (req, res) => {
-
   // Add Depsea Life Sciences
 
   return res.status(200).send("Hello World!");
@@ -194,6 +193,7 @@ app.post("/register", async (req, res) => {
 app.post("/leopards/orders", async (req, res) => {
   // let pdfBytes = await generateCusotmizedSlip([booked_orders_details]);
   let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
+  console.log("called");
   return res.status(200).send({
     message: "Orders have been Booked",
     pdfBytes,
