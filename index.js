@@ -27,6 +27,8 @@ app.use(
   })
 );
 
+app.use(express.static("public"));
+
 // resend.apiKeys.create({ name: "Production" });
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -821,17 +823,14 @@ async function generateCusotmizedSlip(slipData) {
 
   const fontBytes = fs.readFileSync(
     // path.join(__dirname, "../backened/fonts/Impact.ttf")
-    "./fonts/Impact.ttf"
+    "./public/fonts/Impact.ttf"
   );
   const Impact = await mergedPdfDoc.embedFont(fontBytes);
 
-  const fontBytes2 = fs.readFileSync(
-    // path.join(__dirname, "../backend/fonts/open-sans-bold.ttf")
-    "./fonts/open-sans-bold.ttf"
-  );
+  const fontBytes2 = fs.readFileSync("./public/fonts/open-sans-bold.ttf");
   const OpenSansBold = await mergedPdfDoc.embedFont(fontBytes2);
 
-  const fontBytes3 = fs.readFileSync("./fonts/OpenSans-Regular.ttf");
+  const fontBytes3 = fs.readFileSync("./public/fonts/OpenSans-Regular.ttf");
   const Open_Sans = await mergedPdfDoc.embedFont(fontBytes3);
 
   const fontInUse = Open_Sans;
@@ -842,7 +841,9 @@ async function generateCusotmizedSlip(slipData) {
   // const width1 = mergedPdfDoc.getPage(0).getWidth();
   // console.log("page height: ", height1);
 
-  let courierLogo = fs.readFileSync("./images/leopards-logo.png");
+  let courierLogo = fs.readFileSync(
+    "../backened/public/images/leopards-logo.png"
+  );
 
   for (let order of slipData) {
     const addressWidth = Math.ceil(
