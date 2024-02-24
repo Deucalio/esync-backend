@@ -21,7 +21,6 @@ router.post("/orders", async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
-
   const userStores = user.stores;
   const orders = [];
   for (const store of userStores) {

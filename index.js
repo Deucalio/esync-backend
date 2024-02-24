@@ -126,17 +126,34 @@ app.post("/test", async (req, res) => {
   // for (let i = 0; i < 100; i++) {
   //   await createOrder();
   // }
+  const { accessToken, shop, email } = req.body;
+  try {
+    const store = await prisma.store.create({
+      data: {
+        user_id: 5, // Specify the userId for the associated user
+        name: "Momdaughts",
+        image_url:
+          "https://momdaughts.com/cdn/shop/files/shapater_logo.png?v=1666980932&width=500",
+        image_public_id: "none",
+        store_info: { platform: "shopify", accessToken, shop },
+      },
+    });
 
-  const exists = await prisma.user.findFirst({
-    where: { email: "captain.gaze@gmail.com" },
-  });
-  if (exists) {
-    return res.status(200).send(exists);
+
+    // const user = await prisma.user.findMany({});
+
+    // Get user with stores
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+      include: { stores: true },
+    });
+    console.log("user: ", user);
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error inserting sample data:", error);
   }
+  return 1;
 
-  // Insert into User
-
-  return res.status(200).send(user);
   const FONT_URL =
     // "https://cdn.jsdelivr.net/fontsource/fonts/inter:vf@latest/latin-wght-normal.woff2";
     "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap";
@@ -161,25 +178,7 @@ app.post("/test", async (req, res) => {
   // Add Depsea Life Sciences
 
   return res.status(200).send("hello");
-  const { accessToken, shop } = req.body;
-  try {
-    const store = await prisma.store.create({
-      data: {
-        user_id: 9, // Specify the userId for the associated user
-        name: "Deepsea Life Sciences",
-        image_url:
-          "https://deepsealifesciences.com/cdn/shop/files/logo.png?v=1673523538&width=500",
-        image_public_id: "none",
-        store_info: { platform: "shopify", accessToken, shop },
-      },
-    });
 
-    console.log("store Inserted:", store);
-  } catch (error) {
-    console.error("Error inserting sample data:", error);
-  } finally {
-    await prisma.$disconnect();
-  }
   res.status(200).json({ message: "User has been inserted" });
 });
 
@@ -434,15 +433,15 @@ const markOrdersFulfilled = async (orders) => {
 };
 
 app.post("/leopards/orders", async (req, res) => {
-  const orders_one = await axios.get(
-    "https://momdaughts.myshopify.com/admin/api/2023-04/orders.json?status=open&financial_status=unpaid&fulfillment_status=unfulfilled&limit=100",
-    {
-      headers: {
-        "X-Shopify-Access-Token": "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",
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  // const orders_one = await axios.get(
+  //   "https://momdaughts.myshopify.com/admin/api/2023-04/orders.json?status=open&financial_status=unpaid&fulfillment_status=unfulfilled&limit=100",
+  //   {
+  //     headers: {
+  //       "X-Shopify-Access-Token": "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",
+  //       "Content-Type": "application/json",
+  //     },
+  //   }
+  // );
 
   // Start the timer
   const start = new Date().getTime();

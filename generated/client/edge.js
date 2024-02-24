@@ -154,18 +154,6 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
-      },
-      {
-        "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x"
-      },
-      {
-        "fromEnvVar": null,
-        "value": "linux-arm64-openssl-1.1.x"
-      },
-      {
-        "fromEnvVar": null,
-        "value": "rhel-openssl-1.0.x"
       }
     ],
     "previewFeatures": [],
@@ -186,13 +174,13 @@ const config = {
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": "DATABASE_URL",
+        "fromEnvVar": "POSTGRES_PRISMA_URL",
         "value": null
       }
     }
   },
-  "inlineSchema": "Ly8gc2NoZW1hLnByaXNtYQ0KDQpnZW5lcmF0b3IgY2xpZW50IHsNCiAgICBwcm92aWRlciAgICAgID0gInByaXNtYS1jbGllbnQtanMiDQogICAgYmluYXJ5VGFyZ2V0cyA9IFsibmF0aXZlIiwgImRlYmlhbi1vcGVuc3NsLTMuMC54IiwgImxpbnV4LWFybTY0LW9wZW5zc2wtMS4xLngiLCAicmhlbC1vcGVuc3NsLTEuMC54Il0NCg0KICAgIG91dHB1dCA9ICIuL2dlbmVyYXRlZC9jbGllbnQiDQp9DQoNCmRhdGFzb3VyY2UgZGIgew0KICAgIHByb3ZpZGVyID0gInBvc3RncmVzcWwiDQogICAgdXJsICAgICAgPSBlbnYoIkRBVEFCQVNFX1VSTCIpDQp9DQoNCm1vZGVsIFVzZXIgew0KICAgIGlkICAgICAgICAgSW50ICAgICAgQGlkIEBkZWZhdWx0KGF1dG9pbmNyZW1lbnQoKSkNCiAgICBmaXJzdF9uYW1lIFN0cmluZw0KICAgIGxhc3RfbmFtZSAgU3RyaW5nDQogICAgZW1haWwgICAgICBTdHJpbmcgICBAdW5pcXVlDQogICAgcGFzc3dvcmQgICBTdHJpbmcNCiAgICBwaG9uZSAgICAgIFN0cmluZw0KICAgIGFkZHJlc3MgICAgU3RyaW5nDQogICAgam9pbmVkYXQgIERhdGVUaW1lIEBkZWZhdWx0KG5vdygpKQ0KICAgIHN0b3JlcyAgICAgU3RvcmVbXQ0KfQ0KDQptb2RlbCBTdG9yZSB7DQogICAgaWQgICAgICAgICAgICAgIEludCAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQ0KICAgIG5hbWUgICAgICAgICAgICBTdHJpbmcgQHVuaXF1ZQ0KICAgIGltYWdlX3VybCAgICAgICBTdHJpbmcNCiAgICBpbWFnZV9wdWJsaWNfaWQgU3RyaW5nDQogICAgc3RvcmVfaW5mbyAgICAgIEpzb24NCiAgICB1c2VyX2lkICAgICAgICAgSW50DQogICAgdXNlciAgICAgICAgICAgIFVzZXIgICBAcmVsYXRpb24oZmllbGRzOiBbdXNlcl9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQp9DQo=",
-  "inlineSchemaHash": "d082ea678f22f1415251c65b71f78489c257bcec0f87a079b782fbfb2df92dc7",
+  "inlineSchema": "Ly8gc2NoZW1hLnByaXNtYQ0KDQpnZW5lcmF0b3IgY2xpZW50IHsNCiAgICBwcm92aWRlciAgICAgID0gInByaXNtYS1jbGllbnQtanMiDQogICAgLy8gYmluYXJ5VGFyZ2V0cyA9IFsibmF0aXZlIiwgImRlYmlhbi1vcGVuc3NsLTMuMC54IiwgImxpbnV4LWFybTY0LW9wZW5zc2wtMS4xLngiLCAicmhlbC1vcGVuc3NsLTEuMC54Il0NCiAgICBvdXRwdXQgPSAiLi9nZW5lcmF0ZWQvY2xpZW50Ig0KfQ0KDQovLyBkYXRhc291cmNlIGRiIHsNCi8vICAgICBwcm92aWRlciA9ICJwb3N0Z3Jlc3FsIg0KLy8gICAgIHVybCAgICAgID0gZW52KCJEQVRBQkFTRV9VUkwiKQ0KLy8gfQ0KDQoNCmRhdGFzb3VyY2UgZGIgew0KICBwcm92aWRlciA9ICJwb3N0Z3Jlc3FsIg0KICB1cmwgPSBlbnYoIlBPU1RHUkVTX1BSSVNNQV9VUkwiKSAvLyB1c2VzIGNvbm5lY3Rpb24gcG9vbGluZw0KICBkaXJlY3RVcmwgPSBlbnYoIlBPU1RHUkVTX1VSTF9OT05fUE9PTElORyIpIC8vIHVzZXMgYSBkaXJlY3QgY29ubmVjdGlvbg0KfQ0KDQptb2RlbCBVc2VyIHsNCiAgICBpZCAgICAgICAgIEludCAgICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpDQogICAgZmlyc3RfbmFtZSBTdHJpbmcNCiAgICBsYXN0X25hbWUgIFN0cmluZw0KICAgIGVtYWlsICAgICAgU3RyaW5nICAgQHVuaXF1ZQ0KICAgIHBhc3N3b3JkICAgU3RyaW5nDQogICAgcGhvbmUgICAgICBTdHJpbmcNCiAgICBhZGRyZXNzICAgIFN0cmluZw0KICAgIGpvaW5lZGF0ICAgRGF0ZVRpbWUgQGRlZmF1bHQobm93KCkpDQogICAgc3RvcmVzICAgICBTdG9yZVtdDQp9DQoNCm1vZGVsIFN0b3JlIHsNCiAgICBpZCAgICAgICAgICAgICAgSW50ICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpDQogICAgbmFtZSAgICAgICAgICAgIFN0cmluZyBAdW5pcXVlDQogICAgaW1hZ2VfdXJsICAgICAgIFN0cmluZw0KICAgIGltYWdlX3B1YmxpY19pZCBTdHJpbmcNCiAgICBzdG9yZV9pbmZvICAgICAgSnNvbg0KICAgIHVzZXJfaWQgICAgICAgICBJbnQNCiAgICB1c2VyICAgICAgICAgICAgVXNlciAgIEByZWxhdGlvbihmaWVsZHM6IFt1c2VyX2lkXSwgcmVmZXJlbmNlczogW2lkXSkNCn0NCg==",
+  "inlineSchemaHash": "38425c1c3515143bdd2d32147be752138bd9ebb9710c59d9e1cd28cb909cf184",
   "noEngine": false
 }
 config.dirname = '/'
@@ -203,7 +191,7 @@ config.getQueryEngineWasmModule = undefined
 
 config.injectableEdgeEnv = () => ({
   parsed: {
-    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+    POSTGRES_PRISMA_URL: typeof globalThis !== 'undefined' && globalThis['POSTGRES_PRISMA_URL'] || typeof process !== 'undefined' && process.env && process.env.POSTGRES_PRISMA_URL || undefined
   }
 })
 
