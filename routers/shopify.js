@@ -4,13 +4,11 @@ const cloudinary = require("cloudinary");
 const prisma = new PrismaClient();
 const axios = require("axios");
 const dummy = require("./dummy");
-
 // Get all Shopify Orders
 router.post("/orders", async (req, res) => {
   // Get the Email
   const { email } = req.body;
   // return res.status(200).send(dummy);
-
   // Find the store by email
   const user = await prisma.user.findUnique({
     where: {
@@ -20,9 +18,12 @@ router.post("/orders", async (req, res) => {
       stores: true,
     },
   });
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
   const userStores = user.stores;
   const orders = [];
-
   for (const store of userStores) {
     let config = {
       method: "get",

@@ -20,7 +20,7 @@ model User {
     password   String
     phone      String
     address    String
-    joined_at  DateTime @default(now())
+    joinedat   DateTime @default(now())
     stores     Store[]
 }
 

@@ -49,6 +49,7 @@ cloudinary.config({
 
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("./generated/client"); // Adjust the path based on your project structure
+const { config } = require("dotenv");
 
 const prisma = new PrismaClient();
 // FUNCTIONS
@@ -79,9 +80,63 @@ function readFontFileFromUrl(url) {
 
 // ROUTES FOR CONNECTING SHOPIFY STORE
 app.use("/shopify", require("./routers/shopify"));
-// _________________________________
+async function createOrder() {
+  try {
+    const data = {
+      order: {
+        financial_status: "pending",
+        line_items: [
+          {
+            title: "Big Yellow Bear Boots",
+            price: 750.99,
+            grams: "1300",
+            quantity: 3,
+            tax_lines: [
+              {
+                price: 73.5,
+                rate: 0.06,
+                title: "State tax",
+              },
+            ],
+          },
+        ],
+        total_tax: 13.5,
+        currency: "EUR",
+      },
+    };
 
+    const config = {
+      headers: {
+        "X-Shopify-Access-Token": "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",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.post(
+      "https://momdaughts.myshopify.com/admin/api/2024-01/orders.json",
+      data,
+      config
+    );
+  } catch (error) {
+    console.error(error);
+  }
+}
 app.post("/test", async (req, res) => {
+  // Send post request to shopify with headers X-Shopify-Access-Token and orders data
+  // for (let i = 0; i < 100; i++) {
+  //   await createOrder();
+  // }
+
+  const exists = await prisma.user.findFirst({
+    where: { email: "captain.gaze@gmail.com" },
+  });
+  if (exists) {
+    return res.status(200).send(exists);
+  }
+
+  // Insert into User
+
+  return res.status(200).send(user);
   const FONT_URL =
     // "https://cdn.jsdelivr.net/fontsource/fonts/inter:vf@latest/latin-wght-normal.woff2";
     "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap";
@@ -146,25 +201,39 @@ app.get("/create-barcode/:id", async (req, res) => {
   res.send(buffer);
 });
 
-app.get("/api", async (req, res) => {
-  // res.send("Hello World!");
-  // const users = await User.find({});
-  const userEmail = req.headers["email"];
-  console.log("usermeail: ", userEmail);
+app.get("/nice", async (req, res) => {
+  const response = await axios.get(
+    "https://nakson.myshopify.com/admin/api/2023-10/orders.json?status=any&limit=50",
+    {
+      headers: {
+        "X-Shopify-Access-Token": "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",
+      },
+    }
+  );
+  const orders = response.data.orders;
 
-  // res.send(userEmail);
+  // Get the total products of an order
+  const stock = []; // Number of products in an order
+  const skus = [{}];
 
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: "https://nakson.myshopify.com/admin/api/2023-10/orders.json?status=open&limit=20",
-    headers: {
-      "X-Shopify-Access-Token": "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",
-    },
-  };
+  orders.forEach((order, index) => {
+    stock.push(order.line_items.length);
 
-  let order_req = await axios.request(config);
-  res.send(order_req.data);
+    for (const product of order.line_items) {
+      skus.forEach((sku) => {
+        if (sku[product.sku]) {
+          sku[product.sku] += product.quantity;
+        } else {
+          sku[product.sku] = product.quantity;
+        }
+      });
+    }
+  });
+
+  // Return the sum of Stock
+  const sumStock = stock.reduce((a, b) => a + b, 0);
+
+  res.status(200).json({ total_items: sumStock, skus });
 });
 
 // LOGIN AND REGISTER ENDPOINTS
@@ -245,23 +314,142 @@ app.post("/register", async (req, res) => {
 
   res.status(200).json({ message: "User has been registered successfully" });
 });
+// Function to make a POST request with a rate limit
+async function postRequestWithRateLimit(url, data, config) {
+  // A promise that resolves after a certain delay
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  // Call the API with exponential backoff
+  async function callApiWithRetry(
+    url,
+    data,
+    config,
+    retries = 10,
+    delayMs = 3000
+  ) {
+    try {
+      const response = await axios.post(url, data, config);
+      return response.data;
+    } catch (error) {
+      if (retries === 0) {
+        throw error;
+      }
+      // Exponential backoff to wait before retrying
+      await delay(delayMs);
+      return callApiWithRetry(url, data, config, retries - 1, delayMs * 3);
+    }
+  }
+
+  return callApiWithRetry(url, data, config);
+}
+// Function to make a request with a rate limit
+async function makeRequestWithRateLimit(url, config) {
+  // A promise that resolves after a certain delay
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  // Call the API with exponential backoff
+  async function callApiWithRetry(url, config, retries = 10, delayMs = 3000) {
+    try {
+      // const response = await axios.get(url, config);
+      // const response = await axios.get(url, config);
+      const response = await axios.get(url, config);
+
+      return response.data;
+    } catch (error) {
+      if (retries === 0) {
+        throw error;
+      }
+      // Exponential backoff to wait before retrying
+      await delay(delayMs);
+      return callApiWithRetry(url, config, retries - 1, delayMs * 3);
+    }
+  }
+
+  return callApiWithRetry(url, config);
+}
 
 // _____________________
+const markOrdersFulfilled = async (orders) => {
+  let Counter = 1;
+  // for (const ord of orders) {
+  orders.forEach(async (ord) => {
+    const config = {
+      headers: {
+        "X-Shopify-Access-Token": "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",
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      // Get the fulfillment order ID
+      const response = await makeRequestWithRateLimit(
+        `https://momdaughts.myshopify.com/admin/api/2023-10/orders/${ord.id}/fulfillment_orders.json`,
+        config
+      );
+      const { fulfillment_orders } = response;
+      const f_id = fulfillment_orders[0].id;
+
+      // Create a fulfillment
+      try {
+        const data = {
+          fulfillment: {
+            line_items_by_fulfillment_order: [
+              {
+                fulfillment_order_id: f_id,
+              },
+            ],
+            tracking_info: {
+              number: "End Ho gaya",
+              url: "Ok kr yar",
+            },
+          },
+        };
+
+        const config_two = {
+          headers: {
+            "X-Shopify-Access-Token": "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",
+            "Content-Type": "application/json",
+          },
+        };
+
+        const finalRes = await postRequestWithRateLimit(
+          "https://momdaughts.myshopify.com/admin/api/2023-04/fulfillments.json",
+          data,
+          config_two
+        );
+
+        console.log("Counter: ", Counter);
+        Counter += 1;
+        console.log("Status: ", finalRes.fulfillment.status);
+      } catch (error) {
+        console.error(error);
+      }
+
+      // return a promise that resolves after 3 seconds
+    } catch (error) {
+      console.log("Caught Error: ", error);
+    }
+  });
+
+  return 1;
+};
 
 app.post("/leopards/orders", async (req, res) => {
-  // let pdfBytes = await generateCusotmizedSlip([booked_orders_details]);
-  let pdfBytes = await generateCusotmizedSlip([1, 2, 3]);
-  // Set response headers for file download
-  res.set({
-    "Content-Type": "application/pdf",
-    "Content-Disposition": 'attachment; filename="Next-Slip.pdf"',
-  });
-  console.log("called");
-  res.send({
-    message: "Orders have been Booked",
-    pdfBytes,
-  });
-  return;
+  const orders_one = await axios.get(
+    "https://momdaughts.myshopify.com/admin/api/2023-04/orders.json?status=open&financial_status=unpaid&fulfillment_status=unfulfilled&limit=100",
+    {
+      headers: {
+        "X-Shopify-Access-Token": "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",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  // Start the timer
+  const start = new Date().getTime();
+
+  // // End the timer
+  // const end = new Date().getTime();
+  // const timeTaken = (end - start) / 1000;
 
   const { email, orders: orders } = req.body;
   if (!email || !orders) {
@@ -324,12 +512,10 @@ app.post("/leopards/orders", async (req, res) => {
       return response.data;
     });
 
-    let saved_data = [
-      // Order ID, Track Number
-    ];
+    let tracking_numbers;
 
     for (let i = 0; i < response.data.length; i++) {
-      saved_data.push([orders[i].id, response.data[i].track_number]);
+      tracking_numbers.push(response.data[i].track_number);
 
       booked_orders_details.push({
         shop_name: orders[i].store_info.name,
@@ -360,11 +546,13 @@ app.post("/leopards/orders", async (req, res) => {
             : "COD Parcel",
       });
     }
-
     // const status = await fulfillShopifyOrders(saved_data);
     // console.log("status: ", status);
+    console.log("Booked Orders CN#");
+    for (let cn of tracking_numbers) {
+      console.log(`${cn}, `);
+    }
 
-    console.log("saved_data: ", saved_data, "\n");
     console.log("booked_orders_details: ", booked_orders_details, "\n");
   } catch (err) {
     console.log("Error: ", err);
@@ -373,7 +561,6 @@ app.post("/leopards/orders", async (req, res) => {
   res.status(200).send({
     message: "Orders have been Booked",
     booked_orders: booked_orders_details,
-    // pdfBytes,
   });
 });
 
