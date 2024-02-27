@@ -22,7 +22,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const https = require("https");
 app.use(bodyParser.json());
 
-
 app.use(
   cors({
     origin: "*",
@@ -84,7 +83,6 @@ app.use("/shopify", require("./routers/shopify"));
 
 // Routes for connecting Daraz Store
 app.use("/daraz", require("./routers/daraz"));
-
 
 async function createOrder() {
   try {
@@ -276,7 +274,24 @@ app.post("/login", async (req, res) => {
     message: "User has been logged in successfully",
   });
 });
-// 
+
+app.get("/otp/:id", async (req, res) => {
+  const otp = generateOTP();
+  console.log("otp: ", otp);
+
+  const { data, error } = await resend.emails.send({
+    from: "ESync@nakson.services",
+    to: [`${req.params.id}`],
+    subject: "One-Time Password (OTP) Verification",
+    html: `
+    <p style="font-weight: bold;">Please use the following OTP to complete the verification process:</p>
+    <p style="background-color: #f5f5f5; padding: 10px; font-size: 16px; font-weight: bold;">OTP Code: ${otp}</p>
+    `,
+  });
+  res.status(200).json({ data, otp });
+});
+
+//
 
 app.post("/otp", async (req, res) => {
   // Check if the email is valid and already exists in the database
@@ -303,7 +318,7 @@ app.post("/otp", async (req, res) => {
     `,
   });
 
-  console.log("data: ",data, "error: ", error)
+  console.log("data: ", data, "error: ", error);
 
   res.status(200).json(otp);
 });
