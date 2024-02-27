@@ -29,27 +29,34 @@ router.post("/access-token", async (req, res) => {
 
   // Get all the stores
   const stores = await prisma.store.findMany({});
-  console.log("stores: ", stores);
 
   // Check if the store exists by the email
   const store = stores.find((store) => store.store_info.account === email);
   if (store) {
+    console.log("Store exists:: ");
     return res.status(400).json({ message: "Store already exists" });
   }
 
-  const parameters = {
-    code,
-    app_key,
-    sign_method: "sha256",
-    timestamp: timeStamp,
-    sign: signature,
-  };
-  const url = `https://api.daraz.pk/rest/auth/token/create?code=${code}&app_key=${app_key}&sign_method=sha256&timestamp=${timeStamp}&sign=${signature}`;
-  const response = await axios.post(url);
-  const storeData = response.data;
+  let url = "";
+  let response = "";
+  let storeData = "";
+  try {
+    url = `https://api.daraz.pk/rest/auth/token/create?code=${code}&app_key=${app_key}&sign_method=sha256&timestamp=${timeStamp}&sign=${signature}`;
+    response = await axios.post(url);
+    storeData = response.data;
+
+    if (storeData.code === "InvalidCode") {
+      console.log("Invalid Code:: ");
+      return res.status(400).json({ message: storeData.code });
+    }
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Invalid Code" });
+  }
 
   //   Check if the email matches the user
   if (storeData.account !== email) {
+    console.log("Invalid Emai:: ");
     return res.status(400).json({ message: "Invalid Email" });
   }
 
@@ -72,6 +79,7 @@ router.post("/access-token", async (req, res) => {
       store_info: { platform: "daraz", ...storeData },
     },
   });
+  console.log("All Set!");
   res.status(200).json({ message: "Store Added", store: newStore });
 });
 
