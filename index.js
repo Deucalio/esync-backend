@@ -22,6 +22,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const https = require("https");
 app.use(bodyParser.json());
 
+
 app.use(
   cors({
     origin: "*",
@@ -80,6 +81,11 @@ function readFontFileFromUrl(url) {
 
 // ROUTES FOR CONNECTING SHOPIFY STORE
 app.use("/shopify", require("./routers/shopify"));
+
+// Routes for connecting Daraz Store
+app.use("/daraz", require("./routers/daraz"));
+
+
 async function createOrder() {
   try {
     const data = {
@@ -139,7 +145,6 @@ app.post("/test", async (req, res) => {
       },
     });
 
-
     // const user = await prisma.user.findMany({});
 
     // Get user with stores
@@ -186,6 +191,22 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
+app.get("/create-barcode-stockchecklist/:id", async (req, res) => {
+  const orderTrackNumber = req.params.id;
+
+  const buffer = await bwipjs.toBuffer({
+    bcid: "code128", // Barcode type
+    text: String(orderTrackNumber), // Text to encode
+    // scale: 5, // 3x scaling factor
+    scaleX: 3,
+    width: 1, // Bar width, in millimeters
+    scaleY: 3,
+    height: 4, // Bar height, in millimeters
+  });
+  res.set("Content-Type", "image/png");
+  res.send(buffer);
+});
+
 app.get("/create-barcode/:id", async (req, res) => {
   const orderTrackNumber = req.params.id;
   const buffer = await bwipjs.toBuffer({
@@ -200,7 +221,7 @@ app.get("/create-barcode/:id", async (req, res) => {
   res.send(buffer);
 });
 
-app.get("/nice", async (req, res) => {
+app.get("/checklist", async (req, res) => {
   const response = await axios.get(
     "https://nakson.myshopify.com/admin/api/2023-10/orders.json?status=any&limit=50",
     {
@@ -255,6 +276,7 @@ app.post("/login", async (req, res) => {
     message: "User has been logged in successfully",
   });
 });
+// 
 
 app.post("/otp", async (req, res) => {
   // Check if the email is valid and already exists in the database
@@ -280,6 +302,8 @@ app.post("/otp", async (req, res) => {
     <p style="background-color: #f5f5f5; padding: 10px; font-size: 16px; font-weight: bold;">OTP Code: ${otp}</p>
     `,
   });
+
+  console.log("data: ",data, "error: ", error)
 
   res.status(200).json(otp);
 });

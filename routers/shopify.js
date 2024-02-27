@@ -104,7 +104,6 @@ router.post("/save-store", async (req, res) => {
     await prisma.$disconnect();
   }
 });
-
 // Send all the stores associated with the user
 router.post("/get-stores", async (req, res) => {
   const { email } = req.body;
