@@ -23,8 +23,6 @@ router.post("/sign", async (req, res) => {
 router.post("/access-token", async (req, res) => {
   const { signature, code, timeStamp, app_key, name, email, userEmail } =
     req.body;
-  console.log(req.body);
-  return res.status(200).json({ message: "Test" });
 
   // Get all the stores
   const stores = await prisma.store.findMany({});
@@ -50,15 +48,27 @@ router.post("/access-token", async (req, res) => {
   if (storeData.account !== email) {
     return res.status(400).json({ message: "Invalid Email" });
   }
-  //   Add the store
-  const newStore = await prisma.store.create({
-    data: {
-      name,
-      store_info: storeData,
+
+  //   Get the UserId associated with the userEmail
+  const user = await prisma.user.findUnique({
+    where: {
+      email: userEmail,
     },
   });
+  const userId = user.id;
 
-  res.status(200).json({ message: "Store Added" });
+  //   Add the store
+
+  const newStore = await prisma.store.create({
+    data: {
+      user_id: userId, // Specify the userId for the associated user
+      name: name,
+      image_url: "none",
+      image_public_id: "none",
+      store_info: { platform: "daraz", ...storeData },
+    },
+  });
+  res.status(200).json({ message: "Store Added", store: newStore });
 });
 
 module.exports = router;
