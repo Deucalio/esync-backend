@@ -115,10 +115,15 @@ router.post("/get-stores", async (req, res) => {
       stores: true,
     },
   });
+  const shopifyStores = user.stores.filter(
+    (store) => store.store_info.platform === "shopify"
+  );
+
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
-  res.status(200).json({ stores: user.stores });
+
+  res.status(200).json({ stores: shopifyStores });
 });
 
 // Route to check if the store is Connected
