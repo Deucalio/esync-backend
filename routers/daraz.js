@@ -47,11 +47,11 @@ router.post("/access-token", async (req, res) => {
 
     if (storeData.code === "InvalidCode") {
       console.log("Invalid Code:: ");
-      return res.status(400).json({ message: storeData.code });
+      return res.status(200).json({ message: storeData.code });
     }
   } catch (e) {
     console.log("error: ", e);
-    return res.status(400).json({ message: "Invalid Code" });
+    return res.status(200).json({ message: "Invalid Code" });
   }
 
   //   Check if the email matches the user
@@ -60,7 +60,7 @@ router.post("/access-token", async (req, res) => {
   console.log("email: ", email);
   if (storeData.account !== email) {
     console.log("Invalid Emai:: ");
-    return res.status(400).json({ message: "Invalid Email" });
+    return res.status(200).json({ message: "Invalid Email" });
   }
 
   //   Get the UserId associated with the userEmail
