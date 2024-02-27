@@ -55,6 +55,9 @@ router.post("/access-token", async (req, res) => {
   }
 
   //   Check if the email matches the user
+
+  console.log("storeDAta: ", storeData);
+  console.log("email: ", email);
   if (storeData.account !== email) {
     console.log("Invalid Emai:: ");
     return res.status(400).json({ message: "Invalid Email" });
