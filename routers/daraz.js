@@ -29,6 +29,7 @@ router.post("/access-token", async (req, res) => {
 
   // Get all the stores
   const stores = await prisma.store.findMany({});
+  console.log("stores: ", stores);
 
   // Check if the store exists by the email
   const store = stores.find((store) => store.store_info.account === email);
@@ -44,7 +45,7 @@ router.post("/access-token", async (req, res) => {
     sign: signature,
   };
   const url = `https://api.daraz.pk/rest/auth/token/create?code=${code}&app_key=${app_key}&sign_method=sha256&timestamp=${timeStamp}&sign=${signature}`;
-  const response = await axios.post(url, parameters);
+  const response = await axios.post(url);
   const storeData = response.data;
 
   //   Check if the email matches the user
