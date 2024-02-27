@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const crypto = require("crypto");
 const axios = require("axios");
+const { PrismaClient } = require("../generated/client"); // Adjust the path based on your project structure
+const cloudinary = require("cloudinary");
+const prisma = new PrismaClient();
 
 function sign(secret, api, parameters) {
   const sortKeys = Object.keys(parameters).sort();
