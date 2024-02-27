@@ -30,7 +30,7 @@ router.post("/access-token", async (req, res) => {
     timestamp: timeStamp,
     sign: signature,
   };
-  const url = `api.daraz.pk/rest/auth/token/create?code=${code}&app_key=${app_key}&sign_method=sha256&timestamp=${timeStamp}&sign=${signature}`;
+  const url = `https://api.daraz.pk/rest/auth/token/create?code=${code}&app_key=${app_key}&sign_method=sha256&timestamp=${timeStamp}&sign=${signature}`;
   const response = await axios.post(url, parameters);
 
   res.status(200).json({ data: response.data });
