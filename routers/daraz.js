@@ -33,8 +33,7 @@ router.post("/access-token", async (req, res) => {
   // Check if the store exists by the email
   const store = stores.find((store) => store.store_info.account === email);
   if (store) {
-    console.log("Store exists:: ");
-    return res.status(400).json({ message: "Store already exists" });
+    return res.status(200).json({ message: "Store already exists" });
   }
 
   let url = "";
@@ -46,7 +45,6 @@ router.post("/access-token", async (req, res) => {
     storeData = response.data;
 
     if (storeData.code === "InvalidCode") {
-      console.log("Invalid Code:: ");
       return res.status(200).json({ message: storeData.code });
     }
   } catch (e) {
@@ -56,10 +54,7 @@ router.post("/access-token", async (req, res) => {
 
   //   Check if the email matches the user
 
-  console.log("storeDAta: ", storeData);
-  console.log("email: ", email);
   if (storeData.account !== email) {
-    console.log("Invalid Emai:: ");
     return res.status(200).json({ message: "Invalid Email" });
   }
 
@@ -82,8 +77,7 @@ router.post("/access-token", async (req, res) => {
       store_info: { platform: "daraz", ...storeData },
     },
   });
-  console.log("All Set!");
-  res.status(200).json({ message: "Store Added", store: newStore });
+  res.status(200).json({ message: "Store Added" });
 });
 
 module.exports = router;
