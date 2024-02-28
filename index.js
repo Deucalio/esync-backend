@@ -149,7 +149,7 @@ app.post("/orders", async (req, res) => {
       });
     }
   }
-  res.status(200).json({ orders });
+  res.status(200).send(orders);
 });
 
 async function createOrder() {
