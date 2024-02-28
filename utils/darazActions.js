@@ -37,7 +37,7 @@ const generateDarazURL = async (
   const timestamp = getTimeStamp();
   const config = {
     method: "post",
-    url: "http://localhost:4000/daraz/sign",
+    url: "https://esync-backend.vercel.app/daraz/sign",
     data: {
       secret: process.env.DARAZ_SECRET,
       api: apiPath,
