@@ -18,12 +18,16 @@ router.post("/orders", async (req, res) => {
       stores: true,
     },
   });
+
+  const shopifyStores = user.stores.filter(
+    (store) => store.store_info.platform === "shopify"
+  );
+
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
-  const userStores = user.stores;
   const orders = [];
-  for (const store of userStores) {
+  for (const store of shopifyStores) {
     let config = {
       method: "get",
       maxBodyLength: Infinity,

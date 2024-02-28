@@ -22,6 +22,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const https = require("https");
 app.use(bodyParser.json());
 
+const { generateDarazURL } = require("./utils/darazActions");
+
 app.use(
   cors({
     origin: "*",
@@ -83,6 +85,71 @@ app.use("/shopify", require("./routers/shopify"));
 
 // Routes for connecting Daraz Store
 app.use("/daraz", require("./routers/daraz"));
+
+// Get all Orders from all the store user has connected
+app.post("/orders", async (req, res) => {
+  const { email } = req.body;
+  const user = await prisma.user.findUnique({
+    where: { email: email },
+    include: { stores: true },
+  });
+  const userStores = user.stores;
+  const orders = [];
+
+  for (const store of userStores) {
+    if (store.store_info.platform === "shopify") {
+      const response = await axios.get(
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=250&fulfillment_status=unfulfilled`,
+        {
+          headers: {
+            "X-Shopify-Access-Token": store.store_info.accessToken,
+          },
+        }
+      );
+      const resOrders = response.data.orders;
+      resOrders.forEach((order) => {
+        orders.push({
+          ...order,
+          store_info: {
+            domain: store.store_info.shop,
+            shopLogo: store.image_url,
+            name: store.name,
+          },
+        });
+      });
+    } else if (store.store_info.platform === "daraz") {
+      const darazURL = await generateDarazURL(
+        "/orders/get",
+        // "/orders/items/get",
+        "get",
+        process.env.DARAZ_APP_KEY,
+        store.store_info.access_token,
+        {
+          limt: "30",
+          update_after: "2018-02-10T16:00:00+08:00",
+          status: "pending",
+          // order_ids: "[180683837008934, 140003114135239]",
+        }
+      );
+
+      // console.log("darazURL: ", darazURL);
+      const response = await axios.get(darazURL);
+      const darazOrders = response.data.data.orders;
+      darazOrders.forEach((order) => {
+        orders.push({
+          ...darazOrders,
+          store_info: {
+            platform: "daraz",
+            domain: null,
+            shopLogo: null,
+            name: store.name,
+          },
+        });
+      });
+    }
+  }
+  res.status(200).json({ orders });
+});
 
 async function createOrder() {
   try {

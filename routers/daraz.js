@@ -35,7 +35,6 @@ router.post("/access-token", async (req, res) => {
   if (store) {
     return res.status(200).json({ message: "Store already exists" });
   }
-
   let url = "";
   let response = "";
   let storeData = "";
@@ -43,7 +42,6 @@ router.post("/access-token", async (req, res) => {
     url = `https://api.daraz.pk/rest/auth/token/create?code=${code}&app_key=${app_key}&sign_method=sha256&timestamp=${timeStamp}&sign=${signature}`;
     response = await axios.post(url);
     storeData = response.data;
-    console.log("storeData: ", storeData);
 
     if (storeData.code === "InvalidCode") {
       return res.status(200).json({ message: storeData.code });
