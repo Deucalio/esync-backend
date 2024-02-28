@@ -111,6 +111,7 @@ app.post("/orders", async (req, res) => {
         orders.push({
           ...order,
           store_info: {
+            platform: "shopify",
             domain: store.store_info.shop,
             shopLogo: store.image_url,
             name: store.name,
