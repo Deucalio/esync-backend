@@ -134,6 +134,8 @@ app.post("/orders", async (req, res) => {
 
       // console.log("darazURL: ", darazURL);
       const response = await axios.get(darazURL);
+      console.log("darazURL: ", darazURL);
+      console.log("response: ",response)
       const darazOrders = response.data.data.orders;
       darazOrders.forEach((order) => {
         orders.push({
