@@ -65,12 +65,30 @@ router.post("/access-token", async (req, res) => {
   });
   const userId = user.id;
 
-  if (stores.find(store => store.name === name)) {
-    return res.status(200).json({ message: "Store already exists" });
+  let sameStoreNum = 0;
+
+  if (
+    stores.find((store) => {
+      if (store.name === name) {
+        sameStoreNum = isNan(Number(store.name.slice(-2, -1)))
+          ? 0
+          : Number(store.name.slice(-2, -1)) + 1;
+      }
+    })
+  ) {
+    const newStore = await prisma.store.create({
+      data: {
+        user_id: userId, // Specify the userId for the associated user
+        name: name`${sameStoreNum}`,
+        image_url: "none",
+        image_public_id: "none",
+        store_info: { platform: "daraz", ...storeData },
+      },
+    });
+    res.status(200).json({ message: "Store Added" });
   }
 
   //   Add the store
-
 
   const newStore = await prisma.store.create({
     data: {
