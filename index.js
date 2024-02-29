@@ -119,6 +119,7 @@ app.post("/orders", async (req, res) => {
         });
       });
     } else if (store.store_info.platform === "daraz") {
+      console.log("store: ",store)
       const darazURL = await generateDarazURL(
         "/orders/get",
         // "/orders/items/get",
@@ -133,7 +134,6 @@ app.post("/orders", async (req, res) => {
         }
       );
 
-      // console.log("darazURL: ", darazURL);
       const response = await axios.get(darazURL);
       const darazOrders = response.data.data.orders;
       darazOrders.forEach((order) => {
