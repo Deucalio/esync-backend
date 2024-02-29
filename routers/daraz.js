@@ -73,6 +73,7 @@ router.post("/access-token", async (req, res) => {
         sameStoreNum = isNan(Number(store.name.slice(-2, -1)))
           ? 0
           : Number(store.name.slice(-2, -1)) + 1;
+        return true;  
       }
     })
   ) {
