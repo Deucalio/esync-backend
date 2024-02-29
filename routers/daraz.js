@@ -70,7 +70,7 @@ router.post("/access-token", async (req, res) => {
   if (
     stores.find((store) => {
       if (store.name === name) {
-        sameStoreNum = isNan(Number(store.name.slice(-2, -1)))
+        sameStoreNum = isNaN(Number(store.name.slice(-2, -1)))
           ? 0
           : Number(store.name.slice(-2, -1)) + 1;
         return true;  
