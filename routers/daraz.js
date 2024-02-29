@@ -80,7 +80,7 @@ router.post("/access-token", async (req, res) => {
     const newStore = await prisma.store.create({
       data: {
         user_id: userId, // Specify the userId for the associated user
-        name: name`${sameStoreNum}`,
+        name: name + `${sameStoreNum}`,
         image_url: "none",
         image_public_id: "none",
         store_info: { platform: "daraz", ...storeData },
