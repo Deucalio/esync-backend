@@ -65,7 +65,12 @@ router.post("/access-token", async (req, res) => {
   });
   const userId = user.id;
 
+  if (stores.find(store => store.name === name)) {
+    return res.status(200).json({ message: "Store already exists" });
+  }
+
   //   Add the store
+
 
   const newStore = await prisma.store.create({
     data: {

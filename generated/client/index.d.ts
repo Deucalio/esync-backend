@@ -3191,7 +3191,7 @@ export namespace Prisma {
     store_info?: JsonFilter<"Store">
     user_id?: IntFilter<"Store"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "id">
 
   export type StoreOrderByWithAggregationInput = {
     id?: SortOrder
