@@ -23,6 +23,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Store = $Result.DefaultSelection<Prisma.$StorePayload>
+/**
+ * Model Courier
+ * 
+ */
+export type Courier = $Result.DefaultSelection<Prisma.$CourierPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -165,6 +170,16 @@ export class PrismaClient<
     * ```
     */
   get store(): Prisma.StoreDelegate<ExtArgs>;
+
+  /**
+   * `prisma.courier`: Exposes CRUD operations for the **Courier** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Couriers
+    * const couriers = await prisma.courier.findMany()
+    * ```
+    */
+  get courier(): Prisma.CourierDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -636,7 +651,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Store: 'Store'
+    Store: 'Store',
+    Courier: 'Courier'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -653,7 +669,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'store'
+      modelProps: 'user' | 'store' | 'courier'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -786,6 +802,72 @@ export namespace Prisma {
           count: {
             args: Prisma.StoreCountArgs<ExtArgs>,
             result: $Utils.Optional<StoreCountAggregateOutputType> | number
+          }
+        }
+      }
+      Courier: {
+        payload: Prisma.$CourierPayload<ExtArgs>
+        fields: Prisma.CourierFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CourierFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CourierFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload>
+          }
+          findFirst: {
+            args: Prisma.CourierFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CourierFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload>
+          }
+          findMany: {
+            args: Prisma.CourierFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload>[]
+          }
+          create: {
+            args: Prisma.CourierCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload>
+          }
+          createMany: {
+            args: Prisma.CourierCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.CourierDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload>
+          }
+          update: {
+            args: Prisma.CourierUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload>
+          }
+          deleteMany: {
+            args: Prisma.CourierDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CourierUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.CourierUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CourierPayload>
+          }
+          aggregate: {
+            args: Prisma.CourierAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateCourier>
+          }
+          groupBy: {
+            args: Prisma.CourierGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<CourierGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CourierCountArgs<ExtArgs>,
+            result: $Utils.Optional<CourierCountAggregateOutputType> | number
           }
         }
       }
@@ -939,10 +1021,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     stores: number
+    Courier: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stores?: boolean | UserCountOutputTypeCountStoresArgs
+    Courier?: boolean | UserCountOutputTypeCountCourierArgs
   }
 
   // Custom InputTypes
@@ -963,6 +1047,14 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountStoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StoreWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourierWhereInput
   }
 
 
@@ -1194,6 +1286,7 @@ export namespace Prisma {
     address?: boolean
     joinedat?: boolean
     stores?: boolean | User$storesArgs<ExtArgs>
+    Courier?: boolean | User$CourierArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1210,6 +1303,7 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stores?: boolean | User$storesArgs<ExtArgs>
+    Courier?: boolean | User$CourierArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1218,6 +1312,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       stores: Prisma.$StorePayload<ExtArgs>[]
+      Courier: Prisma.$CourierPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1595,6 +1690,8 @@ export namespace Prisma {
 
     stores<T extends User$storesArgs<ExtArgs> = {}>(args?: Subset<T, User$storesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    Courier<T extends User$CourierArgs<ExtArgs> = {}>(args?: Subset<T, User$CourierArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1960,6 +2057,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.Courier
+   */
+  export type User$CourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    where?: CourierWhereInput
+    orderBy?: CourierOrderByWithRelationInput | CourierOrderByWithRelationInput[]
+    cursor?: CourierWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CourierScalarFieldEnum | CourierScalarFieldEnum[]
   }
 
 
@@ -2943,6 +3061,954 @@ export namespace Prisma {
 
 
   /**
+   * Model Courier
+   */
+
+  export type AggregateCourier = {
+    _count: CourierCountAggregateOutputType | null
+    _avg: CourierAvgAggregateOutputType | null
+    _sum: CourierSumAggregateOutputType | null
+    _min: CourierMinAggregateOutputType | null
+    _max: CourierMaxAggregateOutputType | null
+  }
+
+  export type CourierAvgAggregateOutputType = {
+    id: number | null
+    user_id: number | null
+  }
+
+  export type CourierSumAggregateOutputType = {
+    id: number | null
+    user_id: number | null
+  }
+
+  export type CourierMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    user_id: number | null
+  }
+
+  export type CourierMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    user_id: number | null
+  }
+
+  export type CourierCountAggregateOutputType = {
+    id: number
+    name: number
+    data: number
+    shippers: number
+    user_id: number
+    _all: number
+  }
+
+
+  export type CourierAvgAggregateInputType = {
+    id?: true
+    user_id?: true
+  }
+
+  export type CourierSumAggregateInputType = {
+    id?: true
+    user_id?: true
+  }
+
+  export type CourierMinAggregateInputType = {
+    id?: true
+    name?: true
+    user_id?: true
+  }
+
+  export type CourierMaxAggregateInputType = {
+    id?: true
+    name?: true
+    user_id?: true
+  }
+
+  export type CourierCountAggregateInputType = {
+    id?: true
+    name?: true
+    data?: true
+    shippers?: true
+    user_id?: true
+    _all?: true
+  }
+
+  export type CourierAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Courier to aggregate.
+     */
+    where?: CourierWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Couriers to fetch.
+     */
+    orderBy?: CourierOrderByWithRelationInput | CourierOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CourierWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Couriers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Couriers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Couriers
+    **/
+    _count?: true | CourierCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CourierAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CourierSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CourierMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CourierMaxAggregateInputType
+  }
+
+  export type GetCourierAggregateType<T extends CourierAggregateArgs> = {
+        [P in keyof T & keyof AggregateCourier]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCourier[P]>
+      : GetScalarType<T[P], AggregateCourier[P]>
+  }
+
+
+
+
+  export type CourierGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourierWhereInput
+    orderBy?: CourierOrderByWithAggregationInput | CourierOrderByWithAggregationInput[]
+    by: CourierScalarFieldEnum[] | CourierScalarFieldEnum
+    having?: CourierScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CourierCountAggregateInputType | true
+    _avg?: CourierAvgAggregateInputType
+    _sum?: CourierSumAggregateInputType
+    _min?: CourierMinAggregateInputType
+    _max?: CourierMaxAggregateInputType
+  }
+
+  export type CourierGroupByOutputType = {
+    id: number
+    name: string
+    data: JsonValue
+    shippers: JsonValue
+    user_id: number
+    _count: CourierCountAggregateOutputType | null
+    _avg: CourierAvgAggregateOutputType | null
+    _sum: CourierSumAggregateOutputType | null
+    _min: CourierMinAggregateOutputType | null
+    _max: CourierMaxAggregateOutputType | null
+  }
+
+  type GetCourierGroupByPayload<T extends CourierGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CourierGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CourierGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CourierGroupByOutputType[P]>
+            : GetScalarType<T[P], CourierGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CourierSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    data?: boolean
+    shippers?: boolean
+    user_id?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["courier"]>
+
+  export type CourierSelectScalar = {
+    id?: boolean
+    name?: boolean
+    data?: boolean
+    shippers?: boolean
+    user_id?: boolean
+  }
+
+  export type CourierInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $CourierPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Courier"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      data: Prisma.JsonValue
+      shippers: Prisma.JsonValue
+      user_id: number
+    }, ExtArgs["result"]["courier"]>
+    composites: {}
+  }
+
+
+  type CourierGetPayload<S extends boolean | null | undefined | CourierDefaultArgs> = $Result.GetResult<Prisma.$CourierPayload, S>
+
+  type CourierCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CourierFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CourierCountAggregateInputType | true
+    }
+
+  export interface CourierDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Courier'], meta: { name: 'Courier' } }
+    /**
+     * Find zero or one Courier that matches the filter.
+     * @param {CourierFindUniqueArgs} args - Arguments to find a Courier
+     * @example
+     * // Get one Courier
+     * const courier = await prisma.courier.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CourierFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, CourierFindUniqueArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Courier that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CourierFindUniqueOrThrowArgs} args - Arguments to find a Courier
+     * @example
+     * // Get one Courier
+     * const courier = await prisma.courier.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CourierFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CourierFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Courier that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourierFindFirstArgs} args - Arguments to find a Courier
+     * @example
+     * // Get one Courier
+     * const courier = await prisma.courier.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CourierFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, CourierFindFirstArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Courier that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourierFindFirstOrThrowArgs} args - Arguments to find a Courier
+     * @example
+     * // Get one Courier
+     * const courier = await prisma.courier.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CourierFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CourierFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Couriers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourierFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Couriers
+     * const couriers = await prisma.courier.findMany()
+     * 
+     * // Get first 10 Couriers
+     * const couriers = await prisma.courier.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const courierWithIdOnly = await prisma.courier.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends CourierFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CourierFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Courier.
+     * @param {CourierCreateArgs} args - Arguments to create a Courier.
+     * @example
+     * // Create one Courier
+     * const Courier = await prisma.courier.create({
+     *   data: {
+     *     // ... data to create a Courier
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CourierCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, CourierCreateArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Couriers.
+     *     @param {CourierCreateManyArgs} args - Arguments to create many Couriers.
+     *     @example
+     *     // Create many Couriers
+     *     const courier = await prisma.courier.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends CourierCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CourierCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Courier.
+     * @param {CourierDeleteArgs} args - Arguments to delete one Courier.
+     * @example
+     * // Delete one Courier
+     * const Courier = await prisma.courier.delete({
+     *   where: {
+     *     // ... filter to delete one Courier
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CourierDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, CourierDeleteArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Courier.
+     * @param {CourierUpdateArgs} args - Arguments to update one Courier.
+     * @example
+     * // Update one Courier
+     * const courier = await prisma.courier.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CourierUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, CourierUpdateArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Couriers.
+     * @param {CourierDeleteManyArgs} args - Arguments to filter Couriers to delete.
+     * @example
+     * // Delete a few Couriers
+     * const { count } = await prisma.courier.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CourierDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CourierDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Couriers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourierUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Couriers
+     * const courier = await prisma.courier.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CourierUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, CourierUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Courier.
+     * @param {CourierUpsertArgs} args - Arguments to update or create a Courier.
+     * @example
+     * // Update or create a Courier
+     * const courier = await prisma.courier.upsert({
+     *   create: {
+     *     // ... data to create a Courier
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Courier we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CourierUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, CourierUpsertArgs<ExtArgs>>
+    ): Prisma__CourierClient<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Couriers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourierCountArgs} args - Arguments to filter Couriers to count.
+     * @example
+     * // Count the number of Couriers
+     * const count = await prisma.courier.count({
+     *   where: {
+     *     // ... the filter for the Couriers we want to count
+     *   }
+     * })
+    **/
+    count<T extends CourierCountArgs>(
+      args?: Subset<T, CourierCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CourierCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Courier.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourierAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CourierAggregateArgs>(args: Subset<T, CourierAggregateArgs>): Prisma.PrismaPromise<GetCourierAggregateType<T>>
+
+    /**
+     * Group by Courier.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourierGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CourierGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CourierGroupByArgs['orderBy'] }
+        : { orderBy?: CourierGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CourierGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCourierGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Courier model
+   */
+  readonly fields: CourierFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Courier.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CourierClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Courier model
+   */ 
+  interface CourierFieldRefs {
+    readonly id: FieldRef<"Courier", 'Int'>
+    readonly name: FieldRef<"Courier", 'String'>
+    readonly data: FieldRef<"Courier", 'Json'>
+    readonly shippers: FieldRef<"Courier", 'Json'>
+    readonly user_id: FieldRef<"Courier", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Courier findUnique
+   */
+  export type CourierFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * Filter, which Courier to fetch.
+     */
+    where: CourierWhereUniqueInput
+  }
+
+
+  /**
+   * Courier findUniqueOrThrow
+   */
+  export type CourierFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * Filter, which Courier to fetch.
+     */
+    where: CourierWhereUniqueInput
+  }
+
+
+  /**
+   * Courier findFirst
+   */
+  export type CourierFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * Filter, which Courier to fetch.
+     */
+    where?: CourierWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Couriers to fetch.
+     */
+    orderBy?: CourierOrderByWithRelationInput | CourierOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Couriers.
+     */
+    cursor?: CourierWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Couriers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Couriers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Couriers.
+     */
+    distinct?: CourierScalarFieldEnum | CourierScalarFieldEnum[]
+  }
+
+
+  /**
+   * Courier findFirstOrThrow
+   */
+  export type CourierFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * Filter, which Courier to fetch.
+     */
+    where?: CourierWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Couriers to fetch.
+     */
+    orderBy?: CourierOrderByWithRelationInput | CourierOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Couriers.
+     */
+    cursor?: CourierWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Couriers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Couriers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Couriers.
+     */
+    distinct?: CourierScalarFieldEnum | CourierScalarFieldEnum[]
+  }
+
+
+  /**
+   * Courier findMany
+   */
+  export type CourierFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * Filter, which Couriers to fetch.
+     */
+    where?: CourierWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Couriers to fetch.
+     */
+    orderBy?: CourierOrderByWithRelationInput | CourierOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Couriers.
+     */
+    cursor?: CourierWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Couriers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Couriers.
+     */
+    skip?: number
+    distinct?: CourierScalarFieldEnum | CourierScalarFieldEnum[]
+  }
+
+
+  /**
+   * Courier create
+   */
+  export type CourierCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Courier.
+     */
+    data: XOR<CourierCreateInput, CourierUncheckedCreateInput>
+  }
+
+
+  /**
+   * Courier createMany
+   */
+  export type CourierCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Couriers.
+     */
+    data: CourierCreateManyInput | CourierCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Courier update
+   */
+  export type CourierUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Courier.
+     */
+    data: XOR<CourierUpdateInput, CourierUncheckedUpdateInput>
+    /**
+     * Choose, which Courier to update.
+     */
+    where: CourierWhereUniqueInput
+  }
+
+
+  /**
+   * Courier updateMany
+   */
+  export type CourierUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Couriers.
+     */
+    data: XOR<CourierUpdateManyMutationInput, CourierUncheckedUpdateManyInput>
+    /**
+     * Filter which Couriers to update
+     */
+    where?: CourierWhereInput
+  }
+
+
+  /**
+   * Courier upsert
+   */
+  export type CourierUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Courier to update in case it exists.
+     */
+    where: CourierWhereUniqueInput
+    /**
+     * In case the Courier found by the `where` argument doesn't exist, create a new Courier with this data.
+     */
+    create: XOR<CourierCreateInput, CourierUncheckedCreateInput>
+    /**
+     * In case the Courier was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CourierUpdateInput, CourierUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Courier delete
+   */
+  export type CourierDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+    /**
+     * Filter which Courier to delete.
+     */
+    where: CourierWhereUniqueInput
+  }
+
+
+  /**
+   * Courier deleteMany
+   */
+  export type CourierDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Couriers to delete
+     */
+    where?: CourierWhereInput
+  }
+
+
+  /**
+   * Courier without action
+   */
+  export type CourierDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Courier
+     */
+    select?: CourierSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CourierInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -2980,6 +4046,17 @@ export namespace Prisma {
   };
 
   export type StoreScalarFieldEnum = (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum]
+
+
+  export const CourierScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    data: 'data',
+    shippers: 'shippers',
+    user_id: 'user_id'
+  };
+
+  export type CourierScalarFieldEnum = (typeof CourierScalarFieldEnum)[keyof typeof CourierScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3098,6 +4175,7 @@ export namespace Prisma {
     address?: StringFilter<"User"> | string
     joinedat?: DateTimeFilter<"User"> | Date | string
     stores?: StoreListRelationFilter
+    Courier?: CourierListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -3110,6 +4188,7 @@ export namespace Prisma {
     address?: SortOrder
     joinedat?: SortOrder
     stores?: StoreOrderByRelationAggregateInput
+    Courier?: CourierOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -3125,6 +4204,7 @@ export namespace Prisma {
     address?: StringFilter<"User"> | string
     joinedat?: DateTimeFilter<"User"> | Date | string
     stores?: StoreListRelationFilter
+    Courier?: CourierListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -3219,6 +4299,63 @@ export namespace Prisma {
     user_id?: IntWithAggregatesFilter<"Store"> | number
   }
 
+  export type CourierWhereInput = {
+    AND?: CourierWhereInput | CourierWhereInput[]
+    OR?: CourierWhereInput[]
+    NOT?: CourierWhereInput | CourierWhereInput[]
+    id?: IntFilter<"Courier"> | number
+    name?: StringFilter<"Courier"> | string
+    data?: JsonFilter<"Courier">
+    shippers?: JsonFilter<"Courier">
+    user_id?: IntFilter<"Courier"> | number
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type CourierOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    data?: SortOrder
+    shippers?: SortOrder
+    user_id?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type CourierWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: CourierWhereInput | CourierWhereInput[]
+    OR?: CourierWhereInput[]
+    NOT?: CourierWhereInput | CourierWhereInput[]
+    name?: StringFilter<"Courier"> | string
+    data?: JsonFilter<"Courier">
+    shippers?: JsonFilter<"Courier">
+    user_id?: IntFilter<"Courier"> | number
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "id">
+
+  export type CourierOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    data?: SortOrder
+    shippers?: SortOrder
+    user_id?: SortOrder
+    _count?: CourierCountOrderByAggregateInput
+    _avg?: CourierAvgOrderByAggregateInput
+    _max?: CourierMaxOrderByAggregateInput
+    _min?: CourierMinOrderByAggregateInput
+    _sum?: CourierSumOrderByAggregateInput
+  }
+
+  export type CourierScalarWhereWithAggregatesInput = {
+    AND?: CourierScalarWhereWithAggregatesInput | CourierScalarWhereWithAggregatesInput[]
+    OR?: CourierScalarWhereWithAggregatesInput[]
+    NOT?: CourierScalarWhereWithAggregatesInput | CourierScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Courier"> | number
+    name?: StringWithAggregatesFilter<"Courier"> | string
+    data?: JsonWithAggregatesFilter<"Courier">
+    shippers?: JsonWithAggregatesFilter<"Courier">
+    user_id?: IntWithAggregatesFilter<"Courier"> | number
+  }
+
   export type UserCreateInput = {
     first_name: string
     last_name: string
@@ -3228,6 +4365,7 @@ export namespace Prisma {
     address: string
     joinedat?: Date | string
     stores?: StoreCreateNestedManyWithoutUserInput
+    Courier?: CourierCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -3240,6 +4378,7 @@ export namespace Prisma {
     address: string
     joinedat?: Date | string
     stores?: StoreUncheckedCreateNestedManyWithoutUserInput
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -3251,6 +4390,7 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
     stores?: StoreUpdateManyWithoutUserNestedInput
+    Courier?: CourierUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -3263,6 +4403,7 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
     stores?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -3356,6 +4497,58 @@ export namespace Prisma {
     user_id?: IntFieldUpdateOperationsInput | number
   }
 
+  export type CourierCreateInput = {
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
+    user: UserCreateNestedOneWithoutCourierInput
+  }
+
+  export type CourierUncheckedCreateInput = {
+    id?: number
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
+    user_id: number
+  }
+
+  export type CourierUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
+    user?: UserUpdateOneRequiredWithoutCourierNestedInput
+  }
+
+  export type CourierUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
+    user_id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CourierCreateManyInput = {
+    id?: number
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
+    user_id: number
+  }
+
+  export type CourierUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type CourierUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
+    user_id?: IntFieldUpdateOperationsInput | number
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -3399,7 +4592,17 @@ export namespace Prisma {
     none?: StoreWhereInput
   }
 
+  export type CourierListRelationFilter = {
+    every?: CourierWhereInput
+    some?: CourierWhereInput
+    none?: CourierWhereInput
+  }
+
   export type StoreOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CourierOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -3579,6 +4782,36 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type CourierCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    data?: SortOrder
+    shippers?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type CourierAvgOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type CourierMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type CourierMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type CourierSumOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+  }
+
   export type StoreCreateNestedManyWithoutUserInput = {
     create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
@@ -3586,11 +4819,25 @@ export namespace Prisma {
     connect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
   }
 
+  export type CourierCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+  }
+
   export type StoreUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
     createMany?: StoreCreateManyUserInputEnvelope
     connect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+  }
+
+  export type CourierUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -3615,6 +4862,20 @@ export namespace Prisma {
     deleteMany?: StoreScalarWhereInput | StoreScalarWhereInput[]
   }
 
+  export type CourierUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    upsert?: CourierUpsertWithWhereUniqueWithoutUserInput | CourierUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    set?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    disconnect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    delete?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    update?: CourierUpdateWithWhereUniqueWithoutUserInput | CourierUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourierUpdateManyWithWhereWithoutUserInput | CourierUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourierScalarWhereInput | CourierScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -3637,6 +4898,20 @@ export namespace Prisma {
     deleteMany?: StoreScalarWhereInput | StoreScalarWhereInput[]
   }
 
+  export type CourierUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    upsert?: CourierUpsertWithWhereUniqueWithoutUserInput | CourierUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    set?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    disconnect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    delete?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    update?: CourierUpdateWithWhereUniqueWithoutUserInput | CourierUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourierUpdateManyWithWhereWithoutUserInput | CourierUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourierScalarWhereInput | CourierScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutStoresInput = {
     create?: XOR<UserCreateWithoutStoresInput, UserUncheckedCreateWithoutStoresInput>
     connectOrCreate?: UserCreateOrConnectWithoutStoresInput
@@ -3649,6 +4924,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutStoresInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStoresInput, UserUpdateWithoutStoresInput>, UserUncheckedUpdateWithoutStoresInput>
+  }
+
+  export type UserCreateNestedOneWithoutCourierInput = {
+    create?: XOR<UserCreateWithoutCourierInput, UserUncheckedCreateWithoutCourierInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCourierInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCourierNestedInput = {
+    create?: XOR<UserCreateWithoutCourierInput, UserUncheckedCreateWithoutCourierInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCourierInput
+    upsert?: UserUpsertWithoutCourierInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCourierInput, UserUpdateWithoutCourierInput>, UserUncheckedUpdateWithoutCourierInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -3792,6 +5081,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CourierCreateWithoutUserInput = {
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
+  }
+
+  export type CourierUncheckedCreateWithoutUserInput = {
+    id?: number
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
+  }
+
+  export type CourierCreateOrConnectWithoutUserInput = {
+    where: CourierWhereUniqueInput
+    create: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput>
+  }
+
+  export type CourierCreateManyUserInputEnvelope = {
+    data: CourierCreateManyUserInput | CourierCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type StoreUpsertWithWhereUniqueWithoutUserInput = {
     where: StoreWhereUniqueInput
     update: XOR<StoreUpdateWithoutUserInput, StoreUncheckedUpdateWithoutUserInput>
@@ -3820,6 +5132,33 @@ export namespace Prisma {
     user_id?: IntFilter<"Store"> | number
   }
 
+  export type CourierUpsertWithWhereUniqueWithoutUserInput = {
+    where: CourierWhereUniqueInput
+    update: XOR<CourierUpdateWithoutUserInput, CourierUncheckedUpdateWithoutUserInput>
+    create: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput>
+  }
+
+  export type CourierUpdateWithWhereUniqueWithoutUserInput = {
+    where: CourierWhereUniqueInput
+    data: XOR<CourierUpdateWithoutUserInput, CourierUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CourierUpdateManyWithWhereWithoutUserInput = {
+    where: CourierScalarWhereInput
+    data: XOR<CourierUpdateManyMutationInput, CourierUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CourierScalarWhereInput = {
+    AND?: CourierScalarWhereInput | CourierScalarWhereInput[]
+    OR?: CourierScalarWhereInput[]
+    NOT?: CourierScalarWhereInput | CourierScalarWhereInput[]
+    id?: IntFilter<"Courier"> | number
+    name?: StringFilter<"Courier"> | string
+    data?: JsonFilter<"Courier">
+    shippers?: JsonFilter<"Courier">
+    user_id?: IntFilter<"Courier"> | number
+  }
+
   export type UserCreateWithoutStoresInput = {
     first_name: string
     last_name: string
@@ -3828,6 +5167,7 @@ export namespace Prisma {
     phone: string
     address: string
     joinedat?: Date | string
+    Courier?: CourierCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStoresInput = {
@@ -3839,6 +5179,7 @@ export namespace Prisma {
     phone: string
     address: string
     joinedat?: Date | string
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStoresInput = {
@@ -3865,6 +5206,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
+    Courier?: CourierUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStoresInput = {
@@ -3876,6 +5218,69 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutCourierInput = {
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joinedat?: Date | string
+    stores?: StoreCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCourierInput = {
+    id?: number
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joinedat?: Date | string
+    stores?: StoreUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCourierInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCourierInput, UserUncheckedCreateWithoutCourierInput>
+  }
+
+  export type UserUpsertWithoutCourierInput = {
+    update: XOR<UserUpdateWithoutCourierInput, UserUncheckedUpdateWithoutCourierInput>
+    create: XOR<UserCreateWithoutCourierInput, UserUncheckedCreateWithoutCourierInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCourierInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCourierInput, UserUncheckedUpdateWithoutCourierInput>
+  }
+
+  export type UserUpdateWithoutCourierInput = {
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
+    stores?: StoreUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCourierInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
+    stores?: StoreUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StoreCreateManyUserInput = {
@@ -3884,6 +5289,13 @@ export namespace Prisma {
     image_url: string
     image_public_id: string
     store_info: JsonNullValueInput | InputJsonValue
+  }
+
+  export type CourierCreateManyUserInput = {
+    id?: number
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
   }
 
   export type StoreUpdateWithoutUserInput = {
@@ -3909,6 +5321,26 @@ export namespace Prisma {
     store_info?: JsonNullValueInput | InputJsonValue
   }
 
+  export type CourierUpdateWithoutUserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type CourierUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type CourierUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
+  }
+
 
 
   /**
@@ -3926,6 +5358,10 @@ export namespace Prisma {
      * @deprecated Use StoreDefaultArgs instead
      */
     export type StoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = StoreDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CourierDefaultArgs instead
+     */
+    export type CourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CourierDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

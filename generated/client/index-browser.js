@@ -127,6 +127,14 @@ exports.Prisma.StoreScalarFieldEnum = {
   user_id: 'user_id'
 };
 
+exports.Prisma.CourierScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  data: 'data',
+  shippers: 'shippers',
+  user_id: 'user_id'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -150,7 +158,8 @@ exports.Prisma.JsonNullValueFilter = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Store: 'Store'
+  Store: 'Store',
+  Courier: 'Courier'
 };
 
 /**
