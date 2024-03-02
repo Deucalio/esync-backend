@@ -89,6 +89,19 @@ app.use("/daraz", require("./routers/daraz"));
 // Routes for Leopards API
 app.use("/leopards", require("./routers/leopards"));
 
+// Get user Info
+
+app.post("/user", async (req, res) => {
+  const { email } = req.body;
+  console.log("email: ",email)
+  const user = await prisma.user.findUnique({
+    where: { email: email },
+    include: { stores: true, Courier: true },
+  });
+  
+  res.status(200).send(user);
+});
+
 // app.get("/ok", async (req, res) => {
 //   const user = await prisma.user.findUnique({
 //     where: { email: "subhankhanyz@gmail.com" },
