@@ -86,6 +86,18 @@ app.use("/shopify", require("./routers/shopify"));
 // Routes for connecting Daraz Store
 app.use("/daraz", require("./routers/daraz"));
 
+// Routes for Leopards API
+app.use("/leopards", require("./routers/leopards"));
+
+// app.get("/ok", async (req, res) => {
+//   const user = await prisma.user.findUnique({
+//     where: { email: "subhankhanyz@gmail.com" },
+//     include: { Courier: true, stores: true },
+//   });
+
+//   res.status(200).send(user);
+// });
+
 // Get all Orders from all the store user has connected
 app.post("/orders", async (req, res) => {
   const { email } = req.body;
@@ -119,7 +131,7 @@ app.post("/orders", async (req, res) => {
         });
       });
     } else if (store.store_info.platform === "daraz") {
-      console.log("store: ",store)
+      console.log("store: ", store);
       const darazURL = await generateDarazURL(
         "/orders/get",
         // "/orders/items/get",
