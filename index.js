@@ -170,7 +170,6 @@ app.post("/add-shipper", async (req, res) => {
           city_id: Number(city),
         }
       );
-      console.log("leopardsRes: ", leopardsRes.data);
       if (leopardsRes.data.message === "Shipper already exists.") {
         return res.status(409).json({ message: "Shipper already exists" });
       } else if (leopardsRes.data.status === 0) {
