@@ -93,13 +93,140 @@ app.use("/leopards", require("./routers/leopards"));
 
 app.post("/user", async (req, res) => {
   const { email } = req.body;
-  console.log("email: ",email)
+  console.log("email: ", email);
   const user = await prisma.user.findUnique({
     where: { email: email },
     include: { stores: true, Courier: true },
   });
-  
   res.status(200).send(user);
+});
+
+// Add Shipper
+app.post("/add-shipper", async (req, res) => {
+  const {
+    userEmail,
+    apiKey,
+    password,
+    name,
+    email,
+    phone,
+    city,
+    address,
+    specialInstructions,
+    shop,
+    courierServices,
+    courierAccount,
+  } = req.body;
+
+  // get couriers by user_id
+  const user = await prisma.user.findUnique({
+    where: { email: userEmail },
+    include: { Courier: true },
+  });
+  const userCouriers = user["Courier"];
+  console.log("userCouriers: ", userCouriers);
+
+  // You can't assign a shipper to a shop that already has a shipper
+  for (const shipper of userCouriers) {
+    if (shipper.shippers !== "null") {
+      const alreadyAssignedShop = shipper.shippers.find(
+        (ship) => ship.shop === shop
+      );
+      if (alreadyAssignedShop) {
+        return res.status(409).json({ message: "Shop already has a shipper" });
+      }
+    }
+  }
+
+  const shipper = await prisma.courier.findUnique({
+    where: { id: Number(courierAccount) },
+  });
+
+  let uodateCourier = "";
+
+  if (
+    !name ||
+    !email ||
+    !phone ||
+    !address ||
+    !specialInstructions ||
+    !shop ||
+    !courierServices
+  ) {
+    return res.status(400).json({ errorMessage: "Incorrect field" });
+  }
+  let leopardsRes = "";
+  if (courierServices.includes("Leopards")) {
+    try {
+      leopardsRes = await axios.post(
+        "https://merchantapi.leopardscourier.com/api/createShipper/format/json",
+        {
+          api_key: apiKey,
+          api_password: password,
+          shipment_name: name,
+          shipment_email: email, // Optional Field (You can keep it empty)
+          shipment_phone: phone,
+          shipment_address: address,
+          city_id: Number(city),
+        }
+      );
+      console.log("leopardsRes: ", leopardsRes.data);
+      if (leopardsRes.data.message === "Shipper already exists.") {
+        return res.status(409).json({ message: "Shipper already exists" });
+      } else if (leopardsRes.data.status === 0) {
+        return res.status(400).json({ message: "Incorrect Field" });
+      } else {
+        if (shipper.shippers === "null") {
+          uodateCourier = await prisma.courier.update({
+            where: {
+              id: Number(courierAccount),
+            },
+            data: {
+              shippers: [
+                {
+                  id: Math.floor(Math.random() * 1000),
+                  specialInstructions,
+                  shop,
+                  response: leopardsRes.data.data,
+                },
+              ],
+            },
+          });
+        } else {
+          uodateCourier = await prisma.courier.update({
+            where: {
+              id: Number(courierAccount),
+            },
+            data: {
+              shippers: [
+                ...shipper.shippers,
+                {
+                  id: Math.floor(Math.random() * 1000),
+                  specialInstructions,
+                  shop,
+                  response: leopardsRes.data.data,
+                },
+              ],
+            },
+          });
+        }
+        return res
+          .status(200)
+          .json({ message: "Successfully added", uodateCourier });
+      }
+    } catch (e) {
+      console.log("Error: ", e);
+      return res.status(500).json({ errorMessage: "Internal Server Error" });
+    }
+  }
+
+  // Find the Courier by courierAccount
+  // const Courier = await prisma.courier.update({
+  //   where: { id: Number(courierAccount) },
+  //   data: {
+  //     ...leopardsRes,
+  //   },
+  // });
 });
 
 // app.get("/ok", async (req, res) => {
