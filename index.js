@@ -89,6 +89,10 @@ app.use("/daraz", require("./routers/daraz"));
 // Routes for Leopards API
 app.use("/leopards", require("./routers/leopards"));
 
+// Routes for TCS API
+app.use("/tcs", require("./routers/tcs"));
+
+
 // Get user Info
 
 app.post("/user", async (req, res) => {
@@ -123,8 +127,8 @@ app.post("/add-shipper", async (req, res) => {
     where: { email: userEmail },
     include: { Courier: true },
   });
-  const userCouriers = user["Courier"];
-  console.log("userCouriers: ", userCouriers);
+  let userCouriers = user["Courier"];
+  userCouriers = userCouriers.filter((courier) => courier.name === "Leopards");
 
   // You can't assign a shipper to a shop that already has a shipper
   for (const shipper of userCouriers) {
@@ -226,6 +230,44 @@ app.post("/add-shipper", async (req, res) => {
   //     ...leopardsRes,
   //   },
   // });
+});
+
+// Delete Shipper
+
+app.delete("/delete-shipper/:id", async (req, res) => {
+  // Only deletes the shipper from database not from LEOPARDS PORATL !!
+  const { id } = req.params;
+  const shipperID = id;
+  const courierID = req.query.accountID;
+
+  const courier = await prisma.courier.findUnique({
+    where: { id: Number(courierID) },
+  });
+
+  const shippers = courier.shippers.filter(
+    (shipper) => shipper.id !== Number(shipperID)
+  );
+
+  // Update the courier with the new shippers
+
+  const updatedCourier = await prisma.courier.update({
+    where: { id: Number(courierID) },
+    data: {
+      shippers: shippers,
+    },
+  });
+
+  if (updatedCourier.shippers.length === 0) {
+    // Update it again
+    const updatedCourier2 = await prisma.courier.update({
+      where: { id: Number(courierID) },
+      data: {
+        shippers: "null",
+      },
+    });
+  }
+
+  res.status(200).json({ message: "Shipper deleted successfully" });
 });
 
 // app.get("/ok", async (req, res) => {
