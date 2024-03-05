@@ -89,13 +89,17 @@ router.post("/book", async (req, res) => {
   for (const shipper of userCourier) {
     leopardsShippers.push(shipper);
   }
-  console.log("leopardsShippers", leopardsShippers)
-  return 1;
-  
+  console.log("leopardsShippers", leopardsShippers);
 
   let booked = [];
 
   for (let order of orders) {
+    let shipment_id = "";
+    let shipment_name_eng = "";
+    let shipment_email = "";
+    let shipment_phone = "";
+    let shipment_address = "";
+
     booked.push({
       booked_packet_weight: 100,
       booked_packet_no_piece: 1,

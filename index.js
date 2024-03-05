@@ -121,6 +121,7 @@ app.post("/add-shipper", async (req, res) => {
     courierAccount,
   } = req.body;
 
+
   // get couriers by user_id
   const user = await prisma.user.findUnique({
     where: { email: userEmail },
@@ -733,8 +734,6 @@ const markOrdersFulfilled = async (orders) => {
 
   return 1;
 };
-
-
 
 app.get("/api/hello", (req, res) => {
   res.status(200).send({
