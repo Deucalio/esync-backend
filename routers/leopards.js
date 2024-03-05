@@ -99,6 +99,7 @@ router.post("/book", async (req, res) => {
     let shipment_email = "";
     let shipment_phone = "";
     let shipment_address = "";
+    let shipment_instructions = "";
 
     booked.push({
       booked_packet_weight: 100,
@@ -107,11 +108,11 @@ router.post("/book", async (req, res) => {
       booked_packet_order_id: order.name,
       origin_city: 475, // Hyderabad
       destination_city: Number(order.correct_city.id),
-      shipment_id: "875539",
-      shipment_name_eng: "Nakson",
-      shipment_email: "nakson.pk@gmail.com",
-      shipment_phone: "03481273957",
-      shipment_address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad",
+      shipment_id: shipment_id,
+      shipment_name_eng: shipment_name_eng,
+      shipment_email: shipment_email,
+      shipment_phone: shipment_phone,
+      shipment_address: shipment_address,
       consignment_name_eng:
         order.shipping_address.first_name +
         " " +
@@ -125,7 +126,7 @@ router.post("/book", async (req, res) => {
         order.shipping_address.address2 ? order.shipping_address.address2 : ""
       }`,
       // "asdasdasdasdasdasdasdasdasdasdasdasdasd",
-      special_instructions: "booked thorugh automated system of nakson",
+      special_instructions: shipment_instructions,
       shipment_type: "",
     });
   }

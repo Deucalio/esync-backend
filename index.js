@@ -121,6 +121,7 @@ app.post("/add-shipper", async (req, res) => {
     courierAccount,
   } = req.body;
 
+  const shipment_EMAIL = email;
 
   // get couriers by user_id
   const user = await prisma.user.findUnique({
@@ -159,6 +160,7 @@ app.post("/add-shipper", async (req, res) => {
   ) {
     return res.status(400).json({ errorMessage: "Incorrect field" });
   }
+  console.log("shipment_EMAIL: ", shipment_EMAIL);
   let leopardsRes = "";
   if (courierServices.includes("Leopards")) {
     try {
@@ -168,12 +170,13 @@ app.post("/add-shipper", async (req, res) => {
           api_key: apiKey,
           api_password: password,
           shipment_name: name,
-          shipment_email: email, // Optional Field (You can keep it empty)
           shipment_phone: phone,
           shipment_address: address,
           city_id: Number(city),
         }
       );
+      console.log("res!!!!!!!", leopardsRes.data);
+
       if (leopardsRes.data.message === "Shipper already exists.") {
         return res.status(409).json({ message: "Shipper already exists" });
       } else if (leopardsRes.data.status === 0) {
@@ -222,14 +225,6 @@ app.post("/add-shipper", async (req, res) => {
       return res.status(500).json({ errorMessage: "Internal Server Error" });
     }
   }
-
-  // Find the Courier by courierAccount
-  // const Courier = await prisma.courier.update({
-  //   where: { id: Number(courierAccount) },
-  //   data: {
-  //     ...leopardsRes,
-  //   },
-  // });
 });
 
 // Delete Shipper
