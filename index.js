@@ -92,7 +92,6 @@ app.use("/leopards", require("./routers/leopards"));
 // Routes for TCS API
 app.use("/tcs", require("./routers/tcs"));
 
-
 // Get user Info
 
 app.post("/user", async (req, res) => {
@@ -311,38 +310,41 @@ app.post("/orders", async (req, res) => {
           },
         });
       });
-    } else if (store.store_info.platform === "daraz") {
-      console.log("store: ", store);
-      const darazURL = await generateDarazURL(
-        "/orders/get",
-        // "/orders/items/get",
-        "get",
-        process.env.DARAZ_APP_KEY,
-        store.store_info.access_token,
-        {
-          limt: "30",
-          update_after: "2018-02-10T16:00:00+08:00",
-          status: "pending",
-          // order_ids: "[180683837008934, 140003114135239]",
-        }
-      );
-
-      const response = await axios.get(darazURL);
-      const darazOrders = response.data.data.orders;
-      darazOrders.forEach((order) => {
-        orders.push({
-          ...order,
-          store_info: {
-            platform: "daraz",
-            domain: null,
-            shopLogo: null,
-            name: store.name,
-          },
-        });
-      });
     }
+    // } else if (store.store_info.platform === "daraz") {
+    //   console.log("store: ", store);
+    //   const darazURL = await generateDarazURL(
+    //     "/orders/get",
+    //     // "/orders/items/get",
+    //     "get",
+    //     process.env.DARAZ_APP_KEY,
+    //     store.store_info.access_token,
+    //     {
+    //       limt: "30",
+    //       update_after: "2018-02-10T16:00:00+08:00",
+    //       status: "pending",
+    //       // order_ids: "[180683837008934, 140003114135239]",
+    //     }
+    //   );
+
+    //   const response = await axios.get(darazURL);
+    //   const darazOrders = response.data.data.orders;
+    //   darazOrders.forEach((order) => {
+    //     orders.push({
+    //       ...order,
+    //       store_info: {
+    //         platform: "daraz",
+    //         domain: null,
+    //         shopLogo: null,
+    //         name: store.name,
+    //       },
+    //     });
+    //   });
+    // }
   }
-  res.status(200).send(orders);
+  res
+    .status(200)
+    .send(orders.filter((order) => order.tags.includes("Call Confirmed")));
 });
 
 async function createOrder() {
@@ -732,136 +734,7 @@ const markOrdersFulfilled = async (orders) => {
   return 1;
 };
 
-app.post("/leopards/orders", async (req, res) => {
-  // const orders_one = await axios.get(
-  //   "https://momdaughts.myshopify.com/admin/api/2023-04/orders.json?status=open&financial_status=unpaid&fulfillment_status=unfulfilled&limit=100",
-  //   {
-  //     headers: {
-  //       "X-Shopify-Access-Token": "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",
-  //       "Content-Type": "application/json",
-  //     },
-  //   }
-  // );
 
-  // Start the timer
-  const start = new Date().getTime();
-
-  // // End the timer
-  // const end = new Date().getTime();
-  // const timeTaken = (end - start) / 1000;
-
-  const { email, orders: orders } = req.body;
-  if (!email || !orders) {
-    return res.status(400).json({ errorMessage: "Incorrect field" });
-  }
-  let booked = [];
-
-  console.log("orders received: ", orders.length, "\n");
-
-  for (let order of orders) {
-    booked.push({
-      booked_packet_weight: 100,
-      booked_packet_no_piece: 1,
-      booked_packet_collect_amount: Number(order.total_outstanding),
-      booked_packet_order_id: order.name,
-      origin_city: 475, // Hyderabad
-      destination_city: Number(order.correct_city.id),
-      shipment_id: "875539",
-      shipment_name_eng: "Nakson",
-      shipment_email: "nakson.pk@gmail.com",
-      shipment_phone: "03481273957",
-      shipment_address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad",
-      consignment_name_eng:
-        order.shipping_address.first_name +
-        " " +
-        order.shipping_address.last_name,
-      // "Abey yar"
-      consignment_phone: String(order.shipping_address.phone)
-        ? String(order.shipping_address.phone)
-        : "No Phone",
-      // "101010101",
-      consignment_address: `${order.shipping_address.address1} ${
-        order.shipping_address.address2 ? order.shipping_address.address2 : ""
-      }`,
-      // "asdasdasdasdasdasdasdasdasdasdasdasdasd",
-      special_instructions: "booked thorugh automated system of nakson",
-      shipment_type: "",
-    });
-  }
-  let data = JSON.stringify({
-    api_key: process.env.LEOPARDS_API_KEY,
-    api_password: process.env.LEOPARDS_API_PASSWORD,
-    packets: booked,
-  });
-
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: "http://new.leopardscod.com/webservice/batchBookPacket/format/json",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-  let booked_orders_details = [];
-  let response = "";
-  try {
-    // Send the request to Leopards API
-    response = await axios.request(config).then((response) => {
-      return response.data;
-    });
-
-    let tracking_numbers;
-
-    for (let i = 0; i < response.data.length; i++) {
-      tracking_numbers.push(response.data[i].track_number);
-
-      booked_orders_details.push({
-        shop_name: orders[i].store_info.name,
-        shop_logo: orders[i].store_info.shopLogo,
-        service_type: orders[i].service_type.toUpperCase(),
-        courier: "Leopards",
-        consignee_info: {
-          name: booked[i].consignment_name_eng,
-          address: booked[i].consignment_address.replace(/[\r\n]/gm, ""),
-          phone: booked[i].consignment_phone,
-        },
-        shipper_info: {
-          name: "Nakson",
-          address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
-          phone: "03481273957",
-        },
-        destination: orders[i].correct_city,
-        shipping_instructions: "Call the consignee before delivery",
-        date: new Date().toLocaleString().split(",")[0],
-        pieces: booked[i].booked_packet_no_piece,
-        weight: booked[i].booked_packet_weight,
-        amount: booked[i].booked_packet_collect_amount,
-        track_number: response.data[i].track_number,
-        booked_packet_order_name: response.data[i].booked_packet_order_id,
-        collectType:
-          booked[i].booked_packet_collect_amount === 0
-            ? "Non-COD Parcel"
-            : "COD Parcel",
-      });
-    }
-    // const status = await fulfillShopifyOrders(saved_data);
-    // console.log("status: ", status);
-    console.log("Booked Orders CN#");
-    for (let cn of tracking_numbers) {
-      console.log(`${cn}, `);
-    }
-
-    console.log("booked_orders_details: ", booked_orders_details, "\n");
-  } catch (err) {
-    console.log("Error: ", err);
-  }
-
-  res.status(200).send({
-    message: "Orders have been Booked",
-    booked_orders: booked_orders_details,
-  });
-});
 
 app.get("/api/hello", (req, res) => {
   res.status(200).send({
