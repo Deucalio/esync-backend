@@ -154,10 +154,10 @@ router.get("/get-stores", async (req, res) => {
 
 // DELETE A STORE
 router.delete("/delete-store/:id", async (req, res) => {
-  const storeName = req.params.id;
+  const id = req.params.id;
   const storeExists = await prisma.store.findUnique({
     where: {
-      name: storeName,
+      id: Number(id),
     },
   });
   if (!storeExists) {
@@ -178,7 +178,7 @@ router.delete("/delete-store/:id", async (req, res) => {
   // Delete the store
   const store = await prisma.store.delete({
     where: {
-      name: storeName,
+      id: Number(id),
     },
   });
 

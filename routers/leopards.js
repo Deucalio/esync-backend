@@ -66,7 +66,6 @@ router.post("/get-accounts", async (req, res) => {
 
   res.status(200).json({ accounts: user.Courier });
 });
-
 router.post("/book", async (req, res) => {
   // Start the timer
   const start = new Date().getTime();
@@ -79,6 +78,15 @@ router.post("/book", async (req, res) => {
     return res.status(400).json({ errorMessage: "Incorrect field" });
   }
 
+  let shipment_id = "";
+  let shipment_name_eng = "";
+  let shipment_email = "";
+  let shipment_phone = "";
+  let shipment_address = "";
+  let shipment_instructions = "";
+  let api_key = "";
+  let api_password = "";
+
   const user = await prisma.user.findUnique({
     where: { email: email },
     include: { stores: true, Courier: true },
@@ -89,17 +97,46 @@ router.post("/book", async (req, res) => {
   for (const shipper of userCourier) {
     leopardsShippers.push(shipper);
   }
-  console.log("leopardsShippers", leopardsShippers);
+
+  // [
+  //   {
+  //     id: 29,
+  //     name: 'Leopards',
+  //     data: {
+  //       apiKey: '62D7FB483A67A8C054EC9B60F401E1A2',
+  //       password: 'MOMDAUGHTS2023'
+  //     },
+  //     shippers: [ [Object] ],
+  //     user_id: 5
+  //   },
+  //   {
+  //     id: 28,
+  //     name: 'Leopards',
+  //     data: {
+  //       apiKey: '6DFC06F1D192CEEF68AAD4774EFF7648',
+  //       password: 'SUBHAN06'
+  //     },
+  //     shippers: [ [Object] ],
+  //     user_id: 5
+  //   }
+  // ]
 
   let booked = [];
+  let booked_orders_details = [];
 
-  for (let order of orders) {
-    let shipment_id = "";
-    let shipment_name_eng = "";
-    let shipment_email = "";
-    let shipment_phone = "";
-    let shipment_address = "";
-    let shipment_instructions = "";
+  for (let i = 0; i < orders.length; i++) {
+    const order = orders[i];
+
+    if (order.store_info.name === "Momdaughts") {
+      shipment_id = 1578583;
+      shipment_name_eng = "MOMDAUGHTS";
+      shipment_email = "";
+      shipment_phone = "03320003362";
+      shipment_address = "#30-B block E unit#6 Latifabad Hyderabad";
+      shipment_instructions = "Parcel from Momdaughts";
+      api_key = "62D7FB483A67A8C054EC9B60F401E1A2";
+      api_password = "MOMDAUGHTS2023";
+    }
 
     booked.push({
       booked_packet_weight: 100,
@@ -131,8 +168,8 @@ router.post("/book", async (req, res) => {
     });
   }
   let data = JSON.stringify({
-    api_key: process.env.LEOPARDS_API_KEY,
-    api_password: process.env.LEOPARDS_API_PASSWORD,
+    api_key: api_key,
+    api_password: api_password,
     packets: booked,
   });
 
@@ -145,7 +182,6 @@ router.post("/book", async (req, res) => {
     },
     data: data,
   };
-  let booked_orders_details = [];
   let response = "";
   try {
     // Send the request to Leopards API
@@ -153,11 +189,12 @@ router.post("/book", async (req, res) => {
       return response.data;
     });
 
-    let tracking_numbers;
+    let tracking_numbers = [];
 
     for (let i = 0; i < response.data.length; i++) {
       tracking_numbers.push(response.data[i].track_number);
 
+      // For Slip
       booked_orders_details.push({
         shop_name: orders[i].store_info.name,
         shop_logo: orders[i].store_info.shopLogo,
@@ -169,9 +206,9 @@ router.post("/book", async (req, res) => {
           phone: booked[i].consignment_phone,
         },
         shipper_info: {
-          name: "Nakson",
-          address: "172-D Nakson Office, Unit# 5 Latifabad, Hyderabad.",
-          phone: "03481273957",
+          name: shipment_name_eng,
+          address: shipment_address,
+          phone: shipment_phone,
         },
         destination: orders[i].correct_city,
         shipping_instructions: "Call the consignee before delivery",
@@ -189,11 +226,7 @@ router.post("/book", async (req, res) => {
     }
     // const status = await fulfillShopifyOrders(saved_data);
     // console.log("status: ", status);
-    console.log("Booked Orders CN#");
-    for (let cn of tracking_numbers) {
-      console.log(`${cn}, `);
-    }
-
+    console.log("Booked Orders CN#", tracking_numbers);
     console.log("booked_orders_details: ", booked_orders_details, "\n");
   } catch (err) {
     console.log("Error: ", err);
