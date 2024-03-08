@@ -91,6 +91,7 @@ router.post("/save-store", async (req, res) => {
       },
     });
 
+    
     const store = await prisma.store.create({
       data: {
         user_id: user.id, // Specify the userId for the associated user

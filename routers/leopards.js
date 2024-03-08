@@ -78,74 +78,61 @@ router.post("/book", async (req, res) => {
     return res.status(400).json({ errorMessage: "Incorrect field" });
   }
 
-  let shipment_id = "";
-  let shipment_name_eng = "";
-  let shipment_email = "";
-  let shipment_phone = "";
-  let shipment_address = "";
-  let shipment_instructions = "";
-  let api_key = "";
-  let api_password = "";
+  // let api_key = "";
+  // let api_password = "";
 
   const user = await prisma.user.findUnique({
     where: { email: email },
     include: { stores: true, Courier: true },
   });
-  const leopardsShippers = [];
 
   const userCourier = user.Courier.filter((acc) => acc.name === "Leopards");
-  for (const shipper of userCourier) {
-    leopardsShippers.push(shipper);
+
+  const userStores = user.stores;
+  const shopifyStores = userStores.filter(
+    (store) => store.store_info.platform === "shopify"
+  );
+
+  let booked = {
+    // Store Orders and their courierID
+    // store_1: {orders: [], courierID: 1, shipperInfo: {}, shopLogo: "url"   },
+    // store_2: {orders: [], courierID: 2, shipperInfo :{}, shopLogo: "url"   },
+  };
+  for (const store of shopifyStores) {
+    if (store.store_info.courier_id) {
+      booked[store.name] = {
+        orders: [],
+        courierID: store.store_info.courier_id.id,
+        shipperInfo: userCourier
+          .find((courier) => courier.id === store.store_info.courier_id.id)
+          .shippers.find((shipper) => shipper.shop === store.name),
+        shopLogo: store.image_url,
+      };
+    }
   }
 
-  // [
-  //   {
-  //     id: 29,
-  //     name: 'Leopards',
-  //     data: {
-  //       apiKey: '62D7FB483A67A8C054EC9B60F401E1A2',
-  //       password: 'MOMDAUGHTS2023'
-  //     },
-  //     shippers: [ [Object] ],
-  //     user_id: 5
-  //   },
-  //   {
-  //     id: 28,
-  //     name: 'Leopards',
-  //     data: {
-  //       apiKey: '6DFC06F1D192CEEF68AAD4774EFF7648',
-  //       password: 'SUBHAN06'
-  //     },
-  //     shippers: [ [Object] ],
-  //     user_id: 5
-  //   }
-  // ]
-
-  let booked = [];
   let booked_orders_details = [];
-
   for (let i = 0; i < orders.length; i++) {
+    let {
+      shipment_id,
+      shipment_name: shipment_name_eng,
+      shipment_email,
+      shipment_phone,
+      shipment_address,
+    } = booked[orders[i].store_info.name].shipperInfo.response;
+
+    let shipment_instructions =
+      booked[orders[i].store_info.name].shipperInfo.specialInstructions;
+
     const order = orders[i];
-
-    if (order.store_info.name === "Momdaughts") {
-      shipment_id = 1578583;
-      shipment_name_eng = "MOMDAUGHTS";
-      shipment_email = "";
-      shipment_phone = "03320003362";
-      shipment_address = "#30-B block E unit#6 Latifabad Hyderabad";
-      shipment_instructions = "Parcel from Momdaughts";
-      api_key = "62D7FB483A67A8C054EC9B60F401E1A2";
-      api_password = "MOMDAUGHTS2023";
-    }
-
-    booked.push({
+    let bookedOrder = {
       booked_packet_weight: 100,
       booked_packet_no_piece: 1,
       booked_packet_collect_amount: Number(order.total_outstanding),
       booked_packet_order_id: order.name,
       origin_city: 475, // Hyderabad
       destination_city: Number(order.correct_city.id),
-      shipment_id: shipment_id,
+      shipment_id: String(shipment_id),
       shipment_name_eng: shipment_name_eng,
       shipment_email: shipment_email,
       shipment_phone: shipment_phone,
@@ -154,82 +141,96 @@ router.post("/book", async (req, res) => {
         order.shipping_address.first_name +
         " " +
         order.shipping_address.last_name,
-      // "Abey yar"
       consignment_phone: String(order.shipping_address.phone)
         ? String(order.shipping_address.phone)
         : "No Phone",
-      // "101010101",
       consignment_address: `${order.shipping_address.address1} ${
         order.shipping_address.address2 ? order.shipping_address.address2 : ""
       }`,
-      // "asdasdasdasdasdasdasdasdasdasdasdasdasd",
       special_instructions: shipment_instructions,
-      shipment_type: "",
-    });
+      shipment_type: order.service_type,
+    };
+    booked[order.store_info.name]["orders"].push(bookedOrder);
   }
-  let data = JSON.stringify({
-    api_key: api_key,
-    api_password: api_password,
-    packets: booked,
-  });
+  console.log("booked: ", booked);
 
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: "http://new.leopardscod.com/webservice/batchBookPacket/format/json",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-  let response = "";
-  try {
-    // Send the request to Leopards API
-    response = await axios.request(config).then((response) => {
-      return response.data;
-    });
-
-    let tracking_numbers = [];
-
-    for (let i = 0; i < response.data.length; i++) {
-      tracking_numbers.push(response.data[i].track_number);
-
-      // For Slip
-      booked_orders_details.push({
-        shop_name: orders[i].store_info.name,
-        shop_logo: orders[i].store_info.shopLogo,
-        service_type: orders[i].service_type.toUpperCase(),
-        courier: "Leopards",
-        consignee_info: {
-          name: booked[i].consignment_name_eng,
-          address: booked[i].consignment_address.replace(/[\r\n]/gm, ""),
-          phone: booked[i].consignment_phone,
-        },
-        shipper_info: {
-          name: shipment_name_eng,
-          address: shipment_address,
-          phone: shipment_phone,
-        },
-        destination: orders[i].correct_city,
-        shipping_instructions: "Call the consignee before delivery",
-        date: new Date().toLocaleString().split(",")[0],
-        pieces: booked[i].booked_packet_no_piece,
-        weight: booked[i].booked_packet_weight,
-        amount: booked[i].booked_packet_collect_amount,
-        track_number: response.data[i].track_number,
-        booked_packet_order_name: response.data[i].booked_packet_order_id,
-        collectType:
-          booked[i].booked_packet_collect_amount === 0
-            ? "Non-COD Parcel"
-            : "COD Parcel",
-      });
+  // Book orders for every store
+  let counter = 0;
+  for (const store in booked) {
+    if (booked[store].orders.length === 0 || !booked[store].courierID) {
+      console.log("Can't Book Orders for ", store, booked);
+      continue;
     }
-    // const status = await fulfillShopifyOrders(saved_data);
-    // console.log("status: ", status);
-    console.log("Booked Orders CN#", tracking_numbers);
-    console.log("booked_orders_details: ", booked_orders_details, "\n");
-  } catch (err) {
-    console.log("Error: ", err);
+    const api_key = userCourier.find(
+      (courier) => courier.id === booked[store].courierID
+    ).data.apiKey;
+    const api_password = userCourier.find(
+      (courier) => courier.id === booked[store].courierID
+    ).data.password;
+
+    let data = JSON.stringify({
+      api_key: api_key,
+      api_password: api_password,
+      packets: booked[store].orders,
+    });
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      // url: "http://new.leopardscod.com/webservice/batchBookPacket/format/json",
+      url: "https://merchantapi.leopardscourier.com/api/batchBookPacket/format/json/",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    let response = "";
+    try {
+      // Send the request to Leopards API
+      response = await axios.request(config).then((response) => {
+        return response.data;
+      });
+
+      let tracking_numbers = [];
+
+      for (let i = 0; i < response.data.length; i++) {
+        tracking_numbers.push(response.data[i].track_number);
+        const currentOrder = booked[store]["orders"][i];
+
+        // For Slip
+        booked_orders_details.push({
+          shop_name: store,
+          shop_logo: booked[store].shopLogo,
+          service_type: currentOrder.shipment_type.toUpperCase(),
+          courier: "Leopards",
+          consignee_info: {
+            name: currentOrder.consignment_name_eng,
+            address: currentOrder.consignment_address.replace(/[\r\n]/gm, ""),
+            phone: currentOrder.consignment_phone,
+          },
+          shipper_info: {
+            name: booked[store].shipperInfo.response.shipment_name,
+            address: booked[store].shipperInfo.response.shipment_address,
+            phone: booked[store].shipperInfo.response.shipment_phone,
+          },
+          destination: orders[counter].correct_city,
+          shipping_instructions: "Call the consignee before delivery",
+          date: new Date().toLocaleString().split(",")[0],
+          pieces: currentOrder.booked_packet_no_piece,
+          weight: currentOrder.booked_packet_weight,
+          amount: currentOrder.booked_packet_collect_amount,
+          track_number: response.data[i].track_number,
+          booked_packet_order_name: response.data[i].booked_packet_order_id,
+          collectType:
+            currentOrder.booked_packet_collect_amount === 0
+              ? "Non-COD Parcel"
+              : "COD Parcel",
+        });
+        counter += 1;
+      }
+      console.log(`Booked Orders CN# for ${store}`, tracking_numbers);
+    } catch (err) {
+      console.log("Error: ", err);
+    }
   }
 
   res.status(200).send({
