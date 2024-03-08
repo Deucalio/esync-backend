@@ -435,7 +435,6 @@ async function createOrder() {
 
     const config = {
       headers: {
-        "X-Shopify-Access-Token": "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",
         "Content-Type": "application/json",
       },
     };
