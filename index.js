@@ -286,49 +286,34 @@ app.delete("/delete-shipper/:id", async (req, res) => {
 
 //   res.status(200).send(user);
 // });
-
-let lastRequestTime = 0;
-const debounceInterval = 60000; // 1 minute in milliseconds
-
-async function sendPostRequest(data, config) {
-  const currentTime = Date.now();
-
-  // Check if the time since the last request is less than the debounce interval
-  if (currentTime - lastRequestTime < debounceInterval) {
-    console.log("Exceeded rate limit. Retrying in 3 seconds...");
-    await sleep(6000); // Wait for 15 seconds before retrying
-  }
-
-  try {
-    // Make the API request
-    const response = await axios.post(
-      "https://quickstart-65d173cf.myshopify.com/admin/api/2024-01/orders.json",
-      data,
-      config
-    );
-
-    // Update the last request time
-    lastRequestTime = currentTime;
-
-    // Handle response
-    console.log("Response:", response.data.order.name);
-  } catch (error) {
-    console.error("Error:", error.message);
-
-    // Retry after 3 seconds if the error is due to rate limiting
-    if (error.response && error.response.status === 429) {
-      console.log("Retrying in 10 seconds...");
-      await sleep(6000); // Wait for 6 seconds
-      await sendPostRequest(data, config); // Retry the request
+async function sendPostRequests(data, config) {
+  for (let i = 1; i < 11; i++) {
+    try {
+      const response = await axios.post(
+        "https://quickstart-65d173cf.myshopify.com/admin/api/2024-01/orders.json",
+        data,
+        config
+      );
+      // console.log(
+      //   `Request ${i + 1} successful. Status code: ${response.status}`
+      // );
+      console.log(`Order Created: ${i} `, response.data.order.name);
+      // console.log("Hello")
+      if (i % 4 === 0) {
+        // Wait for a minute before sending the next request
+        await sleep(60000);
+      }
+    } catch (error) {
+      console.error(`Request ${i + 1} failed:`, error);
     }
   }
+  // await new Promise((resolve) => setTimeout(resolve, 60000)); // wait for a minute
 }
 
 // Helper function to pause execution for a specified duration
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
 // Get all Orders from all the store user has connected
 app.post("/orders", async (req, res) => {
   const { email } = req.body;
@@ -347,7 +332,6 @@ app.post("/orders", async (req, res) => {
   }
 
   const orders = [];
-
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
@@ -407,7 +391,6 @@ app.post("/orders", async (req, res) => {
     .status(200)
     .send(orders.filter((order) => order.tags.includes("Call Confirmed")));
 });
-
 async function createOrder() {
   try {
     const data = {
@@ -435,80 +418,33 @@ async function createOrder() {
 
     const config = {
       headers: {
+        "X-Shopify-Access-Token": "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",
         "Content-Type": "application/json",
       },
     };
-
-    sendPostRequest(data, config);
+    sendPostRequests(data, config).then((res) => {
+      console.log("res: ", res);
+    });
   } catch (error) {
     console.error(error);
   }
 }
-app.get("/test", async (req, res) => {
-  // Send post request to shopify with headers X-Shopify-Access-Token and orders data
+async function makeApiCalls() {
   for (let i = 0; i < 10; i++) {
     await createOrder();
   }
-  return 1;
-  const { accessToken, shop, email } = req.body;
-  try {
-    const store = await prisma.store.create({
-      data: {
-        user_id: 5, // Specify the userId for the associated user
-        name: "Momdaughts",
-        image_url:
-          "https://momdaughts.com/cdn/shop/files/shapater_logo.png?v=1666980932&width=500",
-        image_public_id: "none",
-        store_info: { platform: "shopify", accessToken, shop },
-      },
-    });
+}
 
-    // const user = await prisma.user.findMany({});
-
-    // Get user with stores
-    const user = await prisma.user.findUnique({
-      where: { email: email },
-      include: { stores: true },
-    });
-    console.log("user: ", user);
-    return res.status(200).json({ user });
-  } catch (error) {
-    console.error("Error inserting sample data:", error);
-  }
-  return 1;
-
-  const FONT_URL =
-    // "https://cdn.jsdelivr.net/fontsource/fonts/inter:vf@latest/latin-wght-normal.woff2";
-    "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap";
-
-  const fontBytes = fs.readFileSync(
-    // path.join(__dirname, "../backened/fonts/Impact.ttf")
-    "./public/fonts/Impact.ttf"
-  );
-
-  readFontFileFromUrl(FONT_URL)
-    .then((fontData) => {
-      console.log("TimesRoman", StandardFonts.TimesRoman);
-      console.log("Impact", fontBytes);
-      console.log("Open Sans: ", fontData);
-
-      console.log("Font file read successfully.");
-      // Use the font data as needed
-    })
-    .catch((error) => {
-      console.error("Error reading font file:", error);
-    });
-  // Add Depsea Life Sciences
-
-  return res.status(200).send("hello");
-
-  res.status(200).json({ message: "User has been inserted" });
+app.get("/test", async (req, res) => {
+  // Send post request to shopify with headers X-Shopify-Access-Token and orders data
+  // Call the async function
+  await createOrder();
+  res.status(200).json({ message: "orders created" });
 });
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
-
 app.get("/create-barcode-stockchecklist/:id", async (req, res) => {
   const orderTrackNumber = req.params.id;
 
@@ -729,6 +665,8 @@ async function makeRequestWithRateLimit(url, config) {
 
 // _____________________
 const markOrdersFulfilled = async (orders) => {
+  // orders = [   {id: 1, cnNo: "123", courierService: "Leopards",  }, {id: 2, cnNo: "456", courierService: "Leopards" }   ]
+
   let Counter = 1;
   // for (const ord of orders) {
   orders.forEach(async (ord) => {

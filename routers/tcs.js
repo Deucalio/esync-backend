@@ -45,9 +45,6 @@ router.post("/get-accounts", async (req, res) => {
 router.post("/add-cost-center", async (req, res) => {
   const {
     userEmail,
-    userName,
-    password,
-    accountNo,
     // Shipper Info
     name,
     email,
@@ -55,27 +52,27 @@ router.post("/add-cost-center", async (req, res) => {
     city,
     address,
     specialInstructions,
-    shop,
+    shopID,
     courierServices,
     courierAccount,
   } = req.body;
 
   const user = await prisma.user.findUnique({
     where: {
-      email: email,
+      email: userEmail,
+    },
+    include: {
+      Courier: true,
+      stores: true,
     },
   });
   const user_id = user.id;
+  const shop = user.stores.find((shop) => shop.id === Number(shopID)).name;
 
   const costCenterCode = "0" + String(Math.floor(Math.random() * 100));
 
-  const TCSCouriers = await prisma.courier.findMany({
-    where: {
-      user_id: user_id,
-    },
-  });
-
-  const userCouriers = TCSCouriers.find((courier) => courier.name === "TCS");
+  const userCouriers = user.Courier.filter((courier) => courier.name === "TCS");
+  console.log("userCourier", userCouriers);
 
   // You can't assign a shipper to a shop that already has a shipper
   for (const shipper of userCouriers) {
@@ -84,29 +81,54 @@ router.post("/add-cost-center", async (req, res) => {
         (ship) => ship.shop === shop
       );
       if (alreadyAssignedShop) {
-        return res.status(409).json({ message: "Shop already has a shipper" });
+        return res
+          .status(409)
+          .json({ message: "Shop already has a Cost Center" });
       }
     }
   }
+  const shipper = userCouriers.find(
+    (courier) => courier.id === Number(courierAccount)
+  );
+  console.log("shipper: ", shipper);
+  const {
+    userName,
+    password,
+    accountNumber: accountNo,
+  } = userCouriers.find(
+    (courier) => courier.id === Number(courierAccount)
+  ).data;
+
   const costCenterParams = {
     userName: userName,
     password: password,
     costCenterCityName: city,
     costCenterCode: costCenterCode,
-    costCenterName: shop + "Cost Center",
+    costCenterName: shop + " Cost Center",
     pickupAddress: address,
     returnAddress: address,
-    isLabelPrint: "No",
+    isLabelPrint: "Yes",
     accountNo: accountNo,
     contactNumber: phone,
   };
 
-  const tcsRes = await axios.post(
-    "https://api.tcscourier.com/production/v1/cod/createCostCenterCode",
-    costCenterParams
-  );
-  console.log("tcsRes: ", tcsRes);
-
+  console.log("costCenterParams: ", costCenterParams);
+  let tcsRes = "";
+  try {
+    tcsRes = await axios.post(
+      "https://api.tcscourier.com/production/v1/cod/createCostCenterCode",
+      costCenterParams,
+      {
+        headers: {
+          "X-IBM-Client-Id": process.env.TCS_CLIENTID,
+        },
+      }
+    );
+    console.log("TCS Response: ", tcsRes.data);
+  } catch (e) {
+    console.log("ERROR: ", e);
+    return res.status(400).json({ message: "Could not send Request" });
+  }
   if (tcsRes.data.returnStatus.status === "SUCCESS") {
     if (shipper.shippers === "null") {
       uodateCourier = await prisma.courier.update({
@@ -142,6 +164,10 @@ router.post("/add-cost-center", async (req, res) => {
         },
       });
     }
+
+    res.status(200).json({ message: "Cost Center added successfully" });
+  } else {
+    res.status(400).json({ message: "Cost Center Could not be Added" });
   }
 });
 
