@@ -154,7 +154,6 @@ router.post("/book", async (req, res) => {
     };
     booked[order.store_info.name]["orders"].push(bookedOrder);
   }
-  console.log("booked: ", booked);
   const fulfillOrdersData = [];
 
   // Book orders for every store
