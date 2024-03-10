@@ -247,7 +247,7 @@ router.post("/book", async (req, res) => {
     }
   }
 
-  // Send request to Shopify to fulfill the orders
+  // // Send request to Shopify to fulfill the orders
   fulfillOrders(fulfillOrdersData).then((res) => {
     console.log("All requests sent");
   });
@@ -255,6 +255,7 @@ router.post("/book", async (req, res) => {
   res.status(200).send({
     message: "Orders have been Booked",
     booked_orders: booked_orders_details,
+    fulfillOrdersData: fulfillOrdersData
   });
 });
 

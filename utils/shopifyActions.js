@@ -3,7 +3,8 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 async function fulfillOrders(ordersData) {
-  const fullfilledOrders = [];
+  const fullfilledOrders = [[]];
+  console.log("ordersData: ", ordersData);
   // [  {id, name, domain, access_token, trackingNo}  ]
   counter = 1;
   for (const order of ordersData) {
