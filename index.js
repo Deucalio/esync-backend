@@ -353,7 +353,7 @@ app.post("/orders", async (req, res) => {
             domain: store.store_info.shop,
             shopLogo: store.image_url,
             name: store.name,
-            courierID: store.store_info?.courier_id?.id || null,
+            // courierID: store.store_info?.courier_id?.id || null,
           },
         });
       });

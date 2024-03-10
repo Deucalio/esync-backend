@@ -172,6 +172,61 @@ router.post("/add-cost-center", async (req, res) => {
   }
 });
 
+async function createOrders() {
+  const cn = [];
+  const headers = {
+    "X-IBM-Client-Id": process.env.TCS_CLIENTID,
+  };
+  const start = new Date();
+  for (let i = 0; i < 5; i++) {
+    let data = {
+      userName: "nakson",
+      password: "Subhan06@",
+      costCenterCode: "01",
+      consigneeName: `sad ${i + 1}`,
+      consigneeAddress: "sad",
+      consigneeMobNo: "sad",
+      consigneeEmail: "sad@gmail.com",
+      originCityName: "HYDERABAD",
+      destinationCityName: "HYDERABAD",
+      weight: 1,
+      pieces: 1,
+      codAmount: "133",
+      // "customerReferenceNo": "13",
+      services: "O", //Express
+      productDetails: "sd",
+      fragile: "YES",
+      remarks: "sad",
+      insuranceValue: 1,
+    };
+
+    // Send request to TCS API to book the order
+    try {
+      let res = await axios.post(
+        "https://api.tcscourier.com/production/v1/cod/create-order",
+        data,
+        { headers: headers }
+      );
+      let result = res.data.bookingReply.result;
+      cn.push(result.slice(result.indexOf(":") + 2));
+    } catch (e) {
+      console.log("Could not Book Order: ", e);
+    }
+  }
+  const end = new Date();
+  const timeTaken = (end - start) / 1000;
+
+  console.log("Time Taken: ", timeTaken);
+  console.log(cn);
+}
+
+router.post("/test", async (req, res) => {
+  createOrders().then((res) => {
+    console.log("DONE");
+  });
+  res.status(200).json({ message: "Orders are being booked" });
+});
+
 router.delete("/delete-account/:id", async (req, res) => {
   const id = req.params.id;
   const courier = await prisma.courier.delete({
