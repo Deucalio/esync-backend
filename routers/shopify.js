@@ -4,7 +4,18 @@ const cloudinary = require("cloudinary");
 const prisma = new PrismaClient();
 const axios = require("axios");
 const dummy = require("./dummy");
-// Get all Shopify Orders
+const { fulfillOrders } = require("../utils/shopifyActions");
+
+// sed
+// Fulfill Orders
+router.post("/fulfill-orders", async (req, res) => {
+  fulfillOrders(req.body.ordersData).then((res) => {
+    console.log("All requests sent");
+  });
+  res.status(200).json({ message: "Orders Are being Fulfilled" });
+});
+// ___________
+
 router.post("/orders", async (req, res) => {
   // Get the Email
   const { email } = req.body;
@@ -53,7 +64,8 @@ router.post("/orders", async (req, res) => {
   }
   res.status(200).send(orders);
 });
-// ___________
+
+// ___________-
 
 // Add a Store in esync/settings
 
@@ -91,7 +103,6 @@ router.post("/save-store", async (req, res) => {
       },
     });
 
-    
     const store = await prisma.store.create({
       data: {
         user_id: user.id, // Specify the userId for the associated user

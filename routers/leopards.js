@@ -2,6 +2,7 @@ const router = require("express").Router();
 const axios = require("axios");
 const { PrismaClient } = require("../generated/client"); // Adjust the path based on your project structure
 const prisma = new PrismaClient();
+const { fulfillOrders } = require("../utils/shopifyActions");
 
 router.post("/add-account", async (req, res) => {
   const { email, apiKey, password } = req.body;
@@ -95,8 +96,8 @@ router.post("/book", async (req, res) => {
 
   let booked = {
     // Store Orders and their courierID
-    // store_1: {orders: [], courierID: 1, shipperInfo: {}, shopLogo: "url"   },
-    // store_2: {orders: [], courierID: 2, shipperInfo :{}, shopLogo: "url"   },
+    // store_1: {orders: [], courierID: 1, shipperInfo: {}, shopLogo: "url", accessToken, domain   },
+    // store_2: {orders: [], courierID: 2, shipperInfo :{}, shopLogo: "url"  accessToken, domain },
   };
   for (const store of shopifyStores) {
     if (store.store_info.courier_id) {
@@ -107,6 +108,8 @@ router.post("/book", async (req, res) => {
           .find((courier) => courier.id === store.store_info.courier_id.id)
           .shippers.find((shipper) => shipper.shop === store.name),
         shopLogo: store.image_url,
+        accessToken: store.store_info.accessToken,
+        domain: store.store_info.shop,
       };
     }
   }
@@ -153,12 +156,12 @@ router.post("/book", async (req, res) => {
     booked[order.store_info.name]["orders"].push(bookedOrder);
   }
   console.log("booked: ", booked);
+  const fulfillOrdersData = [];
 
   // Book orders for every store
   let counter = 0;
   for (const store in booked) {
     if (booked[store].orders.length === 0 || !booked[store].courierID) {
-      console.log("Can't Book Orders for ", store, booked);
       continue;
     }
     const api_key = userCourier.find(
@@ -193,6 +196,14 @@ router.post("/book", async (req, res) => {
       let tracking_numbers = [];
 
       for (let i = 0; i < response.data.length; i++) {
+        fulfillOrdersData.push({
+          id: String(orders[counter].id),
+          name: orders[counter].name,
+          domain: orders[counter].store_info.domain,
+          access_token: booked[orders[counter].store_info.name].accessToken,
+          trackingNo: response.data[i].track_number,
+        });
+
         tracking_numbers.push(response.data[i].track_number);
         const currentOrder = booked[store]["orders"][i];
 
@@ -227,11 +238,19 @@ router.post("/book", async (req, res) => {
         });
         counter += 1;
       }
-      console.log(`Booked Orders CN# for ${store}`, tracking_numbers);
+      console.log(
+        `Booked Orders CN# for ${store}`,
+        tracking_numbers.join(", ")
+      );
     } catch (err) {
       console.log("Error: ", err);
     }
   }
+
+  // Send request to Shopify to fulfill the orders
+  fulfillOrders(fulfillOrdersData).then((res) => {
+    console.log("All requests sent");
+  });
 
   res.status(200).send({
     message: "Orders have been Booked",
