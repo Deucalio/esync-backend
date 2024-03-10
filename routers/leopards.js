@@ -147,9 +147,8 @@ router.post("/book", async (req, res) => {
       consignment_phone: String(order.shipping_address.phone)
         ? String(order.shipping_address.phone)
         : "No Phone",
-      consignment_address: `${order.shipping_address.address1} ${
-        order.shipping_address.address2 ? order.shipping_address.address2 : ""
-      }`,
+      consignment_address: `${order.shipping_address.address1} ${order.shipping_address.address2 ? order.shipping_address.address2 : ""
+        }`,
       special_instructions: shipment_instructions,
       shipment_type: order.service_type,
     };
@@ -246,7 +245,6 @@ router.post("/book", async (req, res) => {
       console.log("Error: ", err);
     }
   }
-
   // // Send request to Shopify to fulfill the orders
   fulfillOrders(fulfillOrdersData).then((res) => {
     console.log("All requests sent");
@@ -255,7 +253,7 @@ router.post("/book", async (req, res) => {
   res.status(200).send({
     message: "Orders have been Booked",
     booked_orders: booked_orders_details,
-    fulfillOrdersData: fulfillOrdersData
+    fulfillOrdersData: fulfillOrdersData,
   });
 });
 
