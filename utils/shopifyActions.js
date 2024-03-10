@@ -30,6 +30,7 @@ async function fulfillOrders(ordersData) {
             ],
             tracking_info: {
               number: order.trackingNo,
+              url: "https://www.leopardscourier.com/tracking",
             },
           },
         };
@@ -41,7 +42,9 @@ async function fulfillOrders(ordersData) {
         //   e.response.data.errors.join(", ")
         // );
         if (e.response.data.errors.join(", ").includes("status= closed")) {
-          fullfilledOrders[counter].push(`Order ${fulfillment_order_id} Already Fulfilled`);
+          fullfilledOrders[counter].push(
+            `Order ${fulfillment_order_id} Already Fulfilled`
+          );
         }
       }
 
