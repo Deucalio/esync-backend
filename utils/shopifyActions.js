@@ -4,7 +4,6 @@ function sleep(ms) {
 }
 async function fulfillOrders(ordersData) {
   const fullfilledOrders = [[]];
-  console.log("ordersData: ", ordersData);
   // [  {id, name, domain, access_token, trackingNo}  ]
   counter = 1;
   for (const order of ordersData) {
