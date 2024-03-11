@@ -224,7 +224,7 @@ app.post("/add-shipper", async (req, res) => {
           data: {
             store_info: {
               ...store.store_info,
-              courier_id: { id: Number(courierAccount) },
+              courier_id: { ...store.store_info.courier_id, "Leopards": Number(courierAccount) },
             },
           },
         });

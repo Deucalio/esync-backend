@@ -103,9 +103,11 @@ router.post("/book", async (req, res) => {
     if (store.store_info.courier_id) {
       booked[store.name] = {
         orders: [],
-        courierID: store.store_info.courier_id.id,
+        courierID: store.store_info.courier_id.Leopards,
         shipperInfo: userCourier
-          .find((courier) => courier.id === store.store_info.courier_id.id)
+          .find(
+            (courier) => courier.id === store.store_info.courier_id.Leopards
+          )
           .shippers.find((shipper) => shipper.shop === store.name),
         shopLogo: store.image_url,
         accessToken: store.store_info.accessToken,
@@ -147,8 +149,9 @@ router.post("/book", async (req, res) => {
       consignment_phone: String(order.shipping_address.phone)
         ? String(order.shipping_address.phone)
         : "No Phone",
-      consignment_address: `${order.shipping_address.address1} ${order.shipping_address.address2 ? order.shipping_address.address2 : ""
-        }`,
+      consignment_address: `${order.shipping_address.address1} ${
+        order.shipping_address.address2 ? order.shipping_address.address2 : ""
+      }`,
       special_instructions: shipment_instructions,
       shipment_type: order.service_type,
     };
