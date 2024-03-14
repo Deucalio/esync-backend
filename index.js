@@ -92,6 +92,11 @@ app.use("/leopards", require("./routers/leopards"));
 // Routes for TCS API
 app.use("/tcs", require("./routers/tcs"));
 
+app.get("/kewl", async (req, res) => {
+  console.log("Hello World!")
+  res.status(200).send("Got em!");
+})
+
 // Get user Info
 
 app.post("/user", async (req, res) => {
@@ -255,7 +260,6 @@ app.delete("/delete-shipper/:id", async (req, res) => {
   const shippers = courier.shippers.filter(
     (shipper) => shipper.id !== Number(shipperID)
   );
-
   // Update the courier with the new shippers
 
   const updatedCourier = await prisma.courier.update({
