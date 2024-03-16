@@ -57,7 +57,6 @@ router.post("/add-cost-center", async (req, res) => {
     courierServices,
     courierAccount,
   } = req.body;
-
   const user = await prisma.user.findUnique({
     where: {
       email: userEmail,

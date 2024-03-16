@@ -93,9 +93,9 @@ app.use("/leopards", require("./routers/leopards"));
 app.use("/tcs", require("./routers/tcs"));
 
 app.get("/kewl", async (req, res) => {
-  console.log("Hello World!")
+  console.log("Hello World!");
   res.status(200).send("Got em!");
-})
+});
 
 // Get user Info
 
@@ -108,7 +108,6 @@ app.post("/user", async (req, res) => {
   });
   res.status(200).send(user);
 });
-
 // Add Shipper
 app.post("/add-shipper", async (req, res) => {
   const {
@@ -229,7 +228,10 @@ app.post("/add-shipper", async (req, res) => {
           data: {
             store_info: {
               ...store.store_info,
-              courier_id: { ...store.store_info.courier_id, "Leopards": Number(courierAccount) },
+              courier_id: {
+                ...store.store_info.courier_id,
+                Leopards: Number(courierAccount),
+              },
             },
           },
         });
@@ -480,7 +482,6 @@ app.get("/create-barcode/:id", async (req, res) => {
   res.set("Content-Type", "image/png");
   res.send(buffer);
 });
-
 app.get("/checklist", async (req, res) => {
   const response = await axios.get(
     "https://nakson.myshopify.com/admin/api/2023-10/orders.json?status=any&limit=50",
@@ -514,6 +515,12 @@ app.get("/checklist", async (req, res) => {
   const sumStock = stock.reduce((a, b) => a + b, 0);
 
   res.status(200).json({ total_items: sumStock, skus });
+});
+
+app.get("/sss", async (req, res) => {
+  // Add to temporarydata table
+
+  res.status(200).json({ data });
 });
 
 // LOGIN AND REGISTER ENDPOINTS
@@ -671,8 +678,6 @@ async function makeRequestWithRateLimit(url, config) {
 
 // _____________________
 // orders = [   {id: 1, cnNo: "123", courierService: "Leopards",  }, {id: 2, cnNo: "456", courierService: "Leopards" }   ]
-
-
 
 app.get("/api/hello", (req, res) => {
   res.status(200).send({

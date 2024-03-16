@@ -28,6 +28,11 @@ export type Store = $Result.DefaultSelection<Prisma.$StorePayload>
  * 
  */
 export type Courier = $Result.DefaultSelection<Prisma.$CourierPayload>
+/**
+ * Model TemporaryData
+ * 
+ */
+export type TemporaryData = $Result.DefaultSelection<Prisma.$TemporaryDataPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -180,6 +185,16 @@ export class PrismaClient<
     * ```
     */
   get courier(): Prisma.CourierDelegate<ExtArgs>;
+
+  /**
+   * `prisma.temporaryData`: Exposes CRUD operations for the **TemporaryData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TemporaryData
+    * const temporaryData = await prisma.temporaryData.findMany()
+    * ```
+    */
+  get temporaryData(): Prisma.TemporaryDataDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -652,7 +667,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Store: 'Store',
-    Courier: 'Courier'
+    Courier: 'Courier',
+    TemporaryData: 'TemporaryData'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -669,7 +685,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'store' | 'courier'
+      modelProps: 'user' | 'store' | 'courier' | 'temporaryData'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -868,6 +884,72 @@ export namespace Prisma {
           count: {
             args: Prisma.CourierCountArgs<ExtArgs>,
             result: $Utils.Optional<CourierCountAggregateOutputType> | number
+          }
+        }
+      }
+      TemporaryData: {
+        payload: Prisma.$TemporaryDataPayload<ExtArgs>
+        fields: Prisma.TemporaryDataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TemporaryDataFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TemporaryDataFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload>
+          }
+          findFirst: {
+            args: Prisma.TemporaryDataFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TemporaryDataFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload>
+          }
+          findMany: {
+            args: Prisma.TemporaryDataFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload>[]
+          }
+          create: {
+            args: Prisma.TemporaryDataCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload>
+          }
+          createMany: {
+            args: Prisma.TemporaryDataCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.TemporaryDataDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload>
+          }
+          update: {
+            args: Prisma.TemporaryDataUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload>
+          }
+          deleteMany: {
+            args: Prisma.TemporaryDataDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TemporaryDataUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.TemporaryDataUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$TemporaryDataPayload>
+          }
+          aggregate: {
+            args: Prisma.TemporaryDataAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateTemporaryData>
+          }
+          groupBy: {
+            args: Prisma.TemporaryDataGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<TemporaryDataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TemporaryDataCountArgs<ExtArgs>,
+            result: $Utils.Optional<TemporaryDataCountAggregateOutputType> | number
           }
         }
       }
@@ -4009,6 +4091,895 @@ export namespace Prisma {
 
 
   /**
+   * Model TemporaryData
+   */
+
+  export type AggregateTemporaryData = {
+    _count: TemporaryDataCountAggregateOutputType | null
+    _avg: TemporaryDataAvgAggregateOutputType | null
+    _sum: TemporaryDataSumAggregateOutputType | null
+    _min: TemporaryDataMinAggregateOutputType | null
+    _max: TemporaryDataMaxAggregateOutputType | null
+  }
+
+  export type TemporaryDataAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TemporaryDataSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TemporaryDataMinAggregateOutputType = {
+    id: number | null
+    email: string | null
+    createdAt: Date | null
+  }
+
+  export type TemporaryDataMaxAggregateOutputType = {
+    id: number | null
+    email: string | null
+    createdAt: Date | null
+  }
+
+  export type TemporaryDataCountAggregateOutputType = {
+    id: number
+    email: number
+    data: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TemporaryDataAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type TemporaryDataSumAggregateInputType = {
+    id?: true
+  }
+
+  export type TemporaryDataMinAggregateInputType = {
+    id?: true
+    email?: true
+    createdAt?: true
+  }
+
+  export type TemporaryDataMaxAggregateInputType = {
+    id?: true
+    email?: true
+    createdAt?: true
+  }
+
+  export type TemporaryDataCountAggregateInputType = {
+    id?: true
+    email?: true
+    data?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TemporaryDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemporaryData to aggregate.
+     */
+    where?: TemporaryDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryData to fetch.
+     */
+    orderBy?: TemporaryDataOrderByWithRelationInput | TemporaryDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TemporaryDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TemporaryData
+    **/
+    _count?: true | TemporaryDataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TemporaryDataAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TemporaryDataSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TemporaryDataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TemporaryDataMaxAggregateInputType
+  }
+
+  export type GetTemporaryDataAggregateType<T extends TemporaryDataAggregateArgs> = {
+        [P in keyof T & keyof AggregateTemporaryData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTemporaryData[P]>
+      : GetScalarType<T[P], AggregateTemporaryData[P]>
+  }
+
+
+
+
+  export type TemporaryDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemporaryDataWhereInput
+    orderBy?: TemporaryDataOrderByWithAggregationInput | TemporaryDataOrderByWithAggregationInput[]
+    by: TemporaryDataScalarFieldEnum[] | TemporaryDataScalarFieldEnum
+    having?: TemporaryDataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TemporaryDataCountAggregateInputType | true
+    _avg?: TemporaryDataAvgAggregateInputType
+    _sum?: TemporaryDataSumAggregateInputType
+    _min?: TemporaryDataMinAggregateInputType
+    _max?: TemporaryDataMaxAggregateInputType
+  }
+
+  export type TemporaryDataGroupByOutputType = {
+    id: number
+    email: string
+    data: JsonValue
+    createdAt: Date
+    _count: TemporaryDataCountAggregateOutputType | null
+    _avg: TemporaryDataAvgAggregateOutputType | null
+    _sum: TemporaryDataSumAggregateOutputType | null
+    _min: TemporaryDataMinAggregateOutputType | null
+    _max: TemporaryDataMaxAggregateOutputType | null
+  }
+
+  type GetTemporaryDataGroupByPayload<T extends TemporaryDataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TemporaryDataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TemporaryDataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TemporaryDataGroupByOutputType[P]>
+            : GetScalarType<T[P], TemporaryDataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TemporaryDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    data?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["temporaryData"]>
+
+  export type TemporaryDataSelectScalar = {
+    id?: boolean
+    email?: boolean
+    data?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $TemporaryDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TemporaryData"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      email: string
+      data: Prisma.JsonValue
+      createdAt: Date
+    }, ExtArgs["result"]["temporaryData"]>
+    composites: {}
+  }
+
+
+  type TemporaryDataGetPayload<S extends boolean | null | undefined | TemporaryDataDefaultArgs> = $Result.GetResult<Prisma.$TemporaryDataPayload, S>
+
+  type TemporaryDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<TemporaryDataFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: TemporaryDataCountAggregateInputType | true
+    }
+
+  export interface TemporaryDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TemporaryData'], meta: { name: 'TemporaryData' } }
+    /**
+     * Find zero or one TemporaryData that matches the filter.
+     * @param {TemporaryDataFindUniqueArgs} args - Arguments to find a TemporaryData
+     * @example
+     * // Get one TemporaryData
+     * const temporaryData = await prisma.temporaryData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends TemporaryDataFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, TemporaryDataFindUniqueArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one TemporaryData that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {TemporaryDataFindUniqueOrThrowArgs} args - Arguments to find a TemporaryData
+     * @example
+     * // Get one TemporaryData
+     * const temporaryData = await prisma.temporaryData.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends TemporaryDataFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, TemporaryDataFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first TemporaryData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryDataFindFirstArgs} args - Arguments to find a TemporaryData
+     * @example
+     * // Get one TemporaryData
+     * const temporaryData = await prisma.temporaryData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends TemporaryDataFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, TemporaryDataFindFirstArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first TemporaryData that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryDataFindFirstOrThrowArgs} args - Arguments to find a TemporaryData
+     * @example
+     * // Get one TemporaryData
+     * const temporaryData = await prisma.temporaryData.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends TemporaryDataFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, TemporaryDataFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more TemporaryData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryDataFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TemporaryData
+     * const temporaryData = await prisma.temporaryData.findMany()
+     * 
+     * // Get first 10 TemporaryData
+     * const temporaryData = await prisma.temporaryData.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const temporaryDataWithIdOnly = await prisma.temporaryData.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends TemporaryDataFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, TemporaryDataFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a TemporaryData.
+     * @param {TemporaryDataCreateArgs} args - Arguments to create a TemporaryData.
+     * @example
+     * // Create one TemporaryData
+     * const TemporaryData = await prisma.temporaryData.create({
+     *   data: {
+     *     // ... data to create a TemporaryData
+     *   }
+     * })
+     * 
+    **/
+    create<T extends TemporaryDataCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, TemporaryDataCreateArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many TemporaryData.
+     *     @param {TemporaryDataCreateManyArgs} args - Arguments to create many TemporaryData.
+     *     @example
+     *     // Create many TemporaryData
+     *     const temporaryData = await prisma.temporaryData.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends TemporaryDataCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, TemporaryDataCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TemporaryData.
+     * @param {TemporaryDataDeleteArgs} args - Arguments to delete one TemporaryData.
+     * @example
+     * // Delete one TemporaryData
+     * const TemporaryData = await prisma.temporaryData.delete({
+     *   where: {
+     *     // ... filter to delete one TemporaryData
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends TemporaryDataDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, TemporaryDataDeleteArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one TemporaryData.
+     * @param {TemporaryDataUpdateArgs} args - Arguments to update one TemporaryData.
+     * @example
+     * // Update one TemporaryData
+     * const temporaryData = await prisma.temporaryData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends TemporaryDataUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, TemporaryDataUpdateArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more TemporaryData.
+     * @param {TemporaryDataDeleteManyArgs} args - Arguments to filter TemporaryData to delete.
+     * @example
+     * // Delete a few TemporaryData
+     * const { count } = await prisma.temporaryData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends TemporaryDataDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, TemporaryDataDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TemporaryData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TemporaryData
+     * const temporaryData = await prisma.temporaryData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends TemporaryDataUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, TemporaryDataUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TemporaryData.
+     * @param {TemporaryDataUpsertArgs} args - Arguments to update or create a TemporaryData.
+     * @example
+     * // Update or create a TemporaryData
+     * const temporaryData = await prisma.temporaryData.upsert({
+     *   create: {
+     *     // ... data to create a TemporaryData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TemporaryData we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends TemporaryDataUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, TemporaryDataUpsertArgs<ExtArgs>>
+    ): Prisma__TemporaryDataClient<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of TemporaryData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryDataCountArgs} args - Arguments to filter TemporaryData to count.
+     * @example
+     * // Count the number of TemporaryData
+     * const count = await prisma.temporaryData.count({
+     *   where: {
+     *     // ... the filter for the TemporaryData we want to count
+     *   }
+     * })
+    **/
+    count<T extends TemporaryDataCountArgs>(
+      args?: Subset<T, TemporaryDataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TemporaryDataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TemporaryData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TemporaryDataAggregateArgs>(args: Subset<T, TemporaryDataAggregateArgs>): Prisma.PrismaPromise<GetTemporaryDataAggregateType<T>>
+
+    /**
+     * Group by TemporaryData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TemporaryDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TemporaryDataGroupByArgs['orderBy'] }
+        : { orderBy?: TemporaryDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TemporaryDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTemporaryDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TemporaryData model
+   */
+  readonly fields: TemporaryDataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TemporaryData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TemporaryDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the TemporaryData model
+   */ 
+  interface TemporaryDataFieldRefs {
+    readonly id: FieldRef<"TemporaryData", 'Int'>
+    readonly email: FieldRef<"TemporaryData", 'String'>
+    readonly data: FieldRef<"TemporaryData", 'Json'>
+    readonly createdAt: FieldRef<"TemporaryData", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * TemporaryData findUnique
+   */
+  export type TemporaryDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * Filter, which TemporaryData to fetch.
+     */
+    where: TemporaryDataWhereUniqueInput
+  }
+
+
+  /**
+   * TemporaryData findUniqueOrThrow
+   */
+  export type TemporaryDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * Filter, which TemporaryData to fetch.
+     */
+    where: TemporaryDataWhereUniqueInput
+  }
+
+
+  /**
+   * TemporaryData findFirst
+   */
+  export type TemporaryDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * Filter, which TemporaryData to fetch.
+     */
+    where?: TemporaryDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryData to fetch.
+     */
+    orderBy?: TemporaryDataOrderByWithRelationInput | TemporaryDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemporaryData.
+     */
+    cursor?: TemporaryDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemporaryData.
+     */
+    distinct?: TemporaryDataScalarFieldEnum | TemporaryDataScalarFieldEnum[]
+  }
+
+
+  /**
+   * TemporaryData findFirstOrThrow
+   */
+  export type TemporaryDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * Filter, which TemporaryData to fetch.
+     */
+    where?: TemporaryDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryData to fetch.
+     */
+    orderBy?: TemporaryDataOrderByWithRelationInput | TemporaryDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemporaryData.
+     */
+    cursor?: TemporaryDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemporaryData.
+     */
+    distinct?: TemporaryDataScalarFieldEnum | TemporaryDataScalarFieldEnum[]
+  }
+
+
+  /**
+   * TemporaryData findMany
+   */
+  export type TemporaryDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * Filter, which TemporaryData to fetch.
+     */
+    where?: TemporaryDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryData to fetch.
+     */
+    orderBy?: TemporaryDataOrderByWithRelationInput | TemporaryDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TemporaryData.
+     */
+    cursor?: TemporaryDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryData.
+     */
+    skip?: number
+    distinct?: TemporaryDataScalarFieldEnum | TemporaryDataScalarFieldEnum[]
+  }
+
+
+  /**
+   * TemporaryData create
+   */
+  export type TemporaryDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * The data needed to create a TemporaryData.
+     */
+    data: XOR<TemporaryDataCreateInput, TemporaryDataUncheckedCreateInput>
+  }
+
+
+  /**
+   * TemporaryData createMany
+   */
+  export type TemporaryDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TemporaryData.
+     */
+    data: TemporaryDataCreateManyInput | TemporaryDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * TemporaryData update
+   */
+  export type TemporaryDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * The data needed to update a TemporaryData.
+     */
+    data: XOR<TemporaryDataUpdateInput, TemporaryDataUncheckedUpdateInput>
+    /**
+     * Choose, which TemporaryData to update.
+     */
+    where: TemporaryDataWhereUniqueInput
+  }
+
+
+  /**
+   * TemporaryData updateMany
+   */
+  export type TemporaryDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TemporaryData.
+     */
+    data: XOR<TemporaryDataUpdateManyMutationInput, TemporaryDataUncheckedUpdateManyInput>
+    /**
+     * Filter which TemporaryData to update
+     */
+    where?: TemporaryDataWhereInput
+  }
+
+
+  /**
+   * TemporaryData upsert
+   */
+  export type TemporaryDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * The filter to search for the TemporaryData to update in case it exists.
+     */
+    where: TemporaryDataWhereUniqueInput
+    /**
+     * In case the TemporaryData found by the `where` argument doesn't exist, create a new TemporaryData with this data.
+     */
+    create: XOR<TemporaryDataCreateInput, TemporaryDataUncheckedCreateInput>
+    /**
+     * In case the TemporaryData was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TemporaryDataUpdateInput, TemporaryDataUncheckedUpdateInput>
+  }
+
+
+  /**
+   * TemporaryData delete
+   */
+  export type TemporaryDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * Filter which TemporaryData to delete.
+     */
+    where: TemporaryDataWhereUniqueInput
+  }
+
+
+  /**
+   * TemporaryData deleteMany
+   */
+  export type TemporaryDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemporaryData to delete
+     */
+    where?: TemporaryDataWhereInput
+  }
+
+
+  /**
+   * TemporaryData without action
+   */
+  export type TemporaryDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -4057,6 +5028,16 @@ export namespace Prisma {
   };
 
   export type CourierScalarFieldEnum = (typeof CourierScalarFieldEnum)[keyof typeof CourierScalarFieldEnum]
+
+
+  export const TemporaryDataScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    data: 'data',
+    createdAt: 'createdAt'
+  };
+
+  export type TemporaryDataScalarFieldEnum = (typeof TemporaryDataScalarFieldEnum)[keyof typeof TemporaryDataScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4356,6 +5337,55 @@ export namespace Prisma {
     user_id?: IntWithAggregatesFilter<"Courier"> | number
   }
 
+  export type TemporaryDataWhereInput = {
+    AND?: TemporaryDataWhereInput | TemporaryDataWhereInput[]
+    OR?: TemporaryDataWhereInput[]
+    NOT?: TemporaryDataWhereInput | TemporaryDataWhereInput[]
+    id?: IntFilter<"TemporaryData"> | number
+    email?: StringFilter<"TemporaryData"> | string
+    data?: JsonFilter<"TemporaryData">
+    createdAt?: DateTimeFilter<"TemporaryData"> | Date | string
+  }
+
+  export type TemporaryDataOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemporaryDataWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TemporaryDataWhereInput | TemporaryDataWhereInput[]
+    OR?: TemporaryDataWhereInput[]
+    NOT?: TemporaryDataWhereInput | TemporaryDataWhereInput[]
+    email?: StringFilter<"TemporaryData"> | string
+    data?: JsonFilter<"TemporaryData">
+    createdAt?: DateTimeFilter<"TemporaryData"> | Date | string
+  }, "id">
+
+  export type TemporaryDataOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+    _count?: TemporaryDataCountOrderByAggregateInput
+    _avg?: TemporaryDataAvgOrderByAggregateInput
+    _max?: TemporaryDataMaxOrderByAggregateInput
+    _min?: TemporaryDataMinOrderByAggregateInput
+    _sum?: TemporaryDataSumOrderByAggregateInput
+  }
+
+  export type TemporaryDataScalarWhereWithAggregatesInput = {
+    AND?: TemporaryDataScalarWhereWithAggregatesInput | TemporaryDataScalarWhereWithAggregatesInput[]
+    OR?: TemporaryDataScalarWhereWithAggregatesInput[]
+    NOT?: TemporaryDataScalarWhereWithAggregatesInput | TemporaryDataScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TemporaryData"> | number
+    email?: StringWithAggregatesFilter<"TemporaryData"> | string
+    data?: JsonWithAggregatesFilter<"TemporaryData">
+    createdAt?: DateTimeWithAggregatesFilter<"TemporaryData"> | Date | string
+  }
+
   export type UserCreateInput = {
     first_name: string
     last_name: string
@@ -4547,6 +5577,52 @@ export namespace Prisma {
     data?: JsonNullValueInput | InputJsonValue
     shippers?: JsonNullValueInput | InputJsonValue
     user_id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TemporaryDataCreateInput = {
+    email: string
+    data: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type TemporaryDataUncheckedCreateInput = {
+    id?: number
+    email: string
+    data: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type TemporaryDataUpdateInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemporaryDataUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemporaryDataCreateManyInput = {
+    id?: number
+    email: string
+    data: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type TemporaryDataUpdateManyMutationInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemporaryDataUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -4810,6 +5886,33 @@ export namespace Prisma {
   export type CourierSumOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+  }
+
+  export type TemporaryDataCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemporaryDataAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type TemporaryDataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemporaryDataMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemporaryDataSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type StoreCreateNestedManyWithoutUserInput = {
@@ -5362,6 +6465,10 @@ export namespace Prisma {
      * @deprecated Use CourierDefaultArgs instead
      */
     export type CourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CourierDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use TemporaryDataDefaultArgs instead
+     */
+    export type TemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TemporaryDataDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

@@ -48,3 +48,10 @@ model Courier {
     user_id  Int
     user     User   @relation(fields: [user_id], references: [id])
 }
+// Define a model to hold the temporary data
+model TemporaryData {
+  id        Int      @id @default(autoincrement())
+  email     String
+  data      Json
+  createdAt DateTime @default(now())
+}
