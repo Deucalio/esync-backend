@@ -97,27 +97,38 @@ router.post("/book", async (req, res) => {
   let booked = {
     // Store Orders and their courierID
     // store_1: {orders: [], courierID: 1, shipperInfo: {}, shopLogo: "url", accessToken, domain   },
-    // store_2: {orders: [], courierID: 2, shipperInfo :{}, shopLogo: "url"  accessToken, domain },
+    // store_2: {orders: [], courierID: 2, shipperInfo: {}, shopLogo: "url"  accessToken, domain   },
   };
   for (const store of shopifyStores) {
-    if (store.store_info.courier_id) {
-      booked[store.name] = {
-        orders: [],
-        courierID: store.store_info.courier_id.Leopards,
-        shipperInfo: userCourier
-          .find(
-            (courier) => courier.id === store.store_info.courier_id.Leopards
-          )
-          .shippers.find((shipper) => shipper.shop === store.name),
-        shopLogo: store.image_url,
-        accessToken: store.store_info.accessToken,
-        domain: store.store_info.shop,
-      };
+    const courierInfo = userCourier.find(
+      (courier) =>
+        courier.shippers.find((shipper) => shipper.shop === store.name) || null
+    );
+    if (!courierInfo) {
+      console.log(
+        "No courier found, so orders can't be booked for store: ",
+        store.name
+      );
+      continue;
     }
+    booked[store.name] = {
+      orders: [],
+      courierInfo: courierInfo,
+      shipperInfo: courierInfo.shippers.find(
+        (shipper) => shipper.shop === store.name
+      ),
+      shopLogo: store.image_url,
+      accessToken: store.store_info.accessToken,
+      domain: store.store_info.shop,
+    };
   }
 
   let booked_orders_details = [];
   for (let i = 0; i < orders.length; i++) {
+    if (booked[orders[i].store_info.name] === undefined) {
+      // console.log("Can't book these orders: ", orders[i].name);
+      continue;
+    }
     let {
       shipment_id,
       shipment_name: shipment_name_eng,
@@ -158,19 +169,11 @@ router.post("/book", async (req, res) => {
     booked[order.store_info.name]["orders"].push(bookedOrder);
   }
   const fulfillOrdersData = [];
-
   // Book orders for every store
   let counter = 0;
   for (const store in booked) {
-    if (booked[store].orders.length === 0 || !booked[store].courierID) {
-      continue;
-    }
-    const api_key = userCourier.find(
-      (courier) => courier.id === booked[store].courierID
-    ).data.apiKey;
-    const api_password = userCourier.find(
-      (courier) => courier.id === booked[store].courierID
-    ).data.password;
+    const api_key = booked[store].courierInfo.data.apiKey;
+    const api_password = booked[store].courierInfo.data.password;
 
     let data = JSON.stringify({
       api_key: api_key,
@@ -248,6 +251,15 @@ router.post("/book", async (req, res) => {
     }
   }
   // // // Send request to Shopify to fulfill the orders
+  const fulfillOrdersRes = await axios.post(
+    "http://localhost:3000/api/shopify/fulfillorders",
+    {
+      ordersData: fulfillOrdersData,
+    }
+  );
+  const responseForFulfillOrders = fulfillOrdersRes.data;
+  console.log("Fulfill Orders Response: ", responseForFulfillOrders);
+
   // fulfillOrders(fulfillOrdersData).then((res) => {
   //   console.log("All requests sent");
   // });
