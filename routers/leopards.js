@@ -255,15 +255,12 @@ router.post("/book", async (req, res) => {
     "https://nakson.services/api/shopify/fulfillorders",
     {
       ordersData: fulfillOrdersData,
-      len: fulfillOrdersData.length,
+      len: 100000,
     }
   );
   const responseForFulfillOrders = fulfillOrdersRes.data;
   console.log("Fulfill Orders Response: ", responseForFulfillOrders);
-
-  // fulfillOrders(fulfillOrdersData).then((res) => {
-  //   console.log("All requests sent");
-  // });
+  console.log("fulfillOrdersData", fulfillOrdersData);
 
   res.status(200).send({
     message: "Orders have been Booked",
