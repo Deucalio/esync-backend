@@ -255,6 +255,7 @@ router.post("/book", async (req, res) => {
     "https://nakson.services/api/shopify/fulfillorders",
     {
       ordersData: fulfillOrdersData,
+      len: fulfillOrdersData.length,
     }
   );
   const responseForFulfillOrders = fulfillOrdersRes.data;
