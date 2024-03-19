@@ -228,7 +228,7 @@ router.post("/book", async (req, res) => {
             phone: booked[store].shipperInfo.response.shipment_phone,
           },
           destination: orders[counter].correct_city,
-          shipping_instructions: "Call the consignee before delivery",
+          shipping_instructions: booked[store].shipperInfo.specialInstructions,
           date: new Date().toLocaleString().split(",")[0],
           pieces: currentOrder.booked_packet_no_piece,
           weight: currentOrder.booked_packet_weight,
@@ -252,15 +252,16 @@ router.post("/book", async (req, res) => {
   }
 
   // // // Send request to Shopify to fulfill the orders
-  const fulfillOrdersRes = await axios.post(
-    "https://nakson.services/api/shopify/fulfillorders",
-    {
-      ordersData: fulfillOrdersData,
-      len: 100000,
-    }
-  );
-  const responseForFulfillOrders = fulfillOrdersRes.data;
-  console.log("Fulfill Orders Response: ", responseForFulfillOrders);
+
+  // const fulfillOrdersRes = await axios.post(
+  //   "https://nakson.services/api/shopify/fulfillorders",
+  //   {
+  //     ordersData: fulfillOrdersData,
+  //     len: 100000,
+  //   }
+  // );
+  // const responseForFulfillOrders = fulfillOrdersRes.data;
+  // console.log("Fulfill Orders Response: ", responseForFulfillOrders);
 
   console.log("fulfillOrdersData", fulfillOrdersData);
 
