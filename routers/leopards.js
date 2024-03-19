@@ -71,8 +71,6 @@ router.post("/book", async (req, res) => {
   // Start the timer
   const start = new Date().getTime();
   // // End the timer
-  // const end = new Date().getTime();
-  // const timeTaken = (end - start) / 1000;
 
   const { email, orders: orders } = req.body;
   if (!email || !orders) {
@@ -264,11 +262,14 @@ router.post("/book", async (req, res) => {
   // console.log("Fulfill Orders Response: ", responseForFulfillOrders);
 
   console.log("fulfillOrdersData", fulfillOrdersData);
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
 
   res.status(200).send({
     message: "Orders have been Booked",
     booked_orders: booked_orders_details,
     fulfillOrdersData: fulfillOrdersData,
+    timeTaken,
   });
 });
 
