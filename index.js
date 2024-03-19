@@ -255,13 +255,6 @@ app.delete("/delete-shipper/:id", async (req, res) => {
   const shipperID = id;
   const courierID = req.query.accountID;
 
-  const store = await prisma.store.findMany({});
-  for (const shop of store) {
-    if (shop.store_info.courier_id.Leopards === Number(courierID)) {
-      // Update the Store
-    }
-  }
-
   const courier = await prisma.courier.findUnique({
     where: { id: Number(courierID) },
   });
@@ -342,7 +335,7 @@ app.post("/orders", async (req, res) => {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
         `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=250&fulfillment_status=unfulfilled`,
-        
+
         {
           headers: {
             "X-Shopify-Access-Token": store.store_info.accessToken,
