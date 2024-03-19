@@ -261,7 +261,6 @@ router.post("/book", async (req, res) => {
   // const responseForFulfillOrders = fulfillOrdersRes.data;
   // console.log("Fulfill Orders Response: ", responseForFulfillOrders);
 
-  console.log("fulfillOrdersData", fulfillOrdersData);
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
