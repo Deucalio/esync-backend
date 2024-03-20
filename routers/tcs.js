@@ -6,6 +6,17 @@ const TCS_CITIES = require("../public/TCS_CITIES");
 const { cancelOrder } = require("../utils/tcsActions");
 require("dotenv").config();
 
+router.post("/booked-orders", async (req, res) => {
+  await prisma.temporaryData.create({
+    data: {
+      ...req.body,
+    },
+  });
+  console.log("Got it: ", req.body);
+
+  res.status(200).json({ message: "Got it", ...req.body });
+});
+
 router.post("/book", async (req, res) => {
   const ordersTrackingNumbers = [];
 
@@ -85,7 +96,6 @@ router.post("/book", async (req, res) => {
       pickupAddress,
       contactNumber,
     } = booked[order.store_info.name].shipperInfo.response;
-
     let services = "";
     if (order.service_type === "Express") {
       services = "O";
