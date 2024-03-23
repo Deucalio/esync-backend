@@ -252,8 +252,8 @@ router.post("/book", async (req, res) => {
       console.log("Error: ", err);
     }
   }
-
   // // // Send request to Shopify to fulfill the orders
+  
 
   // const fulfillOrdersRes = await axios.post(
   //   "https://nakson.services/api/shopify/fulfillorders",

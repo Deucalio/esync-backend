@@ -5,15 +5,24 @@ const prisma = new PrismaClient();
 const TCS_CITIES = require("../public/TCS_CITIES");
 const { cancelOrder } = require("../utils/tcsActions");
 require("dotenv").config();
-router.post("/booked-orders", async (req, res) => {
-  await prisma.temporaryData.create({
-    data: {
-      ...req.body,
-    },
-  });
-  console.log("Got it: ", req.body);
+router.post("/save-temp-data", async (req, res) => {
+  console.log("HERE!");
+  let savedData = "";
+  const { id, data, email } = req.body;
+  try {
+    savedData = await prisma.temporaryData.create({
+      data: {
+        id,
+        email,
+        data,
+      },
+    });
+  } catch (e) {
+    console.log("Error saving data inside database: ", e);
+    return res.status(400).json({ message: "Could not save data" });
+  }
 
-  res.status(200).json({ message: "Got it", ...req.body });
+  res.status(200).json({ message: "Data Saved" });
 });
 
 router.post("/book", async (req, res) => {
