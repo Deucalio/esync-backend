@@ -21,6 +21,7 @@ const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 const https = require("https");
 app.use(bodyParser.json());
+const { dummy } = require("./routers/dummy");
 
 const { generateDarazURL } = require("./utils/darazActions");
 
@@ -334,8 +335,7 @@ app.post("/orders", async (req, res) => {
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=15&`,
-        // fulfillment_status=unfulfilled
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=15&fulfillment_status=unfulfilled`,
 
         {
           headers: {
@@ -464,13 +464,14 @@ app.get("/create-barcode-stockchecklist/:id", async (req, res) => {
 });
 
 app.get("/create-barcode/:id", async (req, res) => {
-  const orderTrackNumber = req.params.id;
+  const text = req.params.id;
+
   const buffer = await bwipjs.toBuffer({
     bcid: "code128", // Barcode type
-    text: String(orderTrackNumber), // Text to encode
+    text: String(text),
     scale: 3, // 3x scaling factor
     height: 10, // Bar height, in millimeters
-    includetext: true, // Show human-readable text
+    includetext: Object.keys(req.query).length === 0 ? true : false, // Show human-readable text
     textxalign: "center", // Always good to set this
   });
   res.set("Content-Type", "image/png");

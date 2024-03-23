@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 const TCS_CITIES = require("../public/TCS_CITIES");
 const { cancelOrder } = require("../utils/tcsActions");
 require("dotenv").config();
-
 router.post("/booked-orders", async (req, res) => {
   await prisma.temporaryData.create({
     data: {
@@ -24,7 +23,7 @@ router.post("/book", async (req, res) => {
   const start = new Date().getTime();
   // // End the timer
 
-  const { email, orders: orders } = req.body;
+  const { email, orders: orders, dbID } = req.body;
   if (!email || !orders) {
     return res.status(400).json({ errorMessage: "Incorrect field" });
   }
@@ -160,6 +159,7 @@ router.post("/book", async (req, res) => {
         address: pickupAddress,
         phone: contactNumber,
       },
+
       destination: {
         name: order.correct_city.cityName,
         city_code: order.correct_city.cityCode,
@@ -201,8 +201,10 @@ router.post("/book", async (req, res) => {
           );
           continue;
         }
+
         let result = response.data.bookingReply.result;
         let cn = result.slice(result.indexOf(":") + 2);
+        // let cn = "8593842445728";
         ordersTrackingNumbers.push({
           consignmentNumber: cn,
           userName: booked[store].courierInfo.data.userName,
@@ -226,12 +228,34 @@ router.post("/book", async (req, res) => {
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
+  // Generate DB ID for the temporary data
+  // const dbID = Math.floor(Math.random() * 1000000);
+
+  try {
+    const appendData = await prisma.temporaryData.create({
+      data: {
+        id: dbID,
+        data: {
+          slipData: booked_orders_details,
+          ordersTrackingNumbers,
+          booked,
+        },
+        email: email,
+      },
+    });
+  } catch (e) {
+    console.log("Could not save data to database: ", e);
+  }
+
+  console.log("Time Taken: ", timeTaken);
+
   res.status(200).json({
     message: "Orders are being booked",
     timeTaken: timeTaken,
     booked,
     booked_orders: booked_orders_details,
     ordersTrackingNumbers: ordersTrackingNumbers,
+    dbID: dbID,
   });
 });
 

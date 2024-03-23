@@ -170,6 +170,10 @@ router.post("/book", async (req, res) => {
   // Book orders for every store
   let counter = 0;
   for (const store in booked) {
+    if (booked[store].orders.length === 0) {
+      continue;
+    }
+
     const api_key = booked[store].courierInfo.data.apiKey;
     const api_password = booked[store].courierInfo.data.password;
 
