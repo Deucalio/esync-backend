@@ -25,6 +25,17 @@ router.post("/save-temp-data", async (req, res) => {
   res.status(200).json({ message: "Data Saved" });
 });
 
+router.get("/get-temp-data/:id", async (req, res) => {
+  const { id: dbID } = req.params;
+  const tempData = await prisma.temporaryData.findUnique({
+    where: {
+      id: Number(dbID),
+    },
+  });
+
+  res.status(200).json({ data: tempData.data });
+});
+
 router.post("/book", async (req, res) => {
   const ordersTrackingNumbers = [];
 
