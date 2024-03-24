@@ -24,14 +24,25 @@ router.post("/save-temp-data", async (req, res) => {
 
   res.status(200).json({ message: "Data Saved" });
 });
-
 router.get("/get-temp-data/:id", async (req, res) => {
   const { id: dbID } = req.params;
-  const tempData = await prisma.temporaryData.findUnique({
-    where: {
-      id: Number(dbID),
-    },
-  });
+  let tempData = "";
+
+  try {
+    tempData = await prisma.temporaryData.findUnique({
+      where: {
+        id: Number(dbID),
+      },
+    });
+    if (!tempData) {
+      return res
+        .status(202)
+        .json({ message: "Data still processing", data: [] });
+    }
+  } catch (e) {
+    console.log("Could not get data from database: ", e);
+    return res.status(400).json({ message: "Could not get data" });
+  }
 
   res.status(200).json({ data: tempData.data });
 });
