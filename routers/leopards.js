@@ -254,16 +254,15 @@ router.post("/book", async (req, res) => {
   }
   // // // Send request to Shopify to fulfill the orders
   
-
-  // const fulfillOrdersRes = await axios.post(
-  //   "https://nakson.services/api/shopify/fulfillorders",
-  //   {
-  //     ordersData: fulfillOrdersData,
-  //     len: 100000,
-  //   }
-  // );
-  // const responseForFulfillOrders = fulfillOrdersRes.data;
-  // console.log("Fulfill Orders Response: ", responseForFulfillOrders);
+  const fulfillOrdersRes = await axios.post(
+    "https://nakson.services/api/shopify/fulfillorders",
+    {
+      ordersData: fulfillOrdersData,
+      len: 100000,
+    }
+  );
+  const responseForFulfillOrders = fulfillOrdersRes.data;
+  console.log("Fulfill Orders Response: ", responseForFulfillOrders);
 
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;

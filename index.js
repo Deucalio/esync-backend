@@ -335,8 +335,8 @@ app.post("/orders", async (req, res) => {
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=50&`,
-        // fulfillment_status=unfulfilled
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=50&fulfillment_status=unfulfilled`,
+        
 
         {
           headers: {

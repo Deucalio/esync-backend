@@ -27,7 +27,6 @@ router.post("/save-temp-data", async (req, res) => {
 router.get("/get-temp-data/:id", async (req, res) => {
   const { id: dbID } = req.params;
   let tempData = "";
-
   try {
     tempData = await prisma.temporaryData.findUnique({
       where: {
