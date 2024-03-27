@@ -259,6 +259,7 @@ router.post("/book", async (req, res) => {
     {
       ordersData: fulfillOrdersData,
       len: 100000,
+      courier: "leopards",
     }
   );
   const responseForFulfillOrders = fulfillOrdersRes.data;
