@@ -6,7 +6,6 @@ const TCS_CITIES = require("../public/TCS_CITIES");
 const { cancelOrder } = require("../utils/tcsActions");
 require("dotenv").config();
 router.post("/save-temp-data", async (req, res) => {
-  console.log("HERE!");
   let savedData = "";
   const { id, data, email } = req.body;
   try {
