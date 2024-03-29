@@ -563,9 +563,6 @@ app.get("/stock-checklist", async (req, res) => {
       }
     }
   }
-
-  console.log("skus: ", skus);
-
   res.status(200).json({ skus });
 });
 
