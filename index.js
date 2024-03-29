@@ -336,10 +336,7 @@ app.post("/orders", async (req, res) => {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
         `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=50&fulfillment_status=unfulfilled`,
-        
 
-
-        
         {
           headers: {
             "X-Shopify-Access-Token": store.store_info.accessToken,
@@ -480,39 +477,96 @@ app.get("/create-barcode/:id", async (req, res) => {
   res.set("Content-Type", "image/png");
   res.send(buffer);
 });
-app.get("/checklist", async (req, res) => {
-  const response = await axios.get(
-    "https://nakson.myshopify.com/admin/api/2023-10/orders.json?status=any&limit=50",
-    {
-      headers: {
-        "X-Shopify-Access-Token": "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",
-      },
-    }
-  );
-  const orders = response.data.orders;
+app.get("/stock-checklist", async (req, res) => {
+  const email = "subhankhanyz@gmail.com";
+  const orders = [];
 
-  // Get the total products of an order
-  const stock = []; // Number of products in an order
-  const skus = [{}];
+  const skus = {
+    // sku: quantity
+  };
+  let user;
 
-  orders.forEach((order, index) => {
-    stock.push(order.line_items.length);
-
-    for (const product of order.line_items) {
-      skus.forEach((sku) => {
-        if (sku[product.sku]) {
-          sku[product.sku] += product.quantity;
-        } else {
-          sku[product.sku] = product.quantity;
+  try {
+    user = await prisma.user.findUnique({
+      where: { email: email },
+      include: { stores: true, Courier: true },
+    });
+  } catch (e) {
+    console.log("No user", e);
+  }
+  for (const store of user.stores) {
+    if (store.store_info.platform === "daraz") {
+      const ordersIDs = [];
+      const darazURL = await generateDarazURL(
+        "/orders/get",
+        process.env.DARAZ_APP_KEY,
+        store.store_info.access_token,
+        {
+          limt: "100",
+          created_after: "2017-02-10T09:00:00+08:00",
+          status: "ready_to_ship",
         }
-      });
+      );
+      const response = await axios.get(darazURL);
+      const darazOrders = response.data.data.orders;
+
+      for (const order of darazOrders) {
+        ordersIDs.push(order.order_id);
+      }
+
+      // Get Items of the order and extract the sku
+      const darazURL_id = await generateDarazURL(
+        "/orders/items/get",
+        process.env.DARAZ_APP_KEY,
+        store.store_info.access_token,
+        {
+          order_ids: JSON.stringify(ordersIDs),
+        }
+      );
+
+      const resp = await axios.get(darazURL_id);
+      const darazOrdersItems = resp.data.data;
+      for (const order of darazOrdersItems) {
+        for (const item of order.order_items) {
+          if (skus[item.sku]) {
+            skus[item.sku] += 1;
+          } else {
+            skus[item.sku] = 1;
+          }
+        }
+      }
+    } else if (store.store_info.platform === "shopify") {
+      const response = await axios.get(
+        // `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=any&limit=50`,
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=unpaid&limit=100&fulfillment_status=unfulfilled`,
+        {
+          headers: {
+            "X-Shopify-Access-Token": store.store_info.accessToken,
+          },
+        }
+      );
+      let resOrders = response.data.orders;
+      resOrders = resOrders.filter((order) =>
+        order.tags.toLowerCase().includes("call confirmed")
+      );
+      for (const order of resOrders) {
+        for (const item of order.line_items) {
+          if (item.sku === "" || item.sku === null) {
+            continue;
+          }
+          if (skus[item.sku]) {
+            skus[item.sku] += item.quantity;
+          } else {
+            skus[item.sku] = item.quantity;
+          }
+        }
+      }
     }
-  });
+  }
 
-  // Return the sum of Stock
-  const sumStock = stock.reduce((a, b) => a + b, 0);
+  console.log("skus: ", skus);
 
-  res.status(200).json({ total_items: sumStock, skus });
+  res.status(200).json({ skus });
 });
 
 app.get("/sss", async (req, res) => {

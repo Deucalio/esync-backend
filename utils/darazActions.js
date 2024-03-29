@@ -26,13 +26,7 @@ function urlEncodeArray(arr) {
   return encodedStr;
 }
 
-const generateDarazURL = async (
-  apiPath,
-  method,
-  AppKey,
-  accessToken,
-  params
-) => {
+const generateDarazURL = async (apiPath, AppKey, accessToken, params) => {
   // Generate the Sign First
   const timestamp = getTimeStamp();
   const config = {
@@ -53,10 +47,6 @@ const generateDarazURL = async (
   };
   const signRes = await axios.request(config);
   const sign = signRes.data;
-  // console.log("sign: ", sign);
-  // console.log("timestamp: ", timestamp);
-
-  // Check if there exists an array inside params
 
   // Generate the URL
   const queryString = objectToQueryString(params);
