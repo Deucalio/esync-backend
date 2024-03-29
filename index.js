@@ -563,7 +563,12 @@ app.get("/stock-checklist", async (req, res) => {
       }
     }
   }
-  res.status(200).json({ skus });
+  res.send(
+    // Send in this format sku1,quantity1/sku2,quantity2/sku3,quantity3
+    Object.entries(skus)
+      .map((sku) => sku.join(","))
+      .join("/")
+  );
 });
 
 app.get("/sss", async (req, res) => {
