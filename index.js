@@ -336,7 +336,6 @@ app.post("/orders", async (req, res) => {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
         `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50&fulfillment_status=unfulfilled`,
-        
 
         {
           headers: {
@@ -536,33 +535,34 @@ app.get("/stock-checklist", async (req, res) => {
           }
         }
       }
-    } else if (store.store_info.platform === "shopify") {
-      const response = await axios.get(
-        // `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=any&limit=50`,
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=100&fulfillment_status=unfulfilled`,
-        {
-          headers: {
-            "X-Shopify-Access-Token": store.store_info.accessToken,
-          },
-        }
-      );
-      let resOrders = response.data.orders;
-      resOrders = resOrders.filter((order) =>
-        order.tags.toLowerCase().includes("call confirmed")
-      );
-      for (const order of resOrders) {
-        for (const item of order.line_items) {
-          if (item.sku === "" || item.sku === null) {
-            continue;
-          }
-          if (skus[item.sku]) {
-            skus[item.sku] += item.quantity;
-          } else {
-            skus[item.sku] = item.quantity;
-          }
-        }
-      }
     }
+    //  else if (store.store_info.platform === "shopify") {
+    //   const response = await axios.get(
+    //     // `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=any&limit=50`,
+    //     `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=100&fulfillment_status=unfulfilled`,
+    //     {
+    //       headers: {
+    //         "X-Shopify-Access-Token": store.store_info.accessToken,
+    //       },
+    //     }
+    //   );
+    //   let resOrders = response.data.orders;
+    //   resOrders = resOrders.filter((order) =>
+    //     order.tags.toLowerCase().includes("call confirmed")
+    //   );
+    //   for (const order of resOrders) {
+    //     for (const item of order.line_items) {
+    //       if (item.sku === "" || item.sku === null) {
+    //         continue;
+    //       }
+    //       if (skus[item.sku]) {
+    //         skus[item.sku] += item.quantity;
+    //       } else {
+    //         skus[item.sku] = item.quantity;
+    //       }
+    //     }
+    //   }
+    // }
   }
   res.send(
     // Send in this format sku1,quantity1/sku2,quantity2/sku3,quantity3
