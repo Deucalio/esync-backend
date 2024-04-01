@@ -440,8 +440,10 @@ async function makeApiCalls() {
 app.get("/test", async (req, res) => {
   // Send post request to shopify with headers X-Shopify-Access-Token and orders data
   // Call the async function
-  await createOrder();
-  res.status(200).json({ message: "orders created" });
+  // await createOrder();
+  const user = await prisma.user.findMany({});
+  console.log("user: ", user);
+  res.status(200).send(user);
 });
 
 app.get("/", (req, res) => {
@@ -479,6 +481,7 @@ app.get("/create-barcode/:id", async (req, res) => {
 });
 app.get("/stock-checklist", async (req, res) => {
   const email = "subhankhanyz@gmail.com";
+  const start = new Date().getTime();
   const orders = [];
 
   const skus = {
@@ -494,6 +497,11 @@ app.get("/stock-checklist", async (req, res) => {
   } catch (e) {
     console.log("No user", e);
   }
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  console.log("Time taken to get user: ", timeTaken);
+
   for (const store of user.stores) {
     if (store.store_info.platform === "daraz") {
       const ordersIDs = [];
@@ -526,6 +534,7 @@ app.get("/stock-checklist", async (req, res) => {
 
       const resp = await axios.get(darazURL_id);
       const darazOrdersItems = resp.data.data;
+      console.log("darazOrdersItems: ", darazOrdersItems);
       for (const order of darazOrdersItems) {
         for (const item of order.order_items) {
           if (skus[item.sku]) {
