@@ -503,19 +503,6 @@ router.post("/add-cost-center", async (req, res) => {
         },
       });
     }
-    // Update the Store
-    const updatedStore = await prisma.store.update({
-      where: { id: Number(shopID) },
-      data: {
-        store_info: {
-          ...store.store_info,
-          courier_id: {
-            ...store.store_info.courier_id,
-            TCS: Number(courierAccount),
-          },
-        },
-      },
-    });
     res.status(200).json({ message: "Cost Center added successfully" });
   } else {
     res.status(400).json({ message: "Cost Center Could not be Added" });

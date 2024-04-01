@@ -223,19 +223,6 @@ app.post("/add-shipper", async (req, res) => {
             },
           });
         }
-        // Update the Store
-        const updatedStore = await prisma.store.update({
-          where: { id: Number(shopID) },
-          data: {
-            store_info: {
-              ...store.store_info,
-              courier_id: {
-                ...store.store_info.courier_id,
-                Leopards: Number(courierAccount),
-              },
-            },
-          },
-        });
 
         return res
           .status(200)
@@ -335,7 +322,8 @@ app.post("/orders", async (req, res) => {
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50&fulfillment_status=unfulfilled`,
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50`,
+        // &fulfillment_status=unfulfilled
 
         {
           headers: {

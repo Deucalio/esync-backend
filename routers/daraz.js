@@ -65,29 +65,29 @@ router.post("/access-token", async (req, res) => {
   });
   const userId = user.id;
 
-  let sameStoreNum = 0;
+  // let sameStoreNum = 0;
 
-  if (
-    stores.find((store) => {
-      if (store.name === name) {
-        sameStoreNum = isNaN(Number(store.name.slice(-2, -1)))
-          ? 0
-          : Number(store.name.slice(-2, -1)) + 1;
-        return true;  
-      }
-    })
-  ) {
-    const newStore = await prisma.store.create({
-      data: {
-        user_id: userId, // Specify the userId for the associated user
-        name: name + `${sameStoreNum}`,
-        image_url: "none",
-        image_public_id: "none",
-        store_info: { platform: "daraz", ...storeData },
-      },
-    });
-    res.status(200).json({ message: "Store Added" });
-  }
+  // if (
+  //   stores.find((store) => {
+  //     if (store.name === name) {
+  //       sameStoreNum = isNaN(Number(store.name.slice(-2, -1)))
+  //         ? 0
+  //         : Number(store.name.slice(-2, -1)) + 1;
+  //       return true;
+  //     }
+  //   })
+  // ) {
+  //   const newStore = await prisma.store.create({
+  //     data: {
+  //       user_id: userId, // Specify the userId for the associated user
+  //       name: name + `${sameStoreNum}`,
+  //       image_url: "none",
+  //       image_public_id: "none",
+  //       store_info: { platform: "daraz", ...storeData },
+  //     },
+  //   });
+  //   res.status(200).json({ message: "Store Added" });
+  // }
 
   //   Add the store
 
