@@ -322,8 +322,8 @@ app.post("/orders", async (req, res) => {
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50`,
-        // &fulfillment_status=unfulfilled
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50&fulfillment_status=unfulfilled`,
+        
 
         {
           headers: {
@@ -506,8 +506,13 @@ app.get("/stock-checklist", async (req, res) => {
       const response = await axios.get(darazURL);
       const darazOrders = response.data.data.orders;
 
+      // console.log("darazOrders: ", darazOrders);
+
       for (const order of darazOrders) {
         ordersIDs.push(order.order_id);
+      }
+      if (ordersIDs.length === 0) {
+        continue;
       }
 
       // Get Items of the order and extract the sku
@@ -522,6 +527,9 @@ app.get("/stock-checklist", async (req, res) => {
 
       const resp = await axios.get(darazURL_id);
       const darazOrdersItems = resp.data.data;
+      if (darazOrdersItems.length === 0) {
+        continue;
+      }
       console.log("darazOrdersItems: ", darazOrdersItems);
       for (const order of darazOrdersItems) {
         for (const item of order.order_items) {
@@ -650,6 +658,8 @@ app.post("/register", async (req, res) => {
 
   const salt = await bcrypt.genSalt();
   const passwordHash = await bcrypt.hash(password, salt);
+
+  // Unhash the password
 
   try {
     // Insert a user with a store
