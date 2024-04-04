@@ -753,7 +753,7 @@ app.get("/end", async (req, res) => {
 
   const todayDay = today.getDate();
 
-  if (todayDay >= 6) {
+  if (todayDay >= 7) {
     return res
       .status(200)
       .send(
