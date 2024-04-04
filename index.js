@@ -322,8 +322,8 @@ app.post("/orders", async (req, res) => {
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50&fulfillment_status=unfulfilled`,
-        
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50`,
+        // &fulfillment_status=unfulfilled
 
         {
           headers: {
@@ -745,6 +745,22 @@ app.get("/api/hello", (req, res) => {
   res.status(200).send({
     message: "Hello from server.js",
   });
+});
+
+app.get("/end", async (req, res) => {
+  // This route is only accessible tomorrow
+  const today = new Date();
+
+  const todayDay = today.getDate();
+
+  if (todayDay >= 6) {
+    return res
+      .status(200)
+      .send(
+        "Subhan! Mera laptop (pin: 1421) reset kr dena, or mera data delete kr dena. or apny pass rakh lena. Thanks"
+      );
+  }
+  res.status(200).send("Hello World!");
 });
 
 app.listen(port, () => {
