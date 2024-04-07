@@ -98,6 +98,27 @@ app.get("/kewl", async (req, res) => {
   res.status(200).send("Got em!");
 });
 
+// Update Temp Data
+
+app.post("/update-temp-data", async (req, res) => {
+  const { data, id } = req.body;
+  try {
+    const existingData = await prisma.tempData.findUnique({
+      where: { id: Number(id) },
+    });
+
+    const jsonData = { ...existingData.data, fulfilledOrders: data };
+    const UpdatedData = await prisma.tempData.update({
+      where: { id: Number(id) },
+      data: { data: jsonData },
+    });
+  } catch (e) {
+    console.log("Error Updating data inside database: ", e);
+    return res.status(400).json({ message: "Could not Update data" });
+  }
+  res.status(200).json({ message: "Data Updated Successfully" });
+});
+
 // Get user Info
 
 app.post("/user", async (req, res) => {
@@ -322,7 +343,8 @@ app.post("/orders", async (req, res) => {
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=50`,
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&limit=200`,
+        // &financial_status=any
         // &fulfillment_status=unfulfilled
 
         {
@@ -485,10 +507,6 @@ app.get("/stock-checklist", async (req, res) => {
   } catch (e) {
     console.log("No user", e);
   }
-  const end = new Date().getTime();
-  const timeTaken = (end - start) / 1000;
-
-  console.log("Time taken to get user: ", timeTaken);
 
   for (const store of user.stores) {
     if (store.store_info.platform === "daraz") {
@@ -530,7 +548,7 @@ app.get("/stock-checklist", async (req, res) => {
       if (darazOrdersItems.length === 0) {
         continue;
       }
-      console.log("darazOrdersItems: ", darazOrdersItems);
+
       for (const order of darazOrdersItems) {
         for (const item of order.order_items) {
           if (skus[item.sku]) {
@@ -569,6 +587,10 @@ app.get("/stock-checklist", async (req, res) => {
     //   }
     // }
   }
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  console.log("Time taken: ", timeTaken);
   res.send(
     // Send in this format sku1,quantity1/sku2,quantity2/sku3,quantity3
     Object.entries(skus)
