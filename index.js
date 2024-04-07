@@ -103,12 +103,12 @@ app.get("/kewl", async (req, res) => {
 app.post("/update-temp-data", async (req, res) => {
   const { data, id } = req.body;
   try {
-    const existingData = await prisma.tempData.findUnique({
+    const existingData = await prisma.temporaryData.findUnique({
       where: { id: Number(id) },
     });
 
     const jsonData = { ...existingData.data, fulfilledOrders: data };
-    const UpdatedData = await prisma.tempData.update({
+    const UpdatedData = await prisma.temporaryData.update({
       where: { id: Number(id) },
       data: { data: jsonData },
     });
