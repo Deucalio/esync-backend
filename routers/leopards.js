@@ -329,32 +329,30 @@ router.delete("/delete-account/:id", async (req, res) => {
 
 // REVERSE BOOK
 router.post("/return-book", async (req, res) => {
-  const { account, weight, pieces, collectAmount, city, apiInfo } = req.body;
-
- 
+  const { weight, pieces, collectAmount, city, data, shippers } = req.body;
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   const raw = JSON.stringify({
-    api_key: "6DFC06F1D192CEEF68AAD4774EFF7648",
-    api_password: "SUBHAN06",
+    api_key: data.apiKey,
+    api_password: data.password,
     packets: [
       {
-        booked_packet_weight: 100,
-        booked_packet_no_piece: 2,
-        booked_packet_collect_amount: 1,
-        origin_city: 939,
+        booked_packet_weight: Number(weight),
+        booked_packet_no_piece: Number(pieces),
+        booked_packet_collect_amount: Number(collectAmount),
+        origin_city: Number(city),
         destination_city: 475,
-        shipment_id: 1582937,
-        shipment_name_eng: "Nakson 101",
+        shipment_id: Number(`${shippers[0].response.shipment_id}`),
+        shipment_name_eng: `${shippers[0].response.shipment_name}`,
         shipment_email: "self",
-        shipment_phone: "self",
+        shipment_phone: `${shippers[0].response.shipment_phone}`,
         shipment_address: "self",
         consignment_name_eng: "Nakson",
-        consignment_phone: "03153036973",
-        consignment_address: "Unit #10",
-        special_instructions: "kuch bhi daldo",
+        consignment_phone: "03481273957",
+        consignment_address: "#30-B block E unit#6 Latifabad Hyderabad",
+        special_instructions: "Call me near Buddy Chowk",
         shipment_type: "overnight",
       },
     ],
@@ -367,13 +365,13 @@ router.post("/return-book", async (req, res) => {
     redirect: "follow",
   };
 
-  fetch(
+  const lres = await fetch(
     "https://merchantapi.leopardscourier.com/api/batchBookPacket/format/json",
     requestOptions
-  )
-    .then((response) => response.text())
-    .then((result) => console.log("result: ", result))
-    .catch((error) => console.error(error));
+  );
+  const trackData = await lres.json();
+  console.log("trackData", trackData);
+  res.status(200).json({ message: "Return Booked", data: trackData });
 });
 
 module.exports = router;
