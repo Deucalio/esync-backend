@@ -327,4 +327,53 @@ router.delete("/delete-account/:id", async (req, res) => {
   res.status(200).json({ message: "Account deleted successfully" });
 });
 
+// REVERSE BOOK
+router.post("/return-book", async (req, res) => {
+  const { account, weight, pieces, collectAmount, city, apiInfo } = req.body;
+
+ 
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    api_key: "6DFC06F1D192CEEF68AAD4774EFF7648",
+    api_password: "SUBHAN06",
+    packets: [
+      {
+        booked_packet_weight: 100,
+        booked_packet_no_piece: 2,
+        booked_packet_collect_amount: 1,
+        origin_city: 939,
+        destination_city: 475,
+        shipment_id: 1582937,
+        shipment_name_eng: "Nakson 101",
+        shipment_email: "self",
+        shipment_phone: "self",
+        shipment_address: "self",
+        consignment_name_eng: "Nakson",
+        consignment_phone: "03153036973",
+        consignment_address: "Unit #10",
+        special_instructions: "kuch bhi daldo",
+        shipment_type: "overnight",
+      },
+    ],
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  fetch(
+    "https://merchantapi.leopardscourier.com/api/batchBookPacket/format/json",
+    requestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => console.log("result: ", result))
+    .catch((error) => console.error(error));
+});
+
 module.exports = router;
