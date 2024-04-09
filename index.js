@@ -343,7 +343,7 @@ app.post("/orders", async (req, res) => {
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
       const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&limit=200`,
+        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&limit=100`,
         // &financial_status=any
         // &fulfillment_status=unfulfilled
 
@@ -374,7 +374,7 @@ app.post("/orders", async (req, res) => {
         process.env.DARAZ_APP_KEY,
         store.store_info.access_token,
         {
-          limt: "100",
+          limt: "50",
           update_after: "2018-02-10T16:00:00+08:00",
           // status: "pending",
         }
