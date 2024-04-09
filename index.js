@@ -367,41 +367,36 @@ app.post("/orders", async (req, res) => {
           },
         });
       });
-    }
-    // } else if (store.store_info.platform === "daraz") {
-    //   console.log("store: ", store);
-    //   const darazURL = await generateDarazURL(
-    //     "/orders/get",
-    //     // "/orders/items/get",
-    //     "get",
-    //     process.env.DARAZ_APP_KEY,
-    //     store.store_info.access_token,
-    //     {
-    //       limt: "30",
-    //       update_after: "2018-02-10T16:00:00+08:00",
-    //       status: "pending",
-    //       // order_ids: "[180683837008934, 140003114135239]",
-    //     }
-    //   );
+    } else if (store.store_info.platform === "daraz") {
+      console.log("store: ", store);
+      const darazURL = await generateDarazURL(
+        "/orders/get",
+        process.env.DARAZ_APP_KEY,
+        store.store_info.access_token,
+        {
+          limt: "100",
+          update_after: "2018-02-10T16:00:00+08:00",
+          // status: "pending",
+        }
+      );
 
-    //   const response = await axios.get(darazURL);
-    //   const darazOrders = response.data.data.orders;
-    //   darazOrders.forEach((order) => {
-    //     orders.push({
-    //       ...order,
-    //       store_info: {
-    //         platform: "daraz",
-    //         domain: null,
-    //         shopLogo: null,
-    //         name: store.name,
-    //       },
-    //     });
-    //   });
-    // }
+      const response = await axios.get(darazURL);
+      console.log("response`, ", response.data);
+      const darazOrders = response.data.data.orders;
+      darazOrders.forEach((order) => {
+        orders.push({
+          ...order,
+          store_info: {
+            platform: "daraz",
+            domain: null,
+            shopLogo: null,
+            name: store.name,
+          },
+        });
+      });
+    }
   }
-  res
-    .status(200)
-    .send(orders.filter((order) => order.tags.includes("Call Confirmed")));
+  res.status(200).send(orders);
 });
 async function createOrder() {
   try {
