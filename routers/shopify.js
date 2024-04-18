@@ -84,7 +84,6 @@ router.post("/validate-name", async (req, res) => {
   }
   res.status(200).json({ message: "Store name available" });
 });
-
 // Send the Token, Add the Name and the Image URL,public ID in to the store table
 router.post("/save-store", async (req, res) => {
   const {

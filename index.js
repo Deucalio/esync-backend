@@ -367,7 +367,7 @@ app.post("/orders", async (req, res) => {
           },
         });
       });
-    } 
+    }
     // else if (store.store_info.platform === "daraz") {
     //   console.log("store: ", store);
     //   const darazURL = await generateDarazURL(
@@ -764,22 +764,14 @@ app.get("/api/hello", (req, res) => {
   });
 });
 
-app.get("/end", async (req, res) => {
-  // This route is only accessible tomorrow
-  const today = new Date();
-
-  const todayDay = today.getDate();
-
-  if (todayDay >= 7) {
-    return res
-      .status(200)
-      .send(
-        "Subhan! Mera laptop (pin: 1421) reset kr dena, or mera data delete kr dena. or apny pass rakh lena. Thanks"
-      );
-  }
-  res.status(200).send("Hello World!");
+app.get("/speed", async (req, res) => {
+  const start = new Date().getTime();
+  
+  const data = await prisma.temporaryData.findMany({});
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+  res.status(200).send({ timeTaken, data });
 });
-
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
