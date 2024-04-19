@@ -774,15 +774,12 @@ app.get("/speed", async (req, res) => {
 });
 
 // BULKSOURCE !!!!
-
 app.get("/bulksource/products", async (req, res) => {
   // Send a request to get all Products
-  const url = `https://bulksource.pk/wp-json/wc/v3/products?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}&per_page=46`;
+  const url = `https://bulksource.pk/wp-json/wc/v3/products?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}&per_page=46&tag=161`;
   const products = await axios.get(url);
-
   res.send(products.data);
 });
-
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
