@@ -766,12 +766,23 @@ app.get("/api/hello", (req, res) => {
 
 app.get("/speed", async (req, res) => {
   const start = new Date().getTime();
-  
+
   const data = await prisma.temporaryData.findMany({});
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
   res.status(200).send({ timeTaken, data });
 });
+
+// BULKSOURCE !!!!
+
+app.get("/bulksource/products", async (req, res) => {
+  // Send a request to get all Products
+  const url = `https://bulksource.pk/wp-json/wc/v3/products?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}&per_page=46`;
+  const products = await axios.get(url);
+
+  res.send(products.data);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
