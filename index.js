@@ -22,7 +22,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const https = require("https");
 app.use(bodyParser.json());
 const { dummy } = require("./routers/dummy");
-
 const { generateDarazURL } = require("./utils/darazActions");
 
 app.use(
@@ -779,6 +778,105 @@ app.get("/bulksource/products", async (req, res) => {
   const url = `https://bulksource.pk/wp-json/wc/v3/products?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}&per_page=46&tag=161`;
   const products = await axios.get(url);
   res.send(products.data);
+});
+
+app.post("/bulksource/create-order", async (req, res) => {
+  const {
+    data: { userInfo, products, shippingInfo },
+  } = req.body;
+
+  console.log("userInfo: ", userInfo);
+  console.log("shippingInfo: ", shippingInfo);
+
+  const line_items = products.map((product) => {
+    if (product.id === 1866) {
+      return {
+        product_id: product.id,
+        quantity: product.quantity,
+        subtotal: product.correctPrice,
+        total: product.correctPrice,
+        meta_data: [
+          {
+            key: product.name,
+            value: product.quantity,
+          },
+        ],
+      };
+    }
+    return {
+      product_id: `${product.id}`,
+      quantity: `${product.quantity}`,
+      subtotal: `${product.correctPrice * product.quantity}`,
+      total: `${product.correctPrice * product.quantity}`,
+    };
+  });
+
+  // Create a new order
+  const order = {
+    billing: {
+      first_name: userInfo.firstName,
+      last_name: userInfo.lastName,
+      address_1: userInfo.address,
+      city: userInfo.city,
+      // state: "CA",
+      // postcode: "12345",
+      country: "PK",
+      // email: "john.doe@example.com",
+      phone: userInfo.number,
+    },
+    shipping: {
+      first_name: userInfo.firstName,
+      last_name: userInfo.lastName,
+      address_1: userInfo.address,
+      city: userInfo.city,
+      // state: "CA",
+      // postcode: "54321",
+      country: "PK",
+    },
+    line_items: [
+      ...line_items,
+      // {
+      // product_id: 99,
+      // quantity: 1,
+      // subtotal: "20.00",
+      // price: "20.00",
+      // meta_data: [
+      //   {
+      //     key: "size",
+      //     value: "Large",
+      //   },
+      //   {
+      //     key: "color",
+      //     value: "Blue",
+      //   },
+      // ],
+      // },
+    ],
+    shipping_lines: [
+      {
+        method_id: shippingInfo.courier,
+        method_title: shippingInfo.courier,
+        total: shippingInfo.charges,
+      },
+    ],
+    fee_lines: [
+      {
+        name: shippingInfo.name,
+        total: shippingInfo.price,
+      },
+    ],
+  };
+
+  const url = `https://bulksource.pk/wp-json/wc/v3/orders?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}`;
+  const resp = await axios.post(url, order);
+  const orderData = resp.data;
+  console.log("order: ", order);
+  console.log("orderData: ", orderData);
+  if (!orderData.id) {
+    return res.status(400).json({ message: "Order not created" });
+  }
+
+  res.status(200).json({ success: true, orderData });
 });
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
