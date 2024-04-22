@@ -350,7 +350,18 @@ router.delete("/delete-account/:id", async (req, res) => {
 
 // REVERSE BOOK
 router.post("/return-book", async (req, res) => {
-  const { weight, pieces, collectAmount, city, data, shippers } = req.body;
+  const {
+    shipperName,
+    shipperAddress,
+    shipperPhone,
+    account,
+    weight,
+    pieces,
+    collectAmount,
+    city,
+    data,
+    shippers,
+  } = req.body;
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -366,12 +377,13 @@ router.post("/return-book", async (req, res) => {
         origin_city: Number(city),
         destination_city: 475,
         shipment_id: Number(`${shippers[0].response.shipment_id}`),
-        shipment_name_eng: `${shippers[0].response.shipment_name}`,
+        shipment_name_eng: `${shipperName}`,
         shipment_email: "self",
-        shipment_phone: `${shippers[0].response.shipment_phone}`,
-        shipment_address: "self",
-        consignment_name_eng: "Nakson",
-        consignment_phone: "03481273957",
+        shipment_phone: `${shipperPhone}`,
+        shipment_address: `${shipperAddress}`,
+        consignment_name_eng:
+          account === 4 ? "Mondaughts" : "DeepSea Life Sciences",
+        consignment_phone: account === 4 ? "03320003362" : "03481273957",
         consignment_address: "#30-B block E unit#6 Latifabad Hyderabad",
         special_instructions: "Call me near Buddy Chowk",
         shipment_type: "overnight",
