@@ -92,6 +92,9 @@ app.use("/leopards", require("./routers/leopards"));
 // Routes for TCS API
 app.use("/tcs", require("./routers/tcs"));
 
+// Routes for Daewoo API
+app.use("/daewoo", require("./routers/daewoo"));
+
 app.get("/kewl", async (req, res) => {
   console.log("Hello World!");
   res.status(200).send("Got em!");
@@ -785,9 +788,6 @@ app.post("/bulksource/create-order", async (req, res) => {
     data: { userInfo, products, shippingInfo },
   } = req.body;
 
-  console.log("userInfo: ", userInfo);
-  console.log("shippingInfo: ", shippingInfo);
-
   const line_items = products.map((product) => {
     if (product.id === 1866) {
       return {
@@ -870,8 +870,6 @@ app.post("/bulksource/create-order", async (req, res) => {
   const url = `https://bulksource.pk/wp-json/wc/v3/orders?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}`;
   const resp = await axios.post(url, order);
   const orderData = resp.data;
-  console.log("order: ", order);
-  console.log("orderData: ", orderData);
   if (!orderData.id) {
     return res.status(400).json({ message: "Order not created" });
   }

@@ -22,6 +22,24 @@ router.post("/save-temp-data", async (req, res) => {
 
   res.status(200).json({ message: "Data Saved" });
 });
+router.post("/save-temp-data", async (req, res) => {
+  let savedData = "";
+  const { id, data, email } = req.body;
+  try {
+    savedData = await prisma.temporaryData.create({
+      data: {
+        id,
+        email,
+        data,
+      },
+    });
+  } catch (e) {
+    console.log("Error saving data inside database: ", e);
+    return res.status(400).json({ message: "Could not save data" });
+  }
+
+  res.status(200).json({ message: "Data Saved" });
+});
 router.get("/get-temp-data/:id", async (req, res) => {
   const { id: dbID } = req.params;
   let tempData = "";
@@ -31,7 +49,7 @@ router.get("/get-temp-data/:id", async (req, res) => {
         id: Number(dbID),
       },
     });
-    if (!tempData) {
+    if (!tempData || !tempData.data.fulfilledOrders) {
       return res
         .status(202)
         .json({ message: "Data still processing", data: [] });
@@ -41,7 +59,10 @@ router.get("/get-temp-data/:id", async (req, res) => {
     return res.status(400).json({ message: "Could not get data" });
   }
 
-  res.status(200).json({ data: tempData.data });
+  // Check if the data has field called fulfilled, if it does then return the data
+  if (tempData.data.fulfilledOrders) {
+    return res.status(200).json({ data: tempData.data });
+  }
 });
 
 router.post("/add-account", async (req, res) => {

@@ -32,7 +32,7 @@ router.get("/get-temp-data/:id", async (req, res) => {
         id: Number(dbID),
       },
     });
-    if (!tempData) {
+    if (!tempData || !tempData.data.fulfilledOrders) {
       return res
         .status(202)
         .json({ message: "Data still processing", data: [] });
@@ -42,7 +42,10 @@ router.get("/get-temp-data/:id", async (req, res) => {
     return res.status(400).json({ message: "Could not get data" });
   }
 
-  res.status(200).json({ data: tempData.data });
+  // Check if the data has field called fulfilled, if it does then return the data
+  if (tempData.data.fulfilledOrders) {
+    return res.status(200).json({ data: tempData.data });
+  }
 });
 
 router.post("/book", async (req, res) => {
