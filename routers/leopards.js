@@ -351,6 +351,7 @@ router.delete("/delete-account/:id", async (req, res) => {
 // REVERSE BOOK
 router.post("/return-book", async (req, res) => {
   const {
+    consName,
     shipperName,
     shipperAddress,
     shipperPhone,
@@ -381,8 +382,7 @@ router.post("/return-book", async (req, res) => {
         shipment_email: "self",
         shipment_phone: `${shipperPhone}`,
         shipment_address: `${shipperAddress}`,
-        consignment_name_eng:
-          account === 4 ? "Mondaughts" : "DeepSea Life Sciences",
+        consignment_name_eng: consName,
         consignment_phone: account === 4 ? "03320003362" : "03481273957",
         consignment_address: "#30-B block E unit#6 Latifabad Hyderabad",
         special_instructions: "Call me near Buddy Chowk",
