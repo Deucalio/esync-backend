@@ -397,11 +397,18 @@ router.post("/return-book", async (req, res) => {
     body: raw,
     redirect: "follow",
   };
+  let lres = "";
 
-  const lres = await fetch(
-    "https://merchantapi.leopardscourier.com/api/batchBookPacket/format/json",
-    requestOptions
-  );
+  try {
+    lres = await fetch(
+      "https://merchantapi.leopardscourier.com/api/batchBookPacket/format/json",
+      requestOptions
+    );
+  } catch (e) {
+    console.log("error: Could not book Return Packet ", e);
+    return res.status(400).json({ message: "Could not book return packet" });
+  }
+
   const trackData = await lres.json();
   console.log("trackData", trackData);
   res.status(200).json({ message: "Return Booked", data: trackData });

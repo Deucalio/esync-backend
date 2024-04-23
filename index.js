@@ -355,7 +355,11 @@ app.post("/orders", async (req, res) => {
           },
         }
       );
-      const resOrders = response.data.orders;
+      let resOrders = response.data.orders;
+      // If the order has a tag "on hold" then remove it from the list
+      resOrders = resOrders.filter(
+        (order) => !order.tags.toLowerCase().includes("on hold")
+      );
 
       resOrders.forEach((order) => {
         orders.push({

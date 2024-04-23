@@ -4,11 +4,8 @@ const { PrismaClient } = require("../generated/client"); // Adjust the path base
 const prisma = new PrismaClient();
 require("dotenv").config();
 
-router.post("/add-account", async (req, res) => {
+router.post("/validate-api-credentials", async (req, res) => {
   const { apiKey, apiUser, apiPassword, city } = req.body;
-
-  // Check if account already exists
-  
 
   // If account doesn't exists, add the account
   // Books a order and then cancels it
@@ -65,7 +62,58 @@ router.post("/add-account", async (req, res) => {
       message: `Couldn't add account, please Cancel the Order ${cn}`,
     });
   }
+
+  // Check if account already exists
+  let couriers = await prisma.courier.findMany({
+    where: {
+      name: "Daewoo",
+    },
+  });
+
   return res.status(200).json({ success: true, message: "Account Added" });
+});
+
+// Add account
+router.post("/add-account", async (req, res) => {
+  const { apiKey, apiUser, apiPassword, city, email } = req.body;
+
+  let couriers = await prisma.courier.findMany({
+    where: {
+      name: "Daewoo",
+    },
+  });
+
+  couriers = couriers.filter((courier) => {
+    return (
+      courier.data.apiKey === apiKey ||
+      courier.data.apiUser === apiUser ||
+      courier.data.apiPassword === apiPassword
+    );
+  });
+
+  if (couriers.length > 0) {
+    return res.status(400).json({ message: "Account already exists" });
+  }
+
+  //   Add account to the database
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+
+  const user_id = user.id;
+
+  const courier = await prisma.courier.create({
+    data: {
+      user_id: user_id,
+      name: "Daewoo",
+      data: { apiKey, apiUser, apiPassword, city },
+      shippers: "null",
+    },
+  });
+
+  return res.status(200).json({ message: "Account Added" });
 });
 
 module.exports = router;
