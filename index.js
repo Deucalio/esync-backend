@@ -816,7 +816,7 @@ app.post("/bulksource/create-order", async (req, res) => {
   });
 
   // Create a new order
-  const order = {
+  let order = {
     billing: {
       first_name: userInfo.firstName,
       last_name: userInfo.lastName,
@@ -837,25 +837,7 @@ app.post("/bulksource/create-order", async (req, res) => {
       // postcode: "54321",
       country: "PK",
     },
-    line_items: [
-      ...line_items,
-      // {
-      // product_id: 99,
-      // quantity: 1,
-      // subtotal: "20.00",
-      // price: "20.00",
-      // meta_data: [
-      //   {
-      //     key: "size",
-      //     value: "Large",
-      //   },
-      //   {
-      //     key: "color",
-      //     value: "Blue",
-      //   },
-      // ],
-      // },
-    ],
+    line_items: [...line_items],
     shipping_lines: [
       {
         method_id: shippingInfo.courier,

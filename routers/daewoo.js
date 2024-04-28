@@ -82,7 +82,6 @@ router.post("/add-account", async (req, res) => {
       name: "Daewoo",
     },
   });
-
   couriers = couriers.filter((courier) => {
     return (
       courier.data.apiKey === apiKey ||
@@ -103,7 +102,6 @@ router.post("/add-account", async (req, res) => {
   });
 
   const user_id = user.id;
-
   const courier = await prisma.courier.create({
     data: {
       user_id: user_id,
@@ -112,7 +110,6 @@ router.post("/add-account", async (req, res) => {
       shippers: "null",
     },
   });
-
   return res.status(200).json({ message: "Account Added" });
 });
 
