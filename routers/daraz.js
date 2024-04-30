@@ -24,17 +24,15 @@ router.post("/sign", async (req, res) => {
 });
 
 router.post("/access-token", async (req, res) => {
-  const { signature, code, timeStamp, app_key, name, email, userEmail } =
-    req.body;
+  const { signature, code, timeStamp, app_key, userEmail } = req.body;
 
   // Get all the stores
-  const stores = await prisma.store.findMany({});
+  const stores = await prisma.store.findMany({
+    where: {
+      platform: "daraz",
+    },
+  });
 
-  // Check if the store exists by the email
-  const store = stores.find((store) => store.store_info.account === email);
-  if (store) {
-    return res.status(200).json({ message: "Store already exists" });
-  }
   let url = "";
   let response = "";
   let storeData = "";
@@ -51,8 +49,11 @@ router.post("/access-token", async (req, res) => {
     return res.status(200).json({ message: "Invalid Code" });
   }
 
-  if (storeData.account !== email) {
-    return res.status(200).json({ message: "Invalid Email" });
+  const storeAlreadyExists = stores.find(
+    (s) => s.store_info.account === storeData.account
+  );
+  if (storeAlreadyExists) {
+    return res.status(200).json({ message: "Store Already Exists" });
   }
 
   //   Get the UserId associated with the userEmail
@@ -63,31 +64,6 @@ router.post("/access-token", async (req, res) => {
   });
   const userId = user.id;
 
-  // let sameStoreNum = 0;
-
-  // if (
-  //   stores.find((store) => {
-  //     if (store.name === name) {
-  //       sameStoreNum = isNaN(Number(store.name.slice(-2, -1)))
-  //         ? 0
-  //         : Number(store.name.slice(-2, -1)) + 1;
-  //       return true;
-  //     }
-  //   })
-  // ) {
-  //   const newStore = await prisma.store.create({
-  //     data: {
-  //       user_id: userId, // Specify the userId for the associated user
-  //       name: name + `${sameStoreNum}`,
-  //       image_url: "none",
-  //       image_public_id: "none",
-  //       store_info: { platform: "daraz", ...storeData },
-  //     },
-  //   });
-  //   res.status(200).json({ message: "Store Added" });
-  // }
-
-  //   Add the store
   let newStore = "";
 
   try {
