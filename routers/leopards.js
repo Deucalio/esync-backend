@@ -143,12 +143,12 @@ router.post("/book", async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { stores: true, Courier: true },
+    include: { Stores: true, Courier: true },
   });
 
   const userCourier = user.Courier.filter((acc) => acc.name === "Leopards");
 
-  const userStores = user.stores;
+  const userStores = user.Stores;
   const shopifyStores = userStores.filter(
     (store) => store.store_info.platform === "shopify"
   );

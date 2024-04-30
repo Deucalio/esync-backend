@@ -128,7 +128,7 @@ app.post("/user", async (req, res) => {
   console.log("email: ", email);
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { stores: true, Courier: true },
+    include: { Stores: true, Courier: true },
   });
   res.status(200).send(user);
 });
@@ -298,7 +298,7 @@ app.delete("/delete-shipper/:id", async (req, res) => {
 // app.get("/ok", async (req, res) => {
 //   const user = await prisma.user.findUnique({
 //     where: { email: "subhankhanyz@gmail.com" },
-//     include: { Courier: true, stores: true },
+//     include: { Courier: true, Stores: true },
 //   });
 
 //   res.status(200).send(user);
@@ -338,9 +338,9 @@ app.post("/orders", async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { stores: true, Courier: true },
+    include: { Stores: true, Courier: true },
   });
-  const userStores = user.stores;
+  const userStores = user.Stores;
 
   for (const store of userStores) {
     if (store.store_info.platform === "shopify") {
@@ -503,13 +503,13 @@ app.get("/stock-checklist", async (req, res) => {
   try {
     user = await prisma.user.findUnique({
       where: { email: email },
-      include: { stores: true, Courier: true },
+      include: { Stores: true, Courier: true },
     });
   } catch (e) {
     console.log("No user", e);
   }
 
-  for (const store of user.stores) {
+  for (const store of user.Stores) {
     if (store.store_info.platform === "daraz") {
       const ordersIDs = [];
       const darazURL = await generateDarazURL(
@@ -862,6 +862,13 @@ app.post("/bulksource/create-order", async (req, res) => {
 
   res.status(200).json({ success: true, orderData });
 });
+
+app.get("/pepsi", async (req, res) => {
+  const data = await prisma.user.create({});
+
+  res.json({ leopards, tcs, data });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

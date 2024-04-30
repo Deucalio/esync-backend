@@ -51,8 +51,6 @@ router.post("/access-token", async (req, res) => {
     return res.status(200).json({ message: "Invalid Code" });
   }
 
-  //   Check if the email matches the user
-
   if (storeData.account !== email) {
     return res.status(200).json({ message: "Invalid Email" });
   }
@@ -90,16 +88,24 @@ router.post("/access-token", async (req, res) => {
   // }
 
   //   Add the store
+  let newStore = "";
 
-  const newStore = await prisma.store.create({
-    data: {
-      user_id: userId, // Specify the userId for the associated user
-      name: name,
-      image_url: "none",
-      image_public_id: "none",
-      store_info: { platform: "daraz", ...storeData },
-    },
-  });
+  try {
+    newStore = await prisma.store.create({
+      data: {
+        user_id: userId, // Specify the userId for the associated user
+        name: name,
+        platform: "daraz",
+        image_url: "none",
+        image_public_id: "none",
+        store_info: { platform: "daraz", ...storeData },
+      },
+    });
+  } catch (e) {
+    console.log("error adding store to DB: ", e);
+    return res.status(200).json({ message: "Invalid Code" });
+  }
+
   res.status(200).json({ message: "Store Added" });
 });
 
@@ -111,13 +117,13 @@ router.post("/get-stores", async (req, res) => {
       email: email,
     },
     include: {
-      stores: true,
+      Stores: true,
     },
   });
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
-  const darazStores = user.stores.filter(
+  const darazStores = user.Stores.filter(
     (user) => user.store_info.platform === "daraz"
   );
   if (!darazStores) {
@@ -128,23 +134,44 @@ router.post("/get-stores", async (req, res) => {
 
 // Delete a Store
 router.delete("/delete-store/:id", async (req, res) => {
-  const storeName = req.params.id;
-  const storeExists = await prisma.store.findUnique({
-    where: {
-      name: storeName,
-    },
-  });
-  if (!storeExists) {
-    return res.status(400).json({ message: "Store does not exist" });
-  }
+  const id = Number(req.params.id);
+
   // Delete the store
   const store = await prisma.store.delete({
     where: {
-      name: storeName,
+      id,
     },
   });
 
   res.status(200).json({ message: "Store deleted successfully" });
+});
+
+// Append into DB all the logs
+router.post("/save-log", async (req, res) => {
+  const { seller_id, data, timestamp } = req.body;
+
+  // Search the user by email
+
+  const stores = await prisma.store.findMany({
+    where: {
+      platform: "daraz",
+    },
+  });
+  const darazStore = stores.find(
+    (store) => store.store_info.account === seller_id
+  );
+
+  const userId = darazStore.user_id;
+
+  const logData = await prisma.darazLogs.create({
+    data: {
+      store: seller_id,
+      receivedAt: new Date(timestamp * 1000),
+      data: data,
+      user_id: userId,
+    },
+  });
+  res.status(200).json({ message: "Log Added" });
 });
 
 module.exports = router;

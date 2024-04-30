@@ -121,9 +121,69 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.StoreScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  platform: 'platform',
   image_url: 'image_url',
   image_public_id: 'image_public_id',
   store_info: 'store_info',
+  user_id: 'user_id'
+};
+
+exports.Prisma.DarazOrdersScalarFieldEnum = {
+  order_id: 'order_id',
+  seller_id: 'seller_id',
+  voucher_platform: 'voucher_platform',
+  vocher: 'vocher',
+  voucher_seller: 'voucher_seller',
+  order_number: 'order_number',
+  created_at: 'created_at',
+  voucher_code: 'voucher_code',
+  gift_option: 'gift_option',
+  shipping_fee_discount_platform: 'shipping_fee_discount_platform',
+  customer_name: 'customer_name',
+  promised_shipping_times: 'promised_shipping_times',
+  updated_at: 'updated_at',
+  price: 'price',
+  shipping_fee_original: 'shipping_fee_original',
+  payment_method: 'payment_method',
+  shipping_fee_discount_seller: 'shipping_fee_discount_seller',
+  shipping_fee: 'shipping_fee',
+  items_count: 'items_count',
+  statuses: 'statuses',
+  address_billing: 'address_billing',
+  gift_message: 'gift_message',
+  remarks: 'remarks',
+  address_shipping: 'address_shipping',
+  order_items: 'order_items',
+  user_id: 'user_id'
+};
+
+exports.Prisma.ShopifyOrdersScalarFieldEnum = {
+  order_id: 'order_id',
+  domain: 'domain',
+  order_name: 'order_name',
+  contact_email: 'contact_email',
+  created_at: 'created_at',
+  current_total_additional_fees_set: 'current_total_additional_fees_set',
+  current_total_discounts: 'current_total_discounts',
+  current_total_duties_set: 'current_total_duties_set',
+  current_total_price: 'current_total_price',
+  current_total_tax: 'current_total_tax',
+  email: 'email',
+  financial_status: 'financial_status',
+  fulfillment_status: 'fulfillment_status',
+  line_items: 'line_items',
+  note: 'note',
+  phone: 'phone',
+  processed_at: 'processed_at',
+  referring_site: 'referring_site',
+  source_name: 'source_name',
+  subtotal_price: 'subtotal_price',
+  tags: 'tags',
+  total_discounts: 'total_discounts',
+  total_line_items_price: 'total_line_items_price',
+  total_outstanding: 'total_outstanding',
+  total_price: 'total_price',
+  updated_at: 'updated_at',
   user_id: 'user_id'
 };
 
@@ -139,7 +199,16 @@ exports.Prisma.TemporaryDataScalarFieldEnum = {
   id: 'id',
   email: 'email',
   data: 'data',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.DarazLogsScalarFieldEnum = {
+  id: 'id',
+  store: 'store',
+  data: 'data',
+  receivedAt: 'receivedAt',
+  user_id: 'user_id'
 };
 
 exports.Prisma.SortOrder = {
@@ -162,12 +231,20 @@ exports.Prisma.JsonNullValueFilter = {
   AnyNull: Prisma.AnyNull
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
   Store: 'Store',
+  DarazOrders: 'DarazOrders',
+  ShopifyOrders: 'ShopifyOrders',
   Courier: 'Courier',
-  TemporaryData: 'TemporaryData'
+  TemporaryData: 'TemporaryData',
+  DarazLogs: 'DarazLogs'
 };
 
 /**

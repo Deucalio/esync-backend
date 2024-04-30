@@ -26,11 +26,11 @@ router.post("/orders", async (req, res) => {
       email: email,
     },
     include: {
-      stores: true,
+      Stores: true,
     },
   });
 
-  const shopifyStores = user.stores.filter(
+  const shopifyStores = user.Stores.filter(
     (store) => store.store_info.platform === "shopify"
   );
 
@@ -126,10 +126,10 @@ router.post("/get-stores", async (req, res) => {
       email: email,
     },
     include: {
-      stores: true,
+      Stores: true,
     },
   });
-  const shopifyStores = user.stores.filter(
+  const shopifyStores = user.Stores.filter(
     (store) => store.store_info.platform === "shopify"
   );
 

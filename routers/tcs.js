@@ -63,12 +63,12 @@ router.post("/book", async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { stores: true, Courier: true },
+    include: { Stores: true, Courier: true },
   });
 
   const userCourier = user.Courier.filter((acc) => acc.name === "TCS");
 
-  const userStores = user.stores;
+  const userStores = user.Stores;
   const shopifyStores = userStores.filter(
     (store) => store.store_info.platform === "shopify"
   );
@@ -405,12 +405,12 @@ router.post("/add-cost-center", async (req, res) => {
     },
     include: {
       Courier: true,
-      stores: true,
+      Stores: true,
     },
   });
   const user_id = user.id;
-  const shop = user.stores.find((shop) => shop.id === Number(shopID)).name;
-  const store = user.stores.find((shop) => shop.id === Number(shopID));
+  const shop = user.Stores.find((shop) => shop.id === Number(shopID)).name;
+  const store = user.Stores.find((shop) => shop.id === Number(shopID));
   const costCenterCode = "0" + String(Math.floor(Math.random() * 100));
 
   const userCouriers = user.Courier.filter((courier) => courier.name === "TCS");
