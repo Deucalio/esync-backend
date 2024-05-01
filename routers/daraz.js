@@ -41,6 +41,9 @@ router.post("/access-token", async (req, res) => {
     response = await axios.post(url);
     storeData = response.data;
 
+    console.log("code", code);
+    console.log("storeData", storeData);
+
     if (storeData.code === "InvalidCode") {
       return res.status(200).json({ message: storeData.code });
     }
