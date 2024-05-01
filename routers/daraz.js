@@ -25,6 +25,7 @@ router.post("/sign", async (req, res) => {
 
 router.post("/access-token", async (req, res) => {
   const { signature, code, timeStamp, app_key, userEmail, name } = req.body;
+  console.log("req.body: ", req.body);
 
   // Get all the stores
   const stores = await prisma.store.findMany({
@@ -40,9 +41,6 @@ router.post("/access-token", async (req, res) => {
     url = `https://api.daraz.pk/rest/auth/token/create?code=${code}&app_key=${app_key}&sign_method=sha256&timestamp=${timeStamp}&sign=${signature}`;
     response = await axios.post(url);
     storeData = response.data;
-
-    console.log("code", code);
-    console.log("storeData", storeData);
 
     if (storeData.code === "InvalidCode") {
       return res.status(200).json({ message: storeData.code });
