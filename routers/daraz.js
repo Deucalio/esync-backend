@@ -4,6 +4,7 @@ const axios = require("axios");
 const { PrismaClient } = require("../generated/client"); // Adjust the path based on your project structure
 const cloudinary = require("cloudinary");
 const prisma = new PrismaClient();
+const CryptoJS = require("crypto-js");
 
 function sign(secret, api, parameters) {
   const sortKeys = Object.keys(parameters).sort();
@@ -83,13 +84,11 @@ router.post("/access-token", async (req, res) => {
     return res.status(200).json({ message: "Error adding store to DB" });
   }
 
-  const redirectCode = crypto.createHmac("sha256", name);
-  // Redirect to the daraz store
-  res.redirect(
-    301,
-    `https://nakson.services/esync/settings/configuration?code=${redirectCode}`
-  );
-  // res.status(200).json({ message: "Store Added" });
+  const redirectCode = CryptoJS.HmacSHA256(name, "daraz").toString();
+
+  // Send a request to nakson.services to trigger the inngest api to append orders
+
+  res.status(200).json({ code: redirectCode, message: "Store Added" });
 });
 
 // Show all connected Stores
