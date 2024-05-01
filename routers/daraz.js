@@ -24,7 +24,7 @@ router.post("/sign", async (req, res) => {
 });
 
 router.post("/access-token", async (req, res) => {
-  const { signature, code, timeStamp, app_key, userEmail } = req.body;
+  const { signature, code, timeStamp, app_key, userEmail, name } = req.body;
 
   // Get all the stores
   const stores = await prisma.store.findMany({
@@ -82,7 +82,7 @@ router.post("/access-token", async (req, res) => {
     });
   } catch (e) {
     console.log("error adding store to DB: ", e);
-    return res.status(200).json({ message: "Invalid Code" });
+    return res.status(200).json({ message: "Error adding store to DB" });
   }
 
   res.status(200).json({ message: "Store Added" });
