@@ -83,7 +83,13 @@ router.post("/access-token", async (req, res) => {
     return res.status(200).json({ message: "Error adding store to DB" });
   }
 
-  res.status(200).json({ message: "Store Added" });
+  const redirectCode = crypto.createHmac("sha256", name);
+  // Redirect to the daraz store
+  res.redirect(
+    301,
+    `https://nakson.services/esync/settings/configuration?code=${redirectCode}`
+  );
+  // res.status(200).json({ message: "Store Added" });
 });
 
 // Show all connected Stores
