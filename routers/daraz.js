@@ -88,9 +88,10 @@ router.post("/access-token", async (req, res) => {
 
   // Send a request to nakson.services to trigger the inngest api to append orders
   const ingestUrl = `https://nakson.services/api/daraz/orders`;
+  console.log("userId", userId);
 
   const orderRes = await axios.post(ingestUrl, {
-    userId,
+    userID: userId,
     accessToken: storeData.access_token,
   });
 
