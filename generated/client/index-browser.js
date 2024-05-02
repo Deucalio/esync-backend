@@ -132,7 +132,7 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   order_id: 'order_id',
   seller_id: 'seller_id',
   voucher_platform: 'voucher_platform',
-  vocher: 'vocher',
+  voucher: 'voucher',
   voucher_seller: 'voucher_seller',
   order_number: 'order_number',
   created_at: 'created_at',

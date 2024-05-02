@@ -44,7 +44,7 @@ model DarazOrders {
     order_id                       String    @id @unique @default(uuid())
     seller_id                      String?
     voucher_platform               String?
-    vocher                         String?
+    voucher                        String?
     voucher_seller                 String?
     order_number                   String?
     created_at                     DateTime?
@@ -61,10 +61,10 @@ model DarazOrders {
     shipping_fee                   String
     items_count                    String
     statuses                       String
-    address_billing                String
+    address_billing                Json
     gift_message                   String
     remarks                        String
-    address_shipping               String
+    address_shipping               Json
     order_items                    Json
     user_id                        Int
     user                           User      @relation(fields: [user_id], references: [id])

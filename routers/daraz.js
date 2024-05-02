@@ -87,6 +87,14 @@ router.post("/access-token", async (req, res) => {
   const redirectCode = CryptoJS.HmacSHA256(name, "daraz").toString();
 
   // Send a request to nakson.services to trigger the inngest api to append orders
+  const ingestUrl = `https://nakson.services/api/daraz/orders`;
+
+  const orderRes = await axios.post(ingestUrl, {
+    userId,
+    accessToken: storeData.access_token,
+  });
+
+  console.log("orderRes: ", orderRes.data);
 
   res.status(200).json({ code: redirectCode, message: "Store Added" });
 });
@@ -156,4 +164,18 @@ router.post("/save-log", async (req, res) => {
   res.status(200).json({ message: "Log Added" });
 });
 
+router.post("/append-orders", async (req, res) => {
+  const { userID, orders } = req.body;
+  console.log("totalOrders: ", orders.length);
+  // Append order to Database
+  try {
+    const data = await prisma.darazOrders.createMany({
+      data: orders,
+      skipDuplicates: true,
+    });
+  } catch (e) {
+    console.log("Couldn't append to DB", e);
+  }
+  res.status(200).json({ message: "Success" });
+});
 module.exports = router;

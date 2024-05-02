@@ -3567,7 +3567,7 @@ export namespace Prisma {
     order_id: string | null
     seller_id: string | null
     voucher_platform: string | null
-    vocher: string | null
+    voucher: string | null
     voucher_seller: string | null
     order_number: string | null
     created_at: Date | null
@@ -3584,10 +3584,8 @@ export namespace Prisma {
     shipping_fee: string | null
     items_count: string | null
     statuses: string | null
-    address_billing: string | null
     gift_message: string | null
     remarks: string | null
-    address_shipping: string | null
     user_id: number | null
   }
 
@@ -3595,7 +3593,7 @@ export namespace Prisma {
     order_id: string | null
     seller_id: string | null
     voucher_platform: string | null
-    vocher: string | null
+    voucher: string | null
     voucher_seller: string | null
     order_number: string | null
     created_at: Date | null
@@ -3612,10 +3610,8 @@ export namespace Prisma {
     shipping_fee: string | null
     items_count: string | null
     statuses: string | null
-    address_billing: string | null
     gift_message: string | null
     remarks: string | null
-    address_shipping: string | null
     user_id: number | null
   }
 
@@ -3623,7 +3619,7 @@ export namespace Prisma {
     order_id: number
     seller_id: number
     voucher_platform: number
-    vocher: number
+    voucher: number
     voucher_seller: number
     order_number: number
     created_at: number
@@ -3662,7 +3658,7 @@ export namespace Prisma {
     order_id?: true
     seller_id?: true
     voucher_platform?: true
-    vocher?: true
+    voucher?: true
     voucher_seller?: true
     order_number?: true
     created_at?: true
@@ -3679,10 +3675,8 @@ export namespace Prisma {
     shipping_fee?: true
     items_count?: true
     statuses?: true
-    address_billing?: true
     gift_message?: true
     remarks?: true
-    address_shipping?: true
     user_id?: true
   }
 
@@ -3690,7 +3684,7 @@ export namespace Prisma {
     order_id?: true
     seller_id?: true
     voucher_platform?: true
-    vocher?: true
+    voucher?: true
     voucher_seller?: true
     order_number?: true
     created_at?: true
@@ -3707,10 +3701,8 @@ export namespace Prisma {
     shipping_fee?: true
     items_count?: true
     statuses?: true
-    address_billing?: true
     gift_message?: true
     remarks?: true
-    address_shipping?: true
     user_id?: true
   }
 
@@ -3718,7 +3710,7 @@ export namespace Prisma {
     order_id?: true
     seller_id?: true
     voucher_platform?: true
-    vocher?: true
+    voucher?: true
     voucher_seller?: true
     order_number?: true
     created_at?: true
@@ -3834,7 +3826,7 @@ export namespace Prisma {
     order_id: string
     seller_id: string | null
     voucher_platform: string | null
-    vocher: string | null
+    voucher: string | null
     voucher_seller: string | null
     order_number: string | null
     created_at: Date | null
@@ -3851,10 +3843,10 @@ export namespace Prisma {
     shipping_fee: string
     items_count: string
     statuses: string
-    address_billing: string
+    address_billing: JsonValue
     gift_message: string
     remarks: string
-    address_shipping: string
+    address_shipping: JsonValue
     order_items: JsonValue
     user_id: number
     _count: DarazOrdersCountAggregateOutputType | null
@@ -3882,7 +3874,7 @@ export namespace Prisma {
     order_id?: boolean
     seller_id?: boolean
     voucher_platform?: boolean
-    vocher?: boolean
+    voucher?: boolean
     voucher_seller?: boolean
     order_number?: boolean
     created_at?: boolean
@@ -3912,7 +3904,7 @@ export namespace Prisma {
     order_id?: boolean
     seller_id?: boolean
     voucher_platform?: boolean
-    vocher?: boolean
+    voucher?: boolean
     voucher_seller?: boolean
     order_number?: boolean
     created_at?: boolean
@@ -3951,7 +3943,7 @@ export namespace Prisma {
       order_id: string
       seller_id: string | null
       voucher_platform: string | null
-      vocher: string | null
+      voucher: string | null
       voucher_seller: string | null
       order_number: string | null
       created_at: Date | null
@@ -3968,10 +3960,10 @@ export namespace Prisma {
       shipping_fee: string
       items_count: string
       statuses: string
-      address_billing: string
+      address_billing: Prisma.JsonValue
       gift_message: string
       remarks: string
-      address_shipping: string
+      address_shipping: Prisma.JsonValue
       order_items: Prisma.JsonValue
       user_id: number
     }, ExtArgs["result"]["darazOrders"]>
@@ -4372,7 +4364,7 @@ export namespace Prisma {
     readonly order_id: FieldRef<"DarazOrders", 'String'>
     readonly seller_id: FieldRef<"DarazOrders", 'String'>
     readonly voucher_platform: FieldRef<"DarazOrders", 'String'>
-    readonly vocher: FieldRef<"DarazOrders", 'String'>
+    readonly voucher: FieldRef<"DarazOrders", 'String'>
     readonly voucher_seller: FieldRef<"DarazOrders", 'String'>
     readonly order_number: FieldRef<"DarazOrders", 'String'>
     readonly created_at: FieldRef<"DarazOrders", 'DateTime'>
@@ -4389,10 +4381,10 @@ export namespace Prisma {
     readonly shipping_fee: FieldRef<"DarazOrders", 'String'>
     readonly items_count: FieldRef<"DarazOrders", 'String'>
     readonly statuses: FieldRef<"DarazOrders", 'String'>
-    readonly address_billing: FieldRef<"DarazOrders", 'String'>
+    readonly address_billing: FieldRef<"DarazOrders", 'Json'>
     readonly gift_message: FieldRef<"DarazOrders", 'String'>
     readonly remarks: FieldRef<"DarazOrders", 'String'>
-    readonly address_shipping: FieldRef<"DarazOrders", 'String'>
+    readonly address_shipping: FieldRef<"DarazOrders", 'Json'>
     readonly order_items: FieldRef<"DarazOrders", 'Json'>
     readonly user_id: FieldRef<"DarazOrders", 'Int'>
   }
@@ -8821,7 +8813,7 @@ export namespace Prisma {
     order_id: 'order_id',
     seller_id: 'seller_id',
     voucher_platform: 'voucher_platform',
-    vocher: 'vocher',
+    voucher: 'voucher',
     voucher_seller: 'voucher_seller',
     order_number: 'order_number',
     created_at: 'created_at',
@@ -9187,7 +9179,7 @@ export namespace Prisma {
     order_id?: StringFilter<"DarazOrders"> | string
     seller_id?: StringNullableFilter<"DarazOrders"> | string | null
     voucher_platform?: StringNullableFilter<"DarazOrders"> | string | null
-    vocher?: StringNullableFilter<"DarazOrders"> | string | null
+    voucher?: StringNullableFilter<"DarazOrders"> | string | null
     voucher_seller?: StringNullableFilter<"DarazOrders"> | string | null
     order_number?: StringNullableFilter<"DarazOrders"> | string | null
     created_at?: DateTimeNullableFilter<"DarazOrders"> | Date | string | null
@@ -9204,10 +9196,10 @@ export namespace Prisma {
     shipping_fee?: StringFilter<"DarazOrders"> | string
     items_count?: StringFilter<"DarazOrders"> | string
     statuses?: StringFilter<"DarazOrders"> | string
-    address_billing?: StringFilter<"DarazOrders"> | string
+    address_billing?: JsonFilter<"DarazOrders">
     gift_message?: StringFilter<"DarazOrders"> | string
     remarks?: StringFilter<"DarazOrders"> | string
-    address_shipping?: StringFilter<"DarazOrders"> | string
+    address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
     user_id?: IntFilter<"DarazOrders"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -9217,7 +9209,7 @@ export namespace Prisma {
     order_id?: SortOrder
     seller_id?: SortOrderInput | SortOrder
     voucher_platform?: SortOrderInput | SortOrder
-    vocher?: SortOrderInput | SortOrder
+    voucher?: SortOrderInput | SortOrder
     voucher_seller?: SortOrderInput | SortOrder
     order_number?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
@@ -9250,7 +9242,7 @@ export namespace Prisma {
     NOT?: DarazOrdersWhereInput | DarazOrdersWhereInput[]
     seller_id?: StringNullableFilter<"DarazOrders"> | string | null
     voucher_platform?: StringNullableFilter<"DarazOrders"> | string | null
-    vocher?: StringNullableFilter<"DarazOrders"> | string | null
+    voucher?: StringNullableFilter<"DarazOrders"> | string | null
     voucher_seller?: StringNullableFilter<"DarazOrders"> | string | null
     order_number?: StringNullableFilter<"DarazOrders"> | string | null
     created_at?: DateTimeNullableFilter<"DarazOrders"> | Date | string | null
@@ -9267,10 +9259,10 @@ export namespace Prisma {
     shipping_fee?: StringFilter<"DarazOrders"> | string
     items_count?: StringFilter<"DarazOrders"> | string
     statuses?: StringFilter<"DarazOrders"> | string
-    address_billing?: StringFilter<"DarazOrders"> | string
+    address_billing?: JsonFilter<"DarazOrders">
     gift_message?: StringFilter<"DarazOrders"> | string
     remarks?: StringFilter<"DarazOrders"> | string
-    address_shipping?: StringFilter<"DarazOrders"> | string
+    address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
     user_id?: IntFilter<"DarazOrders"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -9280,7 +9272,7 @@ export namespace Prisma {
     order_id?: SortOrder
     seller_id?: SortOrderInput | SortOrder
     voucher_platform?: SortOrderInput | SortOrder
-    vocher?: SortOrderInput | SortOrder
+    voucher?: SortOrderInput | SortOrder
     voucher_seller?: SortOrderInput | SortOrder
     order_number?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
@@ -9317,7 +9309,7 @@ export namespace Prisma {
     order_id?: StringWithAggregatesFilter<"DarazOrders"> | string
     seller_id?: StringNullableWithAggregatesFilter<"DarazOrders"> | string | null
     voucher_platform?: StringNullableWithAggregatesFilter<"DarazOrders"> | string | null
-    vocher?: StringNullableWithAggregatesFilter<"DarazOrders"> | string | null
+    voucher?: StringNullableWithAggregatesFilter<"DarazOrders"> | string | null
     voucher_seller?: StringNullableWithAggregatesFilter<"DarazOrders"> | string | null
     order_number?: StringNullableWithAggregatesFilter<"DarazOrders"> | string | null
     created_at?: DateTimeNullableWithAggregatesFilter<"DarazOrders"> | Date | string | null
@@ -9334,10 +9326,10 @@ export namespace Prisma {
     shipping_fee?: StringWithAggregatesFilter<"DarazOrders"> | string
     items_count?: StringWithAggregatesFilter<"DarazOrders"> | string
     statuses?: StringWithAggregatesFilter<"DarazOrders"> | string
-    address_billing?: StringWithAggregatesFilter<"DarazOrders"> | string
+    address_billing?: JsonWithAggregatesFilter<"DarazOrders">
     gift_message?: StringWithAggregatesFilter<"DarazOrders"> | string
     remarks?: StringWithAggregatesFilter<"DarazOrders"> | string
-    address_shipping?: StringWithAggregatesFilter<"DarazOrders"> | string
+    address_shipping?: JsonWithAggregatesFilter<"DarazOrders">
     order_items?: JsonWithAggregatesFilter<"DarazOrders">
     user_id?: IntWithAggregatesFilter<"DarazOrders"> | number
   }
@@ -9848,7 +9840,7 @@ export namespace Prisma {
     order_id?: string
     seller_id?: string | null
     voucher_platform?: string | null
-    vocher?: string | null
+    voucher?: string | null
     voucher_seller?: string | null
     order_number?: string | null
     created_at?: Date | string | null
@@ -9865,10 +9857,10 @@ export namespace Prisma {
     shipping_fee: string
     items_count: string
     statuses: string
-    address_billing: string
+    address_billing: JsonNullValueInput | InputJsonValue
     gift_message: string
     remarks: string
-    address_shipping: string
+    address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutDarazOrdersInput
   }
@@ -9877,7 +9869,7 @@ export namespace Prisma {
     order_id?: string
     seller_id?: string | null
     voucher_platform?: string | null
-    vocher?: string | null
+    voucher?: string | null
     voucher_seller?: string | null
     order_number?: string | null
     created_at?: Date | string | null
@@ -9894,10 +9886,10 @@ export namespace Prisma {
     shipping_fee: string
     items_count: string
     statuses: string
-    address_billing: string
+    address_billing: JsonNullValueInput | InputJsonValue
     gift_message: string
     remarks: string
-    address_shipping: string
+    address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
     user_id: number
   }
@@ -9906,7 +9898,7 @@ export namespace Prisma {
     order_id?: StringFieldUpdateOperationsInput | string
     seller_id?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_platform?: NullableStringFieldUpdateOperationsInput | string | null
-    vocher?: NullableStringFieldUpdateOperationsInput | string | null
+    voucher?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_seller?: NullableStringFieldUpdateOperationsInput | string | null
     order_number?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9923,10 +9915,10 @@ export namespace Prisma {
     shipping_fee?: StringFieldUpdateOperationsInput | string
     items_count?: StringFieldUpdateOperationsInput | string
     statuses?: StringFieldUpdateOperationsInput | string
-    address_billing?: StringFieldUpdateOperationsInput | string
+    address_billing?: JsonNullValueInput | InputJsonValue
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
-    address_shipping?: StringFieldUpdateOperationsInput | string
+    address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutDarazOrdersNestedInput
   }
@@ -9935,7 +9927,7 @@ export namespace Prisma {
     order_id?: StringFieldUpdateOperationsInput | string
     seller_id?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_platform?: NullableStringFieldUpdateOperationsInput | string | null
-    vocher?: NullableStringFieldUpdateOperationsInput | string | null
+    voucher?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_seller?: NullableStringFieldUpdateOperationsInput | string | null
     order_number?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9952,10 +9944,10 @@ export namespace Prisma {
     shipping_fee?: StringFieldUpdateOperationsInput | string
     items_count?: StringFieldUpdateOperationsInput | string
     statuses?: StringFieldUpdateOperationsInput | string
-    address_billing?: StringFieldUpdateOperationsInput | string
+    address_billing?: JsonNullValueInput | InputJsonValue
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
-    address_shipping?: StringFieldUpdateOperationsInput | string
+    address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
     user_id?: IntFieldUpdateOperationsInput | number
   }
@@ -9964,7 +9956,7 @@ export namespace Prisma {
     order_id?: string
     seller_id?: string | null
     voucher_platform?: string | null
-    vocher?: string | null
+    voucher?: string | null
     voucher_seller?: string | null
     order_number?: string | null
     created_at?: Date | string | null
@@ -9981,10 +9973,10 @@ export namespace Prisma {
     shipping_fee: string
     items_count: string
     statuses: string
-    address_billing: string
+    address_billing: JsonNullValueInput | InputJsonValue
     gift_message: string
     remarks: string
-    address_shipping: string
+    address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
     user_id: number
   }
@@ -9993,7 +9985,7 @@ export namespace Prisma {
     order_id?: StringFieldUpdateOperationsInput | string
     seller_id?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_platform?: NullableStringFieldUpdateOperationsInput | string | null
-    vocher?: NullableStringFieldUpdateOperationsInput | string | null
+    voucher?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_seller?: NullableStringFieldUpdateOperationsInput | string | null
     order_number?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10010,10 +10002,10 @@ export namespace Prisma {
     shipping_fee?: StringFieldUpdateOperationsInput | string
     items_count?: StringFieldUpdateOperationsInput | string
     statuses?: StringFieldUpdateOperationsInput | string
-    address_billing?: StringFieldUpdateOperationsInput | string
+    address_billing?: JsonNullValueInput | InputJsonValue
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
-    address_shipping?: StringFieldUpdateOperationsInput | string
+    address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
   }
 
@@ -10021,7 +10013,7 @@ export namespace Prisma {
     order_id?: StringFieldUpdateOperationsInput | string
     seller_id?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_platform?: NullableStringFieldUpdateOperationsInput | string | null
-    vocher?: NullableStringFieldUpdateOperationsInput | string | null
+    voucher?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_seller?: NullableStringFieldUpdateOperationsInput | string | null
     order_number?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10038,10 +10030,10 @@ export namespace Prisma {
     shipping_fee?: StringFieldUpdateOperationsInput | string
     items_count?: StringFieldUpdateOperationsInput | string
     statuses?: StringFieldUpdateOperationsInput | string
-    address_billing?: StringFieldUpdateOperationsInput | string
+    address_billing?: JsonNullValueInput | InputJsonValue
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
-    address_shipping?: StringFieldUpdateOperationsInput | string
+    address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
     user_id?: IntFieldUpdateOperationsInput | number
   }
@@ -10722,7 +10714,7 @@ export namespace Prisma {
     order_id?: SortOrder
     seller_id?: SortOrder
     voucher_platform?: SortOrder
-    vocher?: SortOrder
+    voucher?: SortOrder
     voucher_seller?: SortOrder
     order_number?: SortOrder
     created_at?: SortOrder
@@ -10755,7 +10747,7 @@ export namespace Prisma {
     order_id?: SortOrder
     seller_id?: SortOrder
     voucher_platform?: SortOrder
-    vocher?: SortOrder
+    voucher?: SortOrder
     voucher_seller?: SortOrder
     order_number?: SortOrder
     created_at?: SortOrder
@@ -10772,10 +10764,8 @@ export namespace Prisma {
     shipping_fee?: SortOrder
     items_count?: SortOrder
     statuses?: SortOrder
-    address_billing?: SortOrder
     gift_message?: SortOrder
     remarks?: SortOrder
-    address_shipping?: SortOrder
     user_id?: SortOrder
   }
 
@@ -10783,7 +10773,7 @@ export namespace Prisma {
     order_id?: SortOrder
     seller_id?: SortOrder
     voucher_platform?: SortOrder
-    vocher?: SortOrder
+    voucher?: SortOrder
     voucher_seller?: SortOrder
     order_number?: SortOrder
     created_at?: SortOrder
@@ -10800,10 +10790,8 @@ export namespace Prisma {
     shipping_fee?: SortOrder
     items_count?: SortOrder
     statuses?: SortOrder
-    address_billing?: SortOrder
     gift_message?: SortOrder
     remarks?: SortOrder
-    address_shipping?: SortOrder
     user_id?: SortOrder
   }
 
@@ -11697,7 +11685,7 @@ export namespace Prisma {
     order_id?: string
     seller_id?: string | null
     voucher_platform?: string | null
-    vocher?: string | null
+    voucher?: string | null
     voucher_seller?: string | null
     order_number?: string | null
     created_at?: Date | string | null
@@ -11714,10 +11702,10 @@ export namespace Prisma {
     shipping_fee: string
     items_count: string
     statuses: string
-    address_billing: string
+    address_billing: JsonNullValueInput | InputJsonValue
     gift_message: string
     remarks: string
-    address_shipping: string
+    address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
   }
 
@@ -11725,7 +11713,7 @@ export namespace Prisma {
     order_id?: string
     seller_id?: string | null
     voucher_platform?: string | null
-    vocher?: string | null
+    voucher?: string | null
     voucher_seller?: string | null
     order_number?: string | null
     created_at?: Date | string | null
@@ -11742,10 +11730,10 @@ export namespace Prisma {
     shipping_fee: string
     items_count: string
     statuses: string
-    address_billing: string
+    address_billing: JsonNullValueInput | InputJsonValue
     gift_message: string
     remarks: string
-    address_shipping: string
+    address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
   }
 
@@ -11952,7 +11940,7 @@ export namespace Prisma {
     order_id?: StringFilter<"DarazOrders"> | string
     seller_id?: StringNullableFilter<"DarazOrders"> | string | null
     voucher_platform?: StringNullableFilter<"DarazOrders"> | string | null
-    vocher?: StringNullableFilter<"DarazOrders"> | string | null
+    voucher?: StringNullableFilter<"DarazOrders"> | string | null
     voucher_seller?: StringNullableFilter<"DarazOrders"> | string | null
     order_number?: StringNullableFilter<"DarazOrders"> | string | null
     created_at?: DateTimeNullableFilter<"DarazOrders"> | Date | string | null
@@ -11969,10 +11957,10 @@ export namespace Prisma {
     shipping_fee?: StringFilter<"DarazOrders"> | string
     items_count?: StringFilter<"DarazOrders"> | string
     statuses?: StringFilter<"DarazOrders"> | string
-    address_billing?: StringFilter<"DarazOrders"> | string
+    address_billing?: JsonFilter<"DarazOrders">
     gift_message?: StringFilter<"DarazOrders"> | string
     remarks?: StringFilter<"DarazOrders"> | string
-    address_shipping?: StringFilter<"DarazOrders"> | string
+    address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
     user_id?: IntFilter<"DarazOrders"> | number
   }
@@ -12568,7 +12556,7 @@ export namespace Prisma {
     order_id?: string
     seller_id?: string | null
     voucher_platform?: string | null
-    vocher?: string | null
+    voucher?: string | null
     voucher_seller?: string | null
     order_number?: string | null
     created_at?: Date | string | null
@@ -12585,10 +12573,10 @@ export namespace Prisma {
     shipping_fee: string
     items_count: string
     statuses: string
-    address_billing: string
+    address_billing: JsonNullValueInput | InputJsonValue
     gift_message: string
     remarks: string
-    address_shipping: string
+    address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
   }
 
@@ -12685,7 +12673,7 @@ export namespace Prisma {
     order_id?: StringFieldUpdateOperationsInput | string
     seller_id?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_platform?: NullableStringFieldUpdateOperationsInput | string | null
-    vocher?: NullableStringFieldUpdateOperationsInput | string | null
+    voucher?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_seller?: NullableStringFieldUpdateOperationsInput | string | null
     order_number?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12702,10 +12690,10 @@ export namespace Prisma {
     shipping_fee?: StringFieldUpdateOperationsInput | string
     items_count?: StringFieldUpdateOperationsInput | string
     statuses?: StringFieldUpdateOperationsInput | string
-    address_billing?: StringFieldUpdateOperationsInput | string
+    address_billing?: JsonNullValueInput | InputJsonValue
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
-    address_shipping?: StringFieldUpdateOperationsInput | string
+    address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
   }
 
@@ -12713,7 +12701,7 @@ export namespace Prisma {
     order_id?: StringFieldUpdateOperationsInput | string
     seller_id?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_platform?: NullableStringFieldUpdateOperationsInput | string | null
-    vocher?: NullableStringFieldUpdateOperationsInput | string | null
+    voucher?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_seller?: NullableStringFieldUpdateOperationsInput | string | null
     order_number?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12730,10 +12718,10 @@ export namespace Prisma {
     shipping_fee?: StringFieldUpdateOperationsInput | string
     items_count?: StringFieldUpdateOperationsInput | string
     statuses?: StringFieldUpdateOperationsInput | string
-    address_billing?: StringFieldUpdateOperationsInput | string
+    address_billing?: JsonNullValueInput | InputJsonValue
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
-    address_shipping?: StringFieldUpdateOperationsInput | string
+    address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
   }
 
@@ -12741,7 +12729,7 @@ export namespace Prisma {
     order_id?: StringFieldUpdateOperationsInput | string
     seller_id?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_platform?: NullableStringFieldUpdateOperationsInput | string | null
-    vocher?: NullableStringFieldUpdateOperationsInput | string | null
+    voucher?: NullableStringFieldUpdateOperationsInput | string | null
     voucher_seller?: NullableStringFieldUpdateOperationsInput | string | null
     order_number?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12758,10 +12746,10 @@ export namespace Prisma {
     shipping_fee?: StringFieldUpdateOperationsInput | string
     items_count?: StringFieldUpdateOperationsInput | string
     statuses?: StringFieldUpdateOperationsInput | string
-    address_billing?: StringFieldUpdateOperationsInput | string
+    address_billing?: JsonNullValueInput | InputJsonValue
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
-    address_shipping?: StringFieldUpdateOperationsInput | string
+    address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
   }
 
