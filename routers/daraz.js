@@ -165,17 +165,25 @@ router.post("/save-log", async (req, res) => {
 });
 
 router.post("/append-orders", async (req, res) => {
-  const { userID, orders } = req.body;
+  const { orders } = req.body;
   console.log("totalOrders: ", orders.length);
   // Append order to Database
+  let data = "";
   try {
-    const data = await prisma.darazOrders.createMany({
+    data = await prisma.darazOrders.createMany({
       data: orders,
       skipDuplicates: true,
     });
   } catch (e) {
     console.log("Couldn't append to DB", e);
+    return res.status(400).json({ message: "Couldn't append to DB" });
   }
-  res.status(200).json({ message: "Success" });
+  res.status(200).json({ message: "Success", data: data });
 });
+
+router.get("/d", async (req, res) => {
+  const d = await prisma.darazOrders.deleteMany();
+  res.status(200).json({ message: "Deleted" });
+});
+
 module.exports = router;
