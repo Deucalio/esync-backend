@@ -342,8 +342,9 @@ app.post("/orders", async (req, res) => {
   });
   const userStores = user.Stores;
 
+  console.log("userStores: ", userStores);
   for (const store of userStores) {
-    if (store.store_info.platform === "shopify") {
+    if (store.platform === "shopify") {
       const response = await axios.get(
         `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&limit=200`,
         // &financial_status=any
@@ -373,34 +374,27 @@ app.post("/orders", async (req, res) => {
           },
         });
       });
+    } else if (store.platform === "daraz") {
+      // SELECT * FROM "DarazOrders" where user_id = user.id ORDER BY created_at DESC LIMIT 500
+
+      const darazOrders = await prisma.darazOrders.findMany({
+        where: { user_id: user.id },
+        orderBy: { created_at: "desc" },
+        take: 500,
+      });
+
+      darazOrders.forEach((order) => {
+        orders.push({
+          ...order,
+          store_info: {
+            platform: "daraz",
+            domain: null,
+            shopLogo: null,
+            name: store.name,
+          },
+        });
+      });
     }
-    // else if (store.store_info.platform === "daraz") {
-    //   console.log("store: ", store);
-    //   const darazURL = await generateDarazURL(
-    //     "/orders/get",
-    //     process.env.DARAZ_APP_KEY,
-    //     store.store_info.access_token,
-    //     {
-    //       limt: "50",
-    //       update_after: "2018-02-10T16:00:00+08:00",
-    //       // status: "pending",
-    //     }
-    //   );
-    //   const response = await axios.get(darazURL);
-    //   console.log("response`, ", response.data);
-    //   const darazOrders = response.data.data.orders;
-    //   darazOrders.forEach((order) => {
-    //     orders.push({
-    //       ...order,
-    //       store_info: {
-    //         platform: "daraz",
-    //         domain: null,
-    //         shopLogo: null,
-    //         name: store.name,
-    //       },
-    //     });
-    //   });
-    // }
   }
   res.status(200).send(orders);
 });
@@ -511,54 +505,10 @@ app.get("/stock-checklist", async (req, res) => {
 
   for (const store of user.Stores) {
     if (store.store_info.platform === "daraz") {
-      const ordersIDs = [];
-      const darazURL = await generateDarazURL(
-        "/orders/get",
-        process.env.DARAZ_APP_KEY,
-        store.store_info.access_token,
-        {
-          limt: "100",
-          created_after: "2017-02-10T09:00:00+08:00",
-          status: "ready_to_ship",
-        }
-      );
-      const response = await axios.get(darazURL);
-      const darazOrders = response.data.data.orders;
-
-      // console.log("darazOrders: ", darazOrders);
-
-      for (const order of darazOrders) {
-        ordersIDs.push(order.order_id);
-      }
-      if (ordersIDs.length === 0) {
-        continue;
-      }
-
-      // Get Items of the order and extract the sku
-      const darazURL_id = await generateDarazURL(
-        "/orders/items/get",
-        process.env.DARAZ_APP_KEY,
-        store.store_info.access_token,
-        {
-          order_ids: JSON.stringify(ordersIDs),
-        }
-      );
-
-      const resp = await axios.get(darazURL_id);
-      const darazOrdersItems = resp.data.data;
-      if (darazOrdersItems.length === 0) {
-        continue;
-      }
-
-      for (const order of darazOrdersItems) {
-        for (const item of order.order_items) {
-          if (skus[item.sku]) {
-            skus[item.sku] += 1;
-          } else {
-            skus[item.sku] = 1;
-          }
-        }
-      }
+      const darazOrders = await prisma.darazOrders.findMany({
+        where: { user_id: user.id },
+      });
+      console.log("darazOrders: ", darazOrders);
     }
     //  else if (store.store_info.platform === "shopify") {
     //   const response = await axios.get(
@@ -590,7 +540,6 @@ app.get("/stock-checklist", async (req, res) => {
   }
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-
   console.log("Time taken: ", timeTaken);
   res.send(
     // Send in this format sku1,quantity1/sku2,quantity2/sku3,quantity3
