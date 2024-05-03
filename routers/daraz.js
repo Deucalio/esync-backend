@@ -26,7 +26,6 @@ router.post("/sign", async (req, res) => {
 
 router.post("/access-token", async (req, res) => {
   const { signature, code, timeStamp, app_key, userEmail, name } = req.body;
-  console.log("req.body: ", req.body);
 
   // Get all the stores
   const stores = await prisma.store.findMany({
@@ -88,7 +87,6 @@ router.post("/access-token", async (req, res) => {
 
   // Send a request to nakson.services to trigger the inngest api to append orders
   const ingestUrl = `https://nakson.services/api/daraz/orders`;
-  console.log("userId", userId);
 
   const orderRes = await axios.post(ingestUrl, {
     userID: userId,
@@ -168,8 +166,6 @@ router.post("/save-log", async (req, res) => {
 
 router.post("/append-orders", async (req, res) => {
   const { orders } = req.body;
-  console.log("totalOrders: ", orders.length);
-  // Append order to Database
   let data = "";
   try {
     data = await prisma.darazOrders.createMany({
