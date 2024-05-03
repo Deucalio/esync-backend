@@ -93,6 +93,7 @@ router.post("/access-token", async (req, res) => {
   const orderRes = await axios.post(ingestUrl, {
     userID: userId,
     accessToken: storeData.access_token,
+    sellerID: storeData.user_info.seller_id,
   });
 
   console.log("orderRes: ", orderRes.data);
