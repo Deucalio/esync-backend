@@ -43,11 +43,6 @@ export type Courier = $Result.DefaultSelection<Prisma.$CourierPayload>
  * 
  */
 export type TemporaryData = $Result.DefaultSelection<Prisma.$TemporaryDataPayload>
-/**
- * Model DarazLogs
- * 
- */
-export type DarazLogs = $Result.DefaultSelection<Prisma.$DarazLogsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -230,16 +225,6 @@ export class PrismaClient<
     * ```
     */
   get temporaryData(): Prisma.TemporaryDataDelegate<ExtArgs>;
-
-  /**
-   * `prisma.darazLogs`: Exposes CRUD operations for the **DarazLogs** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more DarazLogs
-    * const darazLogs = await prisma.darazLogs.findMany()
-    * ```
-    */
-  get darazLogs(): Prisma.DarazLogsDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -715,8 +700,7 @@ export namespace Prisma {
     DarazOrders: 'DarazOrders',
     ShopifyOrders: 'ShopifyOrders',
     Courier: 'Courier',
-    TemporaryData: 'TemporaryData',
-    DarazLogs: 'DarazLogs'
+    TemporaryData: 'TemporaryData'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -733,7 +717,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'store' | 'darazOrders' | 'shopifyOrders' | 'courier' | 'temporaryData' | 'darazLogs'
+      modelProps: 'user' | 'store' | 'darazOrders' | 'shopifyOrders' | 'courier' | 'temporaryData'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1133,72 +1117,6 @@ export namespace Prisma {
           }
         }
       }
-      DarazLogs: {
-        payload: Prisma.$DarazLogsPayload<ExtArgs>
-        fields: Prisma.DarazLogsFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.DarazLogsFindUniqueArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.DarazLogsFindUniqueOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
-          }
-          findFirst: {
-            args: Prisma.DarazLogsFindFirstArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.DarazLogsFindFirstOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
-          }
-          findMany: {
-            args: Prisma.DarazLogsFindManyArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>[]
-          }
-          create: {
-            args: Prisma.DarazLogsCreateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
-          }
-          createMany: {
-            args: Prisma.DarazLogsCreateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          delete: {
-            args: Prisma.DarazLogsDeleteArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
-          }
-          update: {
-            args: Prisma.DarazLogsUpdateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
-          }
-          deleteMany: {
-            args: Prisma.DarazLogsDeleteManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          updateMany: {
-            args: Prisma.DarazLogsUpdateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          upsert: {
-            args: Prisma.DarazLogsUpsertArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
-          }
-          aggregate: {
-            args: Prisma.DarazLogsAggregateArgs<ExtArgs>,
-            result: $Utils.Optional<AggregateDarazLogs>
-          }
-          groupBy: {
-            args: Prisma.DarazLogsGroupByArgs<ExtArgs>,
-            result: $Utils.Optional<DarazLogsGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.DarazLogsCountArgs<ExtArgs>,
-            result: $Utils.Optional<DarazLogsCountAggregateOutputType> | number
-          }
-        }
-      }
     }
   } & {
     other: {
@@ -1353,7 +1271,6 @@ export namespace Prisma {
     DarazOrders: number
     ShopifyOrders: number
     TemporaryData: number
-    DarazLogs: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1362,7 +1279,6 @@ export namespace Prisma {
     DarazOrders?: boolean | UserCountOutputTypeCountDarazOrdersArgs
     ShopifyOrders?: boolean | UserCountOutputTypeCountShopifyOrdersArgs
     TemporaryData?: boolean | UserCountOutputTypeCountTemporaryDataArgs
-    DarazLogs?: boolean | UserCountOutputTypeCountDarazLogsArgs
   }
 
   // Custom InputTypes
@@ -1415,14 +1331,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountTemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TemporaryDataWhereInput
-  }
-
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountDarazLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DarazLogsWhereInput
   }
 
 
@@ -1658,7 +1566,6 @@ export namespace Prisma {
     DarazOrders?: boolean | User$DarazOrdersArgs<ExtArgs>
     ShopifyOrders?: boolean | User$ShopifyOrdersArgs<ExtArgs>
     TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
-    DarazLogs?: boolean | User$DarazLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1679,7 +1586,6 @@ export namespace Prisma {
     DarazOrders?: boolean | User$DarazOrdersArgs<ExtArgs>
     ShopifyOrders?: boolean | User$ShopifyOrdersArgs<ExtArgs>
     TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
-    DarazLogs?: boolean | User$DarazLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1692,7 +1598,6 @@ export namespace Prisma {
       DarazOrders: Prisma.$DarazOrdersPayload<ExtArgs>[]
       ShopifyOrders: Prisma.$ShopifyOrdersPayload<ExtArgs>[]
       TemporaryData: Prisma.$TemporaryDataPayload<ExtArgs>[]
-      DarazLogs: Prisma.$DarazLogsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2077,8 +1982,6 @@ export namespace Prisma {
     ShopifyOrders<T extends User$ShopifyOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$ShopifyOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyOrdersPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     TemporaryData<T extends User$TemporaryDataArgs<ExtArgs> = {}>(args?: Subset<T, User$TemporaryDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findMany'> | Null>;
-
-    DarazLogs<T extends User$DarazLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$DarazLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2529,27 +2432,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TemporaryDataScalarFieldEnum | TemporaryDataScalarFieldEnum[]
-  }
-
-
-  /**
-   * User.DarazLogs
-   */
-  export type User$DarazLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    where?: DarazLogsWhereInput
-    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
-    cursor?: DarazLogsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: DarazLogsScalarFieldEnum | DarazLogsScalarFieldEnum[]
   }
 
 
@@ -7817,958 +7699,6 @@ export namespace Prisma {
 
 
   /**
-   * Model DarazLogs
-   */
-
-  export type AggregateDarazLogs = {
-    _count: DarazLogsCountAggregateOutputType | null
-    _avg: DarazLogsAvgAggregateOutputType | null
-    _sum: DarazLogsSumAggregateOutputType | null
-    _min: DarazLogsMinAggregateOutputType | null
-    _max: DarazLogsMaxAggregateOutputType | null
-  }
-
-  export type DarazLogsAvgAggregateOutputType = {
-    id: number | null
-    user_id: number | null
-  }
-
-  export type DarazLogsSumAggregateOutputType = {
-    id: number | null
-    user_id: number | null
-  }
-
-  export type DarazLogsMinAggregateOutputType = {
-    id: number | null
-    store: string | null
-    receivedAt: Date | null
-    user_id: number | null
-  }
-
-  export type DarazLogsMaxAggregateOutputType = {
-    id: number | null
-    store: string | null
-    receivedAt: Date | null
-    user_id: number | null
-  }
-
-  export type DarazLogsCountAggregateOutputType = {
-    id: number
-    store: number
-    data: number
-    receivedAt: number
-    user_id: number
-    _all: number
-  }
-
-
-  export type DarazLogsAvgAggregateInputType = {
-    id?: true
-    user_id?: true
-  }
-
-  export type DarazLogsSumAggregateInputType = {
-    id?: true
-    user_id?: true
-  }
-
-  export type DarazLogsMinAggregateInputType = {
-    id?: true
-    store?: true
-    receivedAt?: true
-    user_id?: true
-  }
-
-  export type DarazLogsMaxAggregateInputType = {
-    id?: true
-    store?: true
-    receivedAt?: true
-    user_id?: true
-  }
-
-  export type DarazLogsCountAggregateInputType = {
-    id?: true
-    store?: true
-    data?: true
-    receivedAt?: true
-    user_id?: true
-    _all?: true
-  }
-
-  export type DarazLogsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which DarazLogs to aggregate.
-     */
-    where?: DarazLogsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of DarazLogs to fetch.
-     */
-    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: DarazLogsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` DarazLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` DarazLogs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned DarazLogs
-    **/
-    _count?: true | DarazLogsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: DarazLogsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: DarazLogsSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: DarazLogsMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: DarazLogsMaxAggregateInputType
-  }
-
-  export type GetDarazLogsAggregateType<T extends DarazLogsAggregateArgs> = {
-        [P in keyof T & keyof AggregateDarazLogs]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateDarazLogs[P]>
-      : GetScalarType<T[P], AggregateDarazLogs[P]>
-  }
-
-
-
-
-  export type DarazLogsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DarazLogsWhereInput
-    orderBy?: DarazLogsOrderByWithAggregationInput | DarazLogsOrderByWithAggregationInput[]
-    by: DarazLogsScalarFieldEnum[] | DarazLogsScalarFieldEnum
-    having?: DarazLogsScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: DarazLogsCountAggregateInputType | true
-    _avg?: DarazLogsAvgAggregateInputType
-    _sum?: DarazLogsSumAggregateInputType
-    _min?: DarazLogsMinAggregateInputType
-    _max?: DarazLogsMaxAggregateInputType
-  }
-
-  export type DarazLogsGroupByOutputType = {
-    id: number
-    store: string
-    data: JsonValue
-    receivedAt: Date
-    user_id: number
-    _count: DarazLogsCountAggregateOutputType | null
-    _avg: DarazLogsAvgAggregateOutputType | null
-    _sum: DarazLogsSumAggregateOutputType | null
-    _min: DarazLogsMinAggregateOutputType | null
-    _max: DarazLogsMaxAggregateOutputType | null
-  }
-
-  type GetDarazLogsGroupByPayload<T extends DarazLogsGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<DarazLogsGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof DarazLogsGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], DarazLogsGroupByOutputType[P]>
-            : GetScalarType<T[P], DarazLogsGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type DarazLogsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    store?: boolean
-    data?: boolean
-    receivedAt?: boolean
-    user_id?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["darazLogs"]>
-
-  export type DarazLogsSelectScalar = {
-    id?: boolean
-    store?: boolean
-    data?: boolean
-    receivedAt?: boolean
-    user_id?: boolean
-  }
-
-  export type DarazLogsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-
-  export type $DarazLogsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "DarazLogs"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      store: string
-      data: Prisma.JsonValue
-      receivedAt: Date
-      user_id: number
-    }, ExtArgs["result"]["darazLogs"]>
-    composites: {}
-  }
-
-
-  type DarazLogsGetPayload<S extends boolean | null | undefined | DarazLogsDefaultArgs> = $Result.GetResult<Prisma.$DarazLogsPayload, S>
-
-  type DarazLogsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<DarazLogsFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: DarazLogsCountAggregateInputType | true
-    }
-
-  export interface DarazLogsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DarazLogs'], meta: { name: 'DarazLogs' } }
-    /**
-     * Find zero or one DarazLogs that matches the filter.
-     * @param {DarazLogsFindUniqueArgs} args - Arguments to find a DarazLogs
-     * @example
-     * // Get one DarazLogs
-     * const darazLogs = await prisma.darazLogs.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends DarazLogsFindUniqueArgs<ExtArgs>>(
-      args: SelectSubset<T, DarazLogsFindUniqueArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
-
-    /**
-     * Find one DarazLogs that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {DarazLogsFindUniqueOrThrowArgs} args - Arguments to find a DarazLogs
-     * @example
-     * // Get one DarazLogs
-     * const darazLogs = await prisma.darazLogs.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends DarazLogsFindUniqueOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, DarazLogsFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find the first DarazLogs that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DarazLogsFindFirstArgs} args - Arguments to find a DarazLogs
-     * @example
-     * // Get one DarazLogs
-     * const darazLogs = await prisma.darazLogs.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends DarazLogsFindFirstArgs<ExtArgs>>(
-      args?: SelectSubset<T, DarazLogsFindFirstArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
-
-    /**
-     * Find the first DarazLogs that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DarazLogsFindFirstOrThrowArgs} args - Arguments to find a DarazLogs
-     * @example
-     * // Get one DarazLogs
-     * const darazLogs = await prisma.darazLogs.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends DarazLogsFindFirstOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, DarazLogsFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find zero or more DarazLogs that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DarazLogsFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all DarazLogs
-     * const darazLogs = await prisma.darazLogs.findMany()
-     * 
-     * // Get first 10 DarazLogs
-     * const darazLogs = await prisma.darazLogs.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const darazLogsWithIdOnly = await prisma.darazLogs.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends DarazLogsFindManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, DarazLogsFindManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findMany'>>
-
-    /**
-     * Create a DarazLogs.
-     * @param {DarazLogsCreateArgs} args - Arguments to create a DarazLogs.
-     * @example
-     * // Create one DarazLogs
-     * const DarazLogs = await prisma.darazLogs.create({
-     *   data: {
-     *     // ... data to create a DarazLogs
-     *   }
-     * })
-     * 
-    **/
-    create<T extends DarazLogsCreateArgs<ExtArgs>>(
-      args: SelectSubset<T, DarazLogsCreateArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
-
-    /**
-     * Create many DarazLogs.
-     *     @param {DarazLogsCreateManyArgs} args - Arguments to create many DarazLogs.
-     *     @example
-     *     // Create many DarazLogs
-     *     const darazLogs = await prisma.darazLogs.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends DarazLogsCreateManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, DarazLogsCreateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a DarazLogs.
-     * @param {DarazLogsDeleteArgs} args - Arguments to delete one DarazLogs.
-     * @example
-     * // Delete one DarazLogs
-     * const DarazLogs = await prisma.darazLogs.delete({
-     *   where: {
-     *     // ... filter to delete one DarazLogs
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends DarazLogsDeleteArgs<ExtArgs>>(
-      args: SelectSubset<T, DarazLogsDeleteArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
-
-    /**
-     * Update one DarazLogs.
-     * @param {DarazLogsUpdateArgs} args - Arguments to update one DarazLogs.
-     * @example
-     * // Update one DarazLogs
-     * const darazLogs = await prisma.darazLogs.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends DarazLogsUpdateArgs<ExtArgs>>(
-      args: SelectSubset<T, DarazLogsUpdateArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
-
-    /**
-     * Delete zero or more DarazLogs.
-     * @param {DarazLogsDeleteManyArgs} args - Arguments to filter DarazLogs to delete.
-     * @example
-     * // Delete a few DarazLogs
-     * const { count } = await prisma.darazLogs.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends DarazLogsDeleteManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, DarazLogsDeleteManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more DarazLogs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DarazLogsUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many DarazLogs
-     * const darazLogs = await prisma.darazLogs.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends DarazLogsUpdateManyArgs<ExtArgs>>(
-      args: SelectSubset<T, DarazLogsUpdateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one DarazLogs.
-     * @param {DarazLogsUpsertArgs} args - Arguments to update or create a DarazLogs.
-     * @example
-     * // Update or create a DarazLogs
-     * const darazLogs = await prisma.darazLogs.upsert({
-     *   create: {
-     *     // ... data to create a DarazLogs
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the DarazLogs we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends DarazLogsUpsertArgs<ExtArgs>>(
-      args: SelectSubset<T, DarazLogsUpsertArgs<ExtArgs>>
-    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
-
-    /**
-     * Count the number of DarazLogs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DarazLogsCountArgs} args - Arguments to filter DarazLogs to count.
-     * @example
-     * // Count the number of DarazLogs
-     * const count = await prisma.darazLogs.count({
-     *   where: {
-     *     // ... the filter for the DarazLogs we want to count
-     *   }
-     * })
-    **/
-    count<T extends DarazLogsCountArgs>(
-      args?: Subset<T, DarazLogsCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], DarazLogsCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a DarazLogs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DarazLogsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends DarazLogsAggregateArgs>(args: Subset<T, DarazLogsAggregateArgs>): Prisma.PrismaPromise<GetDarazLogsAggregateType<T>>
-
-    /**
-     * Group by DarazLogs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DarazLogsGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends DarazLogsGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DarazLogsGroupByArgs['orderBy'] }
-        : { orderBy?: DarazLogsGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, DarazLogsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDarazLogsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the DarazLogs model
-   */
-  readonly fields: DarazLogsFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for DarazLogs.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__DarazLogsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
-
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
-  }
-
-
-
-  /**
-   * Fields of the DarazLogs model
-   */ 
-  interface DarazLogsFieldRefs {
-    readonly id: FieldRef<"DarazLogs", 'Int'>
-    readonly store: FieldRef<"DarazLogs", 'String'>
-    readonly data: FieldRef<"DarazLogs", 'Json'>
-    readonly receivedAt: FieldRef<"DarazLogs", 'DateTime'>
-    readonly user_id: FieldRef<"DarazLogs", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-
-  /**
-   * DarazLogs findUnique
-   */
-  export type DarazLogsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * Filter, which DarazLogs to fetch.
-     */
-    where: DarazLogsWhereUniqueInput
-  }
-
-
-  /**
-   * DarazLogs findUniqueOrThrow
-   */
-  export type DarazLogsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * Filter, which DarazLogs to fetch.
-     */
-    where: DarazLogsWhereUniqueInput
-  }
-
-
-  /**
-   * DarazLogs findFirst
-   */
-  export type DarazLogsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * Filter, which DarazLogs to fetch.
-     */
-    where?: DarazLogsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of DarazLogs to fetch.
-     */
-    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for DarazLogs.
-     */
-    cursor?: DarazLogsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` DarazLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` DarazLogs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of DarazLogs.
-     */
-    distinct?: DarazLogsScalarFieldEnum | DarazLogsScalarFieldEnum[]
-  }
-
-
-  /**
-   * DarazLogs findFirstOrThrow
-   */
-  export type DarazLogsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * Filter, which DarazLogs to fetch.
-     */
-    where?: DarazLogsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of DarazLogs to fetch.
-     */
-    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for DarazLogs.
-     */
-    cursor?: DarazLogsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` DarazLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` DarazLogs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of DarazLogs.
-     */
-    distinct?: DarazLogsScalarFieldEnum | DarazLogsScalarFieldEnum[]
-  }
-
-
-  /**
-   * DarazLogs findMany
-   */
-  export type DarazLogsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * Filter, which DarazLogs to fetch.
-     */
-    where?: DarazLogsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of DarazLogs to fetch.
-     */
-    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing DarazLogs.
-     */
-    cursor?: DarazLogsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` DarazLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` DarazLogs.
-     */
-    skip?: number
-    distinct?: DarazLogsScalarFieldEnum | DarazLogsScalarFieldEnum[]
-  }
-
-
-  /**
-   * DarazLogs create
-   */
-  export type DarazLogsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * The data needed to create a DarazLogs.
-     */
-    data: XOR<DarazLogsCreateInput, DarazLogsUncheckedCreateInput>
-  }
-
-
-  /**
-   * DarazLogs createMany
-   */
-  export type DarazLogsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many DarazLogs.
-     */
-    data: DarazLogsCreateManyInput | DarazLogsCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * DarazLogs update
-   */
-  export type DarazLogsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * The data needed to update a DarazLogs.
-     */
-    data: XOR<DarazLogsUpdateInput, DarazLogsUncheckedUpdateInput>
-    /**
-     * Choose, which DarazLogs to update.
-     */
-    where: DarazLogsWhereUniqueInput
-  }
-
-
-  /**
-   * DarazLogs updateMany
-   */
-  export type DarazLogsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update DarazLogs.
-     */
-    data: XOR<DarazLogsUpdateManyMutationInput, DarazLogsUncheckedUpdateManyInput>
-    /**
-     * Filter which DarazLogs to update
-     */
-    where?: DarazLogsWhereInput
-  }
-
-
-  /**
-   * DarazLogs upsert
-   */
-  export type DarazLogsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * The filter to search for the DarazLogs to update in case it exists.
-     */
-    where: DarazLogsWhereUniqueInput
-    /**
-     * In case the DarazLogs found by the `where` argument doesn't exist, create a new DarazLogs with this data.
-     */
-    create: XOR<DarazLogsCreateInput, DarazLogsUncheckedCreateInput>
-    /**
-     * In case the DarazLogs was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<DarazLogsUpdateInput, DarazLogsUncheckedUpdateInput>
-  }
-
-
-  /**
-   * DarazLogs delete
-   */
-  export type DarazLogsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-    /**
-     * Filter which DarazLogs to delete.
-     */
-    where: DarazLogsWhereUniqueInput
-  }
-
-
-  /**
-   * DarazLogs deleteMany
-   */
-  export type DarazLogsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which DarazLogs to delete
-     */
-    where?: DarazLogsWhereInput
-  }
-
-
-  /**
-   * DarazLogs without action
-   */
-  export type DarazLogsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DarazLogs
-     */
-    select?: DarazLogsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: DarazLogsInclude<ExtArgs> | null
-  }
-
-
-
-  /**
    * Enums
    */
 
@@ -8894,17 +7824,6 @@ export namespace Prisma {
   };
 
   export type TemporaryDataScalarFieldEnum = (typeof TemporaryDataScalarFieldEnum)[keyof typeof TemporaryDataScalarFieldEnum]
-
-
-  export const DarazLogsScalarFieldEnum: {
-    id: 'id',
-    store: 'store',
-    data: 'data',
-    receivedAt: 'receivedAt',
-    user_id: 'user_id'
-  };
-
-  export type DarazLogsScalarFieldEnum = (typeof DarazLogsScalarFieldEnum)[keyof typeof DarazLogsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -9035,7 +7954,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersListRelationFilter
     ShopifyOrders?: ShopifyOrdersListRelationFilter
     TemporaryData?: TemporaryDataListRelationFilter
-    DarazLogs?: DarazLogsListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9052,7 +7970,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersOrderByRelationAggregateInput
     ShopifyOrders?: ShopifyOrdersOrderByRelationAggregateInput
     TemporaryData?: TemporaryDataOrderByRelationAggregateInput
-    DarazLogs?: DarazLogsOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9072,7 +7989,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersListRelationFilter
     ShopifyOrders?: ShopifyOrdersListRelationFilter
     TemporaryData?: TemporaryDataListRelationFilter
-    DarazLogs?: DarazLogsListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9615,63 +8531,6 @@ export namespace Prisma {
     userId?: IntNullableWithAggregatesFilter<"TemporaryData"> | number | null
   }
 
-  export type DarazLogsWhereInput = {
-    AND?: DarazLogsWhereInput | DarazLogsWhereInput[]
-    OR?: DarazLogsWhereInput[]
-    NOT?: DarazLogsWhereInput | DarazLogsWhereInput[]
-    id?: IntFilter<"DarazLogs"> | number
-    store?: StringFilter<"DarazLogs"> | string
-    data?: JsonFilter<"DarazLogs">
-    receivedAt?: DateTimeFilter<"DarazLogs"> | Date | string
-    user_id?: IntFilter<"DarazLogs"> | number
-    user?: XOR<UserRelationFilter, UserWhereInput>
-  }
-
-  export type DarazLogsOrderByWithRelationInput = {
-    id?: SortOrder
-    store?: SortOrder
-    data?: SortOrder
-    receivedAt?: SortOrder
-    user_id?: SortOrder
-    user?: UserOrderByWithRelationInput
-  }
-
-  export type DarazLogsWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: DarazLogsWhereInput | DarazLogsWhereInput[]
-    OR?: DarazLogsWhereInput[]
-    NOT?: DarazLogsWhereInput | DarazLogsWhereInput[]
-    store?: StringFilter<"DarazLogs"> | string
-    data?: JsonFilter<"DarazLogs">
-    receivedAt?: DateTimeFilter<"DarazLogs"> | Date | string
-    user_id?: IntFilter<"DarazLogs"> | number
-    user?: XOR<UserRelationFilter, UserWhereInput>
-  }, "id">
-
-  export type DarazLogsOrderByWithAggregationInput = {
-    id?: SortOrder
-    store?: SortOrder
-    data?: SortOrder
-    receivedAt?: SortOrder
-    user_id?: SortOrder
-    _count?: DarazLogsCountOrderByAggregateInput
-    _avg?: DarazLogsAvgOrderByAggregateInput
-    _max?: DarazLogsMaxOrderByAggregateInput
-    _min?: DarazLogsMinOrderByAggregateInput
-    _sum?: DarazLogsSumOrderByAggregateInput
-  }
-
-  export type DarazLogsScalarWhereWithAggregatesInput = {
-    AND?: DarazLogsScalarWhereWithAggregatesInput | DarazLogsScalarWhereWithAggregatesInput[]
-    OR?: DarazLogsScalarWhereWithAggregatesInput[]
-    NOT?: DarazLogsScalarWhereWithAggregatesInput | DarazLogsScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"DarazLogs"> | number
-    store?: StringWithAggregatesFilter<"DarazLogs"> | string
-    data?: JsonWithAggregatesFilter<"DarazLogs">
-    receivedAt?: DateTimeWithAggregatesFilter<"DarazLogs"> | Date | string
-    user_id?: IntWithAggregatesFilter<"DarazLogs"> | number
-  }
-
   export type UserCreateInput = {
     first_name: string
     last_name: string
@@ -9685,7 +8544,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9702,7 +8560,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -9718,7 +8575,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -9735,7 +8591,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10351,58 +9206,6 @@ export namespace Prisma {
     userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type DarazLogsCreateInput = {
-    store: string
-    data: JsonNullValueInput | InputJsonValue
-    receivedAt?: Date | string
-    user: UserCreateNestedOneWithoutDarazLogsInput
-  }
-
-  export type DarazLogsUncheckedCreateInput = {
-    id?: number
-    store: string
-    data: JsonNullValueInput | InputJsonValue
-    receivedAt?: Date | string
-    user_id: number
-  }
-
-  export type DarazLogsUpdateInput = {
-    store?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutDarazLogsNestedInput
-  }
-
-  export type DarazLogsUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    store?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user_id?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type DarazLogsCreateManyInput = {
-    id?: number
-    store: string
-    data: JsonNullValueInput | InputJsonValue
-    receivedAt?: Date | string
-    user_id: number
-  }
-
-  export type DarazLogsUpdateManyMutationInput = {
-    store?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DarazLogsUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    store?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user_id?: IntFieldUpdateOperationsInput | number
-  }
-
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -10470,12 +9273,6 @@ export namespace Prisma {
     none?: TemporaryDataWhereInput
   }
 
-  export type DarazLogsListRelationFilter = {
-    every?: DarazLogsWhereInput
-    some?: DarazLogsWhereInput
-    none?: DarazLogsWhereInput
-  }
-
   export type StoreOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -10493,10 +9290,6 @@ export namespace Prisma {
   }
 
   export type TemporaryDataOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type DarazLogsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11019,38 +9812,6 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type DarazLogsCountOrderByAggregateInput = {
-    id?: SortOrder
-    store?: SortOrder
-    data?: SortOrder
-    receivedAt?: SortOrder
-    user_id?: SortOrder
-  }
-
-  export type DarazLogsAvgOrderByAggregateInput = {
-    id?: SortOrder
-    user_id?: SortOrder
-  }
-
-  export type DarazLogsMaxOrderByAggregateInput = {
-    id?: SortOrder
-    store?: SortOrder
-    receivedAt?: SortOrder
-    user_id?: SortOrder
-  }
-
-  export type DarazLogsMinOrderByAggregateInput = {
-    id?: SortOrder
-    store?: SortOrder
-    receivedAt?: SortOrder
-    user_id?: SortOrder
-  }
-
-  export type DarazLogsSumOrderByAggregateInput = {
-    id?: SortOrder
-    user_id?: SortOrder
-  }
-
   export type StoreCreateNestedManyWithoutUserInput = {
     create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
@@ -11086,13 +9847,6 @@ export namespace Prisma {
     connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
   }
 
-  export type DarazLogsCreateNestedManyWithoutUserInput = {
-    create?: XOR<DarazLogsCreateWithoutUserInput, DarazLogsUncheckedCreateWithoutUserInput> | DarazLogsCreateWithoutUserInput[] | DarazLogsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DarazLogsCreateOrConnectWithoutUserInput | DarazLogsCreateOrConnectWithoutUserInput[]
-    createMany?: DarazLogsCreateManyUserInputEnvelope
-    connect?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-  }
-
   export type StoreUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
@@ -11126,13 +9880,6 @@ export namespace Prisma {
     connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
     createMany?: TemporaryDataCreateManyUserInputEnvelope
     connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-  }
-
-  export type DarazLogsUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<DarazLogsCreateWithoutUserInput, DarazLogsUncheckedCreateWithoutUserInput> | DarazLogsCreateWithoutUserInput[] | DarazLogsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DarazLogsCreateOrConnectWithoutUserInput | DarazLogsCreateOrConnectWithoutUserInput[]
-    createMany?: DarazLogsCreateManyUserInputEnvelope
-    connect?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11213,20 +9960,6 @@ export namespace Prisma {
     deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
   }
 
-  export type DarazLogsUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DarazLogsCreateWithoutUserInput, DarazLogsUncheckedCreateWithoutUserInput> | DarazLogsCreateWithoutUserInput[] | DarazLogsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DarazLogsCreateOrConnectWithoutUserInput | DarazLogsCreateOrConnectWithoutUserInput[]
-    upsert?: DarazLogsUpsertWithWhereUniqueWithoutUserInput | DarazLogsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DarazLogsCreateManyUserInputEnvelope
-    set?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    disconnect?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    delete?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    connect?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    update?: DarazLogsUpdateWithWhereUniqueWithoutUserInput | DarazLogsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DarazLogsUpdateManyWithWhereWithoutUserInput | DarazLogsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DarazLogsScalarWhereInput | DarazLogsScalarWhereInput[]
-  }
-
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -11303,20 +10036,6 @@ export namespace Prisma {
     update?: TemporaryDataUpdateWithWhereUniqueWithoutUserInput | TemporaryDataUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TemporaryDataUpdateManyWithWhereWithoutUserInput | TemporaryDataUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
-  }
-
-  export type DarazLogsUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DarazLogsCreateWithoutUserInput, DarazLogsUncheckedCreateWithoutUserInput> | DarazLogsCreateWithoutUserInput[] | DarazLogsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DarazLogsCreateOrConnectWithoutUserInput | DarazLogsCreateOrConnectWithoutUserInput[]
-    upsert?: DarazLogsUpsertWithWhereUniqueWithoutUserInput | DarazLogsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DarazLogsCreateManyUserInputEnvelope
-    set?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    disconnect?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    delete?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    connect?: DarazLogsWhereUniqueInput | DarazLogsWhereUniqueInput[]
-    update?: DarazLogsUpdateWithWhereUniqueWithoutUserInput | DarazLogsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DarazLogsUpdateManyWithWhereWithoutUserInput | DarazLogsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DarazLogsScalarWhereInput | DarazLogsScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutStoresInput = {
@@ -11405,20 +10124,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type UserCreateNestedOneWithoutDarazLogsInput = {
-    create?: XOR<UserCreateWithoutDarazLogsInput, UserUncheckedCreateWithoutDarazLogsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDarazLogsInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutDarazLogsNestedInput = {
-    create?: XOR<UserCreateWithoutDarazLogsInput, UserUncheckedCreateWithoutDarazLogsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDarazLogsInput
-    upsert?: UserUpsertWithoutDarazLogsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDarazLogsInput, UserUpdateWithoutDarazLogsInput>, UserUncheckedUpdateWithoutDarazLogsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11838,29 +10543,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type DarazLogsCreateWithoutUserInput = {
-    store: string
-    data: JsonNullValueInput | InputJsonValue
-    receivedAt?: Date | string
-  }
-
-  export type DarazLogsUncheckedCreateWithoutUserInput = {
-    id?: number
-    store: string
-    data: JsonNullValueInput | InputJsonValue
-    receivedAt?: Date | string
-  }
-
-  export type DarazLogsCreateOrConnectWithoutUserInput = {
-    where: DarazLogsWhereUniqueInput
-    create: XOR<DarazLogsCreateWithoutUserInput, DarazLogsUncheckedCreateWithoutUserInput>
-  }
-
-  export type DarazLogsCreateManyUserInputEnvelope = {
-    data: DarazLogsCreateManyUserInput | DarazLogsCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type StoreUpsertWithWhereUniqueWithoutUserInput = {
     where: StoreWhereUniqueInput
     update: XOR<StoreUpdateWithoutUserInput, StoreUncheckedUpdateWithoutUserInput>
@@ -12041,33 +10723,6 @@ export namespace Prisma {
     userId?: IntNullableFilter<"TemporaryData"> | number | null
   }
 
-  export type DarazLogsUpsertWithWhereUniqueWithoutUserInput = {
-    where: DarazLogsWhereUniqueInput
-    update: XOR<DarazLogsUpdateWithoutUserInput, DarazLogsUncheckedUpdateWithoutUserInput>
-    create: XOR<DarazLogsCreateWithoutUserInput, DarazLogsUncheckedCreateWithoutUserInput>
-  }
-
-  export type DarazLogsUpdateWithWhereUniqueWithoutUserInput = {
-    where: DarazLogsWhereUniqueInput
-    data: XOR<DarazLogsUpdateWithoutUserInput, DarazLogsUncheckedUpdateWithoutUserInput>
-  }
-
-  export type DarazLogsUpdateManyWithWhereWithoutUserInput = {
-    where: DarazLogsScalarWhereInput
-    data: XOR<DarazLogsUpdateManyMutationInput, DarazLogsUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type DarazLogsScalarWhereInput = {
-    AND?: DarazLogsScalarWhereInput | DarazLogsScalarWhereInput[]
-    OR?: DarazLogsScalarWhereInput[]
-    NOT?: DarazLogsScalarWhereInput | DarazLogsScalarWhereInput[]
-    id?: IntFilter<"DarazLogs"> | number
-    store?: StringFilter<"DarazLogs"> | string
-    data?: JsonFilter<"DarazLogs">
-    receivedAt?: DateTimeFilter<"DarazLogs"> | Date | string
-    user_id?: IntFilter<"DarazLogs"> | number
-  }
-
   export type UserCreateWithoutStoresInput = {
     first_name: string
     last_name: string
@@ -12080,7 +10735,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStoresInput = {
@@ -12096,7 +10750,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStoresInput = {
@@ -12127,7 +10780,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStoresInput = {
@@ -12143,7 +10795,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDarazOrdersInput = {
@@ -12158,7 +10809,6 @@ export namespace Prisma {
     Courier?: CourierCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDarazOrdersInput = {
@@ -12174,7 +10824,6 @@ export namespace Prisma {
     Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDarazOrdersInput = {
@@ -12205,7 +10854,6 @@ export namespace Prisma {
     Courier?: CourierUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDarazOrdersInput = {
@@ -12221,7 +10869,6 @@ export namespace Prisma {
     Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutShopifyOrdersInput = {
@@ -12236,7 +10883,6 @@ export namespace Prisma {
     Courier?: CourierCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutShopifyOrdersInput = {
@@ -12252,7 +10898,6 @@ export namespace Prisma {
     Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutShopifyOrdersInput = {
@@ -12283,7 +10928,6 @@ export namespace Prisma {
     Courier?: CourierUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutShopifyOrdersInput = {
@@ -12299,7 +10943,6 @@ export namespace Prisma {
     Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCourierInput = {
@@ -12314,7 +10957,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCourierInput = {
@@ -12330,7 +10972,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCourierInput = {
@@ -12361,7 +11002,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCourierInput = {
@@ -12377,7 +11017,6 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTemporaryDataInput = {
@@ -12392,7 +11031,6 @@ export namespace Prisma {
     Courier?: CourierCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTemporaryDataInput = {
@@ -12408,7 +11046,6 @@ export namespace Prisma {
     Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
-    DarazLogs?: DarazLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTemporaryDataInput = {
@@ -12439,7 +11076,6 @@ export namespace Prisma {
     Courier?: CourierUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTemporaryDataInput = {
@@ -12455,85 +11091,6 @@ export namespace Prisma {
     Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
-    DarazLogs?: DarazLogsUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutDarazLogsInput = {
-    first_name: string
-    last_name: string
-    email: string
-    password: string
-    phone: string
-    address: string
-    joinedat?: Date | string
-    Stores?: StoreCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
-    DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
-    ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutDarazLogsInput = {
-    id?: number
-    first_name: string
-    last_name: string
-    email: string
-    password: string
-    phone: string
-    address: string
-    joinedat?: Date | string
-    Stores?: StoreUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
-    DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
-    ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutDarazLogsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutDarazLogsInput, UserUncheckedCreateWithoutDarazLogsInput>
-  }
-
-  export type UserUpsertWithoutDarazLogsInput = {
-    update: XOR<UserUpdateWithoutDarazLogsInput, UserUncheckedUpdateWithoutDarazLogsInput>
-    create: XOR<UserCreateWithoutDarazLogsInput, UserUncheckedCreateWithoutDarazLogsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutDarazLogsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutDarazLogsInput, UserUncheckedUpdateWithoutDarazLogsInput>
-  }
-
-  export type UserUpdateWithoutDarazLogsInput = {
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
-    Stores?: StoreUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
-    DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
-    ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutDarazLogsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
-    Stores?: StoreUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
-    DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
-    ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StoreCreateManyUserInput = {
@@ -12614,13 +11171,6 @@ export namespace Prisma {
     email: string
     data: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-  }
-
-  export type DarazLogsCreateManyUserInput = {
-    id?: number
-    store: string
-    data: JsonNullValueInput | InputJsonValue
-    receivedAt?: Date | string
   }
 
   export type StoreUpdateWithoutUserInput = {
@@ -12860,26 +11410,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DarazLogsUpdateWithoutUserInput = {
-    store?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DarazLogsUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    store?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DarazLogsUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    store?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
 
 
   /**
@@ -12913,10 +11443,6 @@ export namespace Prisma {
      * @deprecated Use TemporaryDataDefaultArgs instead
      */
     export type TemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TemporaryDataDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use DarazLogsDefaultArgs instead
-     */
-    export type DarazLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DarazLogsDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

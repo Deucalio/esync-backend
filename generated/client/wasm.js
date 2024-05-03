@@ -203,14 +203,6 @@ exports.Prisma.TemporaryDataScalarFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.DarazLogsScalarFieldEnum = {
-  id: 'id',
-  store: 'store',
-  data: 'data',
-  receivedAt: 'receivedAt',
-  user_id: 'user_id'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -243,8 +235,7 @@ exports.Prisma.ModelName = {
   DarazOrders: 'DarazOrders',
   ShopifyOrders: 'ShopifyOrders',
   Courier: 'Courier',
-  TemporaryData: 'TemporaryData',
-  DarazLogs: 'DarazLogs'
+  TemporaryData: 'TemporaryData'
 };
 
 /**

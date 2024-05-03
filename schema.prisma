@@ -6,10 +6,9 @@ generator client {
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("PRISMA_URL") // uses connection pooling
-    // url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-    // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+    provider  = "postgresql"
+    url       = env("VERCEL_POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("VERCEL_POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
@@ -26,7 +25,6 @@ model User {
     DarazOrders   DarazOrders[]
     ShopifyOrders ShopifyOrders[]
     TemporaryData TemporaryData[]
-    DarazLogs     DarazLogs[]
 }
 
 model Store {
@@ -119,14 +117,4 @@ model TemporaryData {
 
     User   User? @relation(fields: [userId], references: [id])
     userId Int?
-}
-
-model DarazLogs {
-    id         Int      @id @default(autoincrement())
-    store      String
-    data       Json
-    receivedAt DateTime @default(now())
-
-    user_id Int
-    user    User @relation(fields: [user_id], references: [id])
 }
