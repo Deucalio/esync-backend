@@ -341,25 +341,34 @@ app.post("/orders", async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    // include: { Stores: true, Courier: true, DarazOrders: true },
+    include: { Stores: true },
   });
   let userID = user.id;
+  let userStores = user.Stores;
 
-  let darazOrders = await prisma.darazOrders.findMany({
-    where: { user_id: userID },
-    take: 500,
-  });
+  for (const store of userStores) {
+    if (store.platform === "daraz") {
+      // SELECT * FROM "DarazOrders" where user_id = user.id ORDER BY created_at DESC LIMIT 500
 
-  darazOrders.forEach((order) => {
-    orders.push({
-      ...order,
-      store_info: {
-        platform: "daraz",
-        domain: null,
-        shopLogo: null,
-      },
-    });
-  });
+      const darazOrders = await prisma.darazOrders.findMany({
+        where: { seller_id: store.store_info.user_info.seller_id },
+        orderBy: { created_at: "desc" },
+        take: 300,
+      });
+
+      darazOrders.forEach((order) => {
+        orders.push({
+          ...order,
+          store_info: {
+            platform: "daraz",
+            domain: null,
+            shopLogo: null,
+            name: store.name,
+          },
+        });
+      });
+    }
+  }
 
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
