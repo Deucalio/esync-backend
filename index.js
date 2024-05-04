@@ -353,7 +353,7 @@ app.post("/orders", async (req, res) => {
       const darazOrders = await prisma.darazOrders.findMany({
         where: { seller_id: store.store_info.user_info.seller_id },
         orderBy: { created_at: "desc" },
-        take: 200,
+        take: 500,
       });
 
       darazOrders.forEach((order) => {
