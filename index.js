@@ -334,70 +334,101 @@ function sleep(ms) {
 // Get all Orders from all the store user has connected
 app.post("/orders", async (req, res) => {
   const { email } = req.body;
+  const start = new Date().getTime();
   const orders = [];
+
+  console.log("email:", email);
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { Stores: true, Courier: true },
+    // include: { Stores: true, Courier: true, DarazOrders: true },
   });
-  const userStores = user.Stores;
+  let userID = user.id;
 
-  console.log("userStores: ", userStores);
-  for (const store of userStores) {
-    if (store.platform === "shopify") {
-      const response = await axios.get(
-        `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&limit=200`,
-        // &financial_status=any
-        // &fulfillment_status=unfulfilled
+  const darazOrders = await prisma.darazOrders.findMany({
+    where: { user_id: userID },
+    take: 500,
+  });
 
-        {
-          headers: {
-            "X-Shopify-Access-Token": store.store_info.accessToken,
-          },
-        }
-      );
-      let resOrders = response.data.orders;
-      // If the order has a tag "on hold" then remove it from the list
-      resOrders = resOrders.filter(
-        (order) => !order.tags.toLowerCase().includes("on hold")
-      );
+  orders.push(...darazOrders);
 
-      resOrders.forEach((order) => {
-        orders.push({
-          ...order,
-          store_info: {
-            platform: "shopify",
-            domain: store.store_info.shop,
-            shopLogo: store.image_url,
-            name: store.name,
-            // courierID: store.store_info?.courier_id?.id || null,
-          },
-        });
-      });
-    } else if (store.platform === "daraz") {
-      // SELECT * FROM "DarazOrders" where user_id = user.id ORDER BY created_at DESC LIMIT 500
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
 
-      const darazOrders = await prisma.darazOrders.findMany({
-        where: { user_id: user.id },
-        orderBy: { created_at: "desc" },
-        take: 500,
-      });
+  console.log("Time taken: ", timeTaken);
 
-      darazOrders.forEach((order) => {
-        orders.push({
-          ...order,
-          store_info: {
-            platform: "daraz",
-            domain: null,
-            shopLogo: null,
-            name: store.name,
-          },
-        });
-      });
-    }
-  }
+  // darazOrders.forEach((order) => {
+  //   orders.push({
+  //     ...order,
+  //     store_info: {
+  //       platform: "daraz",
+  //       domain: null,
+  //       shopLogo: null,
+  //     },
+  //   });
+  // });
+
+  // for (const store of userStores) {
+  //   if (store.platform === "shopify") {
+  //     const response = await axios.get(
+  //       `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&limit=200`,
+  //       // &financial_status=any
+  //       // &fulfillment_status=unfulfilled
+
+  //       {
+  //         headers: {
+  //           "X-Shopify-Access-Token": store.store_info.accessToken,
+  //         },
+  //       }
+  //     );
+  //     let resOrders = response.data.orders;
+  //     // If the order has a tag "on hold" then remove it from the list
+  //     resOrders = resOrders.filter(
+  //       (order) => !order.tags.toLowerCase().includes("on hold")
+  //     );
+
+  //     resOrders.forEach((order) => {
+  //       orders.push({
+  //         ...order,
+  //         store_info: {
+  //           platform: "shopify",
+  //           domain: store.store_info.shop,
+  //           shopLogo: store.image_url,
+  //           name: store.name,
+  //           // courierID: store.store_info?.courier_id?.id || null,
+  //         },
+  //       });
+  //     });
+  //   } else if (store.platform === "daraz") {
+  //     // SELECT * FROM "DarazOrders" where user_id = user.id ORDER BY created_at DESC LIMIT 500
+
+  //     const darazOrders = await prisma.darazOrders.findMany({
+  //       where: { seller_id: store.store_info.user_info.seller_id },
+  //       orderBy: { created_at: "desc" },
+  //       take: 500,
+  //     });
+
+  //     darazOrders.forEach((order) => {
+  //       orders.push({
+  //         ...order,
+  //         store_info: {
+  //           platform: "daraz",
+  //           domain: null,
+  //           shopLogo: null,
+  //           name: store.name,
+  //         },
+  //       });
+  //     });
+  //   }
+  // }
   res.status(200).send(orders);
 });
+
+app.get("/orders", async (req, res) => {
+  console.log("GET REQUEST");
+  res.status(200).send("YO");
+});
+
 async function createOrder() {
   try {
     const data = {
