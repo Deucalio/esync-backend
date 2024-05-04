@@ -345,28 +345,26 @@ app.post("/orders", async (req, res) => {
   });
   let userID = user.id;
 
-  const darazOrders = await prisma.darazOrders.findMany({
+  let darazOrders = await prisma.darazOrders.findMany({
     where: { user_id: userID },
     take: 500,
   });
 
-  orders.push(...darazOrders);
+  darazOrders.forEach((order) => {
+    orders.push({
+      ...order,
+      store_info: {
+        platform: "daraz",
+        domain: null,
+        shopLogo: null,
+      },
+    });
+  });
 
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
   console.log("Time taken: ", timeTaken);
-
-  // darazOrders.forEach((order) => {
-  //   orders.push({
-  //     ...order,
-  //     store_info: {
-  //       platform: "daraz",
-  //       domain: null,
-  //       shopLogo: null,
-  //     },
-  //   });
-  // });
 
   // for (const store of userStores) {
   //   if (store.platform === "shopify") {
