@@ -154,6 +154,25 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   remarks: 'remarks',
   address_shipping: 'address_shipping',
   order_items: 'order_items',
+  shop_logo: 'shop_logo',
+  user_id: 'user_id'
+};
+
+exports.Prisma.DarazUnpaidTransactionsScalarFieldEnum = {
+  order_number: 'order_number',
+  orderItem_status: 'orderItem_status',
+  orderItem_number: 'orderItem_number',
+  amount: 'amount',
+  transaction_date: 'transaction_date',
+  transaction_type: 'transaction_type',
+  statement: 'statement',
+  payment_ref_id: 'payment_ref_id',
+  fee_name: 'fee_name',
+  paid_status: 'paid_status',
+  WHT_included_in_amount: 'WHT_included_in_amount',
+  VAT_in_amount: 'VAT_in_amount',
+  transaction_number: 'transaction_number',
+  comment: 'comment',
   user_id: 'user_id'
 };
 
@@ -233,6 +252,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Store: 'Store',
   DarazOrders: 'DarazOrders',
+  DarazUnpaidTransactions: 'DarazUnpaidTransactions',
   ShopifyOrders: 'ShopifyOrders',
   Courier: 'Courier',
   TemporaryData: 'TemporaryData'

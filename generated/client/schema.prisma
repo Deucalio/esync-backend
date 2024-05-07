@@ -12,19 +12,20 @@ datasource db {
 }
 
 model User {
-    id            Int             @id @default(autoincrement())
-    first_name    String
-    last_name     String
-    email         String          @unique
-    password      String
-    phone         String
-    address       String
-    joinedat      DateTime        @default(now())
-    Stores        Store[]
-    Courier       Courier[]
-    DarazOrders   DarazOrders[]
-    ShopifyOrders ShopifyOrders[]
-    TemporaryData TemporaryData[]
+    id                      Int                       @id @default(autoincrement())
+    first_name              String
+    last_name               String
+    email                   String                    @unique
+    password                String
+    phone                   String
+    address                 String
+    joinedat                DateTime                  @default(now())
+    Stores                  Store[]
+    Courier                 Courier[]
+    DarazOrders             DarazOrders[]
+    ShopifyOrders           ShopifyOrders[]
+    TemporaryData           TemporaryData[]
+    DarazUnpaidTransactions DarazUnpaidTransactions[]
 }
 
 model Store {
@@ -64,8 +65,28 @@ model DarazOrders {
     remarks                        String
     address_shipping               Json
     order_items                    Json
+    shop_logo                      String
     user_id                        Int
     user                           User      @relation(fields: [user_id], references: [id])
+}
+
+model DarazUnpaidTransactions {
+    order_number           String    @id @unique
+    orderItem_status       String?
+    orderItem_number       String?
+    amount                 String?
+    transaction_date       DateTime?
+    transaction_type       String?
+    statement              String?
+    payment_ref_id         String?
+    fee_name               String?
+    paid_status            String?
+    WHT_included_in_amount String?
+    VAT_in_amount          String?
+    transaction_number     String?
+    comment                String?
+    user_id                Int
+    user                   User      @relation(fields: [user_id], references: [id])
 }
 
 model ShopifyOrders {

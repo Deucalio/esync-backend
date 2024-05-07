@@ -29,6 +29,11 @@ export type Store = $Result.DefaultSelection<Prisma.$StorePayload>
  */
 export type DarazOrders = $Result.DefaultSelection<Prisma.$DarazOrdersPayload>
 /**
+ * Model DarazUnpaidTransactions
+ * 
+ */
+export type DarazUnpaidTransactions = $Result.DefaultSelection<Prisma.$DarazUnpaidTransactionsPayload>
+/**
  * Model ShopifyOrders
  * 
  */
@@ -195,6 +200,16 @@ export class PrismaClient<
     * ```
     */
   get darazOrders(): Prisma.DarazOrdersDelegate<ExtArgs>;
+
+  /**
+   * `prisma.darazUnpaidTransactions`: Exposes CRUD operations for the **DarazUnpaidTransactions** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DarazUnpaidTransactions
+    * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.findMany()
+    * ```
+    */
+  get darazUnpaidTransactions(): Prisma.DarazUnpaidTransactionsDelegate<ExtArgs>;
 
   /**
    * `prisma.shopifyOrders`: Exposes CRUD operations for the **ShopifyOrders** model.
@@ -698,6 +713,7 @@ export namespace Prisma {
     User: 'User',
     Store: 'Store',
     DarazOrders: 'DarazOrders',
+    DarazUnpaidTransactions: 'DarazUnpaidTransactions',
     ShopifyOrders: 'ShopifyOrders',
     Courier: 'Courier',
     TemporaryData: 'TemporaryData'
@@ -717,7 +733,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'store' | 'darazOrders' | 'shopifyOrders' | 'courier' | 'temporaryData'
+      modelProps: 'user' | 'store' | 'darazOrders' | 'darazUnpaidTransactions' | 'shopifyOrders' | 'courier' | 'temporaryData'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -916,6 +932,72 @@ export namespace Prisma {
           count: {
             args: Prisma.DarazOrdersCountArgs<ExtArgs>,
             result: $Utils.Optional<DarazOrdersCountAggregateOutputType> | number
+          }
+        }
+      }
+      DarazUnpaidTransactions: {
+        payload: Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>
+        fields: Prisma.DarazUnpaidTransactionsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DarazUnpaidTransactionsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DarazUnpaidTransactionsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload>
+          }
+          findFirst: {
+            args: Prisma.DarazUnpaidTransactionsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DarazUnpaidTransactionsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload>
+          }
+          findMany: {
+            args: Prisma.DarazUnpaidTransactionsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload>[]
+          }
+          create: {
+            args: Prisma.DarazUnpaidTransactionsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload>
+          }
+          createMany: {
+            args: Prisma.DarazUnpaidTransactionsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.DarazUnpaidTransactionsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload>
+          }
+          update: {
+            args: Prisma.DarazUnpaidTransactionsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload>
+          }
+          deleteMany: {
+            args: Prisma.DarazUnpaidTransactionsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DarazUnpaidTransactionsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.DarazUnpaidTransactionsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazUnpaidTransactionsPayload>
+          }
+          aggregate: {
+            args: Prisma.DarazUnpaidTransactionsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateDarazUnpaidTransactions>
+          }
+          groupBy: {
+            args: Prisma.DarazUnpaidTransactionsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<DarazUnpaidTransactionsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DarazUnpaidTransactionsCountArgs<ExtArgs>,
+            result: $Utils.Optional<DarazUnpaidTransactionsCountAggregateOutputType> | number
           }
         }
       }
@@ -1271,6 +1353,7 @@ export namespace Prisma {
     DarazOrders: number
     ShopifyOrders: number
     TemporaryData: number
+    DarazUnpaidTransactions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1279,6 +1362,7 @@ export namespace Prisma {
     DarazOrders?: boolean | UserCountOutputTypeCountDarazOrdersArgs
     ShopifyOrders?: boolean | UserCountOutputTypeCountShopifyOrdersArgs
     TemporaryData?: boolean | UserCountOutputTypeCountTemporaryDataArgs
+    DarazUnpaidTransactions?: boolean | UserCountOutputTypeCountDarazUnpaidTransactionsArgs
   }
 
   // Custom InputTypes
@@ -1331,6 +1415,14 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountTemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TemporaryDataWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDarazUnpaidTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DarazUnpaidTransactionsWhereInput
   }
 
 
@@ -1566,6 +1658,7 @@ export namespace Prisma {
     DarazOrders?: boolean | User$DarazOrdersArgs<ExtArgs>
     ShopifyOrders?: boolean | User$ShopifyOrdersArgs<ExtArgs>
     TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
+    DarazUnpaidTransactions?: boolean | User$DarazUnpaidTransactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1586,6 +1679,7 @@ export namespace Prisma {
     DarazOrders?: boolean | User$DarazOrdersArgs<ExtArgs>
     ShopifyOrders?: boolean | User$ShopifyOrdersArgs<ExtArgs>
     TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
+    DarazUnpaidTransactions?: boolean | User$DarazUnpaidTransactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1598,6 +1692,7 @@ export namespace Prisma {
       DarazOrders: Prisma.$DarazOrdersPayload<ExtArgs>[]
       ShopifyOrders: Prisma.$ShopifyOrdersPayload<ExtArgs>[]
       TemporaryData: Prisma.$TemporaryDataPayload<ExtArgs>[]
+      DarazUnpaidTransactions: Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1982,6 +2077,8 @@ export namespace Prisma {
     ShopifyOrders<T extends User$ShopifyOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$ShopifyOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyOrdersPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     TemporaryData<T extends User$TemporaryDataArgs<ExtArgs> = {}>(args?: Subset<T, User$TemporaryDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    DarazUnpaidTransactions<T extends User$DarazUnpaidTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$DarazUnpaidTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2432,6 +2529,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TemporaryDataScalarFieldEnum | TemporaryDataScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.DarazUnpaidTransactions
+   */
+  export type User$DarazUnpaidTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    where?: DarazUnpaidTransactionsWhereInput
+    orderBy?: DarazUnpaidTransactionsOrderByWithRelationInput | DarazUnpaidTransactionsOrderByWithRelationInput[]
+    cursor?: DarazUnpaidTransactionsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DarazUnpaidTransactionsScalarFieldEnum | DarazUnpaidTransactionsScalarFieldEnum[]
   }
 
 
@@ -3468,6 +3586,7 @@ export namespace Prisma {
     statuses: string | null
     gift_message: string | null
     remarks: string | null
+    shop_logo: string | null
     user_id: number | null
   }
 
@@ -3494,6 +3613,7 @@ export namespace Prisma {
     statuses: string | null
     gift_message: string | null
     remarks: string | null
+    shop_logo: string | null
     user_id: number | null
   }
 
@@ -3523,6 +3643,7 @@ export namespace Prisma {
     remarks: number
     address_shipping: number
     order_items: number
+    shop_logo: number
     user_id: number
     _all: number
   }
@@ -3559,6 +3680,7 @@ export namespace Prisma {
     statuses?: true
     gift_message?: true
     remarks?: true
+    shop_logo?: true
     user_id?: true
   }
 
@@ -3585,6 +3707,7 @@ export namespace Prisma {
     statuses?: true
     gift_message?: true
     remarks?: true
+    shop_logo?: true
     user_id?: true
   }
 
@@ -3614,6 +3737,7 @@ export namespace Prisma {
     remarks?: true
     address_shipping?: true
     order_items?: true
+    shop_logo?: true
     user_id?: true
     _all?: true
   }
@@ -3730,6 +3854,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonValue
     order_items: JsonValue
+    shop_logo: string
     user_id: number
     _count: DarazOrdersCountAggregateOutputType | null
     _avg: DarazOrdersAvgAggregateOutputType | null
@@ -3778,6 +3903,7 @@ export namespace Prisma {
     remarks?: boolean
     address_shipping?: boolean
     order_items?: boolean
+    shop_logo?: boolean
     user_id?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["darazOrders"]>
@@ -3808,6 +3934,7 @@ export namespace Prisma {
     remarks?: boolean
     address_shipping?: boolean
     order_items?: boolean
+    shop_logo?: boolean
     user_id?: boolean
   }
 
@@ -3847,6 +3974,7 @@ export namespace Prisma {
       remarks: string
       address_shipping: Prisma.JsonValue
       order_items: Prisma.JsonValue
+      shop_logo: string
       user_id: number
     }, ExtArgs["result"]["darazOrders"]>
     composites: {}
@@ -4268,6 +4396,7 @@ export namespace Prisma {
     readonly remarks: FieldRef<"DarazOrders", 'String'>
     readonly address_shipping: FieldRef<"DarazOrders", 'Json'>
     readonly order_items: FieldRef<"DarazOrders", 'Json'>
+    readonly shop_logo: FieldRef<"DarazOrders", 'String'>
     readonly user_id: FieldRef<"DarazOrders", 'Int'>
   }
     
@@ -4592,6 +4721,1068 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: DarazOrdersInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model DarazUnpaidTransactions
+   */
+
+  export type AggregateDarazUnpaidTransactions = {
+    _count: DarazUnpaidTransactionsCountAggregateOutputType | null
+    _avg: DarazUnpaidTransactionsAvgAggregateOutputType | null
+    _sum: DarazUnpaidTransactionsSumAggregateOutputType | null
+    _min: DarazUnpaidTransactionsMinAggregateOutputType | null
+    _max: DarazUnpaidTransactionsMaxAggregateOutputType | null
+  }
+
+  export type DarazUnpaidTransactionsAvgAggregateOutputType = {
+    user_id: number | null
+  }
+
+  export type DarazUnpaidTransactionsSumAggregateOutputType = {
+    user_id: number | null
+  }
+
+  export type DarazUnpaidTransactionsMinAggregateOutputType = {
+    order_number: string | null
+    orderItem_status: string | null
+    orderItem_number: string | null
+    amount: string | null
+    transaction_date: Date | null
+    transaction_type: string | null
+    statement: string | null
+    payment_ref_id: string | null
+    fee_name: string | null
+    paid_status: string | null
+    WHT_included_in_amount: string | null
+    VAT_in_amount: string | null
+    transaction_number: string | null
+    comment: string | null
+    user_id: number | null
+  }
+
+  export type DarazUnpaidTransactionsMaxAggregateOutputType = {
+    order_number: string | null
+    orderItem_status: string | null
+    orderItem_number: string | null
+    amount: string | null
+    transaction_date: Date | null
+    transaction_type: string | null
+    statement: string | null
+    payment_ref_id: string | null
+    fee_name: string | null
+    paid_status: string | null
+    WHT_included_in_amount: string | null
+    VAT_in_amount: string | null
+    transaction_number: string | null
+    comment: string | null
+    user_id: number | null
+  }
+
+  export type DarazUnpaidTransactionsCountAggregateOutputType = {
+    order_number: number
+    orderItem_status: number
+    orderItem_number: number
+    amount: number
+    transaction_date: number
+    transaction_type: number
+    statement: number
+    payment_ref_id: number
+    fee_name: number
+    paid_status: number
+    WHT_included_in_amount: number
+    VAT_in_amount: number
+    transaction_number: number
+    comment: number
+    user_id: number
+    _all: number
+  }
+
+
+  export type DarazUnpaidTransactionsAvgAggregateInputType = {
+    user_id?: true
+  }
+
+  export type DarazUnpaidTransactionsSumAggregateInputType = {
+    user_id?: true
+  }
+
+  export type DarazUnpaidTransactionsMinAggregateInputType = {
+    order_number?: true
+    orderItem_status?: true
+    orderItem_number?: true
+    amount?: true
+    transaction_date?: true
+    transaction_type?: true
+    statement?: true
+    payment_ref_id?: true
+    fee_name?: true
+    paid_status?: true
+    WHT_included_in_amount?: true
+    VAT_in_amount?: true
+    transaction_number?: true
+    comment?: true
+    user_id?: true
+  }
+
+  export type DarazUnpaidTransactionsMaxAggregateInputType = {
+    order_number?: true
+    orderItem_status?: true
+    orderItem_number?: true
+    amount?: true
+    transaction_date?: true
+    transaction_type?: true
+    statement?: true
+    payment_ref_id?: true
+    fee_name?: true
+    paid_status?: true
+    WHT_included_in_amount?: true
+    VAT_in_amount?: true
+    transaction_number?: true
+    comment?: true
+    user_id?: true
+  }
+
+  export type DarazUnpaidTransactionsCountAggregateInputType = {
+    order_number?: true
+    orderItem_status?: true
+    orderItem_number?: true
+    amount?: true
+    transaction_date?: true
+    transaction_type?: true
+    statement?: true
+    payment_ref_id?: true
+    fee_name?: true
+    paid_status?: true
+    WHT_included_in_amount?: true
+    VAT_in_amount?: true
+    transaction_number?: true
+    comment?: true
+    user_id?: true
+    _all?: true
+  }
+
+  export type DarazUnpaidTransactionsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DarazUnpaidTransactions to aggregate.
+     */
+    where?: DarazUnpaidTransactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazUnpaidTransactions to fetch.
+     */
+    orderBy?: DarazUnpaidTransactionsOrderByWithRelationInput | DarazUnpaidTransactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DarazUnpaidTransactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazUnpaidTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazUnpaidTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DarazUnpaidTransactions
+    **/
+    _count?: true | DarazUnpaidTransactionsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DarazUnpaidTransactionsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DarazUnpaidTransactionsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DarazUnpaidTransactionsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DarazUnpaidTransactionsMaxAggregateInputType
+  }
+
+  export type GetDarazUnpaidTransactionsAggregateType<T extends DarazUnpaidTransactionsAggregateArgs> = {
+        [P in keyof T & keyof AggregateDarazUnpaidTransactions]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDarazUnpaidTransactions[P]>
+      : GetScalarType<T[P], AggregateDarazUnpaidTransactions[P]>
+  }
+
+
+
+
+  export type DarazUnpaidTransactionsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DarazUnpaidTransactionsWhereInput
+    orderBy?: DarazUnpaidTransactionsOrderByWithAggregationInput | DarazUnpaidTransactionsOrderByWithAggregationInput[]
+    by: DarazUnpaidTransactionsScalarFieldEnum[] | DarazUnpaidTransactionsScalarFieldEnum
+    having?: DarazUnpaidTransactionsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DarazUnpaidTransactionsCountAggregateInputType | true
+    _avg?: DarazUnpaidTransactionsAvgAggregateInputType
+    _sum?: DarazUnpaidTransactionsSumAggregateInputType
+    _min?: DarazUnpaidTransactionsMinAggregateInputType
+    _max?: DarazUnpaidTransactionsMaxAggregateInputType
+  }
+
+  export type DarazUnpaidTransactionsGroupByOutputType = {
+    order_number: string
+    orderItem_status: string | null
+    orderItem_number: string | null
+    amount: string | null
+    transaction_date: Date | null
+    transaction_type: string | null
+    statement: string | null
+    payment_ref_id: string | null
+    fee_name: string | null
+    paid_status: string | null
+    WHT_included_in_amount: string | null
+    VAT_in_amount: string | null
+    transaction_number: string | null
+    comment: string | null
+    user_id: number
+    _count: DarazUnpaidTransactionsCountAggregateOutputType | null
+    _avg: DarazUnpaidTransactionsAvgAggregateOutputType | null
+    _sum: DarazUnpaidTransactionsSumAggregateOutputType | null
+    _min: DarazUnpaidTransactionsMinAggregateOutputType | null
+    _max: DarazUnpaidTransactionsMaxAggregateOutputType | null
+  }
+
+  type GetDarazUnpaidTransactionsGroupByPayload<T extends DarazUnpaidTransactionsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DarazUnpaidTransactionsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DarazUnpaidTransactionsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DarazUnpaidTransactionsGroupByOutputType[P]>
+            : GetScalarType<T[P], DarazUnpaidTransactionsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DarazUnpaidTransactionsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    order_number?: boolean
+    orderItem_status?: boolean
+    orderItem_number?: boolean
+    amount?: boolean
+    transaction_date?: boolean
+    transaction_type?: boolean
+    statement?: boolean
+    payment_ref_id?: boolean
+    fee_name?: boolean
+    paid_status?: boolean
+    WHT_included_in_amount?: boolean
+    VAT_in_amount?: boolean
+    transaction_number?: boolean
+    comment?: boolean
+    user_id?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["darazUnpaidTransactions"]>
+
+  export type DarazUnpaidTransactionsSelectScalar = {
+    order_number?: boolean
+    orderItem_status?: boolean
+    orderItem_number?: boolean
+    amount?: boolean
+    transaction_date?: boolean
+    transaction_type?: boolean
+    statement?: boolean
+    payment_ref_id?: boolean
+    fee_name?: boolean
+    paid_status?: boolean
+    WHT_included_in_amount?: boolean
+    VAT_in_amount?: boolean
+    transaction_number?: boolean
+    comment?: boolean
+    user_id?: boolean
+  }
+
+  export type DarazUnpaidTransactionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $DarazUnpaidTransactionsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DarazUnpaidTransactions"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      order_number: string
+      orderItem_status: string | null
+      orderItem_number: string | null
+      amount: string | null
+      transaction_date: Date | null
+      transaction_type: string | null
+      statement: string | null
+      payment_ref_id: string | null
+      fee_name: string | null
+      paid_status: string | null
+      WHT_included_in_amount: string | null
+      VAT_in_amount: string | null
+      transaction_number: string | null
+      comment: string | null
+      user_id: number
+    }, ExtArgs["result"]["darazUnpaidTransactions"]>
+    composites: {}
+  }
+
+
+  type DarazUnpaidTransactionsGetPayload<S extends boolean | null | undefined | DarazUnpaidTransactionsDefaultArgs> = $Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload, S>
+
+  type DarazUnpaidTransactionsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<DarazUnpaidTransactionsFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: DarazUnpaidTransactionsCountAggregateInputType | true
+    }
+
+  export interface DarazUnpaidTransactionsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DarazUnpaidTransactions'], meta: { name: 'DarazUnpaidTransactions' } }
+    /**
+     * Find zero or one DarazUnpaidTransactions that matches the filter.
+     * @param {DarazUnpaidTransactionsFindUniqueArgs} args - Arguments to find a DarazUnpaidTransactions
+     * @example
+     * // Get one DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends DarazUnpaidTransactionsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazUnpaidTransactionsFindUniqueArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one DarazUnpaidTransactions that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {DarazUnpaidTransactionsFindUniqueOrThrowArgs} args - Arguments to find a DarazUnpaidTransactions
+     * @example
+     * // Get one DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends DarazUnpaidTransactionsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazUnpaidTransactionsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first DarazUnpaidTransactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazUnpaidTransactionsFindFirstArgs} args - Arguments to find a DarazUnpaidTransactions
+     * @example
+     * // Get one DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends DarazUnpaidTransactionsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazUnpaidTransactionsFindFirstArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first DarazUnpaidTransactions that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazUnpaidTransactionsFindFirstOrThrowArgs} args - Arguments to find a DarazUnpaidTransactions
+     * @example
+     * // Get one DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends DarazUnpaidTransactionsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazUnpaidTransactionsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more DarazUnpaidTransactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazUnpaidTransactionsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.findMany()
+     * 
+     * // Get first 10 DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.findMany({ take: 10 })
+     * 
+     * // Only select the `order_number`
+     * const darazUnpaidTransactionsWithOrder_numberOnly = await prisma.darazUnpaidTransactions.findMany({ select: { order_number: true } })
+     * 
+    **/
+    findMany<T extends DarazUnpaidTransactionsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazUnpaidTransactionsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a DarazUnpaidTransactions.
+     * @param {DarazUnpaidTransactionsCreateArgs} args - Arguments to create a DarazUnpaidTransactions.
+     * @example
+     * // Create one DarazUnpaidTransactions
+     * const DarazUnpaidTransactions = await prisma.darazUnpaidTransactions.create({
+     *   data: {
+     *     // ... data to create a DarazUnpaidTransactions
+     *   }
+     * })
+     * 
+    **/
+    create<T extends DarazUnpaidTransactionsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazUnpaidTransactionsCreateArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many DarazUnpaidTransactions.
+     *     @param {DarazUnpaidTransactionsCreateManyArgs} args - Arguments to create many DarazUnpaidTransactions.
+     *     @example
+     *     // Create many DarazUnpaidTransactions
+     *     const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends DarazUnpaidTransactionsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazUnpaidTransactionsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a DarazUnpaidTransactions.
+     * @param {DarazUnpaidTransactionsDeleteArgs} args - Arguments to delete one DarazUnpaidTransactions.
+     * @example
+     * // Delete one DarazUnpaidTransactions
+     * const DarazUnpaidTransactions = await prisma.darazUnpaidTransactions.delete({
+     *   where: {
+     *     // ... filter to delete one DarazUnpaidTransactions
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends DarazUnpaidTransactionsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazUnpaidTransactionsDeleteArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one DarazUnpaidTransactions.
+     * @param {DarazUnpaidTransactionsUpdateArgs} args - Arguments to update one DarazUnpaidTransactions.
+     * @example
+     * // Update one DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends DarazUnpaidTransactionsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazUnpaidTransactionsUpdateArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more DarazUnpaidTransactions.
+     * @param {DarazUnpaidTransactionsDeleteManyArgs} args - Arguments to filter DarazUnpaidTransactions to delete.
+     * @example
+     * // Delete a few DarazUnpaidTransactions
+     * const { count } = await prisma.darazUnpaidTransactions.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends DarazUnpaidTransactionsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazUnpaidTransactionsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DarazUnpaidTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazUnpaidTransactionsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends DarazUnpaidTransactionsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazUnpaidTransactionsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DarazUnpaidTransactions.
+     * @param {DarazUnpaidTransactionsUpsertArgs} args - Arguments to update or create a DarazUnpaidTransactions.
+     * @example
+     * // Update or create a DarazUnpaidTransactions
+     * const darazUnpaidTransactions = await prisma.darazUnpaidTransactions.upsert({
+     *   create: {
+     *     // ... data to create a DarazUnpaidTransactions
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DarazUnpaidTransactions we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends DarazUnpaidTransactionsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazUnpaidTransactionsUpsertArgs<ExtArgs>>
+    ): Prisma__DarazUnpaidTransactionsClient<$Result.GetResult<Prisma.$DarazUnpaidTransactionsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of DarazUnpaidTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazUnpaidTransactionsCountArgs} args - Arguments to filter DarazUnpaidTransactions to count.
+     * @example
+     * // Count the number of DarazUnpaidTransactions
+     * const count = await prisma.darazUnpaidTransactions.count({
+     *   where: {
+     *     // ... the filter for the DarazUnpaidTransactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends DarazUnpaidTransactionsCountArgs>(
+      args?: Subset<T, DarazUnpaidTransactionsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DarazUnpaidTransactionsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DarazUnpaidTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazUnpaidTransactionsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DarazUnpaidTransactionsAggregateArgs>(args: Subset<T, DarazUnpaidTransactionsAggregateArgs>): Prisma.PrismaPromise<GetDarazUnpaidTransactionsAggregateType<T>>
+
+    /**
+     * Group by DarazUnpaidTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazUnpaidTransactionsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DarazUnpaidTransactionsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DarazUnpaidTransactionsGroupByArgs['orderBy'] }
+        : { orderBy?: DarazUnpaidTransactionsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DarazUnpaidTransactionsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDarazUnpaidTransactionsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DarazUnpaidTransactions model
+   */
+  readonly fields: DarazUnpaidTransactionsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DarazUnpaidTransactions.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DarazUnpaidTransactionsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the DarazUnpaidTransactions model
+   */ 
+  interface DarazUnpaidTransactionsFieldRefs {
+    readonly order_number: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly orderItem_status: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly orderItem_number: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly amount: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly transaction_date: FieldRef<"DarazUnpaidTransactions", 'DateTime'>
+    readonly transaction_type: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly statement: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly payment_ref_id: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly fee_name: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly paid_status: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly WHT_included_in_amount: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly VAT_in_amount: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly transaction_number: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly comment: FieldRef<"DarazUnpaidTransactions", 'String'>
+    readonly user_id: FieldRef<"DarazUnpaidTransactions", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * DarazUnpaidTransactions findUnique
+   */
+  export type DarazUnpaidTransactionsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which DarazUnpaidTransactions to fetch.
+     */
+    where: DarazUnpaidTransactionsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazUnpaidTransactions findUniqueOrThrow
+   */
+  export type DarazUnpaidTransactionsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which DarazUnpaidTransactions to fetch.
+     */
+    where: DarazUnpaidTransactionsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazUnpaidTransactions findFirst
+   */
+  export type DarazUnpaidTransactionsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which DarazUnpaidTransactions to fetch.
+     */
+    where?: DarazUnpaidTransactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazUnpaidTransactions to fetch.
+     */
+    orderBy?: DarazUnpaidTransactionsOrderByWithRelationInput | DarazUnpaidTransactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DarazUnpaidTransactions.
+     */
+    cursor?: DarazUnpaidTransactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazUnpaidTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazUnpaidTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DarazUnpaidTransactions.
+     */
+    distinct?: DarazUnpaidTransactionsScalarFieldEnum | DarazUnpaidTransactionsScalarFieldEnum[]
+  }
+
+
+  /**
+   * DarazUnpaidTransactions findFirstOrThrow
+   */
+  export type DarazUnpaidTransactionsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which DarazUnpaidTransactions to fetch.
+     */
+    where?: DarazUnpaidTransactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazUnpaidTransactions to fetch.
+     */
+    orderBy?: DarazUnpaidTransactionsOrderByWithRelationInput | DarazUnpaidTransactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DarazUnpaidTransactions.
+     */
+    cursor?: DarazUnpaidTransactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazUnpaidTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazUnpaidTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DarazUnpaidTransactions.
+     */
+    distinct?: DarazUnpaidTransactionsScalarFieldEnum | DarazUnpaidTransactionsScalarFieldEnum[]
+  }
+
+
+  /**
+   * DarazUnpaidTransactions findMany
+   */
+  export type DarazUnpaidTransactionsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which DarazUnpaidTransactions to fetch.
+     */
+    where?: DarazUnpaidTransactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazUnpaidTransactions to fetch.
+     */
+    orderBy?: DarazUnpaidTransactionsOrderByWithRelationInput | DarazUnpaidTransactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DarazUnpaidTransactions.
+     */
+    cursor?: DarazUnpaidTransactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazUnpaidTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazUnpaidTransactions.
+     */
+    skip?: number
+    distinct?: DarazUnpaidTransactionsScalarFieldEnum | DarazUnpaidTransactionsScalarFieldEnum[]
+  }
+
+
+  /**
+   * DarazUnpaidTransactions create
+   */
+  export type DarazUnpaidTransactionsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DarazUnpaidTransactions.
+     */
+    data: XOR<DarazUnpaidTransactionsCreateInput, DarazUnpaidTransactionsUncheckedCreateInput>
+  }
+
+
+  /**
+   * DarazUnpaidTransactions createMany
+   */
+  export type DarazUnpaidTransactionsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DarazUnpaidTransactions.
+     */
+    data: DarazUnpaidTransactionsCreateManyInput | DarazUnpaidTransactionsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * DarazUnpaidTransactions update
+   */
+  export type DarazUnpaidTransactionsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DarazUnpaidTransactions.
+     */
+    data: XOR<DarazUnpaidTransactionsUpdateInput, DarazUnpaidTransactionsUncheckedUpdateInput>
+    /**
+     * Choose, which DarazUnpaidTransactions to update.
+     */
+    where: DarazUnpaidTransactionsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazUnpaidTransactions updateMany
+   */
+  export type DarazUnpaidTransactionsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DarazUnpaidTransactions.
+     */
+    data: XOR<DarazUnpaidTransactionsUpdateManyMutationInput, DarazUnpaidTransactionsUncheckedUpdateManyInput>
+    /**
+     * Filter which DarazUnpaidTransactions to update
+     */
+    where?: DarazUnpaidTransactionsWhereInput
+  }
+
+
+  /**
+   * DarazUnpaidTransactions upsert
+   */
+  export type DarazUnpaidTransactionsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DarazUnpaidTransactions to update in case it exists.
+     */
+    where: DarazUnpaidTransactionsWhereUniqueInput
+    /**
+     * In case the DarazUnpaidTransactions found by the `where` argument doesn't exist, create a new DarazUnpaidTransactions with this data.
+     */
+    create: XOR<DarazUnpaidTransactionsCreateInput, DarazUnpaidTransactionsUncheckedCreateInput>
+    /**
+     * In case the DarazUnpaidTransactions was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DarazUnpaidTransactionsUpdateInput, DarazUnpaidTransactionsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * DarazUnpaidTransactions delete
+   */
+  export type DarazUnpaidTransactionsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
+    /**
+     * Filter which DarazUnpaidTransactions to delete.
+     */
+    where: DarazUnpaidTransactionsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazUnpaidTransactions deleteMany
+   */
+  export type DarazUnpaidTransactionsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DarazUnpaidTransactions to delete
+     */
+    where?: DarazUnpaidTransactionsWhereInput
+  }
+
+
+  /**
+   * DarazUnpaidTransactions without action
+   */
+  export type DarazUnpaidTransactionsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazUnpaidTransactions
+     */
+    select?: DarazUnpaidTransactionsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DarazUnpaidTransactionsInclude<ExtArgs> | null
   }
 
 
@@ -7765,10 +8956,32 @@ export namespace Prisma {
     remarks: 'remarks',
     address_shipping: 'address_shipping',
     order_items: 'order_items',
+    shop_logo: 'shop_logo',
     user_id: 'user_id'
   };
 
   export type DarazOrdersScalarFieldEnum = (typeof DarazOrdersScalarFieldEnum)[keyof typeof DarazOrdersScalarFieldEnum]
+
+
+  export const DarazUnpaidTransactionsScalarFieldEnum: {
+    order_number: 'order_number',
+    orderItem_status: 'orderItem_status',
+    orderItem_number: 'orderItem_number',
+    amount: 'amount',
+    transaction_date: 'transaction_date',
+    transaction_type: 'transaction_type',
+    statement: 'statement',
+    payment_ref_id: 'payment_ref_id',
+    fee_name: 'fee_name',
+    paid_status: 'paid_status',
+    WHT_included_in_amount: 'WHT_included_in_amount',
+    VAT_in_amount: 'VAT_in_amount',
+    transaction_number: 'transaction_number',
+    comment: 'comment',
+    user_id: 'user_id'
+  };
+
+  export type DarazUnpaidTransactionsScalarFieldEnum = (typeof DarazUnpaidTransactionsScalarFieldEnum)[keyof typeof DarazUnpaidTransactionsScalarFieldEnum]
 
 
   export const ShopifyOrdersScalarFieldEnum: {
@@ -7954,6 +9167,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersListRelationFilter
     ShopifyOrders?: ShopifyOrdersListRelationFilter
     TemporaryData?: TemporaryDataListRelationFilter
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7970,6 +9184,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersOrderByRelationAggregateInput
     ShopifyOrders?: ShopifyOrdersOrderByRelationAggregateInput
     TemporaryData?: TemporaryDataOrderByRelationAggregateInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7989,6 +9204,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersListRelationFilter
     ShopifyOrders?: ShopifyOrdersListRelationFilter
     TemporaryData?: TemporaryDataListRelationFilter
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8117,6 +9333,7 @@ export namespace Prisma {
     remarks?: StringFilter<"DarazOrders"> | string
     address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
+    shop_logo?: StringFilter<"DarazOrders"> | string
     user_id?: IntFilter<"DarazOrders"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
   }
@@ -8147,6 +9364,7 @@ export namespace Prisma {
     remarks?: SortOrder
     address_shipping?: SortOrder
     order_items?: SortOrder
+    shop_logo?: SortOrder
     user_id?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -8180,6 +9398,7 @@ export namespace Prisma {
     remarks?: StringFilter<"DarazOrders"> | string
     address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
+    shop_logo?: StringFilter<"DarazOrders"> | string
     user_id?: IntFilter<"DarazOrders"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
   }, "order_id" | "order_id">
@@ -8210,6 +9429,7 @@ export namespace Prisma {
     remarks?: SortOrder
     address_shipping?: SortOrder
     order_items?: SortOrder
+    shop_logo?: SortOrder
     user_id?: SortOrder
     _count?: DarazOrdersCountOrderByAggregateInput
     _avg?: DarazOrdersAvgOrderByAggregateInput
@@ -8247,7 +9467,115 @@ export namespace Prisma {
     remarks?: StringWithAggregatesFilter<"DarazOrders"> | string
     address_shipping?: JsonWithAggregatesFilter<"DarazOrders">
     order_items?: JsonWithAggregatesFilter<"DarazOrders">
+    shop_logo?: StringWithAggregatesFilter<"DarazOrders"> | string
     user_id?: IntWithAggregatesFilter<"DarazOrders"> | number
+  }
+
+  export type DarazUnpaidTransactionsWhereInput = {
+    AND?: DarazUnpaidTransactionsWhereInput | DarazUnpaidTransactionsWhereInput[]
+    OR?: DarazUnpaidTransactionsWhereInput[]
+    NOT?: DarazUnpaidTransactionsWhereInput | DarazUnpaidTransactionsWhereInput[]
+    order_number?: StringFilter<"DarazUnpaidTransactions"> | string
+    orderItem_status?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    orderItem_number?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_date?: DateTimeNullableFilter<"DarazUnpaidTransactions"> | Date | string | null
+    transaction_type?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    statement?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    payment_ref_id?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    fee_name?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    paid_status?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    WHT_included_in_amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    VAT_in_amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_number?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    comment?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    user_id?: IntFilter<"DarazUnpaidTransactions"> | number
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type DarazUnpaidTransactionsOrderByWithRelationInput = {
+    order_number?: SortOrder
+    orderItem_status?: SortOrderInput | SortOrder
+    orderItem_number?: SortOrderInput | SortOrder
+    amount?: SortOrderInput | SortOrder
+    transaction_date?: SortOrderInput | SortOrder
+    transaction_type?: SortOrderInput | SortOrder
+    statement?: SortOrderInput | SortOrder
+    payment_ref_id?: SortOrderInput | SortOrder
+    fee_name?: SortOrderInput | SortOrder
+    paid_status?: SortOrderInput | SortOrder
+    WHT_included_in_amount?: SortOrderInput | SortOrder
+    VAT_in_amount?: SortOrderInput | SortOrder
+    transaction_number?: SortOrderInput | SortOrder
+    comment?: SortOrderInput | SortOrder
+    user_id?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type DarazUnpaidTransactionsWhereUniqueInput = Prisma.AtLeast<{
+    order_number?: string
+    AND?: DarazUnpaidTransactionsWhereInput | DarazUnpaidTransactionsWhereInput[]
+    OR?: DarazUnpaidTransactionsWhereInput[]
+    NOT?: DarazUnpaidTransactionsWhereInput | DarazUnpaidTransactionsWhereInput[]
+    orderItem_status?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    orderItem_number?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_date?: DateTimeNullableFilter<"DarazUnpaidTransactions"> | Date | string | null
+    transaction_type?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    statement?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    payment_ref_id?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    fee_name?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    paid_status?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    WHT_included_in_amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    VAT_in_amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_number?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    comment?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    user_id?: IntFilter<"DarazUnpaidTransactions"> | number
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "order_number" | "order_number">
+
+  export type DarazUnpaidTransactionsOrderByWithAggregationInput = {
+    order_number?: SortOrder
+    orderItem_status?: SortOrderInput | SortOrder
+    orderItem_number?: SortOrderInput | SortOrder
+    amount?: SortOrderInput | SortOrder
+    transaction_date?: SortOrderInput | SortOrder
+    transaction_type?: SortOrderInput | SortOrder
+    statement?: SortOrderInput | SortOrder
+    payment_ref_id?: SortOrderInput | SortOrder
+    fee_name?: SortOrderInput | SortOrder
+    paid_status?: SortOrderInput | SortOrder
+    WHT_included_in_amount?: SortOrderInput | SortOrder
+    VAT_in_amount?: SortOrderInput | SortOrder
+    transaction_number?: SortOrderInput | SortOrder
+    comment?: SortOrderInput | SortOrder
+    user_id?: SortOrder
+    _count?: DarazUnpaidTransactionsCountOrderByAggregateInput
+    _avg?: DarazUnpaidTransactionsAvgOrderByAggregateInput
+    _max?: DarazUnpaidTransactionsMaxOrderByAggregateInput
+    _min?: DarazUnpaidTransactionsMinOrderByAggregateInput
+    _sum?: DarazUnpaidTransactionsSumOrderByAggregateInput
+  }
+
+  export type DarazUnpaidTransactionsScalarWhereWithAggregatesInput = {
+    AND?: DarazUnpaidTransactionsScalarWhereWithAggregatesInput | DarazUnpaidTransactionsScalarWhereWithAggregatesInput[]
+    OR?: DarazUnpaidTransactionsScalarWhereWithAggregatesInput[]
+    NOT?: DarazUnpaidTransactionsScalarWhereWithAggregatesInput | DarazUnpaidTransactionsScalarWhereWithAggregatesInput[]
+    order_number?: StringWithAggregatesFilter<"DarazUnpaidTransactions"> | string
+    orderItem_status?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    orderItem_number?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    amount?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_date?: DateTimeNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | Date | string | null
+    transaction_type?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    statement?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    payment_ref_id?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    fee_name?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    paid_status?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    WHT_included_in_amount?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    VAT_in_amount?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_number?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    comment?: StringNullableWithAggregatesFilter<"DarazUnpaidTransactions"> | string | null
+    user_id?: IntWithAggregatesFilter<"DarazUnpaidTransactions"> | number
   }
 
   export type ShopifyOrdersWhereInput = {
@@ -8544,6 +9872,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8560,6 +9889,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -8575,6 +9905,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8591,6 +9922,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8717,6 +10049,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    shop_logo: string
     user: UserCreateNestedOneWithoutDarazOrdersInput
   }
 
@@ -8746,6 +10079,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    shop_logo: string
     user_id: number
   }
 
@@ -8775,6 +10109,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    shop_logo?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutDarazOrdersNestedInput
   }
 
@@ -8804,6 +10139,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    shop_logo?: StringFieldUpdateOperationsInput | string
     user_id?: IntFieldUpdateOperationsInput | number
   }
 
@@ -8833,6 +10169,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    shop_logo: string
     user_id: number
   }
 
@@ -8862,6 +10199,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
   export type DarazOrdersUncheckedUpdateManyInput = {
@@ -8890,6 +10228,132 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    shop_logo?: StringFieldUpdateOperationsInput | string
+    user_id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type DarazUnpaidTransactionsCreateInput = {
+    order_number: string
+    orderItem_status?: string | null
+    orderItem_number?: string | null
+    amount?: string | null
+    transaction_date?: Date | string | null
+    transaction_type?: string | null
+    statement?: string | null
+    payment_ref_id?: string | null
+    fee_name?: string | null
+    paid_status?: string | null
+    WHT_included_in_amount?: string | null
+    VAT_in_amount?: string | null
+    transaction_number?: string | null
+    comment?: string | null
+    user: UserCreateNestedOneWithoutDarazUnpaidTransactionsInput
+  }
+
+  export type DarazUnpaidTransactionsUncheckedCreateInput = {
+    order_number: string
+    orderItem_status?: string | null
+    orderItem_number?: string | null
+    amount?: string | null
+    transaction_date?: Date | string | null
+    transaction_type?: string | null
+    statement?: string | null
+    payment_ref_id?: string | null
+    fee_name?: string | null
+    paid_status?: string | null
+    WHT_included_in_amount?: string | null
+    VAT_in_amount?: string | null
+    transaction_number?: string | null
+    comment?: string | null
+    user_id: number
+  }
+
+  export type DarazUnpaidTransactionsUpdateInput = {
+    order_number?: StringFieldUpdateOperationsInput | string
+    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
+    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
+    statement?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fee_name?: NullableStringFieldUpdateOperationsInput | string | null
+    paid_status?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutDarazUnpaidTransactionsNestedInput
+  }
+
+  export type DarazUnpaidTransactionsUncheckedUpdateInput = {
+    order_number?: StringFieldUpdateOperationsInput | string
+    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
+    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
+    statement?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fee_name?: NullableStringFieldUpdateOperationsInput | string | null
+    paid_status?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type DarazUnpaidTransactionsCreateManyInput = {
+    order_number: string
+    orderItem_status?: string | null
+    orderItem_number?: string | null
+    amount?: string | null
+    transaction_date?: Date | string | null
+    transaction_type?: string | null
+    statement?: string | null
+    payment_ref_id?: string | null
+    fee_name?: string | null
+    paid_status?: string | null
+    WHT_included_in_amount?: string | null
+    VAT_in_amount?: string | null
+    transaction_number?: string | null
+    comment?: string | null
+    user_id: number
+  }
+
+  export type DarazUnpaidTransactionsUpdateManyMutationInput = {
+    order_number?: StringFieldUpdateOperationsInput | string
+    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
+    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
+    statement?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fee_name?: NullableStringFieldUpdateOperationsInput | string | null
+    paid_status?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DarazUnpaidTransactionsUncheckedUpdateManyInput = {
+    order_number?: StringFieldUpdateOperationsInput | string
+    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
+    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
+    statement?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fee_name?: NullableStringFieldUpdateOperationsInput | string | null
+    paid_status?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: IntFieldUpdateOperationsInput | number
   }
 
@@ -9273,6 +10737,12 @@ export namespace Prisma {
     none?: TemporaryDataWhereInput
   }
 
+  export type DarazUnpaidTransactionsListRelationFilter = {
+    every?: DarazUnpaidTransactionsWhereInput
+    some?: DarazUnpaidTransactionsWhereInput
+    none?: DarazUnpaidTransactionsWhereInput
+  }
+
   export type StoreOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -9290,6 +10760,10 @@ export namespace Prisma {
   }
 
   export type TemporaryDataOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DarazUnpaidTransactionsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9529,6 +11003,7 @@ export namespace Prisma {
     remarks?: SortOrder
     address_shipping?: SortOrder
     order_items?: SortOrder
+    shop_logo?: SortOrder
     user_id?: SortOrder
   }
 
@@ -9559,6 +11034,7 @@ export namespace Prisma {
     statuses?: SortOrder
     gift_message?: SortOrder
     remarks?: SortOrder
+    shop_logo?: SortOrder
     user_id?: SortOrder
   }
 
@@ -9585,6 +11061,7 @@ export namespace Prisma {
     statuses?: SortOrder
     gift_message?: SortOrder
     remarks?: SortOrder
+    shop_logo?: SortOrder
     user_id?: SortOrder
   }
 
@@ -9622,6 +11099,68 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type DarazUnpaidTransactionsCountOrderByAggregateInput = {
+    order_number?: SortOrder
+    orderItem_status?: SortOrder
+    orderItem_number?: SortOrder
+    amount?: SortOrder
+    transaction_date?: SortOrder
+    transaction_type?: SortOrder
+    statement?: SortOrder
+    payment_ref_id?: SortOrder
+    fee_name?: SortOrder
+    paid_status?: SortOrder
+    WHT_included_in_amount?: SortOrder
+    VAT_in_amount?: SortOrder
+    transaction_number?: SortOrder
+    comment?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type DarazUnpaidTransactionsAvgOrderByAggregateInput = {
+    user_id?: SortOrder
+  }
+
+  export type DarazUnpaidTransactionsMaxOrderByAggregateInput = {
+    order_number?: SortOrder
+    orderItem_status?: SortOrder
+    orderItem_number?: SortOrder
+    amount?: SortOrder
+    transaction_date?: SortOrder
+    transaction_type?: SortOrder
+    statement?: SortOrder
+    payment_ref_id?: SortOrder
+    fee_name?: SortOrder
+    paid_status?: SortOrder
+    WHT_included_in_amount?: SortOrder
+    VAT_in_amount?: SortOrder
+    transaction_number?: SortOrder
+    comment?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type DarazUnpaidTransactionsMinOrderByAggregateInput = {
+    order_number?: SortOrder
+    orderItem_status?: SortOrder
+    orderItem_number?: SortOrder
+    amount?: SortOrder
+    transaction_date?: SortOrder
+    transaction_type?: SortOrder
+    statement?: SortOrder
+    payment_ref_id?: SortOrder
+    fee_name?: SortOrder
+    paid_status?: SortOrder
+    WHT_included_in_amount?: SortOrder
+    VAT_in_amount?: SortOrder
+    transaction_number?: SortOrder
+    comment?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type DarazUnpaidTransactionsSumOrderByAggregateInput = {
+    user_id?: SortOrder
   }
 
   export type ShopifyOrdersCountOrderByAggregateInput = {
@@ -9847,6 +11386,13 @@ export namespace Prisma {
     connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
   }
 
+  export type DarazUnpaidTransactionsCreateNestedManyWithoutUserInput = {
+    create?: XOR<DarazUnpaidTransactionsCreateWithoutUserInput, DarazUnpaidTransactionsUncheckedCreateWithoutUserInput> | DarazUnpaidTransactionsCreateWithoutUserInput[] | DarazUnpaidTransactionsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DarazUnpaidTransactionsCreateOrConnectWithoutUserInput | DarazUnpaidTransactionsCreateOrConnectWithoutUserInput[]
+    createMany?: DarazUnpaidTransactionsCreateManyUserInputEnvelope
+    connect?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+  }
+
   export type StoreUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
@@ -9880,6 +11426,13 @@ export namespace Prisma {
     connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
     createMany?: TemporaryDataCreateManyUserInputEnvelope
     connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+  }
+
+  export type DarazUnpaidTransactionsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DarazUnpaidTransactionsCreateWithoutUserInput, DarazUnpaidTransactionsUncheckedCreateWithoutUserInput> | DarazUnpaidTransactionsCreateWithoutUserInput[] | DarazUnpaidTransactionsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DarazUnpaidTransactionsCreateOrConnectWithoutUserInput | DarazUnpaidTransactionsCreateOrConnectWithoutUserInput[]
+    createMany?: DarazUnpaidTransactionsCreateManyUserInputEnvelope
+    connect?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -9960,6 +11513,20 @@ export namespace Prisma {
     deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
   }
 
+  export type DarazUnpaidTransactionsUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DarazUnpaidTransactionsCreateWithoutUserInput, DarazUnpaidTransactionsUncheckedCreateWithoutUserInput> | DarazUnpaidTransactionsCreateWithoutUserInput[] | DarazUnpaidTransactionsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DarazUnpaidTransactionsCreateOrConnectWithoutUserInput | DarazUnpaidTransactionsCreateOrConnectWithoutUserInput[]
+    upsert?: DarazUnpaidTransactionsUpsertWithWhereUniqueWithoutUserInput | DarazUnpaidTransactionsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DarazUnpaidTransactionsCreateManyUserInputEnvelope
+    set?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    disconnect?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    delete?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    connect?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    update?: DarazUnpaidTransactionsUpdateWithWhereUniqueWithoutUserInput | DarazUnpaidTransactionsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DarazUnpaidTransactionsUpdateManyWithWhereWithoutUserInput | DarazUnpaidTransactionsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DarazUnpaidTransactionsScalarWhereInput | DarazUnpaidTransactionsScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -10038,6 +11605,20 @@ export namespace Prisma {
     deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
   }
 
+  export type DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DarazUnpaidTransactionsCreateWithoutUserInput, DarazUnpaidTransactionsUncheckedCreateWithoutUserInput> | DarazUnpaidTransactionsCreateWithoutUserInput[] | DarazUnpaidTransactionsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DarazUnpaidTransactionsCreateOrConnectWithoutUserInput | DarazUnpaidTransactionsCreateOrConnectWithoutUserInput[]
+    upsert?: DarazUnpaidTransactionsUpsertWithWhereUniqueWithoutUserInput | DarazUnpaidTransactionsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DarazUnpaidTransactionsCreateManyUserInputEnvelope
+    set?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    disconnect?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    delete?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    connect?: DarazUnpaidTransactionsWhereUniqueInput | DarazUnpaidTransactionsWhereUniqueInput[]
+    update?: DarazUnpaidTransactionsUpdateWithWhereUniqueWithoutUserInput | DarazUnpaidTransactionsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DarazUnpaidTransactionsUpdateManyWithWhereWithoutUserInput | DarazUnpaidTransactionsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DarazUnpaidTransactionsScalarWhereInput | DarazUnpaidTransactionsScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutStoresInput = {
     create?: XOR<UserCreateWithoutStoresInput, UserUncheckedCreateWithoutStoresInput>
     connectOrCreate?: UserCreateOrConnectWithoutStoresInput
@@ -10072,6 +11653,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutDarazOrdersInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDarazOrdersInput, UserUpdateWithoutDarazOrdersInput>, UserUncheckedUpdateWithoutDarazOrdersInput>
+  }
+
+  export type UserCreateNestedOneWithoutDarazUnpaidTransactionsInput = {
+    create?: XOR<UserCreateWithoutDarazUnpaidTransactionsInput, UserUncheckedCreateWithoutDarazUnpaidTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDarazUnpaidTransactionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDarazUnpaidTransactionsNestedInput = {
+    create?: XOR<UserCreateWithoutDarazUnpaidTransactionsInput, UserUncheckedCreateWithoutDarazUnpaidTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDarazUnpaidTransactionsInput
+    upsert?: UserUpsertWithoutDarazUnpaidTransactionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDarazUnpaidTransactionsInput, UserUpdateWithoutDarazUnpaidTransactionsInput>, UserUncheckedUpdateWithoutDarazUnpaidTransactionsInput>
   }
 
   export type UserCreateNestedOneWithoutShopifyOrdersInput = {
@@ -10412,6 +12007,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    shop_logo: string
   }
 
   export type DarazOrdersUncheckedCreateWithoutUserInput = {
@@ -10440,6 +12036,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    shop_logo: string
   }
 
   export type DarazOrdersCreateOrConnectWithoutUserInput = {
@@ -10540,6 +12137,50 @@ export namespace Prisma {
 
   export type TemporaryDataCreateManyUserInputEnvelope = {
     data: TemporaryDataCreateManyUserInput | TemporaryDataCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DarazUnpaidTransactionsCreateWithoutUserInput = {
+    order_number: string
+    orderItem_status?: string | null
+    orderItem_number?: string | null
+    amount?: string | null
+    transaction_date?: Date | string | null
+    transaction_type?: string | null
+    statement?: string | null
+    payment_ref_id?: string | null
+    fee_name?: string | null
+    paid_status?: string | null
+    WHT_included_in_amount?: string | null
+    VAT_in_amount?: string | null
+    transaction_number?: string | null
+    comment?: string | null
+  }
+
+  export type DarazUnpaidTransactionsUncheckedCreateWithoutUserInput = {
+    order_number: string
+    orderItem_status?: string | null
+    orderItem_number?: string | null
+    amount?: string | null
+    transaction_date?: Date | string | null
+    transaction_type?: string | null
+    statement?: string | null
+    payment_ref_id?: string | null
+    fee_name?: string | null
+    paid_status?: string | null
+    WHT_included_in_amount?: string | null
+    VAT_in_amount?: string | null
+    transaction_number?: string | null
+    comment?: string | null
+  }
+
+  export type DarazUnpaidTransactionsCreateOrConnectWithoutUserInput = {
+    where: DarazUnpaidTransactionsWhereUniqueInput
+    create: XOR<DarazUnpaidTransactionsCreateWithoutUserInput, DarazUnpaidTransactionsUncheckedCreateWithoutUserInput>
+  }
+
+  export type DarazUnpaidTransactionsCreateManyUserInputEnvelope = {
+    data: DarazUnpaidTransactionsCreateManyUserInput | DarazUnpaidTransactionsCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -10644,6 +12285,7 @@ export namespace Prisma {
     remarks?: StringFilter<"DarazOrders"> | string
     address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
+    shop_logo?: StringFilter<"DarazOrders"> | string
     user_id?: IntFilter<"DarazOrders"> | number
   }
 
@@ -10723,6 +12365,43 @@ export namespace Prisma {
     userId?: IntNullableFilter<"TemporaryData"> | number | null
   }
 
+  export type DarazUnpaidTransactionsUpsertWithWhereUniqueWithoutUserInput = {
+    where: DarazUnpaidTransactionsWhereUniqueInput
+    update: XOR<DarazUnpaidTransactionsUpdateWithoutUserInput, DarazUnpaidTransactionsUncheckedUpdateWithoutUserInput>
+    create: XOR<DarazUnpaidTransactionsCreateWithoutUserInput, DarazUnpaidTransactionsUncheckedCreateWithoutUserInput>
+  }
+
+  export type DarazUnpaidTransactionsUpdateWithWhereUniqueWithoutUserInput = {
+    where: DarazUnpaidTransactionsWhereUniqueInput
+    data: XOR<DarazUnpaidTransactionsUpdateWithoutUserInput, DarazUnpaidTransactionsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DarazUnpaidTransactionsUpdateManyWithWhereWithoutUserInput = {
+    where: DarazUnpaidTransactionsScalarWhereInput
+    data: XOR<DarazUnpaidTransactionsUpdateManyMutationInput, DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DarazUnpaidTransactionsScalarWhereInput = {
+    AND?: DarazUnpaidTransactionsScalarWhereInput | DarazUnpaidTransactionsScalarWhereInput[]
+    OR?: DarazUnpaidTransactionsScalarWhereInput[]
+    NOT?: DarazUnpaidTransactionsScalarWhereInput | DarazUnpaidTransactionsScalarWhereInput[]
+    order_number?: StringFilter<"DarazUnpaidTransactions"> | string
+    orderItem_status?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    orderItem_number?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_date?: DateTimeNullableFilter<"DarazUnpaidTransactions"> | Date | string | null
+    transaction_type?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    statement?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    payment_ref_id?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    fee_name?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    paid_status?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    WHT_included_in_amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    VAT_in_amount?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    transaction_number?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    comment?: StringNullableFilter<"DarazUnpaidTransactions"> | string | null
+    user_id?: IntFilter<"DarazUnpaidTransactions"> | number
+  }
+
   export type UserCreateWithoutStoresInput = {
     first_name: string
     last_name: string
@@ -10735,6 +12414,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStoresInput = {
@@ -10750,6 +12430,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStoresInput = {
@@ -10780,6 +12461,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStoresInput = {
@@ -10795,6 +12477,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDarazOrdersInput = {
@@ -10809,6 +12492,7 @@ export namespace Prisma {
     Courier?: CourierCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDarazOrdersInput = {
@@ -10824,6 +12508,7 @@ export namespace Prisma {
     Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDarazOrdersInput = {
@@ -10854,6 +12539,7 @@ export namespace Prisma {
     Courier?: CourierUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDarazOrdersInput = {
@@ -10867,6 +12553,85 @@ export namespace Prisma {
     joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
     Stores?: StoreUncheckedUpdateManyWithoutUserNestedInput
     Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutDarazUnpaidTransactionsInput = {
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joinedat?: Date | string
+    Stores?: StoreCreateNestedManyWithoutUserInput
+    Courier?: CourierCreateNestedManyWithoutUserInput
+    DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
+    ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDarazUnpaidTransactionsInput = {
+    id?: number
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joinedat?: Date | string
+    Stores?: StoreUncheckedCreateNestedManyWithoutUserInput
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
+    ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDarazUnpaidTransactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDarazUnpaidTransactionsInput, UserUncheckedCreateWithoutDarazUnpaidTransactionsInput>
+  }
+
+  export type UserUpsertWithoutDarazUnpaidTransactionsInput = {
+    update: XOR<UserUpdateWithoutDarazUnpaidTransactionsInput, UserUncheckedUpdateWithoutDarazUnpaidTransactionsInput>
+    create: XOR<UserCreateWithoutDarazUnpaidTransactionsInput, UserUncheckedCreateWithoutDarazUnpaidTransactionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDarazUnpaidTransactionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDarazUnpaidTransactionsInput, UserUncheckedUpdateWithoutDarazUnpaidTransactionsInput>
+  }
+
+  export type UserUpdateWithoutDarazUnpaidTransactionsInput = {
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
+    Stores?: StoreUpdateManyWithoutUserNestedInput
+    Courier?: CourierUpdateManyWithoutUserNestedInput
+    DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
+    ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDarazUnpaidTransactionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joinedat?: DateTimeFieldUpdateOperationsInput | Date | string
+    Stores?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -10883,6 +12648,7 @@ export namespace Prisma {
     Courier?: CourierCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutShopifyOrdersInput = {
@@ -10898,6 +12664,7 @@ export namespace Prisma {
     Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutShopifyOrdersInput = {
@@ -10928,6 +12695,7 @@ export namespace Prisma {
     Courier?: CourierUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutShopifyOrdersInput = {
@@ -10943,6 +12711,7 @@ export namespace Prisma {
     Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCourierInput = {
@@ -10957,6 +12726,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCourierInput = {
@@ -10972,6 +12742,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
     TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCourierInput = {
@@ -11002,6 +12773,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCourierInput = {
@@ -11017,6 +12789,7 @@ export namespace Prisma {
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
     TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTemporaryDataInput = {
@@ -11031,6 +12804,7 @@ export namespace Prisma {
     Courier?: CourierCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTemporaryDataInput = {
@@ -11046,6 +12820,7 @@ export namespace Prisma {
     Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     DarazOrders?: DarazOrdersUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrders?: ShopifyOrdersUncheckedCreateNestedManyWithoutUserInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTemporaryDataInput = {
@@ -11076,6 +12851,7 @@ export namespace Prisma {
     Courier?: CourierUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTemporaryDataInput = {
@@ -11091,6 +12867,7 @@ export namespace Prisma {
     Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     DarazOrders?: DarazOrdersUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrders?: ShopifyOrdersUncheckedUpdateManyWithoutUserNestedInput
+    DarazUnpaidTransactions?: DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StoreCreateManyUserInput = {
@@ -11135,6 +12912,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    shop_logo: string
   }
 
   export type ShopifyOrdersCreateManyUserInput = {
@@ -11171,6 +12949,23 @@ export namespace Prisma {
     email: string
     data: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
+  }
+
+  export type DarazUnpaidTransactionsCreateManyUserInput = {
+    order_number: string
+    orderItem_status?: string | null
+    orderItem_number?: string | null
+    amount?: string | null
+    transaction_date?: Date | string | null
+    transaction_type?: string | null
+    statement?: string | null
+    payment_ref_id?: string | null
+    fee_name?: string | null
+    paid_status?: string | null
+    WHT_included_in_amount?: string | null
+    VAT_in_amount?: string | null
+    transaction_number?: string | null
+    comment?: string | null
   }
 
   export type StoreUpdateWithoutUserInput = {
@@ -11245,6 +13040,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
   export type DarazOrdersUncheckedUpdateWithoutUserInput = {
@@ -11273,6 +13069,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
   export type DarazOrdersUncheckedUpdateManyWithoutUserInput = {
@@ -11301,6 +13098,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
   export type ShopifyOrdersUpdateWithoutUserInput = {
@@ -11410,6 +13208,57 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DarazUnpaidTransactionsUpdateWithoutUserInput = {
+    order_number?: StringFieldUpdateOperationsInput | string
+    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
+    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
+    statement?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fee_name?: NullableStringFieldUpdateOperationsInput | string | null
+    paid_status?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DarazUnpaidTransactionsUncheckedUpdateWithoutUserInput = {
+    order_number?: StringFieldUpdateOperationsInput | string
+    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
+    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
+    statement?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fee_name?: NullableStringFieldUpdateOperationsInput | string | null
+    paid_status?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DarazUnpaidTransactionsUncheckedUpdateManyWithoutUserInput = {
+    order_number?: StringFieldUpdateOperationsInput | string
+    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
+    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
+    statement?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fee_name?: NullableStringFieldUpdateOperationsInput | string | null
+    paid_status?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
 
 
   /**
@@ -11431,6 +13280,10 @@ export namespace Prisma {
      * @deprecated Use DarazOrdersDefaultArgs instead
      */
     export type DarazOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DarazOrdersDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DarazUnpaidTransactionsDefaultArgs instead
+     */
+    export type DarazUnpaidTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DarazUnpaidTransactionsDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ShopifyOrdersDefaultArgs instead
      */

@@ -181,6 +181,9 @@ router.post("/append-orders", async (req, res) => {
 
 router.get("/d", async (req, res) => {
   const d = await prisma.darazOrders.deleteMany();
+  const s = await prisma.store.deleteMany();
+  
+
   res.status(200).json({ message: "Deleted" });
 });
 
