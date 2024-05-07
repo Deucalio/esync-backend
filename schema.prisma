@@ -65,6 +65,7 @@ model DarazOrders {
     remarks                        String
     address_shipping               Json
     order_items                    Json
+    transactions                   Json
     shop_logo                      String
     user_id                        Int
     user                           User      @relation(fields: [user_id], references: [id])

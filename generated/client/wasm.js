@@ -154,6 +154,7 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   remarks: 'remarks',
   address_shipping: 'address_shipping',
   order_items: 'order_items',
+  transactions: 'transactions',
   shop_logo: 'shop_logo',
   user_id: 'user_id'
 };

@@ -3643,6 +3643,7 @@ export namespace Prisma {
     remarks: number
     address_shipping: number
     order_items: number
+    transactions: number
     shop_logo: number
     user_id: number
     _all: number
@@ -3737,6 +3738,7 @@ export namespace Prisma {
     remarks?: true
     address_shipping?: true
     order_items?: true
+    transactions?: true
     shop_logo?: true
     user_id?: true
     _all?: true
@@ -3854,6 +3856,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonValue
     order_items: JsonValue
+    transactions: JsonValue
     shop_logo: string
     user_id: number
     _count: DarazOrdersCountAggregateOutputType | null
@@ -3903,6 +3906,7 @@ export namespace Prisma {
     remarks?: boolean
     address_shipping?: boolean
     order_items?: boolean
+    transactions?: boolean
     shop_logo?: boolean
     user_id?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3934,6 +3938,7 @@ export namespace Prisma {
     remarks?: boolean
     address_shipping?: boolean
     order_items?: boolean
+    transactions?: boolean
     shop_logo?: boolean
     user_id?: boolean
   }
@@ -3974,6 +3979,7 @@ export namespace Prisma {
       remarks: string
       address_shipping: Prisma.JsonValue
       order_items: Prisma.JsonValue
+      transactions: Prisma.JsonValue
       shop_logo: string
       user_id: number
     }, ExtArgs["result"]["darazOrders"]>
@@ -4396,6 +4402,7 @@ export namespace Prisma {
     readonly remarks: FieldRef<"DarazOrders", 'String'>
     readonly address_shipping: FieldRef<"DarazOrders", 'Json'>
     readonly order_items: FieldRef<"DarazOrders", 'Json'>
+    readonly transactions: FieldRef<"DarazOrders", 'Json'>
     readonly shop_logo: FieldRef<"DarazOrders", 'String'>
     readonly user_id: FieldRef<"DarazOrders", 'Int'>
   }
@@ -8956,6 +8963,7 @@ export namespace Prisma {
     remarks: 'remarks',
     address_shipping: 'address_shipping',
     order_items: 'order_items',
+    transactions: 'transactions',
     shop_logo: 'shop_logo',
     user_id: 'user_id'
   };
@@ -9333,6 +9341,7 @@ export namespace Prisma {
     remarks?: StringFilter<"DarazOrders"> | string
     address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
+    transactions?: JsonFilter<"DarazOrders">
     shop_logo?: StringFilter<"DarazOrders"> | string
     user_id?: IntFilter<"DarazOrders"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -9364,6 +9373,7 @@ export namespace Prisma {
     remarks?: SortOrder
     address_shipping?: SortOrder
     order_items?: SortOrder
+    transactions?: SortOrder
     shop_logo?: SortOrder
     user_id?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -9398,6 +9408,7 @@ export namespace Prisma {
     remarks?: StringFilter<"DarazOrders"> | string
     address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
+    transactions?: JsonFilter<"DarazOrders">
     shop_logo?: StringFilter<"DarazOrders"> | string
     user_id?: IntFilter<"DarazOrders"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -9429,6 +9440,7 @@ export namespace Prisma {
     remarks?: SortOrder
     address_shipping?: SortOrder
     order_items?: SortOrder
+    transactions?: SortOrder
     shop_logo?: SortOrder
     user_id?: SortOrder
     _count?: DarazOrdersCountOrderByAggregateInput
@@ -9467,6 +9479,7 @@ export namespace Prisma {
     remarks?: StringWithAggregatesFilter<"DarazOrders"> | string
     address_shipping?: JsonWithAggregatesFilter<"DarazOrders">
     order_items?: JsonWithAggregatesFilter<"DarazOrders">
+    transactions?: JsonWithAggregatesFilter<"DarazOrders">
     shop_logo?: StringWithAggregatesFilter<"DarazOrders"> | string
     user_id?: IntWithAggregatesFilter<"DarazOrders"> | number
   }
@@ -10049,6 +10062,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    transactions: JsonNullValueInput | InputJsonValue
     shop_logo: string
     user: UserCreateNestedOneWithoutDarazOrdersInput
   }
@@ -10079,6 +10093,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    transactions: JsonNullValueInput | InputJsonValue
     shop_logo: string
     user_id: number
   }
@@ -10109,6 +10124,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    transactions?: JsonNullValueInput | InputJsonValue
     shop_logo?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutDarazOrdersNestedInput
   }
@@ -10139,6 +10155,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    transactions?: JsonNullValueInput | InputJsonValue
     shop_logo?: StringFieldUpdateOperationsInput | string
     user_id?: IntFieldUpdateOperationsInput | number
   }
@@ -10169,6 +10186,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    transactions: JsonNullValueInput | InputJsonValue
     shop_logo: string
     user_id: number
   }
@@ -10199,6 +10217,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    transactions?: JsonNullValueInput | InputJsonValue
     shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10228,6 +10247,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    transactions?: JsonNullValueInput | InputJsonValue
     shop_logo?: StringFieldUpdateOperationsInput | string
     user_id?: IntFieldUpdateOperationsInput | number
   }
@@ -11003,6 +11023,7 @@ export namespace Prisma {
     remarks?: SortOrder
     address_shipping?: SortOrder
     order_items?: SortOrder
+    transactions?: SortOrder
     shop_logo?: SortOrder
     user_id?: SortOrder
   }
@@ -12007,6 +12028,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    transactions: JsonNullValueInput | InputJsonValue
     shop_logo: string
   }
 
@@ -12036,6 +12058,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    transactions: JsonNullValueInput | InputJsonValue
     shop_logo: string
   }
 
@@ -12285,6 +12308,7 @@ export namespace Prisma {
     remarks?: StringFilter<"DarazOrders"> | string
     address_shipping?: JsonFilter<"DarazOrders">
     order_items?: JsonFilter<"DarazOrders">
+    transactions?: JsonFilter<"DarazOrders">
     shop_logo?: StringFilter<"DarazOrders"> | string
     user_id?: IntFilter<"DarazOrders"> | number
   }
@@ -12912,6 +12936,7 @@ export namespace Prisma {
     remarks: string
     address_shipping: JsonNullValueInput | InputJsonValue
     order_items: JsonNullValueInput | InputJsonValue
+    transactions: JsonNullValueInput | InputJsonValue
     shop_logo: string
   }
 
@@ -13040,6 +13065,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    transactions?: JsonNullValueInput | InputJsonValue
     shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
@@ -13069,6 +13095,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    transactions?: JsonNullValueInput | InputJsonValue
     shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
@@ -13098,6 +13125,7 @@ export namespace Prisma {
     remarks?: StringFieldUpdateOperationsInput | string
     address_shipping?: JsonNullValueInput | InputJsonValue
     order_items?: JsonNullValueInput | InputJsonValue
+    transactions?: JsonNullValueInput | InputJsonValue
     shop_logo?: StringFieldUpdateOperationsInput | string
   }
 
