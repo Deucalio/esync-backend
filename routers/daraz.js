@@ -368,52 +368,49 @@ router.put("/add-transaction", async (req, res) => {
     },
   });
 
-  const updatedOrders = [];
-
-  // Append the transaction into the orders
-  // Append transactions into the orders
-  for (const order of orders) {
-    const orderNumber = order.order_number;
-    if (transactions.hasOwnProperty(orderNumber)) {
-      order.transactions = [];
-      order.transactions.push(...transactions[orderNumber]);
-      updatedOrders.push(order);
-    }
-  }
-
-  console.log("updatedOrders[0]: ", updatedOrders[0]);
-
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
-  const updates = [
-    {
-      order_number: "176267067548404",
+  const updates = orders.map((order) => {
+    const order_number = order.order_id;
+    const order_transactions = transactions[order_number];
+    return {
+      order_number,
       data: {
-        transactions: [
-          {
-            sad: "Hammad",
-          },
-          {
-            sad: "Salar",
-          },
-        ],
+        transactions: order_transactions,
       },
-    },
-    {
-      order_number: "176264886101675",
-      data: {
-        transactions: [
-          {
-            sad: "ALI",
-          },
-          {
-            desk: "Shapater",
-          },
-        ],
-      },
-    },
-  ];
+    };
+  });
+  console.log("updates: ", updates);
+
+  // const updates = [
+  //   {
+  //     order_number: "176267067548404",
+  //     data: {
+  //       transactions: [
+  //         {
+  //           sad: "Hammad",
+  //         },
+  //         {
+  //           sad: "Salar",
+  //         },
+  //       ],
+  //     },
+  //   },
+  //   {
+  //     order_number: "176264886101675",
+  //     data: {
+  //       transactions: [
+  //         {
+  //           sad: "ALI",
+  //         },
+  //         {
+  //           desk: "Shapater",
+  //         },
+  //       ],
+  //     },
+  //   },
+  // ];
 
   // Write an update query to update all the orders at once, updateMany
   let t;
