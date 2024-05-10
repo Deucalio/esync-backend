@@ -5,6 +5,7 @@ const { PrismaClient } = require("../generated/client"); // Adjust the path base
 const cloudinary = require("cloudinary");
 const prisma = new PrismaClient();
 const CryptoJS = require("crypto-js");
+const { generateDarazURL } = require("../utils/darazActions");
 
 function sign(secret, api, parameters) {
   const sortKeys = Object.keys(parameters).sort();
@@ -179,11 +180,260 @@ router.post("/append-orders", async (req, res) => {
   res.status(200).json({ message: "Success", data: data });
 });
 
-router.get("/d", async (req, res) => {
-  const d = await prisma.darazOrders.deleteMany();
-  const s = await prisma.store.deleteMany();
+router.post("/get-orders-certain-date-range", async (req, res) => {
+  const { user_id, date } = req.body;
+  // Date format should be = 07 Jan 2024
+  const formattedDate = convertDateFormat(date);
 
-  res.status(200).json({ message: "Deleted" });
+  const orders = await prisma.darazOrders.findMany({
+    where: {
+      user_id,
+      created_at: {
+        lte: new Date(date),
+      },
+    },
+  });
+
+  res.status(200).json({ orders });
+});
+
+router.get("/d", async (req, res) => {
+  // SELECT * FROM "DarazOrders" order by created_at asc limit 82;
+  const oOne = await prisma.darazOrders.findMany({
+    orderBy: {
+      created_at: "asc",
+    },
+    take: 150,
+  });
+
+  // SELECT * FROM "DarazOrders" WHERE created_at < '2024-01-02 00:00:00';
+  const oTwo = await prisma.darazOrders.findMany({
+    where: {
+      created_at: {
+        // lte: new Date("2024-01-02 09:00:00 +0800"),
+        lte: new Date("2024-01-03 05:00:00"),
+      },
+    },
+  });
+
+  console.log("oOne length: ", oOne.length);
+  console.log("oTwo length: ", oTwo.length);
+
+  // I should be getting 82 orders from oTwo as well, but I am not
+  // find the missing orders by comparing the two arrays
+  const missingOrders = oOne.filter(
+    (order) => !oTwo.find((o) => o.order_id === order.order_id)
+  );
+  console.log("missingOrders length: ", missingOrders.length);
+
+  res.status(200).json({ oTwo });
+});
+function convertDateFormat(inputDate) {
+  // Split the input date string into day, month, and year
+  const parts = inputDate.split(" ");
+  const day = parts[0];
+  const month = parts[1];
+  const year = parts[2];
+
+  // Convert month name to month number
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const monthIndex = monthNames.indexOf(month) + 1;
+
+  // Pad day and month with leading zeros if needed
+  const paddedDay = day.padStart(2, "0");
+  const paddedMonth = monthIndex.toString().padStart(2, "0");
+
+  // Format the date as year-mm-dd
+  const formattedDate = `${year}-${paddedMonth}-${paddedDay}`;
+
+  return formattedDate;
+}
+router.get("/f", async (req, res) => {
+  // Already have (userid, access_token, seller_id)
+  const accessToken =
+    "50000700311adaobhpumqgJ1d66dcd7mOvPubc6mteKU9UQHfGbSBMTVdDbGww";
+
+  // ________
+
+  // Right when all the orders are appended into the db with their line items, do this ->
+  let orders_before_date;
+  let orders_;
+
+  let offset = 2;
+  while (true) {
+    const transactionAPIURL = await generateDarazURL(
+      "/finance/transaction/detail/get",
+      accessToken,
+      {
+        start_time: "2024-01-01",
+        end_time: new Date().toISOString(),
+        limit: 28,
+        offset,
+      }
+    );
+    let response = "";
+    let transactions = "";
+    try {
+      response = await axios.get(transactionAPIURL);
+      transactions = response.data.data;
+    } catch (e) {
+      console.log("error: Could not send request to Transaction API", e);
+    }
+
+    if (transactions.length === 0) {
+      console.log("Transactions Appended!");
+      break;
+    }
+
+    const ordersTransactions = [
+      {
+        order_no,
+      },
+    ];
+
+    // Get all the order numbers without duplicates
+
+    for (let i = 0; i < transactions.length; i++) {
+      if (!transactions[i].order_no) {
+        continue;
+      }
+      const order_number = transactions[i].order_no;
+      if (!order_numbers.includes(order_number)) {
+        order_numbers.push(order_number);
+      }
+    }
+
+    // Append into DarazOrders transcations columns with corresponding order_numbers
+    let response_ = "";
+    let orders = "";
+    try {
+      response_ = await axios.put(
+        "http://localhost:4000/daraz/add-transaction",
+        {
+          order_numbers: order_numbers,
+          order_transaction: order_transaction,
+        }
+      );
+      orders = response_.data.orders;
+    } catch (e) {
+      console.log("error: Could not get orders", e);
+    }
+
+    console.log("Added Transactions: ", orders.length);
+    // Append into DarazUnpaidTransactions, for those who have no order_numbers
+
+    offset += 250000;
+  }
+  res.status(200).json({ message: "Success", offset });
+});
+
+router.put("/add-transaction", async (req, res) => {
+  const start = new Date();
+  const { order_numbers, transactions } = req.body;
+
+  //  "transactions": {
+  //       "176267067548404": [
+  //         {
+  //             "sad": "Hammad",
+  //             "desk": "sad"
+  //         }
+  //     ],
+  //     "176264886101675": [
+  //         {
+  //             "s": "i",
+  //             "f": "r"
+  //         }
+  //     ]
+  // }
+
+  // Get all the orders with the order_numbers
+  const orders = await prisma.darazOrders.findMany({
+    where: {
+      order_id: {
+        in: order_numbers,
+      },
+    },
+  });
+
+  const updatedOrders = [];
+
+  // Append the transaction into the orders
+  // Append transactions into the orders
+  for (const order of orders) {
+    const orderNumber = order.order_number;
+    if (transactions.hasOwnProperty(orderNumber)) {
+      order.transactions = [];
+      order.transactions.push(...transactions[orderNumber]);
+      updatedOrders.push(order);
+    }
+  }
+
+  console.log("updatedOrders[0]: ", updatedOrders[0]);
+
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  const updates = [
+    {
+      order_number: "176267067548404",
+      data: {
+        transactions: [
+          {
+            sad: "Hammad",
+          },
+          {
+            sad: "Salar",
+          },
+        ],
+      },
+    },
+    {
+      order_number: "176264886101675",
+      data: {
+        transactions: [
+          {
+            sad: "ALI",
+          },
+          {
+            desk: "Shapater",
+          },
+        ],
+      },
+    },
+  ];
+
+  // Write an update query to update all the orders at once, updateMany
+  let t;
+
+  try {
+    t = await prisma.$transaction(
+      updates.map((update) =>
+        prisma.darazOrders.update({
+          where: { order_id: update.order_number },
+          data: update.data,
+        })
+      )
+    );
+  } catch (e) {
+    console.log("Could not Update Orders", e);
+    console.log("Order Number: ", order_numbers);
+    return res.status(400).json({ message: "Could not Update Orders" });
+  }
+
+  res.status(200).json({ rowsUpdated: t.length, timeTaken });
 });
 
 module.exports = router;

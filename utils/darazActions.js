@@ -26,9 +26,10 @@ function urlEncodeArray(arr) {
   return encodedStr;
 }
 
-const generateDarazURL = async (apiPath, AppKey, accessToken, params) => {
+const generateDarazURL = async (apiPath, accessToken, params) => {
   // Generate the Sign First
   const timestamp = getTimeStamp();
+  const AppKey = "501634";
   const config = {
     method: "post",
     url: "https://esync-backend.vercel.app/daraz/sign",

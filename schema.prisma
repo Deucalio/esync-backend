@@ -12,20 +12,20 @@ datasource db {
 }
 
 model User {
-    id                      Int                       @id @default(autoincrement())
+    id                      Int                      @id @default(autoincrement())
     first_name              String
     last_name               String
-    email                   String                    @unique
+    email                   String                   @unique
     password                String
     phone                   String
     address                 String
-    joinedat                DateTime                  @default(now())
+    joinedat                DateTime                 @default(now())
     Stores                  Store[]
     Courier                 Courier[]
     DarazOrders             DarazOrders[]
     ShopifyOrders           ShopifyOrders[]
     TemporaryData           TemporaryData[]
-    DarazUnpaidTransactions DarazUnpaidTransactions[]
+    DarazUnpaidTransactions DarazStoreTransactions[]
 }
 
 model Store {
@@ -71,7 +71,7 @@ model DarazOrders {
     user                           User      @relation(fields: [user_id], references: [id])
 }
 
-model DarazUnpaidTransactions {
+model DarazStoreTransactions {
     order_number           String    @id @unique
     orderItem_status       String?
     orderItem_number       String?

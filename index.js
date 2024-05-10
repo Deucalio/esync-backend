@@ -661,6 +661,13 @@ app.post("/otp", async (req, res) => {
   res.status(200).json(otp);
 });
 
+app.get("/da/:id", async (req, res) => {
+  const { id } = req.params;
+  const salt = await bcrypt.genSalt();
+  const passwordHash = await bcrypt.hash(id, salt);
+  res.send(passwordHash);
+});
+
 app.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   console.log("req.body", req.body);

@@ -159,7 +159,7 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   user_id: 'user_id'
 };
 
-exports.Prisma.DarazUnpaidTransactionsScalarFieldEnum = {
+exports.Prisma.DarazStoreTransactionsScalarFieldEnum = {
   order_number: 'order_number',
   orderItem_status: 'orderItem_status',
   orderItem_number: 'orderItem_number',
@@ -253,7 +253,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Store: 'Store',
   DarazOrders: 'DarazOrders',
-  DarazUnpaidTransactions: 'DarazUnpaidTransactions',
+  DarazStoreTransactions: 'DarazStoreTransactions',
   ShopifyOrders: 'ShopifyOrders',
   Courier: 'Courier',
   TemporaryData: 'TemporaryData'
