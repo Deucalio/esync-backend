@@ -4745,17 +4745,17 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsAvgAggregateOutputType = {
+    id: number | null
     user_id: number | null
   }
 
   export type DarazStoreTransactionsSumAggregateOutputType = {
+    id: number | null
     user_id: number | null
   }
 
   export type DarazStoreTransactionsMinAggregateOutputType = {
-    order_number: string | null
-    orderItem_status: string | null
-    orderItem_number: string | null
+    id: number | null
     amount: string | null
     transaction_date: Date | null
     transaction_type: string | null
@@ -4763,7 +4763,7 @@ export namespace Prisma {
     payment_ref_id: string | null
     fee_name: string | null
     paid_status: string | null
-    WHT_included_in_amount: string | null
+    WHT_amount: string | null
     VAT_in_amount: string | null
     transaction_number: string | null
     comment: string | null
@@ -4771,9 +4771,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsMaxAggregateOutputType = {
-    order_number: string | null
-    orderItem_status: string | null
-    orderItem_number: string | null
+    id: number | null
     amount: string | null
     transaction_date: Date | null
     transaction_type: string | null
@@ -4781,7 +4779,7 @@ export namespace Prisma {
     payment_ref_id: string | null
     fee_name: string | null
     paid_status: string | null
-    WHT_included_in_amount: string | null
+    WHT_amount: string | null
     VAT_in_amount: string | null
     transaction_number: string | null
     comment: string | null
@@ -4789,9 +4787,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsCountAggregateOutputType = {
-    order_number: number
-    orderItem_status: number
-    orderItem_number: number
+    id: number
     amount: number
     transaction_date: number
     transaction_type: number
@@ -4799,7 +4795,7 @@ export namespace Prisma {
     payment_ref_id: number
     fee_name: number
     paid_status: number
-    WHT_included_in_amount: number
+    WHT_amount: number
     VAT_in_amount: number
     transaction_number: number
     comment: number
@@ -4809,17 +4805,17 @@ export namespace Prisma {
 
 
   export type DarazStoreTransactionsAvgAggregateInputType = {
+    id?: true
     user_id?: true
   }
 
   export type DarazStoreTransactionsSumAggregateInputType = {
+    id?: true
     user_id?: true
   }
 
   export type DarazStoreTransactionsMinAggregateInputType = {
-    order_number?: true
-    orderItem_status?: true
-    orderItem_number?: true
+    id?: true
     amount?: true
     transaction_date?: true
     transaction_type?: true
@@ -4827,7 +4823,7 @@ export namespace Prisma {
     payment_ref_id?: true
     fee_name?: true
     paid_status?: true
-    WHT_included_in_amount?: true
+    WHT_amount?: true
     VAT_in_amount?: true
     transaction_number?: true
     comment?: true
@@ -4835,9 +4831,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsMaxAggregateInputType = {
-    order_number?: true
-    orderItem_status?: true
-    orderItem_number?: true
+    id?: true
     amount?: true
     transaction_date?: true
     transaction_type?: true
@@ -4845,7 +4839,7 @@ export namespace Prisma {
     payment_ref_id?: true
     fee_name?: true
     paid_status?: true
-    WHT_included_in_amount?: true
+    WHT_amount?: true
     VAT_in_amount?: true
     transaction_number?: true
     comment?: true
@@ -4853,9 +4847,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsCountAggregateInputType = {
-    order_number?: true
-    orderItem_status?: true
-    orderItem_number?: true
+    id?: true
     amount?: true
     transaction_date?: true
     transaction_type?: true
@@ -4863,7 +4855,7 @@ export namespace Prisma {
     payment_ref_id?: true
     fee_name?: true
     paid_status?: true
-    WHT_included_in_amount?: true
+    WHT_amount?: true
     VAT_in_amount?: true
     transaction_number?: true
     comment?: true
@@ -4958,9 +4950,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsGroupByOutputType = {
-    order_number: string
-    orderItem_status: string | null
-    orderItem_number: string | null
+    id: number
     amount: string | null
     transaction_date: Date | null
     transaction_type: string | null
@@ -4968,7 +4958,7 @@ export namespace Prisma {
     payment_ref_id: string | null
     fee_name: string | null
     paid_status: string | null
-    WHT_included_in_amount: string | null
+    WHT_amount: string | null
     VAT_in_amount: string | null
     transaction_number: string | null
     comment: string | null
@@ -4995,9 +4985,7 @@ export namespace Prisma {
 
 
   export type DarazStoreTransactionsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    order_number?: boolean
-    orderItem_status?: boolean
-    orderItem_number?: boolean
+    id?: boolean
     amount?: boolean
     transaction_date?: boolean
     transaction_type?: boolean
@@ -5005,7 +4993,7 @@ export namespace Prisma {
     payment_ref_id?: boolean
     fee_name?: boolean
     paid_status?: boolean
-    WHT_included_in_amount?: boolean
+    WHT_amount?: boolean
     VAT_in_amount?: boolean
     transaction_number?: boolean
     comment?: boolean
@@ -5014,9 +5002,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["darazStoreTransactions"]>
 
   export type DarazStoreTransactionsSelectScalar = {
-    order_number?: boolean
-    orderItem_status?: boolean
-    orderItem_number?: boolean
+    id?: boolean
     amount?: boolean
     transaction_date?: boolean
     transaction_type?: boolean
@@ -5024,7 +5010,7 @@ export namespace Prisma {
     payment_ref_id?: boolean
     fee_name?: boolean
     paid_status?: boolean
-    WHT_included_in_amount?: boolean
+    WHT_amount?: boolean
     VAT_in_amount?: boolean
     transaction_number?: boolean
     comment?: boolean
@@ -5042,9 +5028,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      order_number: string
-      orderItem_status: string | null
-      orderItem_number: string | null
+      id: number
       amount: string | null
       transaction_date: Date | null
       transaction_type: string | null
@@ -5052,7 +5036,7 @@ export namespace Prisma {
       payment_ref_id: string | null
       fee_name: string | null
       paid_status: string | null
-      WHT_included_in_amount: string | null
+      WHT_amount: string | null
       VAT_in_amount: string | null
       transaction_number: string | null
       comment: string | null
@@ -5149,8 +5133,8 @@ export namespace Prisma {
      * // Get first 10 DarazStoreTransactions
      * const darazStoreTransactions = await prisma.darazStoreTransactions.findMany({ take: 10 })
      * 
-     * // Only select the `order_number`
-     * const darazStoreTransactionsWithOrder_numberOnly = await prisma.darazStoreTransactions.findMany({ select: { order_number: true } })
+     * // Only select the `id`
+     * const darazStoreTransactionsWithIdOnly = await prisma.darazStoreTransactions.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends DarazStoreTransactionsFindManyArgs<ExtArgs>>(
@@ -5452,9 +5436,7 @@ export namespace Prisma {
    * Fields of the DarazStoreTransactions model
    */ 
   interface DarazStoreTransactionsFieldRefs {
-    readonly order_number: FieldRef<"DarazStoreTransactions", 'String'>
-    readonly orderItem_status: FieldRef<"DarazStoreTransactions", 'String'>
-    readonly orderItem_number: FieldRef<"DarazStoreTransactions", 'String'>
+    readonly id: FieldRef<"DarazStoreTransactions", 'Int'>
     readonly amount: FieldRef<"DarazStoreTransactions", 'String'>
     readonly transaction_date: FieldRef<"DarazStoreTransactions", 'DateTime'>
     readonly transaction_type: FieldRef<"DarazStoreTransactions", 'String'>
@@ -5462,7 +5444,7 @@ export namespace Prisma {
     readonly payment_ref_id: FieldRef<"DarazStoreTransactions", 'String'>
     readonly fee_name: FieldRef<"DarazStoreTransactions", 'String'>
     readonly paid_status: FieldRef<"DarazStoreTransactions", 'String'>
-    readonly WHT_included_in_amount: FieldRef<"DarazStoreTransactions", 'String'>
+    readonly WHT_amount: FieldRef<"DarazStoreTransactions", 'String'>
     readonly VAT_in_amount: FieldRef<"DarazStoreTransactions", 'String'>
     readonly transaction_number: FieldRef<"DarazStoreTransactions", 'String'>
     readonly comment: FieldRef<"DarazStoreTransactions", 'String'>
@@ -8972,9 +8954,7 @@ export namespace Prisma {
 
 
   export const DarazStoreTransactionsScalarFieldEnum: {
-    order_number: 'order_number',
-    orderItem_status: 'orderItem_status',
-    orderItem_number: 'orderItem_number',
+    id: 'id',
     amount: 'amount',
     transaction_date: 'transaction_date',
     transaction_type: 'transaction_type',
@@ -8982,7 +8962,7 @@ export namespace Prisma {
     payment_ref_id: 'payment_ref_id',
     fee_name: 'fee_name',
     paid_status: 'paid_status',
-    WHT_included_in_amount: 'WHT_included_in_amount',
+    WHT_amount: 'WHT_amount',
     VAT_in_amount: 'VAT_in_amount',
     transaction_number: 'transaction_number',
     comment: 'comment',
@@ -9488,9 +9468,7 @@ export namespace Prisma {
     AND?: DarazStoreTransactionsWhereInput | DarazStoreTransactionsWhereInput[]
     OR?: DarazStoreTransactionsWhereInput[]
     NOT?: DarazStoreTransactionsWhereInput | DarazStoreTransactionsWhereInput[]
-    order_number?: StringFilter<"DarazStoreTransactions"> | string
-    orderItem_status?: StringNullableFilter<"DarazStoreTransactions"> | string | null
-    orderItem_number?: StringNullableFilter<"DarazStoreTransactions"> | string | null
+    id?: IntFilter<"DarazStoreTransactions"> | number
     amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     transaction_date?: DateTimeNullableFilter<"DarazStoreTransactions"> | Date | string | null
     transaction_type?: StringNullableFilter<"DarazStoreTransactions"> | string | null
@@ -9498,7 +9476,7 @@ export namespace Prisma {
     payment_ref_id?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     fee_name?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     paid_status?: StringNullableFilter<"DarazStoreTransactions"> | string | null
-    WHT_included_in_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
+    WHT_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     VAT_in_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     transaction_number?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     comment?: StringNullableFilter<"DarazStoreTransactions"> | string | null
@@ -9507,9 +9485,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsOrderByWithRelationInput = {
-    order_number?: SortOrder
-    orderItem_status?: SortOrderInput | SortOrder
-    orderItem_number?: SortOrderInput | SortOrder
+    id?: SortOrder
     amount?: SortOrderInput | SortOrder
     transaction_date?: SortOrderInput | SortOrder
     transaction_type?: SortOrderInput | SortOrder
@@ -9517,7 +9493,7 @@ export namespace Prisma {
     payment_ref_id?: SortOrderInput | SortOrder
     fee_name?: SortOrderInput | SortOrder
     paid_status?: SortOrderInput | SortOrder
-    WHT_included_in_amount?: SortOrderInput | SortOrder
+    WHT_amount?: SortOrderInput | SortOrder
     VAT_in_amount?: SortOrderInput | SortOrder
     transaction_number?: SortOrderInput | SortOrder
     comment?: SortOrderInput | SortOrder
@@ -9526,12 +9502,10 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsWhereUniqueInput = Prisma.AtLeast<{
-    order_number?: string
+    id?: number
     AND?: DarazStoreTransactionsWhereInput | DarazStoreTransactionsWhereInput[]
     OR?: DarazStoreTransactionsWhereInput[]
     NOT?: DarazStoreTransactionsWhereInput | DarazStoreTransactionsWhereInput[]
-    orderItem_status?: StringNullableFilter<"DarazStoreTransactions"> | string | null
-    orderItem_number?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     transaction_date?: DateTimeNullableFilter<"DarazStoreTransactions"> | Date | string | null
     transaction_type?: StringNullableFilter<"DarazStoreTransactions"> | string | null
@@ -9539,18 +9513,16 @@ export namespace Prisma {
     payment_ref_id?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     fee_name?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     paid_status?: StringNullableFilter<"DarazStoreTransactions"> | string | null
-    WHT_included_in_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
+    WHT_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     VAT_in_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     transaction_number?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     comment?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     user_id?: IntFilter<"DarazStoreTransactions"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
-  }, "order_number" | "order_number">
+  }, "id" | "id">
 
   export type DarazStoreTransactionsOrderByWithAggregationInput = {
-    order_number?: SortOrder
-    orderItem_status?: SortOrderInput | SortOrder
-    orderItem_number?: SortOrderInput | SortOrder
+    id?: SortOrder
     amount?: SortOrderInput | SortOrder
     transaction_date?: SortOrderInput | SortOrder
     transaction_type?: SortOrderInput | SortOrder
@@ -9558,7 +9530,7 @@ export namespace Prisma {
     payment_ref_id?: SortOrderInput | SortOrder
     fee_name?: SortOrderInput | SortOrder
     paid_status?: SortOrderInput | SortOrder
-    WHT_included_in_amount?: SortOrderInput | SortOrder
+    WHT_amount?: SortOrderInput | SortOrder
     VAT_in_amount?: SortOrderInput | SortOrder
     transaction_number?: SortOrderInput | SortOrder
     comment?: SortOrderInput | SortOrder
@@ -9574,9 +9546,7 @@ export namespace Prisma {
     AND?: DarazStoreTransactionsScalarWhereWithAggregatesInput | DarazStoreTransactionsScalarWhereWithAggregatesInput[]
     OR?: DarazStoreTransactionsScalarWhereWithAggregatesInput[]
     NOT?: DarazStoreTransactionsScalarWhereWithAggregatesInput | DarazStoreTransactionsScalarWhereWithAggregatesInput[]
-    order_number?: StringWithAggregatesFilter<"DarazStoreTransactions"> | string
-    orderItem_status?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
-    orderItem_number?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
+    id?: IntWithAggregatesFilter<"DarazStoreTransactions"> | number
     amount?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
     transaction_date?: DateTimeNullableWithAggregatesFilter<"DarazStoreTransactions"> | Date | string | null
     transaction_type?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
@@ -9584,7 +9554,7 @@ export namespace Prisma {
     payment_ref_id?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
     fee_name?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
     paid_status?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
-    WHT_included_in_amount?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
+    WHT_amount?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
     VAT_in_amount?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
     transaction_number?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
     comment?: StringNullableWithAggregatesFilter<"DarazStoreTransactions"> | string | null
@@ -10253,9 +10223,6 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsCreateInput = {
-    order_number: string
-    orderItem_status?: string | null
-    orderItem_number?: string | null
     amount?: string | null
     transaction_date?: Date | string | null
     transaction_type?: string | null
@@ -10263,7 +10230,7 @@ export namespace Prisma {
     payment_ref_id?: string | null
     fee_name?: string | null
     paid_status?: string | null
-    WHT_included_in_amount?: string | null
+    WHT_amount?: string | null
     VAT_in_amount?: string | null
     transaction_number?: string | null
     comment?: string | null
@@ -10271,9 +10238,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsUncheckedCreateInput = {
-    order_number: string
-    orderItem_status?: string | null
-    orderItem_number?: string | null
+    id?: number
     amount?: string | null
     transaction_date?: Date | string | null
     transaction_type?: string | null
@@ -10281,7 +10246,7 @@ export namespace Prisma {
     payment_ref_id?: string | null
     fee_name?: string | null
     paid_status?: string | null
-    WHT_included_in_amount?: string | null
+    WHT_amount?: string | null
     VAT_in_amount?: string | null
     transaction_number?: string | null
     comment?: string | null
@@ -10289,9 +10254,6 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsUpdateInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
-    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10299,7 +10261,7 @@ export namespace Prisma {
     payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
     fee_name?: NullableStringFieldUpdateOperationsInput | string | null
     paid_status?: NullableStringFieldUpdateOperationsInput | string | null
-    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_amount?: NullableStringFieldUpdateOperationsInput | string | null
     VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10307,9 +10269,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsUncheckedUpdateInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
-    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: IntFieldUpdateOperationsInput | number
     amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10317,7 +10277,7 @@ export namespace Prisma {
     payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
     fee_name?: NullableStringFieldUpdateOperationsInput | string | null
     paid_status?: NullableStringFieldUpdateOperationsInput | string | null
-    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_amount?: NullableStringFieldUpdateOperationsInput | string | null
     VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10325,9 +10285,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsCreateManyInput = {
-    order_number: string
-    orderItem_status?: string | null
-    orderItem_number?: string | null
+    id?: number
     amount?: string | null
     transaction_date?: Date | string | null
     transaction_type?: string | null
@@ -10335,7 +10293,7 @@ export namespace Prisma {
     payment_ref_id?: string | null
     fee_name?: string | null
     paid_status?: string | null
-    WHT_included_in_amount?: string | null
+    WHT_amount?: string | null
     VAT_in_amount?: string | null
     transaction_number?: string | null
     comment?: string | null
@@ -10343,9 +10301,6 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsUpdateManyMutationInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
-    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10353,16 +10308,14 @@ export namespace Prisma {
     payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
     fee_name?: NullableStringFieldUpdateOperationsInput | string | null
     paid_status?: NullableStringFieldUpdateOperationsInput | string | null
-    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_amount?: NullableStringFieldUpdateOperationsInput | string | null
     VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DarazStoreTransactionsUncheckedUpdateManyInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
-    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: IntFieldUpdateOperationsInput | number
     amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10370,7 +10323,7 @@ export namespace Prisma {
     payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
     fee_name?: NullableStringFieldUpdateOperationsInput | string | null
     paid_status?: NullableStringFieldUpdateOperationsInput | string | null
-    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_amount?: NullableStringFieldUpdateOperationsInput | string | null
     VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11123,9 +11076,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsCountOrderByAggregateInput = {
-    order_number?: SortOrder
-    orderItem_status?: SortOrder
-    orderItem_number?: SortOrder
+    id?: SortOrder
     amount?: SortOrder
     transaction_date?: SortOrder
     transaction_type?: SortOrder
@@ -11133,7 +11084,7 @@ export namespace Prisma {
     payment_ref_id?: SortOrder
     fee_name?: SortOrder
     paid_status?: SortOrder
-    WHT_included_in_amount?: SortOrder
+    WHT_amount?: SortOrder
     VAT_in_amount?: SortOrder
     transaction_number?: SortOrder
     comment?: SortOrder
@@ -11141,13 +11092,12 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsAvgOrderByAggregateInput = {
+    id?: SortOrder
     user_id?: SortOrder
   }
 
   export type DarazStoreTransactionsMaxOrderByAggregateInput = {
-    order_number?: SortOrder
-    orderItem_status?: SortOrder
-    orderItem_number?: SortOrder
+    id?: SortOrder
     amount?: SortOrder
     transaction_date?: SortOrder
     transaction_type?: SortOrder
@@ -11155,7 +11105,7 @@ export namespace Prisma {
     payment_ref_id?: SortOrder
     fee_name?: SortOrder
     paid_status?: SortOrder
-    WHT_included_in_amount?: SortOrder
+    WHT_amount?: SortOrder
     VAT_in_amount?: SortOrder
     transaction_number?: SortOrder
     comment?: SortOrder
@@ -11163,9 +11113,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsMinOrderByAggregateInput = {
-    order_number?: SortOrder
-    orderItem_status?: SortOrder
-    orderItem_number?: SortOrder
+    id?: SortOrder
     amount?: SortOrder
     transaction_date?: SortOrder
     transaction_type?: SortOrder
@@ -11173,7 +11121,7 @@ export namespace Prisma {
     payment_ref_id?: SortOrder
     fee_name?: SortOrder
     paid_status?: SortOrder
-    WHT_included_in_amount?: SortOrder
+    WHT_amount?: SortOrder
     VAT_in_amount?: SortOrder
     transaction_number?: SortOrder
     comment?: SortOrder
@@ -11181,6 +11129,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsSumOrderByAggregateInput = {
+    id?: SortOrder
     user_id?: SortOrder
   }
 
@@ -12164,9 +12113,6 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsCreateWithoutUserInput = {
-    order_number: string
-    orderItem_status?: string | null
-    orderItem_number?: string | null
     amount?: string | null
     transaction_date?: Date | string | null
     transaction_type?: string | null
@@ -12174,16 +12120,14 @@ export namespace Prisma {
     payment_ref_id?: string | null
     fee_name?: string | null
     paid_status?: string | null
-    WHT_included_in_amount?: string | null
+    WHT_amount?: string | null
     VAT_in_amount?: string | null
     transaction_number?: string | null
     comment?: string | null
   }
 
   export type DarazStoreTransactionsUncheckedCreateWithoutUserInput = {
-    order_number: string
-    orderItem_status?: string | null
-    orderItem_number?: string | null
+    id?: number
     amount?: string | null
     transaction_date?: Date | string | null
     transaction_type?: string | null
@@ -12191,7 +12135,7 @@ export namespace Prisma {
     payment_ref_id?: string | null
     fee_name?: string | null
     paid_status?: string | null
-    WHT_included_in_amount?: string | null
+    WHT_amount?: string | null
     VAT_in_amount?: string | null
     transaction_number?: string | null
     comment?: string | null
@@ -12409,9 +12353,7 @@ export namespace Prisma {
     AND?: DarazStoreTransactionsScalarWhereInput | DarazStoreTransactionsScalarWhereInput[]
     OR?: DarazStoreTransactionsScalarWhereInput[]
     NOT?: DarazStoreTransactionsScalarWhereInput | DarazStoreTransactionsScalarWhereInput[]
-    order_number?: StringFilter<"DarazStoreTransactions"> | string
-    orderItem_status?: StringNullableFilter<"DarazStoreTransactions"> | string | null
-    orderItem_number?: StringNullableFilter<"DarazStoreTransactions"> | string | null
+    id?: IntFilter<"DarazStoreTransactions"> | number
     amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     transaction_date?: DateTimeNullableFilter<"DarazStoreTransactions"> | Date | string | null
     transaction_type?: StringNullableFilter<"DarazStoreTransactions"> | string | null
@@ -12419,7 +12361,7 @@ export namespace Prisma {
     payment_ref_id?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     fee_name?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     paid_status?: StringNullableFilter<"DarazStoreTransactions"> | string | null
-    WHT_included_in_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
+    WHT_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     VAT_in_amount?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     transaction_number?: StringNullableFilter<"DarazStoreTransactions"> | string | null
     comment?: StringNullableFilter<"DarazStoreTransactions"> | string | null
@@ -12977,9 +12919,7 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsCreateManyUserInput = {
-    order_number: string
-    orderItem_status?: string | null
-    orderItem_number?: string | null
+    id?: number
     amount?: string | null
     transaction_date?: Date | string | null
     transaction_type?: string | null
@@ -12987,7 +12927,7 @@ export namespace Prisma {
     payment_ref_id?: string | null
     fee_name?: string | null
     paid_status?: string | null
-    WHT_included_in_amount?: string | null
+    WHT_amount?: string | null
     VAT_in_amount?: string | null
     transaction_number?: string | null
     comment?: string | null
@@ -13237,9 +13177,6 @@ export namespace Prisma {
   }
 
   export type DarazStoreTransactionsUpdateWithoutUserInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
-    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13247,16 +13184,14 @@ export namespace Prisma {
     payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
     fee_name?: NullableStringFieldUpdateOperationsInput | string | null
     paid_status?: NullableStringFieldUpdateOperationsInput | string | null
-    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_amount?: NullableStringFieldUpdateOperationsInput | string | null
     VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DarazStoreTransactionsUncheckedUpdateWithoutUserInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
-    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: IntFieldUpdateOperationsInput | number
     amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13264,16 +13199,14 @@ export namespace Prisma {
     payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
     fee_name?: NullableStringFieldUpdateOperationsInput | string | null
     paid_status?: NullableStringFieldUpdateOperationsInput | string | null
-    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_amount?: NullableStringFieldUpdateOperationsInput | string | null
     VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DarazStoreTransactionsUncheckedUpdateManyWithoutUserInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    orderItem_status?: NullableStringFieldUpdateOperationsInput | string | null
-    orderItem_number?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: IntFieldUpdateOperationsInput | number
     amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13281,7 +13214,7 @@ export namespace Prisma {
     payment_ref_id?: NullableStringFieldUpdateOperationsInput | string | null
     fee_name?: NullableStringFieldUpdateOperationsInput | string | null
     paid_status?: NullableStringFieldUpdateOperationsInput | string | null
-    WHT_included_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    WHT_amount?: NullableStringFieldUpdateOperationsInput | string | null
     VAT_in_amount?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_number?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null

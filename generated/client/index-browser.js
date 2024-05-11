@@ -160,9 +160,7 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
 };
 
 exports.Prisma.DarazStoreTransactionsScalarFieldEnum = {
-  order_number: 'order_number',
-  orderItem_status: 'orderItem_status',
-  orderItem_number: 'orderItem_number',
+  id: 'id',
   amount: 'amount',
   transaction_date: 'transaction_date',
   transaction_type: 'transaction_type',
@@ -170,7 +168,7 @@ exports.Prisma.DarazStoreTransactionsScalarFieldEnum = {
   payment_ref_id: 'payment_ref_id',
   fee_name: 'fee_name',
   paid_status: 'paid_status',
-  WHT_included_in_amount: 'WHT_included_in_amount',
+  WHT_amount: 'WHT_amount',
   VAT_in_amount: 'VAT_in_amount',
   transaction_number: 'transaction_number',
   comment: 'comment',

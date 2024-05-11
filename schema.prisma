@@ -72,22 +72,20 @@ model DarazOrders {
 }
 
 model DarazStoreTransactions {
-    order_number           String    @id @unique
-    orderItem_status       String?
-    orderItem_number       String?
-    amount                 String?
-    transaction_date       DateTime?
-    transaction_type       String?
-    statement              String?
-    payment_ref_id         String?
-    fee_name               String?
-    paid_status            String?
-    WHT_included_in_amount String?
-    VAT_in_amount          String?
-    transaction_number     String?
-    comment                String?
-    user_id                Int
-    user                   User      @relation(fields: [user_id], references: [id])
+    id                 Int       @id @unique @default(autoincrement())
+    amount             String?
+    transaction_date   DateTime?
+    transaction_type   String?
+    statement          String?
+    payment_ref_id     String?
+    fee_name           String?
+    paid_status        String?
+    WHT_amount         String?
+    VAT_in_amount      String?
+    transaction_number String?
+    comment            String?
+    user_id            Int
+    user               User      @relation(fields: [user_id], references: [id])
 }
 
 model ShopifyOrders {

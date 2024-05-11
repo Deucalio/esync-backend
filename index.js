@@ -366,6 +366,7 @@ app.post("/orders", async (req, res) => {
           },
         });
       });
+    } else if (store.platform === "shopify") {
     }
   }
 
@@ -374,110 +375,8 @@ app.post("/orders", async (req, res) => {
 
   console.log("Time taken: ", timeTaken);
 
-  // for (const store of userStores) {
-  //   if (store.platform === "shopify") {
-  //     const response = await axios.get(
-  //       `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&limit=200`,
-  //       // &financial_status=any
-  //       // &fulfillment_status=unfulfilled
-
-  //       {
-  //         headers: {
-  //           "X-Shopify-Access-Token": store.store_info.accessToken,
-  //         },
-  //       }
-  //     );
-  //     let resOrders = response.data.orders;
-  //     // If the order has a tag "on hold" then remove it from the list
-  //     resOrders = resOrders.filter(
-  //       (order) => !order.tags.toLowerCase().includes("on hold")
-  //     );
-
-  //     resOrders.forEach((order) => {
-  //       orders.push({
-  //         ...order,
-  //         store_info: {
-  //           platform: "shopify",
-  //           domain: store.store_info.shop,
-  //           shopLogo: store.image_url,
-  //           name: store.name,
-  //           // courierID: store.store_info?.courier_id?.id || null,
-  //         },
-  //       });
-  //     });
-  //   } else if (store.platform === "daraz") {
-  //     // SELECT * FROM "DarazOrders" where user_id = user.id ORDER BY created_at DESC LIMIT 500
-
-  //     const darazOrders = await prisma.darazOrders.findMany({
-  //       where: { seller_id: store.store_info.user_info.seller_id },
-  //       orderBy: { created_at: "desc" },
-  //       take: 500,
-  //     });
-
-  //     darazOrders.forEach((order) => {
-  //       orders.push({
-  //         ...order,
-  //         store_info: {
-  //           platform: "daraz",
-  //           domain: null,
-  //           shopLogo: null,
-  //           name: store.name,
-  //         },
-  //       });
-  //     });
-  //   }
-  // }
   res.status(200).send(orders);
 });
-
-app.get("/orders", async (req, res) => {
-  console.log("GET REQUEST");
-  res.status(200).send("YO");
-});
-
-async function createOrder() {
-  try {
-    const data = {
-      order: {
-        financial_status: "pending",
-        line_items: [
-          {
-            title: "Big Yellow Bear Boots",
-            price: 750.99,
-            grams: "1300",
-            quantity: 3,
-            tax_lines: [
-              {
-                price: 73.5,
-                rate: 0.06,
-                title: "State tax",
-              },
-            ],
-          },
-        ],
-        total_tax: 13.5,
-        currency: "EUR",
-      },
-    };
-
-    const config = {
-      headers: {
-        "X-Shopify-Access-Token": "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",
-        "Content-Type": "application/json",
-      },
-    };
-    sendPostRequests(data, config).then((res) => {
-      console.log("res: ", res);
-    });
-  } catch (error) {
-    console.error(error);
-  }
-}
-async function makeApiCalls() {
-  for (let i = 0; i < 10; i++) {
-    await createOrder();
-  }
-}
 
 app.get("/test", async (req, res) => {
   // Send post request to shopify with headers X-Shopify-Access-Token and orders data
