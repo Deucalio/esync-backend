@@ -126,12 +126,13 @@ router.post("/get-stores", async (req, res) => {
 
 // Delete a Store
 router.delete("/delete-store/:id", async (req, res) => {
-  const id = Number(req.params.id);
+  const seller_id = req.params.id;
+  console.log("seller_id: ", seller_id);
 
   // Delete the store
   const store = await prisma.store.delete({
     where: {
-      id,
+      seller_id: seller_id,
     },
   });
 
