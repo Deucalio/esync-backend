@@ -608,6 +608,70 @@ router.get("/orders/add-new-order", async (req, res) => {
   res.status(200).json({ orderAdded, message: "Order Added" });
 });
 
+router.get("/orders/sync", async (req, res) => {
+  const { seller_id, order_id } = req.query;
+
+  // Only update its statuses, and the order items
+
+  // Find the store with the seller_id
+  const store = await prisma.store.findUnique({
+    where: {
+      seller_id,
+    },
+  });
+  if (!store || store.length === 0) {
+    return res.status(200).json({ message: "Store not found", seller_id });
+  }
+
+  const { access_token } = store.store_info;
+
+  const darazURL = await generateDarazURL("/order/get", access_token, {
+    order_id,
+  });
+
+  let response = "";
+  let orders = "";
+
+  try {
+    response = await axios.get(darazURL);
+    orders = response.data.data;
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not get order details" });
+  }
+
+  // Fetch its line items
+  // Get its line items
+  const darazURL2 = await generateDarazURL("/order/items/get", access_token, {
+    order_id: order_id,
+  });
+
+  let response2 = "";
+  let orderItems = "";
+
+  try {
+    response2 = await axios.get(darazURL2);
+    orderItems = response2.data.data;
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not get order items" });
+  }
+
+  const updatedFields = {
+    statuses: `${orders.statuses}`,
+    order_items: orderItems,
+  };
+
+  const orderUpdated = await prisma.darazOrders.update({
+    where: {
+      order_id,
+    },
+    data: updatedFields,
+  });
+
+  res.status(200).json({ orderUpdated, message: "Orders Added" });
+});
+
 router.get("/d", async (req, res) => {
   const d = await prisma.darazStoreTransactions.deleteMany();
   const d2 = await prisma.darazOrders.deleteMany();
