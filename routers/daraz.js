@@ -507,8 +507,7 @@ router.get("/orders/add-new-order", async (req, res) => {
       seller_id,
     },
   });
-
-  if (!store) {
+  if (!store || store.length === 0) {
     return res.status(200).json({ message: "Store not found", seller_id });
   }
 
@@ -580,7 +579,6 @@ router.get("/orders/add-new-order", async (req, res) => {
   try {
     response2 = await axios.get(darazURL2);
     orderItems = response2.data.data;
-    console.log("orderItems: ", orderItems);
   } catch (e) {
     console.log("error: ", e);
     return res.status(400).json({ message: "Could not get order items" });
@@ -595,6 +593,13 @@ router.get("/orders/add-new-order", async (req, res) => {
     });
   } catch (e) {
     console.log("error: ", e);
+
+    // If the prisma error is due to the unique constraint violation, it means the order already exists
+    if (e.meta.target[0] === "order_id") {
+      return res
+        .status(400)
+        .json({ message: "Order Already Exists", newOrder });
+    }
     return res
       .status(400)
       .json({ message: "Could not Append Order into DB", newOrder });
