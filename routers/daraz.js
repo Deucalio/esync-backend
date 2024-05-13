@@ -495,8 +495,11 @@ router.post("/add-store-transactions", async (req, res) => {
 });
 
 // Route when a new order is placed
-router.post("/add-new-order", async (req, res) => {
-  const { seller_id, order_id } = req.body;
+router.get("/orders/add-new-order", async (req, res) => {
+  // const { seller_id, order_id } = req.body;
+
+  // use req.query to get the query parameters
+  const { seller_id, order_id } = req.query;
 
   // Find the store with the seller_id
   const store = await prisma.store.findUnique({
