@@ -71,6 +71,7 @@ router.post("/access-token", async (req, res) => {
   try {
     newStore = await prisma.store.create({
       data: {
+        seller_id: storeData.user_info.seller_id,
         user_id: userId, // Specify the userId for the associated user
         name: name,
         platform: "daraz",
@@ -410,6 +411,8 @@ router.get("/f", async (req, res) => {
 });
 
 router.post("/add-transaction", async (req, res) => {
+  // Only adds transactions orderItem_status of which is Delivered or Returned
+
   const start = new Date();
   const { order_numbers, transactions } = req.body;
 
@@ -491,14 +494,117 @@ router.post("/add-store-transactions", async (req, res) => {
   res.status(200).json({ storeTransactionsCount: data.count });
 });
 
-router.get("/d/:id", async (req, res) => {
-  const { id } = req.params;
-  const result = await prisma.darazOrders.findUnique({
+// Route when a new order is placed
+router.post("/add-new-order", async (req, res) => {
+  const { seller_id, order_id } = req.body;
+
+  // Find the store with the seller_id
+  const store = await prisma.store.findUnique({
     where: {
-      order_id: id,
+      seller_id,
     },
   });
-  res.status(200).json({ result });
+
+  if (!store) {
+    return res.status(200).json({ message: "Store not found", seller_id });
+  }
+
+  const { access_token } = store.store_info;
+
+  const darazURL = await generateDarazURL("/order/get", access_token, {
+    order_id,
+  });
+
+  let response = "";
+  let order = "";
+
+  try {
+    response = await axios.get(darazURL);
+    order = response.data.data;
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not get order details" });
+  }
+
+  const newOrder = {
+    seller_id: `${seller_id}`,
+    //promised_shipping_times, updated_at, price, shipping_fee_original, payment_method, shipping_fee_discount_seller, shipping_fee,
+    // items_count, statuses, address_billing, order_id, gift_message, remarks, address_shipping, order_items
+    promised_shipping_times: `${order.promised_shipping_times}`,
+    voucher_platform: `${order.voucher_platform || 0}`,
+    voucher: `${order.voucher}`,
+    voucher_seller: `${order.voucher_seller || 0}`,
+    order_number: `${order.order_number}`,
+    created_at: new Date(order.created_at).toISOString(),
+    voucher_code: `${order.voucher_code}`,
+    gift_option: `${order.gift_option}`,
+    shipping_fee_discount_platform: `${order.shipping_fee_discount_platform}`,
+    customer_name:
+      order.customer_first_name && order.customer_last_name
+        ? order.customer_first_name + " " + order.customer_last_name
+        : order.customer_first_name
+        ? order.customer_first_name
+        : order.customer_last_name
+        ? order.customer_last_name
+        : "N/A",
+    updated_at: new Date(order.updated_at).toISOString(),
+    price: order.price,
+    shipping_fee_original: `${order.shipping_fee_original}`,
+    payment_method: `${order.payment_method}`,
+    shipping_fee_discount_seller: `${order.shipping_fee_discount_seller}`,
+    shipping_fee: `${order.shipping_fee}`,
+    items_count: `${order.items_count}`,
+    statuses: `${order.statuses}`,
+    address_billing: order.address_billing,
+    order_id: `${order.order_id}`,
+    gift_message: order.gift_message,
+    remarks: order.remarks,
+    address_shipping: order.address_shipping,
+    order_items: [],
+    transactions: [],
+    shop_logo: "none",
+    user_id: store.user_id,
+  };
+
+  // Get its line items
+  const darazURL2 = await generateDarazURL("/order/items/get", access_token, {
+    order_id: order_id,
+  });
+
+  let response2 = "";
+  let orderItems = "";
+
+  try {
+    response2 = await axios.get(darazURL2);
+    orderItems = response2.data.data;
+    console.log("orderItems: ", orderItems);
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not get order items" });
+  }
+  newOrder.order_items = orderItems;
+
+  // Finally append the order into the DB
+  let orderAdded = "";
+  try {
+    orderAdded = await prisma.darazOrders.create({
+      data: newOrder,
+    });
+  } catch (e) {
+    console.log("error: ", e);
+    return res
+      .status(400)
+      .json({ message: "Could not Append Order into DB", newOrder });
+  }
+
+  res.status(200).json({ orderAdded, message: "Order Added" });
+});
+
+router.get("/d", async (req, res) => {
+  const d = await prisma.darazStoreTransactions.deleteMany();
+  const d2 = await prisma.darazOrders.deleteMany();
+
+  res.status(200).json({ d, d2 });
 });
 
 module.exports = router;
