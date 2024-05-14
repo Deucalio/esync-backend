@@ -26,7 +26,7 @@ router.post("/sign", async (req, res) => {
 });
 
 router.post("/access-token", async (req, res) => {
-  const { signature, code, timeStamp, app_key, userEmail, name } = req.body;
+  const { signature, code, timeStamp, app_key, userEmail } = req.body;
 
   // Get all the stores
   const stores = await prisma.store.findMany({
@@ -65,6 +65,15 @@ router.post("/access-token", async (req, res) => {
     },
   });
   const userId = user.id;
+
+  const darazURL__ = await generateDarazURL(
+    "/seller/get",
+    "50000701903ePxa138c2a0atvc6kaPfNStFkfNo2dsVoCZkTxFKR3RNOwT2lrH",
+    {}
+  );
+  const response__ = await axios.get(darazURL__);
+
+  const { name } = response__.data;
 
   let newStore = "";
 
