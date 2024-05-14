@@ -621,7 +621,7 @@ router.get("/orders/sync", async (req, res) => {
     },
   });
   if (!store || store.length === 0) {
-    return res.status(200).json({ message: "Store not found", seller_id });
+    return res.status(404).json({ message: "Store not found", seller_id });
   }
 
   const { access_token } = store.store_info;
