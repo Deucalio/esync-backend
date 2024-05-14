@@ -72,8 +72,8 @@ router.post("/access-token", async (req, res) => {
     {}
   );
   const response__ = await axios.get(darazURL__);
-
-  const { name } = response__.data;
+  console.log("response: ", response__.data);
+  const name = response__.data.name;
 
   let newStore = "";
 
