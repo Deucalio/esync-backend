@@ -97,7 +97,7 @@ router.post("/access-token", async (req, res) => {
   const redirectCode = CryptoJS.HmacSHA256(name, "daraz").toString();
 
   // Send a request to nakson.services to trigger the inngest api to append orders
-  const ingestUrl = `https://nakson.services/api/daraz/orders`;
+  const ingestUrl = `https://esync.nakson.services/api/daraz/orders`;
 
   const orderRes = await axios.post(ingestUrl, {
     userID: userId,
