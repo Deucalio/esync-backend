@@ -123,9 +123,7 @@ router.post("/get-stores", async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
-  const darazStores = user.Stores.filter(
-    (user) => user.store_info.platform === "daraz"
-  );
+  const darazStores = user.Stores.filter((s) => s.platform === "daraz");
   if (!darazStores) {
     return res.status(204);
   }
@@ -143,7 +141,6 @@ router.delete("/delete-store/:id", async (req, res) => {
       seller_id: seller_id,
     },
   });
-
   res.status(200).json({ message: "Store deleted successfully" });
 });
 
@@ -671,12 +668,18 @@ router.get("/orders/sync", async (req, res) => {
     order_items: orderItems,
   };
 
-  const orderUpdated = await prisma.darazOrders.update({
-    where: {
-      order_id,
-    },
-    data: updatedFields,
-  });
+  let orderUpdated = "";
+  try {
+    orderUpdated = await prisma.darazOrders.update({
+      where: {
+        order_id,
+      },
+      data: updatedFields,
+    });
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not update order" });
+  }
 
   res.status(200).json({ orderUpdated, message: "Orders Added" });
 });
