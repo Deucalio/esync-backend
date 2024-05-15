@@ -755,10 +755,37 @@ app.post("/bulksource/create-order", async (req, res) => {
   res.status(200).json({ success: true, orderData });
 });
 
-app.get("/pepsi", async (req, res) => {
-  const data = await prisma.user.create({});
+// _____________________
+app.get("/orders", async (req, res) => {
+  // /orders?email=email&platform=platform&shop=shop&filter=filter&offset=offset&limit=limit
+  // Limit is the orders per page
 
-  res.json({ leopards, tcs, data });
+  const { email, platform, shop, filter, offset, limit } = req.query;
+  console.log("req.query: ", req.query);
+
+  // Fetch the user
+  const user = await prisma.user.findUnique({
+    where: { email: email },
+  });
+  const user_id = Number(user.id);
+
+  if (platform === "daraz") {
+    // Get orders from Daraz
+    const orders = await prisma.darazOrders.findMany({
+      skip: Number(offset),
+      take: Number(limit),
+      where: {
+        user_id: user_id,
+        seller_id: `${shop}`,
+        statuses: {
+          contains: filter === "all" ? "" : filter,
+        },
+      },
+      orderBy: { created_at: "desc" },
+    });
+    console.log("orders: ", orders);
+    return res.status(200).send(orders);
+  }
 });
 
 app.listen(port, () => {
