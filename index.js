@@ -776,9 +776,11 @@ app.get("/orders", async (req, res) => {
       take: Number(limit),
       where: {
         user_id: user_id,
-        seller_id: `${shop}`,
+        seller_id: {
+          contains: shop === "all" ? "" : shop, // If shop is all, then return all orders of all seller_ids, else return orders of the specific seller_id
+        },
         statuses: {
-          contains: filter === "all" ? "" : filter,
+          contains: filter === "all" ? "" : filter, // If filter is all, then return all orders, else return orders with the specific status
         },
       },
       orderBy: { created_at: "desc" },
