@@ -765,7 +765,6 @@ app.get("/orders", async (req, res) => {
   const limit = ordersPerPage;
   const offset = (page - 1) * ordersPerPage;
 
-  // Fetch the user
   const user = await prisma.user.findUnique({
     where: { email: email },
     include: { Stores: true },
