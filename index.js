@@ -760,12 +760,15 @@ app.get("/orders", async (req, res) => {
   // /orders?email=email&platform=platform&shop=shop&filter=filter&offset=offset&limit=limit
   // Limit is the orders per page
 
-  const { email, platform, shop, filter, offset, limit } = req.query;
-  console.log("req.query: ", req.query);
+  const { email, platform, shop, status, page, ordersPerPage } = req.query;
+
+  const limit = ordersPerPage;
+  const offset = (page - 1) * ordersPerPage;
 
   // Fetch the user
   const user = await prisma.user.findUnique({
     where: { email: email },
+    include: { Stores: true },
   });
   const user_id = Number(user.id);
 
@@ -780,14 +783,46 @@ app.get("/orders", async (req, res) => {
           contains: shop === "all" ? "" : shop, // If shop is all, then return all orders of all seller_ids, else return orders of the specific seller_id
         },
         statuses: {
-          contains: filter === "all" ? "" : filter, // If filter is all, then return all orders, else return orders with the specific status
+          contains: status === "all" ? "" : status, // If status is all, then return all orders, else return orders with the specific status
         },
       },
       orderBy: { created_at: "desc" },
     });
+
+    const count = await prisma.darazOrders.count({
+      where: {
+        user_id: user_id,
+        seller_id: {
+          contains: shop === "all" ? "" : shop,
+        },
+        statuses: {
+          contains: status === "all" ? "" : status,
+        },
+      },
+    });
+
+    for (const order of orders) {
+      order["store_info"] = {
+        platform: "daraz",
+        domain: null,
+        shopLogo: null,
+        name: shop,
+      };
+    }
     console.log("orders: ", orders);
-    return res.status(200).send(orders);
+    return res.status(200).json({ count, orders });
   }
+});
+
+app.get("/delete/:seller_id", async (req, res) => {
+  const { seller_id } = req.params;
+  const orders = await prisma.darazOrders.deleteMany({
+    where: {
+      seller_id: seller_id,
+    },
+  });
+  const dd = await prisma.darazStoreTransactions.deleteMany({});
+  res.status(200).send(orders);
 });
 
 app.listen(port, () => {
