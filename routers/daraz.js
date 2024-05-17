@@ -636,11 +636,11 @@ router.get("/orders/sync", async (req, res) => {
   });
 
   let response = "";
-  let orders = "";
+  let fetched_order = "";
 
   try {
     response = await axios.get(darazURL);
-    orders = response.data.data;
+    fetched_order = response.data.data;
   } catch (e) {
     console.log("error: ", e);
     return res.status(400).json({ message: "Could not get order details" });
@@ -664,10 +664,10 @@ router.get("/orders/sync", async (req, res) => {
   }
 
   const updatedFields = {
-    statuses: `${orders.statuses}`,
+    statuses: `${fetched_order.statuses}`,
     order_items: orderItems,
+    updated_at: new Date(fetched_order.updated_at).toISOString(),
   };
-
   let orderUpdated = "";
   try {
     orderUpdated = await prisma.darazOrders.update({
@@ -681,7 +681,7 @@ router.get("/orders/sync", async (req, res) => {
     return res.status(400).json({ message: "Could not update order" });
   }
 
-  res.status(200).json({ orderUpdated, message: "Orders Added" });
+  res.status(200).json({ orderUpdated, message: "Order Synced" });
 });
 
 router.get("/d", async (req, res) => {
@@ -689,6 +689,10 @@ router.get("/d", async (req, res) => {
   const d2 = await prisma.darazOrders.deleteMany();
 
   res.status(200).json({ d, d2 });
+});
+
+router.post("/save-log", async (req, res) => {
+  //
 });
 
 module.exports = router;
