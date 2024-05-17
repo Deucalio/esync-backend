@@ -144,34 +144,6 @@ router.delete("/delete-store/:id", async (req, res) => {
   res.status(200).json({ message: "Store deleted successfully" });
 });
 
-// Append into DB all the logs
-router.post("/save-log", async (req, res) => {
-  const { seller_id, data, timestamp } = req.body;
-
-  // Search the user by email
-
-  const stores = await prisma.store.findMany({
-    where: {
-      platform: "daraz",
-    },
-  });
-  const darazStore = stores.find(
-    (store) => store.store_info.account === seller_id
-  );
-
-  const userId = darazStore.user_id;
-
-  const logData = await prisma.darazLogs.create({
-    data: {
-      store: seller_id,
-      receivedAt: new Date(timestamp * 1000),
-      data: data,
-      user_id: userId,
-    },
-  });
-  res.status(200).json({ message: "Log Added" });
-});
-
 router.post("/append-orders", async (req, res) => {
   const { orders } = req.body;
   let data = "";
@@ -693,6 +665,16 @@ router.get("/d", async (req, res) => {
 
 router.post("/save-log", async (req, res) => {
   //
+  const { log } = req.body;
+  const save = await prisma.temporaryData.create({
+    data: {
+      data: log,
+      email: "subhankhanyz@gmail.com",
+      createdAt: new Date().toISOString(),
+      userId: 1,
+    },
+  });
+  res.status(200).json({ message: "Log Saved" });
 });
 
 module.exports = router;
