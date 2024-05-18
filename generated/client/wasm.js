@@ -222,6 +222,7 @@ exports.Prisma.TemporaryDataScalarFieldEnum = {
 };
 
 exports.Prisma.DarazLogsScalarFieldEnum = {
+  id: 'id',
   seller_id: 'seller_id',
   fetched_from_api: 'fetched_from_api',
   orders_appended_single_request: 'orders_appended_single_request',

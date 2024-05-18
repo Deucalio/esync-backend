@@ -149,7 +149,8 @@ model TemporaryData {
 // );
 
 model DarazLogs {
-    seller_id                      String @id @unique
+    id                             Int    @id @unique @default(autoincrement())
+    seller_id                      String
     fetched_from_api               String
     orders_appended_single_request String
     orders_appended                String

@@ -8962,11 +8962,22 @@ export namespace Prisma {
 
   export type AggregateDarazLogs = {
     _count: DarazLogsCountAggregateOutputType | null
+    _avg: DarazLogsAvgAggregateOutputType | null
+    _sum: DarazLogsSumAggregateOutputType | null
     _min: DarazLogsMinAggregateOutputType | null
     _max: DarazLogsMaxAggregateOutputType | null
   }
 
+  export type DarazLogsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type DarazLogsSumAggregateOutputType = {
+    id: number | null
+  }
+
   export type DarazLogsMinAggregateOutputType = {
+    id: number | null
     seller_id: string | null
     fetched_from_api: string | null
     orders_appended_single_request: string | null
@@ -8976,6 +8987,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsMaxAggregateOutputType = {
+    id: number | null
     seller_id: string | null
     fetched_from_api: string | null
     orders_appended_single_request: string | null
@@ -8985,6 +8997,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsCountAggregateOutputType = {
+    id: number
     seller_id: number
     fetched_from_api: number
     orders_appended_single_request: number
@@ -8995,7 +9008,16 @@ export namespace Prisma {
   }
 
 
+  export type DarazLogsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type DarazLogsSumAggregateInputType = {
+    id?: true
+  }
+
   export type DarazLogsMinAggregateInputType = {
+    id?: true
     seller_id?: true
     fetched_from_api?: true
     orders_appended_single_request?: true
@@ -9005,6 +9027,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsMaxAggregateInputType = {
+    id?: true
     seller_id?: true
     fetched_from_api?: true
     orders_appended_single_request?: true
@@ -9014,6 +9037,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsCountAggregateInputType = {
+    id?: true
     seller_id?: true
     fetched_from_api?: true
     orders_appended_single_request?: true
@@ -9061,6 +9085,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: DarazLogsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DarazLogsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: DarazLogsMinAggregateInputType
@@ -9091,11 +9127,14 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: DarazLogsCountAggregateInputType | true
+    _avg?: DarazLogsAvgAggregateInputType
+    _sum?: DarazLogsSumAggregateInputType
     _min?: DarazLogsMinAggregateInputType
     _max?: DarazLogsMaxAggregateInputType
   }
 
   export type DarazLogsGroupByOutputType = {
+    id: number
     seller_id: string
     fetched_from_api: string
     orders_appended_single_request: string
@@ -9103,6 +9142,8 @@ export namespace Prisma {
     total_store_orders: string
     daraz_url: string
     _count: DarazLogsCountAggregateOutputType | null
+    _avg: DarazLogsAvgAggregateOutputType | null
+    _sum: DarazLogsSumAggregateOutputType | null
     _min: DarazLogsMinAggregateOutputType | null
     _max: DarazLogsMaxAggregateOutputType | null
   }
@@ -9122,6 +9163,7 @@ export namespace Prisma {
 
 
   export type DarazLogsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     seller_id?: boolean
     fetched_from_api?: boolean
     orders_appended_single_request?: boolean
@@ -9131,6 +9173,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["darazLogs"]>
 
   export type DarazLogsSelectScalar = {
+    id?: boolean
     seller_id?: boolean
     fetched_from_api?: boolean
     orders_appended_single_request?: boolean
@@ -9144,6 +9187,7 @@ export namespace Prisma {
     name: "DarazLogs"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
+      id: number
       seller_id: string
       fetched_from_api: string
       orders_appended_single_request: string
@@ -9242,8 +9286,8 @@ export namespace Prisma {
      * // Get first 10 DarazLogs
      * const darazLogs = await prisma.darazLogs.findMany({ take: 10 })
      * 
-     * // Only select the `seller_id`
-     * const darazLogsWithSeller_idOnly = await prisma.darazLogs.findMany({ select: { seller_id: true } })
+     * // Only select the `id`
+     * const darazLogsWithIdOnly = await prisma.darazLogs.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends DarazLogsFindManyArgs<ExtArgs>>(
@@ -9544,6 +9588,7 @@ export namespace Prisma {
    * Fields of the DarazLogs model
    */ 
   interface DarazLogsFieldRefs {
+    readonly id: FieldRef<"DarazLogs", 'Int'>
     readonly seller_id: FieldRef<"DarazLogs", 'String'>
     readonly fetched_from_api: FieldRef<"DarazLogs", 'String'>
     readonly orders_appended_single_request: FieldRef<"DarazLogs", 'String'>
@@ -9987,6 +10032,7 @@ export namespace Prisma {
 
 
   export const DarazLogsScalarFieldEnum: {
+    id: 'id',
     seller_id: 'seller_id',
     fetched_from_api: 'fetched_from_api',
     orders_appended_single_request: 'orders_appended_single_request',
@@ -10817,6 +10863,7 @@ export namespace Prisma {
     AND?: DarazLogsWhereInput | DarazLogsWhereInput[]
     OR?: DarazLogsWhereInput[]
     NOT?: DarazLogsWhereInput | DarazLogsWhereInput[]
+    id?: IntFilter<"DarazLogs"> | number
     seller_id?: StringFilter<"DarazLogs"> | string
     fetched_from_api?: StringFilter<"DarazLogs"> | string
     orders_appended_single_request?: StringFilter<"DarazLogs"> | string
@@ -10826,6 +10873,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsOrderByWithRelationInput = {
+    id?: SortOrder
     seller_id?: SortOrder
     fetched_from_api?: SortOrder
     orders_appended_single_request?: SortOrder
@@ -10835,18 +10883,20 @@ export namespace Prisma {
   }
 
   export type DarazLogsWhereUniqueInput = Prisma.AtLeast<{
-    seller_id?: string
+    id?: number
     AND?: DarazLogsWhereInput | DarazLogsWhereInput[]
     OR?: DarazLogsWhereInput[]
     NOT?: DarazLogsWhereInput | DarazLogsWhereInput[]
+    seller_id?: StringFilter<"DarazLogs"> | string
     fetched_from_api?: StringFilter<"DarazLogs"> | string
     orders_appended_single_request?: StringFilter<"DarazLogs"> | string
     orders_appended?: StringFilter<"DarazLogs"> | string
     total_store_orders?: StringFilter<"DarazLogs"> | string
     daraz_url?: StringFilter<"DarazLogs"> | string
-  }, "seller_id" | "seller_id">
+  }, "id" | "id">
 
   export type DarazLogsOrderByWithAggregationInput = {
+    id?: SortOrder
     seller_id?: SortOrder
     fetched_from_api?: SortOrder
     orders_appended_single_request?: SortOrder
@@ -10854,14 +10904,17 @@ export namespace Prisma {
     total_store_orders?: SortOrder
     daraz_url?: SortOrder
     _count?: DarazLogsCountOrderByAggregateInput
+    _avg?: DarazLogsAvgOrderByAggregateInput
     _max?: DarazLogsMaxOrderByAggregateInput
     _min?: DarazLogsMinOrderByAggregateInput
+    _sum?: DarazLogsSumOrderByAggregateInput
   }
 
   export type DarazLogsScalarWhereWithAggregatesInput = {
     AND?: DarazLogsScalarWhereWithAggregatesInput | DarazLogsScalarWhereWithAggregatesInput[]
     OR?: DarazLogsScalarWhereWithAggregatesInput[]
     NOT?: DarazLogsScalarWhereWithAggregatesInput | DarazLogsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"DarazLogs"> | number
     seller_id?: StringWithAggregatesFilter<"DarazLogs"> | string
     fetched_from_api?: StringWithAggregatesFilter<"DarazLogs"> | string
     orders_appended_single_request?: StringWithAggregatesFilter<"DarazLogs"> | string
@@ -11684,6 +11737,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsUncheckedCreateInput = {
+    id?: number
     seller_id: string
     fetched_from_api: string
     orders_appended_single_request: string
@@ -11702,6 +11756,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
     seller_id?: StringFieldUpdateOperationsInput | string
     fetched_from_api?: StringFieldUpdateOperationsInput | string
     orders_appended_single_request?: StringFieldUpdateOperationsInput | string
@@ -11711,6 +11766,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsCreateManyInput = {
+    id?: number
     seller_id: string
     fetched_from_api: string
     orders_appended_single_request: string
@@ -11729,6 +11785,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
     seller_id?: StringFieldUpdateOperationsInput | string
     fetched_from_api?: StringFieldUpdateOperationsInput | string
     orders_appended_single_request?: StringFieldUpdateOperationsInput | string
@@ -12414,6 +12471,7 @@ export namespace Prisma {
   }
 
   export type DarazLogsCountOrderByAggregateInput = {
+    id?: SortOrder
     seller_id?: SortOrder
     fetched_from_api?: SortOrder
     orders_appended_single_request?: SortOrder
@@ -12422,7 +12480,12 @@ export namespace Prisma {
     daraz_url?: SortOrder
   }
 
+  export type DarazLogsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type DarazLogsMaxOrderByAggregateInput = {
+    id?: SortOrder
     seller_id?: SortOrder
     fetched_from_api?: SortOrder
     orders_appended_single_request?: SortOrder
@@ -12432,12 +12495,17 @@ export namespace Prisma {
   }
 
   export type DarazLogsMinOrderByAggregateInput = {
+    id?: SortOrder
     seller_id?: SortOrder
     fetched_from_api?: SortOrder
     orders_appended_single_request?: SortOrder
     orders_appended?: SortOrder
     total_store_orders?: SortOrder
     daraz_url?: SortOrder
+  }
+
+  export type DarazLogsSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type StoreCreateNestedManyWithoutUserInput = {
