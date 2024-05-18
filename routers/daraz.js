@@ -677,12 +677,17 @@ router.get("/pepsi", async (req, res) => {
 router.post("/save-log", async (req, res) => {
   //
   const { log } = req.body;
+  let save = "";
+  try {
+    save = await prisma.darazLogs.create({
+      data: {
+        ...log,
+      },
+    });
+  } catch (e) {
+    console.log("Error saving the log", e, log);
+  }
 
-  const save = await prisma.darazLogs.create({
-    data: {
-      ...log,
-    },
-  });
   res.status(200).json({ message: "Log Saved" });
 });
 
