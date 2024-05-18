@@ -138,3 +138,21 @@ model TemporaryData {
     User   User? @relation(fields: [userId], references: [id])
     userId Int?
 }
+
+// CREATE TABLE "DarazLogs" (
+// "seller_id" VARCHAR PRIMARY KEY,
+// "fetched_from_api" VARCHAR,
+// "orders_appended_single_request" VARCHAR,
+// "orders_appended" VARCHAR,
+// "total_store_orders" VARCHAR,
+// "daraz_url" VARCHAR
+// );
+
+model DarazLogs {
+    seller_id                      String @id @unique
+    fetched_from_api               String
+    orders_appended_single_request String
+    orders_appended                String
+    total_store_orders             String
+    daraz_url                      String
+}

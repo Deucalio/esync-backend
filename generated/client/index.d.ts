@@ -48,6 +48,11 @@ export type Courier = $Result.DefaultSelection<Prisma.$CourierPayload>
  * 
  */
 export type TemporaryData = $Result.DefaultSelection<Prisma.$TemporaryDataPayload>
+/**
+ * Model DarazLogs
+ * 
+ */
+export type DarazLogs = $Result.DefaultSelection<Prisma.$DarazLogsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -240,6 +245,16 @@ export class PrismaClient<
     * ```
     */
   get temporaryData(): Prisma.TemporaryDataDelegate<ExtArgs>;
+
+  /**
+   * `prisma.darazLogs`: Exposes CRUD operations for the **DarazLogs** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DarazLogs
+    * const darazLogs = await prisma.darazLogs.findMany()
+    * ```
+    */
+  get darazLogs(): Prisma.DarazLogsDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -716,7 +731,8 @@ export namespace Prisma {
     DarazStoreTransactions: 'DarazStoreTransactions',
     ShopifyOrders: 'ShopifyOrders',
     Courier: 'Courier',
-    TemporaryData: 'TemporaryData'
+    TemporaryData: 'TemporaryData',
+    DarazLogs: 'DarazLogs'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -733,7 +749,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'store' | 'darazOrders' | 'darazStoreTransactions' | 'shopifyOrders' | 'courier' | 'temporaryData'
+      modelProps: 'user' | 'store' | 'darazOrders' | 'darazStoreTransactions' | 'shopifyOrders' | 'courier' | 'temporaryData' | 'darazLogs'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1196,6 +1212,72 @@ export namespace Prisma {
           count: {
             args: Prisma.TemporaryDataCountArgs<ExtArgs>,
             result: $Utils.Optional<TemporaryDataCountAggregateOutputType> | number
+          }
+        }
+      }
+      DarazLogs: {
+        payload: Prisma.$DarazLogsPayload<ExtArgs>
+        fields: Prisma.DarazLogsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DarazLogsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DarazLogsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
+          }
+          findFirst: {
+            args: Prisma.DarazLogsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DarazLogsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
+          }
+          findMany: {
+            args: Prisma.DarazLogsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>[]
+          }
+          create: {
+            args: Prisma.DarazLogsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
+          }
+          createMany: {
+            args: Prisma.DarazLogsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.DarazLogsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
+          }
+          update: {
+            args: Prisma.DarazLogsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
+          }
+          deleteMany: {
+            args: Prisma.DarazLogsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DarazLogsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.DarazLogsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DarazLogsPayload>
+          }
+          aggregate: {
+            args: Prisma.DarazLogsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateDarazLogs>
+          }
+          groupBy: {
+            args: Prisma.DarazLogsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<DarazLogsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DarazLogsCountArgs<ExtArgs>,
+            result: $Utils.Optional<DarazLogsCountAggregateOutputType> | number
           }
         }
       }
@@ -8875,6 +8957,887 @@ export namespace Prisma {
 
 
   /**
+   * Model DarazLogs
+   */
+
+  export type AggregateDarazLogs = {
+    _count: DarazLogsCountAggregateOutputType | null
+    _min: DarazLogsMinAggregateOutputType | null
+    _max: DarazLogsMaxAggregateOutputType | null
+  }
+
+  export type DarazLogsMinAggregateOutputType = {
+    seller_id: string | null
+    fetched_from_api: string | null
+    orders_appended_single_request: string | null
+    orders_appended: string | null
+    total_store_orders: string | null
+    daraz_url: string | null
+  }
+
+  export type DarazLogsMaxAggregateOutputType = {
+    seller_id: string | null
+    fetched_from_api: string | null
+    orders_appended_single_request: string | null
+    orders_appended: string | null
+    total_store_orders: string | null
+    daraz_url: string | null
+  }
+
+  export type DarazLogsCountAggregateOutputType = {
+    seller_id: number
+    fetched_from_api: number
+    orders_appended_single_request: number
+    orders_appended: number
+    total_store_orders: number
+    daraz_url: number
+    _all: number
+  }
+
+
+  export type DarazLogsMinAggregateInputType = {
+    seller_id?: true
+    fetched_from_api?: true
+    orders_appended_single_request?: true
+    orders_appended?: true
+    total_store_orders?: true
+    daraz_url?: true
+  }
+
+  export type DarazLogsMaxAggregateInputType = {
+    seller_id?: true
+    fetched_from_api?: true
+    orders_appended_single_request?: true
+    orders_appended?: true
+    total_store_orders?: true
+    daraz_url?: true
+  }
+
+  export type DarazLogsCountAggregateInputType = {
+    seller_id?: true
+    fetched_from_api?: true
+    orders_appended_single_request?: true
+    orders_appended?: true
+    total_store_orders?: true
+    daraz_url?: true
+    _all?: true
+  }
+
+  export type DarazLogsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DarazLogs to aggregate.
+     */
+    where?: DarazLogsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazLogs to fetch.
+     */
+    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DarazLogsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DarazLogs
+    **/
+    _count?: true | DarazLogsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DarazLogsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DarazLogsMaxAggregateInputType
+  }
+
+  export type GetDarazLogsAggregateType<T extends DarazLogsAggregateArgs> = {
+        [P in keyof T & keyof AggregateDarazLogs]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDarazLogs[P]>
+      : GetScalarType<T[P], AggregateDarazLogs[P]>
+  }
+
+
+
+
+  export type DarazLogsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DarazLogsWhereInput
+    orderBy?: DarazLogsOrderByWithAggregationInput | DarazLogsOrderByWithAggregationInput[]
+    by: DarazLogsScalarFieldEnum[] | DarazLogsScalarFieldEnum
+    having?: DarazLogsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DarazLogsCountAggregateInputType | true
+    _min?: DarazLogsMinAggregateInputType
+    _max?: DarazLogsMaxAggregateInputType
+  }
+
+  export type DarazLogsGroupByOutputType = {
+    seller_id: string
+    fetched_from_api: string
+    orders_appended_single_request: string
+    orders_appended: string
+    total_store_orders: string
+    daraz_url: string
+    _count: DarazLogsCountAggregateOutputType | null
+    _min: DarazLogsMinAggregateOutputType | null
+    _max: DarazLogsMaxAggregateOutputType | null
+  }
+
+  type GetDarazLogsGroupByPayload<T extends DarazLogsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DarazLogsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DarazLogsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DarazLogsGroupByOutputType[P]>
+            : GetScalarType<T[P], DarazLogsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DarazLogsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    seller_id?: boolean
+    fetched_from_api?: boolean
+    orders_appended_single_request?: boolean
+    orders_appended?: boolean
+    total_store_orders?: boolean
+    daraz_url?: boolean
+  }, ExtArgs["result"]["darazLogs"]>
+
+  export type DarazLogsSelectScalar = {
+    seller_id?: boolean
+    fetched_from_api?: boolean
+    orders_appended_single_request?: boolean
+    orders_appended?: boolean
+    total_store_orders?: boolean
+    daraz_url?: boolean
+  }
+
+
+  export type $DarazLogsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DarazLogs"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      seller_id: string
+      fetched_from_api: string
+      orders_appended_single_request: string
+      orders_appended: string
+      total_store_orders: string
+      daraz_url: string
+    }, ExtArgs["result"]["darazLogs"]>
+    composites: {}
+  }
+
+
+  type DarazLogsGetPayload<S extends boolean | null | undefined | DarazLogsDefaultArgs> = $Result.GetResult<Prisma.$DarazLogsPayload, S>
+
+  type DarazLogsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<DarazLogsFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: DarazLogsCountAggregateInputType | true
+    }
+
+  export interface DarazLogsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DarazLogs'], meta: { name: 'DarazLogs' } }
+    /**
+     * Find zero or one DarazLogs that matches the filter.
+     * @param {DarazLogsFindUniqueArgs} args - Arguments to find a DarazLogs
+     * @example
+     * // Get one DarazLogs
+     * const darazLogs = await prisma.darazLogs.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends DarazLogsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazLogsFindUniqueArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one DarazLogs that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {DarazLogsFindUniqueOrThrowArgs} args - Arguments to find a DarazLogs
+     * @example
+     * // Get one DarazLogs
+     * const darazLogs = await prisma.darazLogs.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends DarazLogsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazLogsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first DarazLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazLogsFindFirstArgs} args - Arguments to find a DarazLogs
+     * @example
+     * // Get one DarazLogs
+     * const darazLogs = await prisma.darazLogs.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends DarazLogsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazLogsFindFirstArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first DarazLogs that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazLogsFindFirstOrThrowArgs} args - Arguments to find a DarazLogs
+     * @example
+     * // Get one DarazLogs
+     * const darazLogs = await prisma.darazLogs.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends DarazLogsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazLogsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more DarazLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazLogsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DarazLogs
+     * const darazLogs = await prisma.darazLogs.findMany()
+     * 
+     * // Get first 10 DarazLogs
+     * const darazLogs = await prisma.darazLogs.findMany({ take: 10 })
+     * 
+     * // Only select the `seller_id`
+     * const darazLogsWithSeller_idOnly = await prisma.darazLogs.findMany({ select: { seller_id: true } })
+     * 
+    **/
+    findMany<T extends DarazLogsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazLogsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a DarazLogs.
+     * @param {DarazLogsCreateArgs} args - Arguments to create a DarazLogs.
+     * @example
+     * // Create one DarazLogs
+     * const DarazLogs = await prisma.darazLogs.create({
+     *   data: {
+     *     // ... data to create a DarazLogs
+     *   }
+     * })
+     * 
+    **/
+    create<T extends DarazLogsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazLogsCreateArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many DarazLogs.
+     *     @param {DarazLogsCreateManyArgs} args - Arguments to create many DarazLogs.
+     *     @example
+     *     // Create many DarazLogs
+     *     const darazLogs = await prisma.darazLogs.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends DarazLogsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazLogsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a DarazLogs.
+     * @param {DarazLogsDeleteArgs} args - Arguments to delete one DarazLogs.
+     * @example
+     * // Delete one DarazLogs
+     * const DarazLogs = await prisma.darazLogs.delete({
+     *   where: {
+     *     // ... filter to delete one DarazLogs
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends DarazLogsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazLogsDeleteArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one DarazLogs.
+     * @param {DarazLogsUpdateArgs} args - Arguments to update one DarazLogs.
+     * @example
+     * // Update one DarazLogs
+     * const darazLogs = await prisma.darazLogs.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends DarazLogsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazLogsUpdateArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more DarazLogs.
+     * @param {DarazLogsDeleteManyArgs} args - Arguments to filter DarazLogs to delete.
+     * @example
+     * // Delete a few DarazLogs
+     * const { count } = await prisma.darazLogs.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends DarazLogsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DarazLogsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DarazLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazLogsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DarazLogs
+     * const darazLogs = await prisma.darazLogs.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends DarazLogsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazLogsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DarazLogs.
+     * @param {DarazLogsUpsertArgs} args - Arguments to update or create a DarazLogs.
+     * @example
+     * // Update or create a DarazLogs
+     * const darazLogs = await prisma.darazLogs.upsert({
+     *   create: {
+     *     // ... data to create a DarazLogs
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DarazLogs we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends DarazLogsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, DarazLogsUpsertArgs<ExtArgs>>
+    ): Prisma__DarazLogsClient<$Result.GetResult<Prisma.$DarazLogsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of DarazLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazLogsCountArgs} args - Arguments to filter DarazLogs to count.
+     * @example
+     * // Count the number of DarazLogs
+     * const count = await prisma.darazLogs.count({
+     *   where: {
+     *     // ... the filter for the DarazLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends DarazLogsCountArgs>(
+      args?: Subset<T, DarazLogsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DarazLogsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DarazLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazLogsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DarazLogsAggregateArgs>(args: Subset<T, DarazLogsAggregateArgs>): Prisma.PrismaPromise<GetDarazLogsAggregateType<T>>
+
+    /**
+     * Group by DarazLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DarazLogsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DarazLogsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DarazLogsGroupByArgs['orderBy'] }
+        : { orderBy?: DarazLogsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DarazLogsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDarazLogsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DarazLogs model
+   */
+  readonly fields: DarazLogsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DarazLogs.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DarazLogsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the DarazLogs model
+   */ 
+  interface DarazLogsFieldRefs {
+    readonly seller_id: FieldRef<"DarazLogs", 'String'>
+    readonly fetched_from_api: FieldRef<"DarazLogs", 'String'>
+    readonly orders_appended_single_request: FieldRef<"DarazLogs", 'String'>
+    readonly orders_appended: FieldRef<"DarazLogs", 'String'>
+    readonly total_store_orders: FieldRef<"DarazLogs", 'String'>
+    readonly daraz_url: FieldRef<"DarazLogs", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * DarazLogs findUnique
+   */
+  export type DarazLogsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * Filter, which DarazLogs to fetch.
+     */
+    where: DarazLogsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazLogs findUniqueOrThrow
+   */
+  export type DarazLogsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * Filter, which DarazLogs to fetch.
+     */
+    where: DarazLogsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazLogs findFirst
+   */
+  export type DarazLogsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * Filter, which DarazLogs to fetch.
+     */
+    where?: DarazLogsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazLogs to fetch.
+     */
+    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DarazLogs.
+     */
+    cursor?: DarazLogsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DarazLogs.
+     */
+    distinct?: DarazLogsScalarFieldEnum | DarazLogsScalarFieldEnum[]
+  }
+
+
+  /**
+   * DarazLogs findFirstOrThrow
+   */
+  export type DarazLogsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * Filter, which DarazLogs to fetch.
+     */
+    where?: DarazLogsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazLogs to fetch.
+     */
+    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DarazLogs.
+     */
+    cursor?: DarazLogsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DarazLogs.
+     */
+    distinct?: DarazLogsScalarFieldEnum | DarazLogsScalarFieldEnum[]
+  }
+
+
+  /**
+   * DarazLogs findMany
+   */
+  export type DarazLogsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * Filter, which DarazLogs to fetch.
+     */
+    where?: DarazLogsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DarazLogs to fetch.
+     */
+    orderBy?: DarazLogsOrderByWithRelationInput | DarazLogsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DarazLogs.
+     */
+    cursor?: DarazLogsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DarazLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DarazLogs.
+     */
+    skip?: number
+    distinct?: DarazLogsScalarFieldEnum | DarazLogsScalarFieldEnum[]
+  }
+
+
+  /**
+   * DarazLogs create
+   */
+  export type DarazLogsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * The data needed to create a DarazLogs.
+     */
+    data: XOR<DarazLogsCreateInput, DarazLogsUncheckedCreateInput>
+  }
+
+
+  /**
+   * DarazLogs createMany
+   */
+  export type DarazLogsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DarazLogs.
+     */
+    data: DarazLogsCreateManyInput | DarazLogsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * DarazLogs update
+   */
+  export type DarazLogsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * The data needed to update a DarazLogs.
+     */
+    data: XOR<DarazLogsUpdateInput, DarazLogsUncheckedUpdateInput>
+    /**
+     * Choose, which DarazLogs to update.
+     */
+    where: DarazLogsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazLogs updateMany
+   */
+  export type DarazLogsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DarazLogs.
+     */
+    data: XOR<DarazLogsUpdateManyMutationInput, DarazLogsUncheckedUpdateManyInput>
+    /**
+     * Filter which DarazLogs to update
+     */
+    where?: DarazLogsWhereInput
+  }
+
+
+  /**
+   * DarazLogs upsert
+   */
+  export type DarazLogsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * The filter to search for the DarazLogs to update in case it exists.
+     */
+    where: DarazLogsWhereUniqueInput
+    /**
+     * In case the DarazLogs found by the `where` argument doesn't exist, create a new DarazLogs with this data.
+     */
+    create: XOR<DarazLogsCreateInput, DarazLogsUncheckedCreateInput>
+    /**
+     * In case the DarazLogs was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DarazLogsUpdateInput, DarazLogsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * DarazLogs delete
+   */
+  export type DarazLogsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+    /**
+     * Filter which DarazLogs to delete.
+     */
+    where: DarazLogsWhereUniqueInput
+  }
+
+
+  /**
+   * DarazLogs deleteMany
+   */
+  export type DarazLogsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DarazLogs to delete
+     */
+    where?: DarazLogsWhereInput
+  }
+
+
+  /**
+   * DarazLogs without action
+   */
+  export type DarazLogsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DarazLogs
+     */
+    select?: DarazLogsSelect<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -9021,6 +9984,18 @@ export namespace Prisma {
   };
 
   export type TemporaryDataScalarFieldEnum = (typeof TemporaryDataScalarFieldEnum)[keyof typeof TemporaryDataScalarFieldEnum]
+
+
+  export const DarazLogsScalarFieldEnum: {
+    seller_id: 'seller_id',
+    fetched_from_api: 'fetched_from_api',
+    orders_appended_single_request: 'orders_appended_single_request',
+    orders_appended: 'orders_appended',
+    total_store_orders: 'total_store_orders',
+    daraz_url: 'daraz_url'
+  };
+
+  export type DarazLogsScalarFieldEnum = (typeof DarazLogsScalarFieldEnum)[keyof typeof DarazLogsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -9838,6 +10813,63 @@ export namespace Prisma {
     userId?: IntNullableWithAggregatesFilter<"TemporaryData"> | number | null
   }
 
+  export type DarazLogsWhereInput = {
+    AND?: DarazLogsWhereInput | DarazLogsWhereInput[]
+    OR?: DarazLogsWhereInput[]
+    NOT?: DarazLogsWhereInput | DarazLogsWhereInput[]
+    seller_id?: StringFilter<"DarazLogs"> | string
+    fetched_from_api?: StringFilter<"DarazLogs"> | string
+    orders_appended_single_request?: StringFilter<"DarazLogs"> | string
+    orders_appended?: StringFilter<"DarazLogs"> | string
+    total_store_orders?: StringFilter<"DarazLogs"> | string
+    daraz_url?: StringFilter<"DarazLogs"> | string
+  }
+
+  export type DarazLogsOrderByWithRelationInput = {
+    seller_id?: SortOrder
+    fetched_from_api?: SortOrder
+    orders_appended_single_request?: SortOrder
+    orders_appended?: SortOrder
+    total_store_orders?: SortOrder
+    daraz_url?: SortOrder
+  }
+
+  export type DarazLogsWhereUniqueInput = Prisma.AtLeast<{
+    seller_id?: string
+    AND?: DarazLogsWhereInput | DarazLogsWhereInput[]
+    OR?: DarazLogsWhereInput[]
+    NOT?: DarazLogsWhereInput | DarazLogsWhereInput[]
+    fetched_from_api?: StringFilter<"DarazLogs"> | string
+    orders_appended_single_request?: StringFilter<"DarazLogs"> | string
+    orders_appended?: StringFilter<"DarazLogs"> | string
+    total_store_orders?: StringFilter<"DarazLogs"> | string
+    daraz_url?: StringFilter<"DarazLogs"> | string
+  }, "seller_id" | "seller_id">
+
+  export type DarazLogsOrderByWithAggregationInput = {
+    seller_id?: SortOrder
+    fetched_from_api?: SortOrder
+    orders_appended_single_request?: SortOrder
+    orders_appended?: SortOrder
+    total_store_orders?: SortOrder
+    daraz_url?: SortOrder
+    _count?: DarazLogsCountOrderByAggregateInput
+    _max?: DarazLogsMaxOrderByAggregateInput
+    _min?: DarazLogsMinOrderByAggregateInput
+  }
+
+  export type DarazLogsScalarWhereWithAggregatesInput = {
+    AND?: DarazLogsScalarWhereWithAggregatesInput | DarazLogsScalarWhereWithAggregatesInput[]
+    OR?: DarazLogsScalarWhereWithAggregatesInput[]
+    NOT?: DarazLogsScalarWhereWithAggregatesInput | DarazLogsScalarWhereWithAggregatesInput[]
+    seller_id?: StringWithAggregatesFilter<"DarazLogs"> | string
+    fetched_from_api?: StringWithAggregatesFilter<"DarazLogs"> | string
+    orders_appended_single_request?: StringWithAggregatesFilter<"DarazLogs"> | string
+    orders_appended?: StringWithAggregatesFilter<"DarazLogs"> | string
+    total_store_orders?: StringWithAggregatesFilter<"DarazLogs"> | string
+    daraz_url?: StringWithAggregatesFilter<"DarazLogs"> | string
+  }
+
   export type UserCreateInput = {
     first_name: string
     last_name: string
@@ -10642,6 +11674,69 @@ export namespace Prisma {
     userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
+  export type DarazLogsCreateInput = {
+    seller_id: string
+    fetched_from_api: string
+    orders_appended_single_request: string
+    orders_appended: string
+    total_store_orders: string
+    daraz_url: string
+  }
+
+  export type DarazLogsUncheckedCreateInput = {
+    seller_id: string
+    fetched_from_api: string
+    orders_appended_single_request: string
+    orders_appended: string
+    total_store_orders: string
+    daraz_url: string
+  }
+
+  export type DarazLogsUpdateInput = {
+    seller_id?: StringFieldUpdateOperationsInput | string
+    fetched_from_api?: StringFieldUpdateOperationsInput | string
+    orders_appended_single_request?: StringFieldUpdateOperationsInput | string
+    orders_appended?: StringFieldUpdateOperationsInput | string
+    total_store_orders?: StringFieldUpdateOperationsInput | string
+    daraz_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DarazLogsUncheckedUpdateInput = {
+    seller_id?: StringFieldUpdateOperationsInput | string
+    fetched_from_api?: StringFieldUpdateOperationsInput | string
+    orders_appended_single_request?: StringFieldUpdateOperationsInput | string
+    orders_appended?: StringFieldUpdateOperationsInput | string
+    total_store_orders?: StringFieldUpdateOperationsInput | string
+    daraz_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DarazLogsCreateManyInput = {
+    seller_id: string
+    fetched_from_api: string
+    orders_appended_single_request: string
+    orders_appended: string
+    total_store_orders: string
+    daraz_url: string
+  }
+
+  export type DarazLogsUpdateManyMutationInput = {
+    seller_id?: StringFieldUpdateOperationsInput | string
+    fetched_from_api?: StringFieldUpdateOperationsInput | string
+    orders_appended_single_request?: StringFieldUpdateOperationsInput | string
+    orders_appended?: StringFieldUpdateOperationsInput | string
+    total_store_orders?: StringFieldUpdateOperationsInput | string
+    daraz_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DarazLogsUncheckedUpdateManyInput = {
+    seller_id?: StringFieldUpdateOperationsInput | string
+    fetched_from_api?: StringFieldUpdateOperationsInput | string
+    orders_appended_single_request?: StringFieldUpdateOperationsInput | string
+    orders_appended?: StringFieldUpdateOperationsInput | string
+    total_store_orders?: StringFieldUpdateOperationsInput | string
+    daraz_url?: StringFieldUpdateOperationsInput | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -11316,6 +12411,33 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DarazLogsCountOrderByAggregateInput = {
+    seller_id?: SortOrder
+    fetched_from_api?: SortOrder
+    orders_appended_single_request?: SortOrder
+    orders_appended?: SortOrder
+    total_store_orders?: SortOrder
+    daraz_url?: SortOrder
+  }
+
+  export type DarazLogsMaxOrderByAggregateInput = {
+    seller_id?: SortOrder
+    fetched_from_api?: SortOrder
+    orders_appended_single_request?: SortOrder
+    orders_appended?: SortOrder
+    total_store_orders?: SortOrder
+    daraz_url?: SortOrder
+  }
+
+  export type DarazLogsMinOrderByAggregateInput = {
+    seller_id?: SortOrder
+    fetched_from_api?: SortOrder
+    orders_appended_single_request?: SortOrder
+    orders_appended?: SortOrder
+    total_store_orders?: SortOrder
+    daraz_url?: SortOrder
   }
 
   export type StoreCreateNestedManyWithoutUserInput = {
@@ -13256,6 +14378,10 @@ export namespace Prisma {
      * @deprecated Use TemporaryDataDefaultArgs instead
      */
     export type TemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TemporaryDataDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DarazLogsDefaultArgs instead
+     */
+    export type DarazLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DarazLogsDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

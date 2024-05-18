@@ -663,6 +663,23 @@ router.get("/d", async (req, res) => {
   res.status(200).json({ d, d2 });
 });
 
+router.get("/pepsi", async (req, res) => {
+  // const d = await prisma.darazOrders.findMany();
+
+  // SELECT * from "DarazOrders" where seller_id = '6005013234019' and created_at >= '2024-04-18 06:49:21' order by created_at asc;
+  // Delete the above query
+  const d = await prisma.darazOrders.deleteMany({
+    where: {
+      seller_id: "6005013234019",
+      created_at: {
+        gte: "2024-04-18T01:49:21.000Z",
+      },
+    },
+  });
+
+  res.status(200).json({ d });
+});
+
 router.post("/save-log", async (req, res) => {
   //
   const { log } = req.body;

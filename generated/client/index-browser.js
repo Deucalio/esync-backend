@@ -221,6 +221,15 @@ exports.Prisma.TemporaryDataScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.DarazLogsScalarFieldEnum = {
+  seller_id: 'seller_id',
+  fetched_from_api: 'fetched_from_api',
+  orders_appended_single_request: 'orders_appended_single_request',
+  orders_appended: 'orders_appended',
+  total_store_orders: 'total_store_orders',
+  daraz_url: 'daraz_url'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -254,7 +263,8 @@ exports.Prisma.ModelName = {
   DarazStoreTransactions: 'DarazStoreTransactions',
   ShopifyOrders: 'ShopifyOrders',
   Courier: 'Courier',
-  TemporaryData: 'TemporaryData'
+  TemporaryData: 'TemporaryData',
+  DarazLogs: 'DarazLogs'
 };
 
 /**
