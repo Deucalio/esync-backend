@@ -755,6 +755,16 @@ app.post("/bulksource/create-order", async (req, res) => {
   res.status(200).json({ success: true, orderData });
 });
 
+app.post("/get-stores", async (req, res) => {
+  const { email } = req.body;
+
+  const user = await prisma.user.findUnique({
+    where: { email: email },
+    include: { Stores: true },
+  });
+  res.status(200).json({ stores: user.Stores });
+});
+
 // _____________________
 app.get("/orders", async (req, res) => {
   // /orders?email=email&platform=platform&shop=shop&filter=filter&offset=offset&limit=limit
@@ -805,7 +815,7 @@ app.get("/orders", async (req, res) => {
         platform: "daraz",
         domain: null,
         shopLogo: null,
-        name: shop,
+        name: order.seller_id,
       };
     }
     console.log("orders: ", orders);
@@ -822,6 +832,20 @@ app.get("/delete/:seller_id", async (req, res) => {
   });
   const dd = await prisma.darazStoreTransactions.deleteMany({});
   res.status(200).send(orders);
+});
+
+app.get("/order", async (req, res) => {
+  const { email, platform, orderId } = req.query;
+
+  let order = "";
+  if (platform === "daraz") {
+    const order = await prisma.darazOrders.findUnique({
+      where: { order_id: orderId },
+    });
+    return res.status(200).send(order);
+  }
+
+  res.status(200).send(order);
 });
 
 app.listen(port, () => {

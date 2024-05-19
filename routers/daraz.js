@@ -670,6 +670,7 @@ router.get("/pepsi", async (req, res) => {
   // Delete the above query
   const d = await prisma.darazOrders.deleteMany({});
   const dd = await prisma.darazStoreTransactions.deleteMany({});
+  const ddd = await prisma.darazLogs.deleteMany({});
 
   res.status(200).json({ d });
 });
