@@ -694,6 +694,7 @@ router.post("/save-log", async (req, res) => {
 
 router.post("/rts", async (req, res) => {
   const { rtsData } = req.body;
+  const start = new Date().getTime();
 
   const RTSed = {};
 
@@ -776,7 +777,9 @@ router.post("/rts", async (req, res) => {
       }
     }
   }
-  res.status(200).json({ rtsData });
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+  res.status(200).json({ timeTaken, rtsData });
 });
 
 module.exports = router;
