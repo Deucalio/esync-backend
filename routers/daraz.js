@@ -763,10 +763,12 @@ router.post("/rts", async (req, res) => {
         }
 
         if (result.code === "0") {
-          console.log("Order RTSed: ", result.data);
           if (!RTSed[store.name]) {
             RTSed[s] = [];
             RTSed[s].push(order.order_id);
+          } else {
+            RTSed[s].push(order.order_id);
+            RTSed[s]["orders_count"] = RTSed[s].length;
           }
         }
       } catch (e) {
@@ -779,7 +781,7 @@ router.post("/rts", async (req, res) => {
   }
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-  res.status(200).json({ timeTaken, rtsData });
+  res.status(200).json({ timeTaken, RTSed });
 });
 
 module.exports = router;
