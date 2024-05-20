@@ -692,4 +692,91 @@ router.post("/save-log", async (req, res) => {
   res.status(200).json({ message: "Log Saved" });
 });
 
+router.post("/rts", async (req, res) => {
+  const { rtsData } = req.body;
+
+  const RTSed = {};
+
+  // {"124214124":  {orders: [], access_token: ""}, "2222": {orders: [], access_token: ""}}
+
+  const seller_ids = Object.keys(rtsData);
+  for (let s of seller_ids) {
+    const store = await prisma.store.findUnique({
+      where: {
+        seller_id: `${s}`,
+      },
+    });
+    // const access_token = store.store_info.access_token;
+
+    rtsData[s].access_token = store.store_info.access_token;
+
+    console.log("PRE-RTS LOG: ", {
+      store: store.name,
+      orders_ids: rtsData[s].orders.map((o) => o.order_id),
+      order_items_ids: rtsData[s].orders.map((o) =>
+        o.order_items.map((oi) => oi.order_item_id)
+      ),
+      orders_count: rtsData[s].orders.length,
+      seller_id: s,
+    });
+
+    for (let order of rtsData[s].orders) {
+      const RTSURL = await generateDarazURL(
+        "/order/rts",
+        rtsData[s].access_token,
+        {
+          delivery_type: "dropship",
+          order_item_ids: JSON.stringify(
+            order.order_items.map((oi) => `${oi.order_item_id}`)
+          ),
+        }
+      );
+
+      let response;
+      let result;
+
+      try {
+        response = await axios.post(RTSURL, {
+          delivery_type: "dropship",
+          order_item_ids: JSON.stringify(
+            order.order_items.map((oi) => `${oi.order_item_id}`)
+          ),
+        });
+
+        result = response.data;
+        console.log("result", result);
+        if (result.code === "82") {
+          // This code occurs when atleast one of the order items is not in the RTS state
+          // So we need to sync this order, perhaps this order is canceled
+          console.log(result.message);
+          const url = `https://esync-backend.vercel.app/daraz/orders/sync?seller_id=${s}&order_id=${order.order_id}`;
+          try {
+            res = await axios.get(url);
+            console.log(`Synced new Order: ${order.order_id}`, res.data);
+          } catch (e) {
+            console.log(
+              `Error syncing ${store.name} order ${order.order_id}`,
+              e
+            );
+          }
+        }
+
+        if (result.code === "0") {
+          console.log("Order RTSed: ", result.data);
+          if (!RTSed[store.name]) {
+            RTSed[s] = [];
+            RTSed[s].push(order.order_id);
+          }
+        }
+      } catch (e) {
+        console.log(
+          `error couldn't send request to daraz RTS URL for store ${store.name}: `,
+          e
+        );
+      }
+    }
+  }
+  res.status(200).json({ rtsData });
+});
+
 module.exports = router;
