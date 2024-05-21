@@ -715,11 +715,7 @@ async function sendRequests() {
       delivery_type: "dropship",
       order_item_ids: order_item_ids,
     };
-    const url = generateDarazURL(
-      "/order/rts",
-      "sad",
-      payload
-    );
+    const url = generateDarazURL("/order/rts", "sad", payload);
     // Send the request asynchronously
     return axios.post(url, payload);
   });
@@ -765,14 +761,12 @@ router.post("/rts", async (req, res) => {
 
   const seller_ids = Object.keys(rtsData);
   for (let s of seller_ids) {
-    const store = await prisma.store.findUnique({
-      where: {
-        seller_id: `${s}`,
-      },
-    });
+    // const store = await prisma.store.findUnique({
+    //   where: {
+    //     seller_id: `${s}`,
+    //   },
+    // });
     // const access_token = store.store_info.access_token;
-
-    rtsData[s].access_token = store.store_info.access_token;
 
     console.log("PRE-RTS LOG: ", {
       store: store.name,
