@@ -5,6 +5,11 @@ const prisma = new PrismaClient();
 const axios = require("axios");
 const dummy = require("./dummy");
 const { fulfillOrders } = require("../utils/shopifyActions");
+const Bottleneck = require("bottleneck");
+
+const limiter = new Bottleneck({
+  minTime: 500, // 500 ms between requests (2 req/sec)
+});
 
 // sed
 // Fulfill Orders
@@ -211,6 +216,39 @@ router.post("/webhook/orders_create", async (req, res) => {
 
 router.get("/webhook", async (req, res) => {
   res.status(200).json({ message: "Webhook received" });
+});
+
+
+
+
+
+router.get("/test", async (req, res) => {
+  // Send request to create an order in parrallels
+
+  // Wrap your function with the limiter
+  const createOrderThrottled = limiter.wrap(createOrder);
+
+  // Usage
+  const prices = [
+    100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200,
+  ]; // array of order data objects
+
+  prices.forEach((orderData, i) => {
+    createOrderThrottled(orderData, i);
+  });
+
+  res.status(200).json({ message: "DONE!" });
+});
+
+router.get("/cad", async (req, res) => {
+  res.status(200).json({
+    data: await prisma.darazOrders.findMany({
+      where: {
+        statuses: "canceled",
+      },
+      take: 50,
+    }),
+  });
 });
 
 module.exports = router;

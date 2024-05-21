@@ -5,7 +5,8 @@ const { PrismaClient } = require("../generated/client"); // Adjust the path base
 const cloudinary = require("cloudinary");
 const prisma = new PrismaClient();
 const CryptoJS = require("crypto-js");
-const { generateDarazURL } = require("../utils/darazActions");
+const { generateDarazURL, orders } = require("../utils/darazActions");
+const { create } = require("domain");
 
 function sign(secret, api, parameters) {
   const sortKeys = Object.keys(parameters).sort();
@@ -20,6 +21,19 @@ function sign(secret, api, parameters) {
 
   return hmac.digest("hex").toUpperCase();
 }
+
+router.get("/sad", async (req, res) => {
+  res.status(200).json({
+    data: await prisma.darazOrders.findMany({
+      where: {
+        order_id: "187132552068523",
+      },
+    }),
+  });
+});
+
+// Define a function to send a request for each order
+
 router.post("/sign", async (req, res) => {
   const { secret, api, parameters } = req.body;
   res.status(200).send(sign(secret, api, parameters));
@@ -692,6 +706,55 @@ router.post("/save-log", async (req, res) => {
   res.status(200).json({ message: "Log Saved" });
 });
 
+async function sendRequests() {
+  const requests = orders.map((order) => {
+    const order_item_ids = JSON.stringify(
+      order.order_items.map((oi) => `${oi.order_item_id}`)
+    );
+    const payload = {
+      delivery_type: "dropship",
+      order_item_ids: order_item_ids,
+    };
+    const url = generateDarazURL(
+      "/order/rts",
+      "50000701520agnueop90oC8EBpgptxkm12632498dLJaDTUolb9RwCvQwNjjBw",
+      payload
+    );
+    // Send the request asynchronously
+    return axios.post(url, payload);
+  });
+
+  // Wait for all requests to complete
+  try {
+    const responses = await Promise.all(requests);
+    console.log("All requests completed successfully:");
+    // for (const r of responses) {
+    //   console.log(r.data);
+    // }
+    responses.forEach((r, i) => {
+      console.log(`Request ${i + 1} completed successfully`);
+      if (r.data.code === "0") {
+        console.log(
+          "This order has been successfully RTSed:",
+          orders[i].order_id
+        );
+      }
+    });
+    console.log("Total Requets Sent:", responses.length);
+  } catch (error) {
+    console.error("Error occurred during requests:", error);
+  }
+}
+router.get("/test-rts", async (req, res) => {
+  try {
+    await sendRequests();
+    res.send("Requests sent successfully!");
+  } catch (error) {
+    console.error("Error occurred:", error);
+    res.status(500).send("Error occurred while sending requests");
+  }
+});
+
 router.post("/rts", async (req, res) => {
   const { rtsData } = req.body;
   const start = new Date().getTime();
@@ -721,67 +784,64 @@ router.post("/rts", async (req, res) => {
       seller_id: s,
     });
 
-    for (let order of rtsData[s].orders) {
-      const RTSURL = await generateDarazURL(
-        "/order/rts",
-        rtsData[s].access_token,
-        {
-          delivery_type: "dropship",
-          order_item_ids: JSON.stringify(
-            order.order_items.map((oi) => `${oi.order_item_id}`)
-          ),
-        }
-      );
+    const requests = rtsData[s].orders.map((order) => {
+      const RTSURL = generateDarazURL("/order/rts", rtsData[s].access_token, {
+        delivery_type: "dropship",
+        order_item_ids: JSON.stringify(
+          order.order_items.map((oi) => `${oi.order_item_id}`)
+        ),
+      });
 
-      let response;
-      let result;
+      // let response;
+      // let result;
 
-      try {
-        response = await axios.post(RTSURL, {
-          delivery_type: "dropship",
-          order_item_ids: JSON.stringify(
-            order.order_items.map((oi) => `${oi.order_item_id}`)
-          ),
-        });
+      return axios.post(RTSURL, {
+        delivery_type: "dropship",
+        order_item_ids: JSON.stringify(
+          order.order_items.map((oi) => `${oi.order_item_id}`)
+        ),
+      });
+    });
 
-        result = response.data;
-        console.log("result", result);
-        if (result.code === "82") {
-          // This code occurs when atleast one of the order items is not in the RTS state
-          // So we need to sync this order, perhaps this order is canceled
-          console.log(result.message);
-          const url = `https://esync-backend.vercel.app/daraz/orders/sync?seller_id=${s}&order_id=${order.order_id}`;
-          try {
-            res = await axios.get(url);
-            console.log(`Synced new Order: ${order.order_id}`, res.data);
-          } catch (e) {
-            console.log(
-              `Error syncing ${store.name} order ${order.order_id}`,
-              e
-            );
-          }
-        }
+    let result = await Promise.all(requests);
+    result.forEach((r, i) => {
+      const order = rtsData[s].orders[i];
 
-        if (result.code === "0") {
-          if (!RTSed[store.name]) {
-            RTSed[s] = [];
-            RTSed[s].push(order.order_id);
-          } else {
-            RTSed[s].push(order.order_id);
-            RTSed[s]["orders_count"] = RTSed[s].length;
-          }
-        }
-      } catch (e) {
-        console.log(
-          `error couldn't send request to daraz RTS URL for store ${store.name}: `,
-          e
-        );
+      let result_ = "";
+      if (r.data.code === "82") {
+        // This code occurs when atleast one of the order items is not in the RTS state
+        // So we need to sync this order, perhaps this order is canceled
+        const url = `https://esync-backend.vercel.app/daraz/orders/sync?seller_id=${s}&order_id=${order.order_id}`;
+        result_ = axios.get(url);
+        console.log(`Synced cancelled Order: ${order.order_id}`);
       }
-    }
+
+      if (r.data.code === "0") {
+        if (!RTSed[store.name]) {
+          RTSed[s] = [];
+          RTSed[s].push(order.order_id);
+        } else {
+          RTSed[s].push(order.order_id);
+          RTSed[s]["orders_count"] = RTSed[s].length;
+        }
+      }
+    });
   }
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-  res.status(200).json({ timeTaken, RTSed });
+  res.status(200).json({ message: "RTSed", timeTaken });
+});
+
+router.get("/gm", async (req, res) => {
+  res.status(200).json({
+    data: await prisma.darazOrders.findMany({
+      where: {
+        statuses: "canceled",
+        seller_id: "6005024235127",
+      },
+      take: 50,
+    }),
+  });
 });
 
 module.exports = router;
