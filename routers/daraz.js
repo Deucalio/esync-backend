@@ -717,7 +717,7 @@ async function sendRequests() {
     };
     const url = generateDarazURL(
       "/order/rts",
-      "50000701520agnueop90oC8EBpgptxkm12632498dLJaDTUolb9RwCvQwNjjBw",
+      "sad",
       payload
     );
     // Send the request asynchronously
