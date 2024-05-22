@@ -617,7 +617,7 @@ router.get("/orders/sync", async (req, res) => {
 
   const { access_token } = store.store_info;
 
-  const darazURL = await generateDarazURL("/order/get", access_token, {
+  const darazURL = generateDarazURL("/order/get", access_token, {
     order_id,
   });
 
@@ -634,7 +634,7 @@ router.get("/orders/sync", async (req, res) => {
 
   // Fetch its line items
   // Get its line items
-  const darazURL2 = await generateDarazURL("/order/items/get", access_token, {
+  const darazURL2 = generateDarazURL("/order/items/get", access_token, {
     order_id: order_id,
   });
 
@@ -647,6 +647,16 @@ router.get("/orders/sync", async (req, res) => {
   } catch (e) {
     console.log("error: ", e);
     return res.status(400).json({ message: "Could not get order items" });
+  }
+
+  if (statuses.includes("returned")) {
+    // Save to Temporary Data
+    await prisma.temporaryData.create({
+      data: {
+        email: "return@gmail.com",
+        data: fetched_order,
+      }
+    })
   }
 
   const updatedFields = {
