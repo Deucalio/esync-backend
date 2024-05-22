@@ -769,7 +769,7 @@ router.post("/rts", async (req, res) => {
     // const access_token = store.store_info.access_token;
 
     console.log("PRE-RTS LOG: ", {
-      store: store.name,
+      store: s,
       orders_ids: rtsData[s].orders.map((o) => o.order_id),
       order_items_ids: rtsData[s].orders.map((o) =>
         o.order_items.map((oi) => oi.order_item_id)
