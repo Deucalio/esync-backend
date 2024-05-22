@@ -761,6 +761,13 @@ router.post("/rts", async (req, res) => {
 
   const seller_ids = Object.keys(rtsData);
   for (let s of seller_ids) {
+    const store = rtsData[s].store_name;
+
+    RTSed[store] = {
+      rts_orders: { count: 0, data: [] },
+      cancelled_orders: { count: 0, data: [] },
+    };
+
     // const store = await prisma.store.findUnique({
     //   where: {
     //     seller_id: `${s}`,
@@ -769,8 +776,8 @@ router.post("/rts", async (req, res) => {
     // const access_token = store.store_info.access_token;
 
     console.log("PRE-RTS LOG: ", {
+      store: s,
       orders_count: rtsData[s].orders.length,
-      seller_id: s,
     });
 
     const requests = rtsData[s].orders.map((order) => {
@@ -803,16 +810,38 @@ router.post("/rts", async (req, res) => {
         const url = `https://esync-backend.vercel.app/daraz/orders/sync?seller_id=${s}&order_id=${order.order_id}`;
         result_ = axios.get(url);
         console.log(`Synced cancelled Order: ${order.order_id}`);
+
+        RTSed[store].cancelled_orders.data.push(order.order_id);
+        RTSed[store].cancelled_orders.count =
+          RTSed[store].cancelled_orders.data.length;
       }
 
       if (r.data.code === "0") {
-        if (!RTSed[s]) {
-          RTSed[s] = [];
-          RTSed[s].push(order.order_id);
-        } else {
-          RTSed[s].push(order.order_id);
-          RTSed[s]["orders_count"] = RTSed[s].length;
-        }
+        RTSed[store].rts_orders.data.push(order.order_id);
+        RTSed[store].rts_orders.count = RTSed[store].rts_orders.data.length;
+      }
+
+      // if (!RTSed[store]) {
+      //   RTSed[store] = [];
+      //   RTSed[store].push(order.order_id);
+      // } else {
+      //   RTSed[store].push(order.order_id);
+      //   RTSed[store]["orders_count"] = RTSed[s].length;
+      // }
+
+      if (i === result.length - 1 && s === seller_ids[seller_ids.length - 1]) {
+        // Add to db
+        prisma.temporaryData
+          .create({
+            data: {
+              email: "idk@gmail.com",
+              data: RTSed,
+            },
+          })
+          .then((a) => {
+            console.log("Added to DB: ", a);
+          });
+        console.log("RTSed: ", RTSed);
       }
     });
   }
