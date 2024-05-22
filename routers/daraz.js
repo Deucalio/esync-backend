@@ -845,16 +845,16 @@ router.post("/rts", async (req, res) => {
   res.status(200).json({ message: "RTSed", timeTaken });
 });
 
-router.get("/gm", async (req, res) => {
-  res.status(200).json({
-    data: await prisma.darazOrders.findMany({
-      where: {
-        statuses: "canceled",
-        seller_id: "6005024235127",
-      },
-      take: 50,
-    }),
+router.get("/order/:id", async (req, res) => {
+  const order_id = req.params.id;
+
+  const order = await prisma.darazOrders.findUnique({
+    where: {
+      order_id: order_id,
+    },
   });
+
+  res.status(200).json({ order: order });
 });
 
 module.exports = router;
