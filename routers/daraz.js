@@ -649,7 +649,7 @@ router.get("/orders/sync", async (req, res) => {
     return res.status(400).json({ message: "Could not get order items" });
   }
 
-  if (statuses.includes("returned")) {
+  if (fetched_order.statuses.includes("returned")) {
     // Save to Temporary Data
     await prisma.temporaryData.create({
       data: {
