@@ -811,7 +811,7 @@ router.post("/rts", async (req, res) => {
       }
 
       if (r.data.code === "0") {
-        if (!RTSed[store.name]) {
+        if (!RTSed[s]) {
           RTSed[s] = [];
           RTSed[s].push(order.order_id);
         } else {
