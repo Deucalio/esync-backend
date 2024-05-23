@@ -42,7 +42,8 @@ function sign(secret, api, parameters) {
 
 const generateDarazURL = (apiPath, accessToken, params) => {
   // Generate the Sign First
-  const timestamp = getTimeStamp();
+  // const timestamp = getTimeStamp();
+  const timestamp = 1716465103544;
   const AppKey = "501634";
   // const config = {
   //   method: "post",

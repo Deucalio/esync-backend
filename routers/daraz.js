@@ -505,7 +505,7 @@ router.get("/orders/add-new-order", async (req, res) => {
 
   const { access_token } = store.store_info;
 
-  const darazURL = await generateDarazURL("/order/get", access_token, {
+  const darazURL = generateDarazURL("/order/get", access_token, {
     order_id,
   });
 
@@ -655,8 +655,8 @@ router.get("/orders/sync", async (req, res) => {
       data: {
         email: "return@gmail.com",
         data: fetched_order,
-      }
-    })
+      },
+    });
   }
 
   const updatedFields = {
@@ -855,6 +855,17 @@ router.post("/rts", async (req, res) => {
   res.status(200).json({ message: "RTSed", timeTaken });
 });
 
+router.post("/save-rts", async (req, res) => {
+  const { RTSed } = req.body;
+  const add = await prisma.temporaryData.create({
+    data: {
+      email: "rtsed@gmail.com",
+      data: RTSed,
+    },
+  });
+  res.status(200).json({ add });
+});
+
 router.get("/order/:id", async (req, res) => {
   const order_id = req.params.id;
 
@@ -866,5 +877,61 @@ router.get("/order/:id", async (req, res) => {
 
   res.status(200).json({ order: order });
 });
+
+router.post("/shipping-labels", async (req, res) => {
+  const { email, order_items } = req.body;
+  const start = new Date().getTime();
+  const urls = [];
+
+  // order_items = {"seller_id": {orders_item_ids: [], store_name: "sad"}}
+
+  const seller_ids = Object.keys(order_items);
+
+  for (let s of seller_ids) {
+    const store = await prisma.store.findUnique({
+      where: {
+        seller_id: s,
+      },
+    });
+
+    const access_token = store.store_info.access_token;
+    order_items[s].access_token = access_token;
+  }
+
+  const requests = seller_ids.map((s) => {
+    const url = generateDarazURL(
+      "/order/document/awb/pdf/get",
+      order_items[s].access_token,
+      {
+        order_item_ids: JSON.stringify(order_items[s].orders_item_ids),
+      }
+    );
+
+    return axios.post(url, {
+      order_item_ids: JSON.stringify(order_items[s].orders_item_ids),
+    });
+  });
+  let result = await Promise.all(requests);
+  // for (let r of results)
+  for (let i = 0; i < result.length; i++) {
+    const r = result[i];
+    console.log("r", r.data);
+    if (r.data.code === "0") {
+      console.log(
+        "Shipping Label Generated for Store ",
+        order_items[seller_ids[i]].store_name
+      );
+      const url = atob(r.data.data.document.file);
+      console.log("Shipping Label URL: ", url);
+    }
+  }
+
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  res.status(200).json({ timeTaken, message: "Done" });
+});
+
+
 
 module.exports = router;
