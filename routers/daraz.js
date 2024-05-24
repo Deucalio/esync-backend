@@ -767,7 +767,7 @@ router.post("/rts", async (req, res) => {
 
   let result = "";
 
-  const promises__ = [];
+  const allRequests = [];
 
   const RTSed = {};
 
@@ -809,20 +809,26 @@ router.post("/rts", async (req, res) => {
     });
 
     result = await Promise.all(requests);
-    // promises__.push(result);
     result.map((r, i) => {
-      const order = rtsData[s].orders[i];
-      if (r.data.code === "0") {
-        RTSed[store].rts_orders.data.push(order.order_id);
-        RTSed[store].rts_orders.count = RTSed[store].rts_orders.data.length;
-        RTSed[store].seller_id = s;
-      } else {
-        RTSed[store].seller_id = s;
-        RTSed[store].cancelled_orders.data.push(order.order_id);
-        RTSed[store].cancelled_orders.count =
-          RTSed[store].cancelled_orders.data.length;
-      }
+      allRequests.push({
+        code: r.code,
+        data: r.data,
+      });
     });
+    // promises__.push(result);
+    // result.map((r, i) => {
+    //   const order = rtsData[s].orders[i];
+    //   if (r.data.code === "0") {
+    //     RTSed[store].rts_orders.data.push(order.order_id);
+    //     RTSed[store].rts_orders.count = RTSed[store].rts_orders.data.length;
+    //     RTSed[store].seller_id = s;
+    //   } else {
+    //     RTSed[store].seller_id = s;
+    //     RTSed[store].cancelled_orders.data.push(order.order_id);
+    //     RTSed[store].cancelled_orders.count =
+    //       RTSed[store].cancelled_orders.data.length;
+    //   }
+    // });
     // result.forEach(async (r, i) => {
     //   const order = rtsData[s].orders[i];
 
@@ -871,7 +877,8 @@ router.post("/rts", async (req, res) => {
   }
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-  res.status(200).json({ message: "RTSed", timeTaken, RTSed });
+  console.log("allRequests", allRequests);
+  res.status(200).json({ message: "RTSed", timeTaken, allRequests });
 });
 
 router.post("/save-rts", async (req, res) => {
