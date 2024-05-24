@@ -778,8 +778,8 @@ router.post("/rts", async (req, res) => {
     const store = rtsData[s].store_name;
 
     RTSed[s] = {
-      rts_orders: { count: 0, data: [] },
-      cancelled_orders: { count: 0, data: [] },
+      rts_orders: { count: 0, data: [], store_name: store },
+      cancelled_orders: { count: 0, data: [], store_name: store },
     };
 
     // const store = await prisma.store.findUnique({
