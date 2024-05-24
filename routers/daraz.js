@@ -805,55 +805,10 @@ router.post("/rts", async (req, res) => {
     });
 
     let result = await Promise.all(requests);
-    result.forEach(async (r, i) => {
-      const order = rtsData[s].orders[i];
-
-      let result_ = "";
-      if (r.data.code === "82") {
-        // This code occurs when atleast one of the order items is not in the RTS state
-        // So we need to sync this order, perhaps this order is canceled
-        const url = `https://esync-backend.vercel.app/daraz/orders/sync?seller_id=${s}&order_id=${order.order_id}`;
-        result_ = await axios.get(url);
-        console.log(`Synced cancelled Order: ${order.order_id}`);
-
-        RTSed[store].cancelled_orders.data.push(order.order_id);
-        RTSed[store].cancelled_orders.count =
-          RTSed[store].cancelled_orders.data.length;
-      }
-
-      if (r.data.code === "0") {
-        RTSed[store].rts_orders.data.push(order.order_id);
-        RTSed[store].rts_orders.count = RTSed[store].rts_orders.data.length;
-      }
-
-      // if (!RTSed[store]) {
-      //   RTSed[store] = [];
-      //   RTSed[store].push(order.order_id);
-      // } else {
-      //   RTSed[store].push(order.order_id);
-      //   RTSed[store]["orders_count"] = RTSed[s].length;
-      // }
-
-      if (i === result.length - 1 && s === seller_ids[seller_ids.length - 1]) {
-        // Add to db
-        RTSed.timeTaken = (new Date().getTime() - start) / 1000;
-        prisma.temporaryData
-          .create({
-            data: {
-              email: "RTSed@gmail.com",
-              data: RTSed,
-            },
-          })
-          .then((a) => {
-            console.log("Added to DB: ", a);
-          });
-        console.log("RTSed: ", RTSed);
-      }
-    });
   }
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-  res.status(200).json({ message: "RTSed", timeTaken });
+  res.status(200).json({ message: "RTSed", timeTaken, reuslt });
 });
 
 router.post("/save-rts", async (req, res) => {
