@@ -878,7 +878,7 @@ router.post("/rts", async (req, res) => {
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
   console.log("allRequests", allRequests);
-  res.status(200).json({ message: "RTSed", timeTaken, allRequests });
+  res.status(200).json({ message: "RTSed", timeTaken, allRequests, RTSed });
 });
 
 router.post("/save-rts", async (req, res) => {
