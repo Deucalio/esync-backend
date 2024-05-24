@@ -777,7 +777,7 @@ router.post("/rts", async (req, res) => {
   for (let s of seller_ids) {
     const store = rtsData[s].store_name;
 
-    RTSed[store] = {
+    RTSed[s] = {
       rts_orders: { count: 0, data: [] },
       cancelled_orders: { count: 0, data: [] },
     };
