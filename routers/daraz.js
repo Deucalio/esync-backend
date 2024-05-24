@@ -765,6 +765,8 @@ router.post("/rts", async (req, res) => {
   const { rtsData } = req.body;
   const start = new Date().getTime();
 
+  let result = "";
+
   const RTSed = {};
 
   // {"124214124":  {orders: [], access_token: ""}, "2222": {orders: [], access_token: ""}}
@@ -804,7 +806,7 @@ router.post("/rts", async (req, res) => {
       });
     });
 
-    let result = await Promise.all(requests);
+    result = await Promise.all(requests);
     // result.forEach(async (r, i) => {
     //   const order = rtsData[s].orders[i];
 
@@ -853,7 +855,7 @@ router.post("/rts", async (req, res) => {
   }
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-  res.status(200).json({ message: "RTSed", timeTaken, result});
+  res.status(200).json({ message: "RTSed", timeTaken, result });
 });
 
 router.post("/save-rts", async (req, res) => {
