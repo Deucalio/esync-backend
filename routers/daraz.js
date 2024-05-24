@@ -767,7 +767,7 @@ router.post("/rts", async (req, res) => {
 
   let result = "";
 
-  const responses = [];
+  const promises = [];
 
   const RTSed = {};
 
