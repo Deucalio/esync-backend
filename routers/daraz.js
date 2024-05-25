@@ -664,6 +664,7 @@ router.get("/orders/sync", async (req, res) => {
     order_items: orderItems,
     updated_at: new Date(fetched_order.updated_at).toISOString(),
   };
+  console.log("updated_at", fetched_order.updated_at);
   let orderUpdated = "";
   try {
     orderUpdated = await prisma.darazOrders.update({
@@ -716,51 +717,6 @@ router.post("/save-log", async (req, res) => {
   res.status(200).json({ message: "Log Saved" });
 });
 
-async function sendRequests() {
-  const requests = orders.map((order) => {
-    const order_item_ids = JSON.stringify(
-      order.order_items.map((oi) => `${oi.order_item_id}`)
-    );
-    const payload = {
-      delivery_type: "dropship",
-      order_item_ids: order_item_ids,
-    };
-    const url = generateDarazURL("/order/rts", "sad", payload);
-    // Send the request asynchronously
-    return axios.post(url, payload);
-  });
-
-  // Wait for all requests to complete
-  try {
-    const responses = await Promise.all(requests);
-    console.log("All requests completed successfully:");
-    // for (const r of responses) {
-    //   console.log(r.data);
-    // }
-    responses.forEach((r, i) => {
-      console.log(`Request ${i + 1} completed successfully`);
-      if (r.data.code === "0") {
-        console.log(
-          "This order has been successfully RTSed:",
-          orders[i].order_id
-        );
-      }
-    });
-    console.log("Total Requets Sent:", responses.length);
-  } catch (error) {
-    console.error("Error occurred during requests:", error);
-  }
-}
-router.get("/test-rts", async (req, res) => {
-  try {
-    await sendRequests();
-    res.send("Requests sent successfully!");
-  } catch (error) {
-    console.error("Error occurred:", error);
-    res.status(500).send("Error occurred while sending requests");
-  }
-});
-
 router.post("/rts", async (req, res) => {
   const { rtsData } = req.body;
   const start = new Date().getTime();
@@ -770,6 +726,7 @@ router.post("/rts", async (req, res) => {
   const allRequests = [];
 
   const RTSed = {};
+  const shipping_label_data = {};
 
   // {"124214124":  {orders: [], access_token: ""}, "2222": {orders: [], access_token: ""}}
 
@@ -778,8 +735,15 @@ router.post("/rts", async (req, res) => {
     const store = rtsData[s].store_name;
 
     RTSed[s] = {
-      rts_orders: { count: 0, data: [], store_name: store },
+      rts_orders: { count: 0, data: [], order_item_ids: [], store_name: store },
       cancelled_orders: { count: 0, data: [], store_name: store },
+    };
+
+    shipping_label_data[s] = {
+      seller_id: s,
+      store_name: store,
+      order_item_ids: [],
+      access_token: "",
     };
 
     // const store = await prisma.store.findUnique({
@@ -811,8 +775,12 @@ router.post("/rts", async (req, res) => {
     result = await Promise.all(requests);
     result.map((r, i) => {
       allRequests.push({
-        code: r.code,
         data: r.data,
+        order_id: rtsData[s].orders[i].order_id,
+        order_item_ids: rtsData[s].orders[i].order_items.map(
+          (oi) => oi.order_item_id
+        ),
+        seller_id: s,
       });
     });
     // promises__.push(result);
@@ -877,8 +845,13 @@ router.post("/rts", async (req, res) => {
   }
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-  console.log("allRequests", allRequests);
-  res.status(200).json({ message: "RTSed", timeTaken, allRequests, RTSed });
+  res.status(200).json({
+    message: "RTSed",
+    timeTaken,
+    allRequests,
+    RTSed,
+    shipping_label_data,
+  });
 });
 
 router.post("/save-rts", async (req, res) => {
@@ -905,57 +878,54 @@ router.get("/order/:id", async (req, res) => {
 });
 
 router.post("/shipping-labels", async (req, res) => {
-  const { email, order_items } = req.body;
+  const { email, data } = req.body;
+
+  // If data object is empty, return
+  if (Object.keys(data).length === 0) {
+    return res.status(200).json({ message: "No Orders to Process" });
+  }
+
+  // data = {seller_id: {store_name: "", order_item_ids: [], access_token: ""} }
+
   const start = new Date().getTime();
   const urls = [];
 
-  // order_items = {"seller_id": {orders_item_ids: [], store_name: "sad"}}
-
-  const seller_ids = Object.keys(order_items);
-
-  for (let s of seller_ids) {
+  const seller_ids = Object.keys(data);
+  const requests = seller_ids.map(async (s) => {
+    const order_items_ids = data[s].order_item_ids.map((oi) => oi[0]);
     const store = await prisma.store.findUnique({
       where: {
         seller_id: s,
       },
     });
+    data[s].store_name = store.name;
+    data[s].access_token = store.store_info.access_token;
 
-    const access_token = store.store_info.access_token;
-    order_items[s].access_token = access_token;
-  }
+    console.log(`order_items_ids: ${store.name}`, order_items_ids);
 
-  const requests = seller_ids.map((s) => {
     const url = generateDarazURL(
       "/order/document/awb/pdf/get",
-      order_items[s].access_token,
+      data[s].access_token,
       {
-        order_item_ids: JSON.stringify(order_items[s].orders_item_ids),
+        order_item_ids: JSON.stringify(order_items_ids),
       }
     );
 
     return axios.post(url, {
-      order_item_ids: JSON.stringify(order_items[s].orders_item_ids),
+      order_item_ids: JSON.stringify(order_items_ids),
     });
   });
   let result = await Promise.all(requests);
-  // for (let r of results)
-  for (let i = 0; i < result.length; i++) {
-    const r = result[i];
-    console.log("r", r.data);
-    if (r.data.code === "0") {
-      console.log(
-        "Shipping Label Generated for Store ",
-        order_items[seller_ids[i]].store_name
-      );
-      const url = atob(r.data.data.document.file);
-      console.log("Shipping Label URL: ", url);
-    }
-  }
+  result.map((r, i) => {
+    urls.push({
+      data: r.data,
+    });
+  });
 
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
-  res.status(200).json({ timeTaken, message: "Done" });
+  res.status(200).json({ timeTaken, message: "Done", urls: urls });
 });
 
 module.exports = router;
