@@ -893,6 +893,7 @@ router.post("/shipping-labels", async (req, res) => {
   const seller_ids = Object.keys(data);
   const requests = seller_ids.map(async (s) => {
     const order_items_ids = data[s].order_item_ids.map((oi) => oi[0]);
+
     const store = await prisma.store.findUnique({
       where: {
         seller_id: s,
@@ -901,7 +902,10 @@ router.post("/shipping-labels", async (req, res) => {
     data[s].store_name = store.name;
     data[s].access_token = store.store_info.access_token;
 
-    console.log(`order_items_ids: ${store.name}`, order_items_ids);
+    console.log(
+      `data[s].order_item_ids: ${store.name}`,
+      data[s].order_item_ids
+    );
 
     const url = generateDarazURL(
       "/order/document/awb/pdf/get",
@@ -919,6 +923,8 @@ router.post("/shipping-labels", async (req, res) => {
   result.map((r, i) => {
     urls.push({
       data: r.data,
+      store_name: data[seller_ids[i]].store_name,
+      numberOfOrders: data[seller_ids[i]].order_item_ids.length,
     });
   });
 
