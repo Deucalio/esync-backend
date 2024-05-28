@@ -960,7 +960,6 @@ router.get("/orders", async (req, res) => {
 
 router.post("/pack", async (req, res) => {
   const { pack_data } = req.body;
-  console.log("pack_data: ", pack_data);
 
   // pack_data = { [seller_id] :  {order_ids: [], order_item_ids: []}, store_name: "sad", access_token: "sad" }  }
   const sads = [];
@@ -1022,7 +1021,6 @@ router.post("/pack", async (req, res) => {
 
     for (let r of result_) {
       if (r.data.code === "0") {
-        console.log("r.data.result.data", r.data.result.data)
         const pack_order_list = r.data.result.data.pack_order_list[0];
         const packed_order_id = pack_order_list.order_id;
         const package_id = pack_order_list.order_item_list[0].package_id;
@@ -1061,8 +1059,6 @@ router.post("/pack", async (req, res) => {
   //   });
   // });
 
-  console.log("response: ", response);
-
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
@@ -1070,15 +1066,87 @@ router.post("/pack", async (req, res) => {
 });
 
 router.post("/ready-to-ship", async (req, res) => {
-  const { packages } = req.body;
+  const { rtsData } = req.body;
+
+  const rtsResponses = {};
+  //  {shop: "", package_ids: [], failed: [], order_ids: [], access_token: ""}
+
+  // rtsData = {
+  //   BulkSource: {
+  //     package_ids: ["FP007211164578982"],
+  //     failed: [],
+  //     order_ids: [186897231312264],
+  //     access_token:
+  //       "50000600740bIxLfV8MFQ3rQbAzFtloqhzseXEixhkzucJgtcFnu1239eeaer",
+  //   },
+  //   "Deepsea Life Sciences": {
+  //     package_ids: ["FP069911164619602"],
+  //     failed: [],
+  //     order_ids: [187529356791867],
+  //     access_token:
+  //       "50000901a10jXhsqhAgCQB1434ada5lSWGKmSpvIVxFDyCrQdNOZPtOxhSSIWb",
+  //   },
+  //   MomDaughts: {
+  //     package_ids: ["FP075811164604505"],
+  //     failed: [],
+  //     order_ids: [186888687224246],
+  //     access_token:
+  //       "50000700630pHiqMkqgq9NXPQZB3hxkopbUTC9DFyi10608ffalU1EHFKEta6t",
+  //   },
+  // };
+  const start = new Date().getTime();
+
+  const shops = Object.keys(rtsData);
+
+  for (let s of shops) {
+    const package_ids = rtsData[s].package_ids;
+
+    rtsResponses[s] = {
+      shop: s,
+      package_ids: [],
+      failed: [],
+      order_ids: [],
+      access_token: rtsData[s].access_token,
+    };
+
+    // const rtsbody = { packages: [{ package_id: "FP038524014" }] };
+    const rtsBody = {
+      packages: package_ids.map((package_id) => ({ package_id })),
+    };
+
+    const requests = package_ids.map((package_id) => {
+      const rtsURL = generateDarazURL(
+        "/order/package/rts",
+        rtsData[s].access_token,
+        {
+          readyToShipReq: JSON.stringify(rtsBody),
+        }
+      );
+
+      return axios.post(rtsURL, {
+        readyToShipReq: JSON.stringify(rtsBody),
+      });
+    });
+
+    const result_ = await Promise.all(requests);
+    let i = 0;
+    for (let r of result_) {
+      if (r.data.result.success === true) {
+        console.log("r", r.data.result.data.packages);
+        rtsResponses[s].package_ids.push(
+          r.data.result.data.packages[i].package_id
+        );
+      }
+      i += 1;
+    }
+    // rtsData[s].result = result;
+  }
 
   // const rtsbody = { packages: [{ package_id: "FP038524014" }] };
 
-  const start = new Date().getTime();
-
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
-  res.status(200).json({ timeTaken });
+  res.status(200).json({ timeTaken, RTSED: rtsResponses });
 });
 
 module.exports = router;
