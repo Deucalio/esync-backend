@@ -889,23 +889,24 @@ router.post("/shipping-labels", async (req, res) => {
 
   const start = new Date().getTime();
   const urls = [];
+  let store = "";
 
   const seller_ids = Object.keys(data);
   const requests = seller_ids.map(async (s) => {
     const order_items_ids = data[s].order_item_ids.map((oi) => oi[0]);
 
-    const store = await prisma.store.findUnique({
-      where: {
-        seller_id: s,
-      },
-    });
+    // console.log("order_item_ids", order_items_ids);
+
+    if (!data[s].access_token) {
+      store = await prisma.store.findUnique({
+        where: {
+          seller_id: s,
+        },
+      });
+    }
+
     data[s].store_name = store.name;
     data[s].access_token = store.store_info.access_token;
-
-    console.log(
-      `data[s].order_item_ids: ${store.name}`,
-      data[s].order_item_ids
-    );
 
     const url = generateDarazURL(
       "/order/document/awb/pdf/get",
@@ -955,6 +956,109 @@ router.get("/orders", async (req, res) => {
   });
 
   res.status(200).json({ orders });
+});
+
+router.post("/pack", async (req, res) => {
+  const { pack_data } = req.body;
+  console.log("pack_data: ", pack_data);
+
+  // pack_data = { [seller_id] :  {order_ids: [], order_item_ids: []}, store_name: "sad", access_token: "sad" }  }
+  const sads = [];
+
+  const response = {};
+
+  const start = new Date().getTime();
+  // const packReq = {
+  //   pack_order_list: [
+  //     {
+  //       order_item_list: [186889420966175, 186889421066175, 186889421166175],
+  //       order_id: 186889420866175,
+  //     },
+  //   ],
+  //   delivery_type: "dropship",
+  //   shipment_provider_code: "FM50",
+  //   shipping_allocate_type: "TFS",
+  // };
+
+  const seller_ids = Object.keys(pack_data);
+
+  // seller_ids.map(async (s) => {
+  for (let s of seller_ids) {
+    const requests = pack_data[s].order_ids.map((order_id, index) => {
+      const order_items_ids = pack_data[s].order_item_ids[index];
+      const packReq = {
+        pack_order_list: [
+          {
+            order_item_list: order_items_ids,
+            order_id: order_id,
+          },
+        ],
+        delivery_type: "dropship",
+        shipment_provider_code: "FM50",
+        shipping_allocate_type: "TFS",
+      };
+
+      const url = generateDarazURL(
+        "/order/fulfill/pack",
+        pack_data[s].access_token,
+        {
+          packReq: JSON.stringify(packReq),
+        }
+      );
+
+      return axios.post(url, {
+        packReq: JSON.stringify(packReq),
+      });
+    });
+
+    response[pack_data[s].store_name] = {
+      packed: [],
+      failed: [],
+    };
+
+    let result_ = await Promise.all(requests);
+
+    for (let r of result_) {
+      if (r.data.code === "0") {
+        response[pack_data[s].store_name].packed.push(r.data);
+      } else {
+        response[pack_data[s].store_name].failed.push(r.data);
+      }
+    }
+  }
+  // const requests = order_ids.map((order_id, index) => {
+  //   const order_items_ids = order_item_ids[index];
+  //   const packReq = {
+  //     pack_order_list: [
+  //       {
+  //         order_item_list: order_items_ids,
+  //         order_id: order_id,
+  //       },
+  //     ],
+  //     delivery_type: "dropship",
+  //     shipment_provider_code: "FM50",
+  //     shipping_allocate_type: "TFS",
+  //   };
+
+  //   const url = generateDarazURL(
+  //     "/order/fulfill/pack",
+  //     "50000901a10jXhsqhAgCQB1434ada5lSWGKmSpvIVxFDyCrQdNOZPtOxhSSIWb",
+  //     {
+  //       packReq: JSON.stringify(packReq),
+  //     }
+  //   );
+
+  //   return axios.post(url, {
+  //     packReq: JSON.stringify(packReq),
+  //   });
+  // });
+
+  console.log("response: ", response);
+
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  res.status(200).json({ timeTaken, response });
 });
 
 module.exports = router;
