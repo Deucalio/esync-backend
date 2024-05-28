@@ -664,7 +664,7 @@ router.get("/orders/sync", async (req, res) => {
     order_items: orderItems,
     updated_at: new Date(fetched_order.updated_at).toISOString(),
   };
-  console.log("updated_at", fetched_order.updated_at);
+  console.log("order_id", order_id);
   let orderUpdated = "";
   try {
     orderUpdated = await prisma.darazOrders.update({
@@ -1059,6 +1059,18 @@ router.post("/pack", async (req, res) => {
   const timeTaken = (end - start) / 1000;
 
   res.status(200).json({ timeTaken, response });
+});
+
+router.post("/ready-to-ship", async (req, res) => {
+  const { packages } = req.body;
+
+  // const rtsbody = { packages: [{ package_id: "FP038524014" }] };
+
+  const start = new Date().getTime();
+
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+  res.status(200).json({ timeTaken });
 });
 
 module.exports = router;
