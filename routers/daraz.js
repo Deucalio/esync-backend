@@ -934,4 +934,27 @@ router.post("/shipping-labels", async (req, res) => {
   res.status(200).json({ timeTaken, message: "Done", urls: urls });
 });
 
+router.get("/orders", async (req, res) => {
+  // SELECT * FROM "DarazOrders" WHERE order_id in ('213123', '123123', '123123')
+
+  let { order_ids } = req.query; //111,22
+
+  // Convert to string
+  order_ids = order_ids.split(",");
+
+  if (!order_ids) {
+    return res.status(400).json({ message: "No Order IDs Provided" });
+  }
+
+  const orders = await prisma.darazOrders.findMany({
+    where: {
+      order_id: {
+        in: order_ids,
+      },
+    },
+  });
+
+  res.status(200).json({ orders });
+});
+
 module.exports = router;
