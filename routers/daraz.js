@@ -1012,15 +1012,22 @@ router.post("/pack", async (req, res) => {
     });
 
     response[pack_data[s].store_name] = {
-      packed: [],
+      package_ids: [],
       failed: [],
+      order_ids: [],
+      access_token: pack_data[s].access_token,
     };
 
     let result_ = await Promise.all(requests);
 
     for (let r of result_) {
       if (r.data.code === "0") {
-        response[pack_data[s].store_name].packed.push(r.data);
+        const pack_order_list = r.data.result.data.pack_order_list;
+        const packed_order_id = pack_order_list.order_id;
+        const package_id = pack_order_list.order_item_list[0].package_id;
+
+        response[pack_data[s].store_name].package_ids.push(package_id);
+        response[pack_data[s].store_name].order_ids.push(packed_order_id);
       } else {
         response[pack_data[s].store_name].failed.push(r.data);
       }
