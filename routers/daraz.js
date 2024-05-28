@@ -1022,7 +1022,8 @@ router.post("/pack", async (req, res) => {
 
     for (let r of result_) {
       if (r.data.code === "0") {
-        const pack_order_list = r.data.result.data.pack_order_list;
+        console.log("r.data.result.data", r.data.result.data)
+        const pack_order_list = r.data.result.data.pack_order_list[0];
         const packed_order_id = pack_order_list.order_id;
         const package_id = pack_order_list.order_item_list[0].package_id;
 
