@@ -877,64 +877,6 @@ router.get("/order/:id", async (req, res) => {
   res.status(200).json({ order: order });
 });
 
-router.post("/shipping-labels", async (req, res) => {
-  const { email, data } = req.body;
-
-  // If data object is empty, return
-  if (Object.keys(data).length === 0) {
-    return res.status(200).json({ message: "No Orders to Process" });
-  }
-
-  // data = {seller_id: {store_name: "", order_item_ids: [], access_token: ""} }
-
-  const start = new Date().getTime();
-  const urls = [];
-  let store = "";
-
-  const seller_ids = Object.keys(data);
-  const requests = seller_ids.map(async (s) => {
-    const order_items_ids = data[s].order_item_ids.map((oi) => oi[0]);
-
-    // console.log("order_item_ids", order_items_ids);
-
-    if (!data[s].access_token) {
-      store = await prisma.store.findUnique({
-        where: {
-          seller_id: s,
-        },
-      });
-    }
-
-    data[s].store_name = store.name;
-    data[s].access_token = store.store_info.access_token;
-
-    const url = generateDarazURL(
-      "/order/document/awb/pdf/get",
-      data[s].access_token,
-      {
-        order_item_ids: JSON.stringify(order_items_ids),
-      }
-    );
-
-    return axios.post(url, {
-      order_item_ids: JSON.stringify(order_items_ids),
-    });
-  });
-  let result = await Promise.all(requests);
-  result.map((r, i) => {
-    urls.push({
-      data: r.data,
-      store_name: data[seller_ids[i]].store_name,
-      numberOfOrders: data[seller_ids[i]].order_item_ids.length,
-    });
-  });
-
-  const end = new Date().getTime();
-  const timeTaken = (end - start) / 1000;
-
-  res.status(200).json({ timeTaken, message: "Done", urls: urls });
-});
-
 router.get("/orders", async (req, res) => {
   // SELECT * FROM "DarazOrders" WHERE order_id in ('213123', '123123', '123123')
 
@@ -1018,7 +960,6 @@ router.post("/pack", async (req, res) => {
     };
 
     let result_ = await Promise.all(requests);
-
     for (let r of result_) {
       if (r.data.code === "0") {
         const pack_order_list = r.data.result.data.pack_order_list[0];
@@ -1071,27 +1012,13 @@ router.post("/ready-to-ship", async (req, res) => {
   const rtsResponses = {};
   //  {shop: "", package_ids: [], failed: [], order_ids: [], access_token: ""}
 
-  // rtsData = {
+  // const rtsData = {
   //   BulkSource: {
-  //     package_ids: ["FP007211164578982"],
-  //     failed: [],
-  //     order_ids: [186897231312264],
+  //  20 packages_ids per array
+  //     package_ids: [ [1,2,3....20], [21,22,23....40] ],
+  //     order_ids: [[1,2,3....20], [21,22,23....40]],
   //     access_token:
   //       "50000600740bIxLfV8MFQ3rQbAzFtloqhzseXEixhkzucJgtcFnu1239eeaer",
-  //   },
-  //   "Deepsea Life Sciences": {
-  //     package_ids: ["FP069911164619602"],
-  //     failed: [],
-  //     order_ids: [187529356791867],
-  //     access_token:
-  //       "50000901a10jXhsqhAgCQB1434ada5lSWGKmSpvIVxFDyCrQdNOZPtOxhSSIWb",
-  //   },
-  //   MomDaughts: {
-  //     package_ids: ["FP075811164604505"],
-  //     failed: [],
-  //     order_ids: [186888687224246],
-  //     access_token:
-  //       "50000700630pHiqMkqgq9NXPQZB3hxkopbUTC9DFyi10608ffalU1EHFKEta6t",
   //   },
   // };
   const start = new Date().getTime();
@@ -1099,8 +1026,6 @@ router.post("/ready-to-ship", async (req, res) => {
   const shops = Object.keys(rtsData);
 
   for (let s of shops) {
-    const package_ids = rtsData[s].package_ids;
-
     rtsResponses[s] = {
       shop: s,
       package_ids: [],
@@ -1110,11 +1035,14 @@ router.post("/ready-to-ship", async (req, res) => {
     };
 
     // const rtsbody = { packages: [{ package_id: "FP038524014" }] };
-    const rtsBody = {
-      packages: package_ids.map((package_id) => ({ package_id })),
-    };
 
-    const requests = package_ids.map((package_id) => {
+    const requests = rtsData[s].package_ids.map((package_ids_arr, i) => {
+      const rtsBody = {
+        packages: package_ids_arr.map((package_id) => ({ package_id })),
+      };
+
+      console.log(`rtsBody: ${i}`, rtsBody);
+
       const rtsURL = generateDarazURL(
         "/order/package/rts",
         rtsData[s].access_token,
@@ -1132,21 +1060,274 @@ router.post("/ready-to-ship", async (req, res) => {
     let i = 0;
     for (let r of result_) {
       if (r.data.result.success === true) {
-        console.log("r", r.data.result.data.packages);
         rtsResponses[s].package_ids.push(
-          r.data.result.data.packages[i].package_id
+          // r.data.result.data.packages[i].package_id
+          r.data.result.data.packages.map((p) => p.package_id)
         );
       }
-      i += 1;
     }
-    // rtsData[s].result = result;
   }
-
-  // const rtsbody = { packages: [{ package_id: "FP038524014" }] };
 
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
   res.status(200).json({ timeTaken, RTSED: rtsResponses });
+});
+
+router.post("/shipping-labels", async (req, res) => {
+  const { shippingLabelsData } = req.body;
+  const start = new Date().getTime();
+
+  const urls = [];
+
+  const requests = shippingLabelsData["MomDaughts"].map((s, i) => {
+    // 70 is the limit
+    const shippingLabelReq = {
+      doc_type: "PDF",
+      // packages: [{ package_id: "FP052411164588989" }],
+
+      packages: [
+        {
+          package_id: "FP049411164778840",
+        },
+        {
+          package_id: "FP022011164805663",
+        },
+        {
+          package_id: "FP081411164784811",
+        },
+        {
+          package_id: "FP022911164813457",
+        },
+        {
+          package_id: "FP080911164778839",
+        },
+        {
+          package_id: "FP023111164821091",
+        },
+        {
+          package_id: "FP026111164778841",
+        },
+        {
+          package_id: "FP037411164805664",
+        },
+        {
+          package_id: "FP002811164817269",
+        },
+        {
+          package_id: "FP043611164817270",
+        },
+        {
+          package_id: "FP070711164825009",
+        },
+        {
+          package_id: "FP006311164825010",
+        },
+        {
+          package_id: "FP060411164817268",
+        },
+        {
+          package_id: "FP043011164784812",
+        },
+        {
+          package_id: "FP029311164792621",
+        },
+        {
+          package_id: "FP019011164668960",
+        },
+        {
+          package_id: "FP080711164674784",
+        },
+        {
+          package_id: "FP070611164699330",
+        },
+        {
+          package_id: "FP047111164674785",
+        },
+        {
+          package_id: "FP002911164699329",
+        },
+        // 20 more
+        {
+          package_id: "FP013211164684434",
+        },
+        {
+          package_id: "FP006111164668961",
+        },
+        {
+          package_id: "FP097611164701286",
+        },
+        {
+          package_id: "FP058311164676631",
+        },
+        {
+          package_id: "FP026111164684433",
+        },
+        {
+          package_id: "FP068311164696026",
+        },
+        {
+          package_id: "FP046011164696025",
+        },
+        {
+          package_id: "FP075811164604505",
+        },
+        {
+          package_id: "FP003011164592752",
+        },
+        {
+          package_id: "FP029311164627260",
+        },
+        {
+          package_id: "FP008311164588952",
+        },
+        {
+          package_id: "FP064911164602527",
+        },
+        {
+          package_id: "FP085011164627261",
+        },
+        {
+          package_id: "FP031611164590849",
+        },
+        {
+          package_id: "FP045311164617911",
+        },
+        {
+          package_id: "FP045311164588953",
+        },
+        {
+          package_id: "FP025711164522312",
+        },
+        {
+          package_id: "FP072111164604502",
+        },
+        {
+          package_id: "FP090411164625339",
+        },
+        {
+          package_id: "FP010511164592754",
+        },
+        // 10 more
+        {
+          package_id: "FP003611164625340",
+        },
+        {
+          package_id: "FP036611164592753",
+        },
+        {
+          package_id: "FP079211164604504",
+        },
+        {
+          package_id: "FP073811164617913",
+        },
+        {
+          package_id: "FP058211164604503",
+        },
+        {
+          package_id: "FP036411164617912",
+        },
+        {
+          package_id: "FP015011164414879",
+        },
+        {
+          package_id: "FP091011164455791",
+        },
+        {
+          package_id: "FP003611164434403",
+        },
+        {
+          package_id: "FP066511164436324",
+        },
+        // 20 more
+        {
+          package_id: "FP009911161897636",
+        },
+        {
+          package_id: "FP069111161870115",
+        },
+        {
+          package_id: "FP030511161434361",
+        },
+        {
+          package_id: "FP012611161612387",
+        },
+        {
+          package_id: "FP067911161424524",
+        },
+        {
+          package_id: "FP014411161796169",
+        },
+        {
+          package_id: "FP008611162005313",
+        },
+        {
+          package_id: "FP084311161864225",
+        },
+        {
+          package_id: "FP075111162013107",
+        },
+        {
+          package_id: "FP025011161788392",
+        },
+        {
+          package_id: "FP045211161865352",
+        },
+        {
+          package_id: "FP080311161626014",
+        },
+        {
+          package_id: "FP048911162149403",
+        },
+        {
+          package_id: "FP003611161798136",
+        },
+        {
+          package_id: "FP081711161432425",
+        },
+        {
+          package_id: "FP059111161604870",
+        },
+        {
+          package_id: "FP052711161796168",
+        },
+        {
+          package_id: "FP006311161438181",
+        },
+        {
+          package_id: "FP050811162137662",
+        },
+        {
+          package_id: "FP053111162005314",
+        },
+      ],
+    };
+
+    console.log(`shippingLabelReq: ${i}`, shippingLabelReq);
+
+    const rtsURL = generateDarazURL(
+      "/order/package/document/get",
+      "50000700630pHiqMkqgq9NXPQZB3hxkopbUTC9DFyi10608ffalU1EHFKEta6t",
+      {
+        getDocumentReq: JSON.stringify(shippingLabelReq),
+      }
+    );
+
+    return axios.post(rtsURL, {
+      getDocumentReq: JSON.stringify(shippingLabelReq),
+    });
+  });
+
+  const result_ = await Promise.all(requests);
+  result_.map((r) => {
+    console.log("r", r.data);
+    urls.push(r.data);
+  });
+  urls.push(result_);
+
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  res.status(200).json({ timeTaken });
 });
 
 module.exports = router;
