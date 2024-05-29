@@ -902,6 +902,7 @@ router.get("/orders", async (req, res) => {
 
 router.post("/pack", async (req, res) => {
   const { pack_data } = req.body;
+  console.log("pack_data: ", pack_data);
 
   // pack_data = { [seller_id] :  {order_ids: [], order_item_ids: []}, store_name: "sad", access_token: "sad" }  }
   const sads = [];
