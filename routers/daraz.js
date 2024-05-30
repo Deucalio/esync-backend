@@ -902,7 +902,6 @@ router.get("/orders", async (req, res) => {
 
 router.post("/pack", async (req, res) => {
   const { pack_data } = req.body;
-  console.log("pack_data: ", pack_data);
 
   // pack_data = { [seller_id] :  {order_ids: [], order_item_ids: []}, store_name: "sad", access_token: "sad" }  }
   const sads = [];
@@ -1042,8 +1041,6 @@ router.post("/ready-to-ship", async (req, res) => {
         packages: package_ids_arr.map((package_id) => ({ package_id })),
       };
 
-      console.log(`rtsBody: ${i}`, rtsBody);
-
       const rtsURL = generateDarazURL(
         "/order/package/rts",
         rtsData[s].access_token,
@@ -1093,6 +1090,7 @@ router.post("/shipping-label", async (req, res) => {
     console.log("error: ", e);
     return res.status(400).json({ message: "Could not get shipping labels" });
   }
+  console.log("res", response.data);
 
   if (response.data.result.success === true) {
     shippingLabelURL = response.data.result.data.pdf_url;
