@@ -961,6 +961,7 @@ router.post("/pack", async (req, res) => {
 
     let result_ = await Promise.all(requests);
     for (let r of result_) {
+      let i = 0;
       if (r.data.code === "0" && r.data.result) {
         const pack_order_list = r.data.result.data.pack_order_list[0];
         const packed_order_id = pack_order_list.order_id;
@@ -971,6 +972,7 @@ router.post("/pack", async (req, res) => {
       } else {
         response[pack_data[s].store_name].failed.push(r.data);
       }
+      i += 1;
     }
   }
   // const requests = order_ids.map((order_id, index) => {
@@ -1035,12 +1037,10 @@ router.post("/ready-to-ship", async (req, res) => {
     };
 
     // const rtsbody = { packages: [{ package_id: "FP038524014" }] };
-
     const requests = rtsData[s].package_ids.map((package_ids_arr, i) => {
       const rtsBody = {
         packages: package_ids_arr.map((package_id) => ({ package_id })),
       };
-
       const rtsURL = generateDarazURL(
         "/order/package/rts",
         rtsData[s].access_token,
@@ -1090,7 +1090,6 @@ router.post("/shipping-label", async (req, res) => {
     console.log("error: ", e);
     return res.status(400).json({ message: "Could not get shipping labels" });
   }
-  console.log("res", response.data);
 
   if (response.data.code === "ServiceTimeout") {
     return res.status(200).json({ message: "Service Timeout" });
