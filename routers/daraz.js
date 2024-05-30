@@ -961,7 +961,7 @@ router.post("/pack", async (req, res) => {
 
     let result_ = await Promise.all(requests);
     for (let r of result_) {
-      if (r.data.code === "0") {
+      if (r.data.code === "0" && r.data.result) {
         const pack_order_list = r.data.result.data.pack_order_list[0];
         const packed_order_id = pack_order_list.order_id;
         const package_id = pack_order_list.order_item_list[0].package_id;
@@ -1091,6 +1091,10 @@ router.post("/shipping-label", async (req, res) => {
     return res.status(400).json({ message: "Could not get shipping labels" });
   }
   console.log("res", response.data);
+
+  if (response.data.code === "ServiceTimeout") {
+    return res.status(200).json({ message: "Service Timeout" });
+  }
 
   if (response.data.result.success === true) {
     shippingLabelURL = response.data.result.data.pdf_url;
