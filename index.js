@@ -872,6 +872,8 @@ app.get("/api/hek", async (req, res) => {
   await new Promise((resolve) => setTimeout(resolve, 15000));
 
   res.status(200).send("Hello from /api/hek");
+
+  
 });
 
 app.listen(port, () => {
