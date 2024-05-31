@@ -848,24 +848,7 @@ app.get("/order", async (req, res) => {
   res.status(200).send(order);
 });
 
-app.get("/fetch-pdf", async (req, res) => {
-  const { url } = req.query;
-  if (!url) {
-    return res.status(400).send("URL parameter is required");
-  }
 
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const buffer = await response.arrayBuffer();
-    res.setHeader("Content-Type", "application/pdf");
-    res.send(Buffer.from(buffer));
-  } catch (error) {
-    res.status(500).send(`Error fetching PDF: ${error.message}`);
-  }
-});
 
 
 app.listen(port, () => {

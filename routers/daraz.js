@@ -80,7 +80,7 @@ router.post("/access-token", async (req, res) => {
   });
   const userId = user.id;
 
-  const darazURL__ = await generateDarazURL(
+  const darazURL__ = generateDarazURL(
     "/seller/get",
     storeData.access_token,
     {}
@@ -97,7 +97,7 @@ router.post("/access-token", async (req, res) => {
         user_id: userId, // Specify the userId for the associated user
         name: name,
         platform: "daraz",
-        image_url: "none",
+        image_url: response__.logo_url || "none",
         image_public_id: "none",
         store_info: { platform: "daraz", ...storeData },
       },
@@ -110,15 +110,15 @@ router.post("/access-token", async (req, res) => {
   const redirectCode = CryptoJS.HmacSHA256(name, "daraz").toString();
 
   // Send a request to nakson.services to trigger the inngest api to append orders
-  const ingestUrl = `https://esync.nakson.services/api/daraz/orders`;
+  // const ingestUrl = `https://esync.nakson.services/api/daraz/orders`;
 
-  const orderRes = await axios.post(ingestUrl, {
-    userID: userId,
-    accessToken: storeData.access_token,
-    sellerID: storeData.user_info.seller_id,
-  });
+  // const orderRes = await axios.post(ingestUrl, {
+  //   userID: userId,
+  //   accessToken: storeData.access_token,
+  //   sellerID: storeData.user_info.seller_id,
+  // });
 
-  console.log("orderRes: ", orderRes.data);
+  // console.log("orderRes: ", orderRes.data);
 
   res.status(200).json({ code: redirectCode, message: "Store Added" });
 });
