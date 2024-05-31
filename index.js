@@ -867,14 +867,6 @@ app.get("/fetch-pdf", async (req, res) => {
   }
 });
 
-app.get("/api/hek", async (req, res) => {
-  // Sleep for 15 seconds
-  await new Promise((resolve) => setTimeout(resolve, 15000));
-
-  res.status(200).send("Hello from /api/hek");
-
-  
-});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
