@@ -674,6 +674,14 @@ router.get("/orders/sync", async (req, res) => {
       data: updatedFields,
     });
   } catch (e) {
+    if (e.code === "P2025") {
+      // That means the order is not found, so we need to create a new order
+      const newOrderRes = await axios.get(
+        `https://esync-backend.vercel.app/daraz/orders/add-new-order?seller_id=${seller_id}&order_id=${order_id}`
+      );
+      return res.status(200).json({ message: "Order Synced", orderUpdated: newOrderRes.data });
+    }
+
     console.log("error: ", e);
     return res.status(400).json({ message: "Could not update order" });
   }
@@ -1103,6 +1111,15 @@ router.post("/shipping-label", async (req, res) => {
   const timeTaken = (end - start) / 1000;
 
   res.status(200).json({ timeTaken, shippingLabelURL });
+});
+
+router.get("/ddd", async (req, res) => {
+  const d = await prisma.darazOrders.deleteMany({
+    where: {
+      seller_id: "6005012466536",
+    },
+  });
+  res.status(200).json({ d });
 });
 
 module.exports = router;
