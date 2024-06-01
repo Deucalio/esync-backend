@@ -679,7 +679,9 @@ router.get("/orders/sync", async (req, res) => {
       const newOrderRes = await axios.get(
         `https://esync-backend.vercel.app/daraz/orders/add-new-order?seller_id=${seller_id}&order_id=${order_id}`
       );
-      return res.status(200).json({ message: "Order Synced", orderUpdated: newOrderRes.data });
+      return res
+        .status(200)
+        .json({ message: "Order Synced", orderUpdated: newOrderRes.data });
     }
 
     console.log("error: ", e);
