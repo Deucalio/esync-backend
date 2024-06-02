@@ -1137,7 +1137,7 @@ router.get("/ddd", async (req, res) => {
   res.status(200).json({ d });
 });
 
-app.put("/update-store", async (req, res) => {
+router.put("/update-store", async (req, res) => {
   const { seller_id, image_url, name } = req.body;
 
   const updatedStore = await prisma.store.update({
