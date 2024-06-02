@@ -691,6 +691,20 @@ router.get("/orders/sync", async (req, res) => {
   res.status(200).json({ orderUpdated, message: "Order Synced" });
 });
 
+router.get("/order/:seller_id", async (req, res) => {
+  // Returns only 1 order given the seller_id
+
+  const seller_id = req.params.seller_id;
+  const order = await prisma.darazOrders.findFirst({
+    where: {
+      seller_id: seller_id,
+    },
+    take: 1,
+  });
+
+  res.status(200).json({ order });
+});
+
 router.get("/d", async (req, res) => {
   const d = await prisma.darazStoreTransactions.deleteMany();
   const d2 = await prisma.darazOrders.deleteMany();
