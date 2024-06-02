@@ -699,10 +699,9 @@ router.get("/order/:seller_id", async (req, res) => {
     where: {
       seller_id: seller_id,
     },
-    take: 1,
   });
 
-  res.status(200).json({ order });
+  res.status(200).json({ order: order });
 });
 
 router.get("/d", async (req, res) => {

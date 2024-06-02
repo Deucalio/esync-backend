@@ -783,7 +783,7 @@ app.get("/orders", async (req, res) => {
 
   if (platform === "daraz") {
     // Get orders from Daraz
-    const orders = await prisma.darazOrders.findMany({
+    let orders = await prisma.darazOrders.findMany({
       skip: Number(offset),
       take: Number(limit),
       where: {
@@ -810,14 +810,14 @@ app.get("/orders", async (req, res) => {
       },
     });
 
-    for (const order of orders) {
-      order["store_info"] = {
-        platform: "daraz",
-        domain: null,
-        shopLogo: null,
-        name: order.seller_id,
-      };
-    }
+    // for (const order of orders) {
+    //   order["store_info"] = {
+    //     platform: "daraz",
+    //     domain: null,
+    //     shopLogo: null,
+    //     name: order.seller_id,
+    //   };
+    // }
     console.log("orders: ", orders);
     return res.status(200).json({ count, orders });
   }
@@ -847,9 +847,6 @@ app.get("/order", async (req, res) => {
 
   res.status(200).send(order);
 });
-
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
