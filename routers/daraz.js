@@ -1137,4 +1137,18 @@ router.get("/ddd", async (req, res) => {
   res.status(200).json({ d });
 });
 
+app.put("/update-store", async (req, res) => {
+  const { seller_id, image_url, name } = req.body;
+
+  const updatedStore = await prisma.store.update({
+    where: { seller_id: seller_id },
+    data: {
+      name: name,
+      image_url: image_url,
+    },
+  });
+
+  res.status(200).json(updatedStore);
+});
+
 module.exports = router;
