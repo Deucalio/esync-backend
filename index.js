@@ -810,14 +810,14 @@ app.get("/orders", async (req, res) => {
       },
     });
 
-    // for (const order of orders) {
-    //   order["store_info"] = {
-    //     platform: "daraz",
-    //     domain: null,
-    //     shopLogo: null,
-    //     name: order.seller_id,
-    //   };
-    // }
+    for (const order of orders) {
+      order["store_info"] = {
+        platform: "daraz",
+        domain: null,
+        shopLogo: null,
+        name: order.seller_id,
+      };
+    }
     console.log("orders: ", orders);
     return res.status(200).json({ count, orders });
   }
