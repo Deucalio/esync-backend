@@ -125,10 +125,7 @@ router.post("/access-token", async (req, res) => {
     .status(200)
     .json({
       user_id: userId,
-      name: name,
-      image_url: logo_url || "none",
       access_token: storeData.access_token,
-      seller_id: storeData.user_info.seller_id,
       code: redirectCode,
       message: "Store Added",
     });
