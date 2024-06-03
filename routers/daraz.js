@@ -121,14 +121,11 @@ router.post("/access-token", async (req, res) => {
 
   // console.log("orderRes: ", orderRes.data);
 
-  res
-    .status(200)
-    .json({
-      user_id: userId,
-      access_token: storeData.access_token,
-      code: redirectCode,
-      message: "Store Added",
-    });
+  res.status(200).json({
+    user_id: userId,
+    code: redirectCode,
+    message: "Store Added",
+  });
 });
 
 // Show all connected Stores
