@@ -90,22 +90,22 @@ router.post("/access-token", async (req, res) => {
 
   let newStore = "";
 
-  try {
-    newStore = await prisma.store.create({
-      data: {
-        seller_id: storeData.user_info.seller_id,
-        user_id: userId, // Specify the userId for the associated user
-        name: name,
-        platform: "daraz",
-        image_url: response__.logo_url || "none",
-        image_public_id: "none",
-        store_info: { platform: "daraz", ...storeData },
-      },
-    });
-  } catch (e) {
-    console.log("error adding store to DB: ", e);
-    return res.status(200).json({ message: "Error adding store to DB" });
-  }
+  // try {
+  //   newStore = await prisma.store.create({
+  //     data: {
+  //       seller_id: storeData.user_info.seller_id,
+  //       user_id: userId, // Specify the userId for the associated user
+  //       name: name,
+  //       platform: "daraz",
+  //       image_url: response__.logo_url || "none",
+  //       image_public_id: "none",
+  //       store_info: { platform: "daraz", ...storeData },
+  //     },
+  //   });
+  // } catch (e) {
+  //   console.log("error adding store to DB: ", e);
+  //   return res.status(200).json({ message: "Error adding store to DB" });
+  // }
 
   const redirectCode = CryptoJS.HmacSHA256(name, "daraz").toString();
 
@@ -120,7 +120,13 @@ router.post("/access-token", async (req, res) => {
 
   // console.log("orderRes: ", orderRes.data);
 
-  res.status(200).json({ code: redirectCode, message: "Store Added" });
+  res
+    .status(200)
+    .json({
+      access_token: storeData.access_token,
+      code: redirectCode,
+      message: "Store Added",
+    });
 });
 
 // Show all connected Stores
