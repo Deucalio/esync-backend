@@ -87,6 +87,7 @@ router.post("/access-token", async (req, res) => {
   );
   const response__ = await axios.get(darazURL__);
   const name = response__.data.data.name;
+  const logo_url = response__.data.data.logo_url;
 
   let newStore = "";
 
@@ -123,7 +124,10 @@ router.post("/access-token", async (req, res) => {
   res
     .status(200)
     .json({
+      name: name,
+      image_url: logo_url || "none",
       access_token: storeData.access_token,
+      seller_id: storeData.user_info.seller_id,
       code: redirectCode,
       message: "Store Added",
     });
