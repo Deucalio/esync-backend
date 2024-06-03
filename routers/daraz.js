@@ -501,6 +501,16 @@ router.post("/add-store-transactions", async (req, res) => {
   res.status(200).json({ storeTransactionsCount: data.count });
 });
 
+router.post("/add-store", async (req, res) => {
+  const { store } = req.body;
+
+  const newStore = await prisma.store.create({
+    data: store,
+  });
+
+  res.status(200).json({ newStore });
+});
+
 // Route when a new order is placed
 router.get("/orders/add-new-order", async (req, res) => {
   // const { seller_id, order_id } = req.body;
