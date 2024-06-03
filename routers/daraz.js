@@ -89,7 +89,17 @@ router.post("/access-token", async (req, res) => {
   const name = response__.data.data.name;
   const logo_url = response__.data.data.logo_url;
 
-  let newStore = "";
+  // let newStore = "";
+
+  const newStore = {
+    seller_id: storeData.user_info.seller_id,
+    user_id: userId, // Specify the userId for the associated user
+    name: name,
+    platform: "daraz",
+    image_url: logo_url || "none",
+    image_public_id: "none",
+    store_info: { platform: "daraz", ...storeData },
+  };
 
   // try {
   //   newStore = await prisma.store.create({
@@ -122,7 +132,7 @@ router.post("/access-token", async (req, res) => {
   // console.log("orderRes: ", orderRes.data);
 
   res.status(200).json({
-    user_id: userId,
+    newStore: newStore,
     code: redirectCode,
     message: "Store Added",
   });
