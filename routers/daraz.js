@@ -173,6 +173,25 @@ router.delete("/delete-store/:id", async (req, res) => {
   res.status(200).json({ message: "Store deleted successfully" });
 });
 
+router.post("/add-customer", async (req, res) => {
+  const { customer } = req.body;
+
+  try {
+    const newCustomer = await prisma.customer.create({
+      data: customer,
+    });
+    return res.status(200).json({ newCustomer });
+  } catch (e) {
+    // Catch the error if the customer already exists
+    if (e.code === "P2002") {
+      return res.status(200).json({ newCustomer: customer });
+    }
+
+    console.log("Error adding customer", e);
+    return res.status(400).json({ message: "Error adding customer" });
+  }
+});
+
 router.post("/append-orders", async (req, res) => {
   const { orders } = req.body;
   let data = "";
