@@ -152,7 +152,7 @@ router.post("/get-stores", async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
-  const darazStores = user.Stores.filter((s) => s.platform === "daraz");
+  const darazStores = user.Store.filter((s) => s.platform === "daraz");
   if (!darazStores) {
     return res.status(204);
   }
