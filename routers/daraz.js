@@ -24,7 +24,7 @@ function sign(secret, api, parameters) {
 
 router.get("/sad", async (req, res) => {
   res.status(200).json({
-    data: await prisma.darazOrders.findMany({
+    data: await prisma.darazOrder.findMany({
       where: {
         order_id: "187132552068523",
       },
@@ -196,7 +196,7 @@ router.post("/append-orders", async (req, res) => {
   const { orders } = req.body;
   let data = "";
   try {
-    data = await prisma.darazOrders.createMany({
+    data = await prisma.darazOrder.createMany({
       data: orders,
       skipDuplicates: true,
     });
@@ -205,23 +205,6 @@ router.post("/append-orders", async (req, res) => {
     return res.status(400).json({ message: "Couldn't append to DB" });
   }
   res.status(200).json({ message: "Success", data: data });
-});
-
-router.post("/get-orders-certain-date-range", async (req, res) => {
-  const { user_id, date } = req.body;
-  // Date format should be = 07 Jan 2024
-  const formattedDate = convertDateFormat(date);
-
-  const orders = await prisma.darazOrders.findMany({
-    where: {
-      user_id,
-      created_at: {
-        lte: new Date(date),
-      },
-    },
-  });
-
-  res.status(200).json({ orders });
 });
 
 function convertDateFormat(inputDate) {
@@ -458,7 +441,7 @@ router.post("/add-transaction", async (req, res) => {
   // }
 
   // Get all the orders with the order_numbers
-  const orders = await prisma.darazOrders.findMany({
+  const orders = await prisma.darazOrder.findMany({
     where: {
       order_id: {
         in: order_numbers,
@@ -490,7 +473,7 @@ router.post("/add-transaction", async (req, res) => {
   try {
     t = await prisma.$transaction(
       updates.map((update) =>
-        prisma.darazOrders.update({
+        prisma.darazOrder.update({
           where: { order_id: update.order_number },
           data: update.data,
         })
@@ -509,7 +492,7 @@ router.post("/add-store-transactions", async (req, res) => {
   const { transactions } = req.body;
   let data = "";
   try {
-    data = await prisma.darazStoreTransactions.createMany({
+    data = await prisma.darazStoreTransaction.createMany({
       data: transactions,
       skipDuplicates: true,
     });
@@ -624,7 +607,7 @@ router.get("/orders/add-new-order", async (req, res) => {
   // Finally append the order into the DB
   let orderAdded = "";
   try {
-    orderAdded = await prisma.darazOrders.create({
+    orderAdded = await prisma.darazOrder.create({
       data: newOrder,
     });
   } catch (e) {
@@ -711,7 +694,7 @@ router.get("/orders/sync", async (req, res) => {
   console.log("order_id", order_id);
   let orderUpdated = "";
   try {
-    orderUpdated = await prisma.darazOrders.update({
+    orderUpdated = await prisma.darazOrder.update({
       where: {
         order_id,
       },
@@ -739,32 +722,13 @@ router.get("/order/:seller_id", async (req, res) => {
   // Returns only 1 order given the seller_id
 
   const seller_id = req.params.seller_id;
-  const order = await prisma.darazOrders.findFirst({
+  const order = await prisma.darazOrder.findFirst({
     where: {
       seller_id: seller_id,
     },
   });
 
   res.status(200).json({ order: order });
-});
-
-router.get("/d", async (req, res) => {
-  const d = await prisma.darazStoreTransactions.deleteMany();
-  const d2 = await prisma.darazOrders.deleteMany();
-
-  res.status(200).json({ d, d2 });
-});
-
-router.get("/pepsi", async (req, res) => {
-  // const d = await prisma.darazOrders.findMany();
-
-  // SELECT * from "DarazOrders" where seller_id = '6005013234019' and created_at >= '2024-04-18 06:49:21' order by created_at asc;
-  // Delete the above query
-  const d = await prisma.darazOrders.deleteMany({});
-  const dd = await prisma.darazStoreTransactions.deleteMany({});
-  const ddd = await prisma.darazLogs.deleteMany({});
-
-  res.status(200).json({ d });
 });
 
 router.post("/save-log", async (req, res) => {
@@ -935,7 +899,7 @@ router.post("/save-rts", async (req, res) => {
 router.get("/order/:id", async (req, res) => {
   const order_id = req.params.id;
 
-  const order = await prisma.darazOrders.findUnique({
+  const order = await prisma.darazOrder.findUnique({
     where: {
       order_id: order_id,
     },
@@ -956,7 +920,7 @@ router.get("/orders", async (req, res) => {
     return res.status(400).json({ message: "No Order IDs Provided" });
   }
 
-  const orders = await prisma.darazOrders.findMany({
+  const orders = await prisma.darazOrder.findMany({
     where: {
       order_id: {
         in: order_ids,
