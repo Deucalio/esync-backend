@@ -97,8 +97,8 @@ router.post("/access-token", async (req, res) => {
     name: name,
     platform: "daraz",
     image_url: logo_url || "none",
-    image_public_id: "none",
     store_info: { platform: "daraz", ...storeData },
+    connected_at: new Date().toISOString(),
   };
 
   // try {
