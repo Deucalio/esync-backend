@@ -38,6 +38,8 @@ model Store {
     user_id      Int
 }
 
+
+
 model Customer {
     id           String         @id
     shopify_id   String
@@ -52,6 +54,8 @@ model Customer {
     DarazOrder   DarazOrder[]
     ShopifyOrder ShopifyOrder[]
 }
+
+
 
 model DarazOrder {
     order_id                       String   @id
@@ -87,6 +91,7 @@ model DarazOrder {
     customer_id                    String
 }
 
+
 model DarazStoreTransaction {
     seller_id          String   @id
     amount             String
@@ -112,6 +117,7 @@ model TemporaryData {
     user      User     @relation(fields: [user_id], references: [id])
     user_id   Int
 }
+
 
 model ShopifyOrder {
     id                                String   @id

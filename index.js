@@ -420,7 +420,6 @@ app.get("/create-barcode/:id", async (req, res) => {
   res.set("Content-Type", "image/png");
   res.send(buffer);
 });
-
 // LOGIN AND REGISTER ENDPOINTS
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -430,6 +429,7 @@ app.post("/login", async (req, res) => {
   const existingUser = await prisma.user.findFirst({
     where: { email: email },
   });
+  console.log("existingUser: ", existingUser);
   if (!existingUser)
     return res.status(404).json({ errorMessage: "Wrong email or password" });
   const passwordCorrect = await bcrypt.compare(password, existingUser.password);

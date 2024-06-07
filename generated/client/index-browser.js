@@ -115,7 +115,7 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   phone: 'phone',
   address: 'address',
-  joinedat: 'joinedat'
+  joined_at: 'joined_at'
 };
 
 exports.Prisma.StoreScalarFieldEnum = {
@@ -123,12 +123,24 @@ exports.Prisma.StoreScalarFieldEnum = {
   name: 'name',
   platform: 'platform',
   image_url: 'image_url',
-  image_public_id: 'image_public_id',
+  connected_at: 'connected_at',
   store_info: 'store_info',
   user_id: 'user_id'
 };
 
-exports.Prisma.DarazOrdersScalarFieldEnum = {
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  shopify_id: 'shopify_id',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  email: 'email',
+  city: 'city',
+  province: 'province',
+  country: 'country',
+  user_id: 'user_id'
+};
+
+exports.Prisma.DarazOrderScalarFieldEnum = {
   order_id: 'order_id',
   seller_id: 'seller_id',
   voucher_platform: 'voucher_platform',
@@ -150,30 +162,17 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   payment_status: 'payment_status',
   statuses: 'statuses',
   is_received: 'is_received',
-  address_billing: 'address_billing',
   gift_message: 'gift_message',
   remarks: 'remarks',
-  address_shipping: 'address_shipping',
   order_items: 'order_items',
   transactions: 'transactions',
-  shop_logo: 'shop_logo',
+  shipping_address: 'shipping_address',
+  billing_address: 'billing_address',
   user_id: 'user_id',
   customer_id: 'customer_id'
 };
 
-exports.Prisma.CustomerScalarFieldEnum = {
-  id: 'id',
-  shopify_id: 'shopify_id',
-  first_name: 'first_name',
-  last_name: 'last_name',
-  email: 'email',
-  city: 'city',
-  province: 'province',
-  country: 'country',
-  user_id: 'user_id'
-};
-
-exports.Prisma.DarazStoreTransactionsScalarFieldEnum = {
+exports.Prisma.DarazStoreTransactionScalarFieldEnum = {
   seller_id: 'seller_id',
   amount: 'amount',
   transaction_date: 'transaction_date',
@@ -189,12 +188,16 @@ exports.Prisma.DarazStoreTransactionsScalarFieldEnum = {
   user_id: 'user_id'
 };
 
-exports.Prisma.ShopifyOrdersScalarFieldEnum = {
-  order_id: 'order_id',
-  domain: 'domain',
-  order_name: 'order_name',
-  contact_email: 'contact_email',
-  created_at: 'created_at',
+exports.Prisma.TemporaryDataScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt',
+  data: 'data',
+  user_id: 'user_id'
+};
+
+exports.Prisma.ShopifyOrderScalarFieldEnum = {
+  id: 'id',
   current_total_additional_fees_set: 'current_total_additional_fees_set',
   current_total_discounts: 'current_total_discounts',
   current_total_duties_set: 'current_total_duties_set',
@@ -228,14 +231,6 @@ exports.Prisma.CourierScalarFieldEnum = {
   user_id: 'user_id'
 };
 
-exports.Prisma.TemporaryDataScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  data: 'data',
-  createdAt: 'createdAt',
-  userId: 'userId'
-};
-
 exports.Prisma.DarazLogsScalarFieldEnum = {
   id: 'id',
   seller_id: 'seller_id',
@@ -266,21 +261,16 @@ exports.Prisma.JsonNullValueFilter = {
   AnyNull: Prisma.AnyNull
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 
 exports.Prisma.ModelName = {
   User: 'User',
   Store: 'Store',
-  DarazOrders: 'DarazOrders',
   Customer: 'Customer',
-  DarazStoreTransactions: 'DarazStoreTransactions',
-  ShopifyOrders: 'ShopifyOrders',
-  Courier: 'Courier',
+  DarazOrder: 'DarazOrder',
+  DarazStoreTransaction: 'DarazStoreTransaction',
   TemporaryData: 'TemporaryData',
+  ShopifyOrder: 'ShopifyOrder',
+  Courier: 'Courier',
   DarazLogs: 'DarazLogs'
 };
 
