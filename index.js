@@ -128,7 +128,7 @@ app.post("/user", async (req, res) => {
   console.log("email: ", email);
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { Stores: true, Courier: true },
+    include: { Store: true, Courier: true },
   });
   res.status(200).send(user);
 });
@@ -341,10 +341,10 @@ app.post("/orders", async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { Stores: true },
+    include: { Store: true },
   });
   let userID = user.id;
-  let userStores = user.Stores;
+  let userStores = user.Store;
 
   for (const store of userStores) {
     if (store.platform === "daraz") {
@@ -419,76 +419,6 @@ app.get("/create-barcode/:id", async (req, res) => {
   });
   res.set("Content-Type", "image/png");
   res.send(buffer);
-});
-app.get("/stock-checklist", async (req, res) => {
-  const email = "subhankhanyz@gmail.com";
-  const start = new Date().getTime();
-  const orders = [];
-
-  const skus = {
-    // sku: quantity
-  };
-  let user;
-
-  try {
-    user = await prisma.user.findUnique({
-      where: { email: email },
-      include: { Stores: true, Courier: true },
-    });
-  } catch (e) {
-    console.log("No user", e);
-  }
-
-  for (const store of user.Stores) {
-    if (store.store_info.platform === "daraz") {
-      const darazOrders = await prisma.darazOrders.findMany({
-        where: { user_id: user.id },
-      });
-      console.log("darazOrders: ", darazOrders);
-    }
-    //  else if (store.store_info.platform === "shopify") {
-    //   const response = await axios.get(
-    //     // `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=any&limit=50`,
-    //     `https://${store.store_info.shop}/admin/api/2023-10/orders.json?status=open&financial_status=any&limit=100&fulfillment_status=unfulfilled`,
-    //     {
-    //       headers: {
-    //         "X-Shopify-Access-Token": store.store_info.accessToken,
-    //       },
-    //     }
-    //   );
-    //   let resOrders = response.data.orders;
-    //   resOrders = resOrders.filter((order) =>
-    //     order.tags.toLowerCase().includes("call confirmed")
-    //   );
-    //   for (const order of resOrders) {
-    //     for (const item of order.line_items) {
-    //       if (item.sku === "" || item.sku === null) {
-    //         continue;
-    //       }
-    //       if (skus[item.sku]) {
-    //         skus[item.sku] += item.quantity;
-    //       } else {
-    //         skus[item.sku] = item.quantity;
-    //       }
-    //     }
-    //   }
-    // }
-  }
-  const end = new Date().getTime();
-  const timeTaken = (end - start) / 1000;
-  console.log("Time taken: ", timeTaken);
-  res.send(
-    // Send in this format sku1,quantity1/sku2,quantity2/sku3,quantity3
-    Object.entries(skus)
-      .map((sku) => sku.join(","))
-      .join("/")
-  );
-});
-
-app.get("/sss", async (req, res) => {
-  // Add to temporarydata table
-
-  res.status(200).json({ data });
 });
 
 // LOGIN AND REGISTER ENDPOINTS
@@ -760,9 +690,9 @@ app.post("/get-stores", async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { Stores: true },
+    include: { Store: true },
   });
-  res.status(200).json({ stores: user.Stores });
+  res.status(200).json({ stores: user.Store });
 });
 
 // _____________________
@@ -777,7 +707,7 @@ app.get("/orders", async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { Stores: true },
+    include: { Store: true },
   });
   const user_id = Number(user.id);
 

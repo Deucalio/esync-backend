@@ -65,8 +65,6 @@ router.post("/access-token", async (req, res) => {
     return res.status(200).json({ message: "Invalid Code" });
   }
 
-  
-
   const storeAlreadyExists = stores.find(
     (s) => s.store_info.account === storeData.account
   );
@@ -148,7 +146,7 @@ router.post("/get-stores", async (req, res) => {
       email: email,
     },
     include: {
-      Stores: true,
+      Store: true,
     },
   });
   if (!user) {
