@@ -173,13 +173,18 @@ router.delete("/delete-store/:id", async (req, res) => {
   res.status(200).json({ message: "Store deleted successfully" });
 });
 
-router.post("/add-customer", async (req, res) => {
-  const { customer } = req.body;
+router.delete("/dd", async (req, res) => {
+  const cus = await prisma.customer.deleteMany({});
+  const ord = await prisma.darazOrder.deleteMany({});
+});
+
+router.post("/add-customers", async (req, res) => {
+  const { customers } = req.body;
   console.log("customer: ", customer);
   try {
-    const newCustomer = await prisma.customer.create({
+    const newCustomer = await prisma.customer.createMany({
       data: {
-        ...customer,
+        ...customers,
       },
     });
     return res.status(200).json({ newCustomer });
