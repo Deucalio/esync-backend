@@ -175,10 +175,12 @@ router.delete("/delete-store/:id", async (req, res) => {
 
 router.post("/add-customer", async (req, res) => {
   const { customer } = req.body;
-
+  console.log("customer: ", customer);
   try {
     const newCustomer = await prisma.customer.create({
-      data: customer,
+      data: {
+        ...customer,
+      },
     });
     return res.status(200).json({ newCustomer });
   } catch (e) {
