@@ -139,7 +139,6 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   voucher_code: 'voucher_code',
   gift_option: 'gift_option',
   shipping_fee_discount_platform: 'shipping_fee_discount_platform',
-  customer_name: 'customer_name',
   promised_shipping_times: 'promised_shipping_times',
   updated_at: 'updated_at',
   price: 'price',
@@ -148,7 +147,9 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   shipping_fee_discount_seller: 'shipping_fee_discount_seller',
   shipping_fee: 'shipping_fee',
   items_count: 'items_count',
+  payment_status: 'payment_status',
   statuses: 'statuses',
+  is_received: 'is_received',
   address_billing: 'address_billing',
   gift_message: 'gift_message',
   remarks: 'remarks',
@@ -156,11 +157,24 @@ exports.Prisma.DarazOrdersScalarFieldEnum = {
   order_items: 'order_items',
   transactions: 'transactions',
   shop_logo: 'shop_logo',
+  user_id: 'user_id',
+  customer_id: 'customer_id'
+};
+
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  shopify_id: 'shopify_id',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  email: 'email',
+  city: 'city',
+  province: 'province',
+  country: 'country',
   user_id: 'user_id'
 };
 
 exports.Prisma.DarazStoreTransactionsScalarFieldEnum = {
-  id: 'id',
+  seller_id: 'seller_id',
   amount: 'amount',
   transaction_date: 'transaction_date',
   transaction_type: 'transaction_type',
@@ -202,7 +216,8 @@ exports.Prisma.ShopifyOrdersScalarFieldEnum = {
   total_outstanding: 'total_outstanding',
   total_price: 'total_price',
   updated_at: 'updated_at',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  customer_id: 'customer_id'
 };
 
 exports.Prisma.CourierScalarFieldEnum = {
@@ -261,6 +276,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Store: 'Store',
   DarazOrders: 'DarazOrders',
+  Customer: 'Customer',
   DarazStoreTransactions: 'DarazStoreTransactions',
   ShopifyOrders: 'ShopifyOrders',
   Courier: 'Courier',

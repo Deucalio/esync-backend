@@ -7,25 +7,26 @@ generator client {
 
 datasource db {
     provider  = "postgresql"
-    url       = env("NEONDB_URL") // uses connection pooling
-    directUrl = env("NEONDB_URL") // uses a direct connection
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
-    id                      Int                      @id @default(autoincrement())
-    first_name              String
-    last_name               String
-    email                   String                   @unique
-    password                String
-    phone                   String
-    address                 String
-    joinedat                DateTime                 @default(now())
-    Stores                  Store[]
-    Courier                 Courier[]
-    DarazOrders             DarazOrders[]
-    ShopifyOrders           ShopifyOrders[]
-    TemporaryData           TemporaryData[]
-    DarazUnpaidTransactions DarazStoreTransactions[]
+    id                     Int                      @id @default(autoincrement())
+    first_name             String
+    last_name              String
+    email                  String                   @unique
+    password               String
+    phone                  String
+    address                String
+    joinedat               DateTime                 @default(now())
+    Store                  Store[]
+    Courier                Courier[]
+    DarazOrder             DarazOrders[]
+    ShopifyOrder           ShopifyOrders[]
+    TemporaryData          TemporaryData[]
+    DarazUnpaidTransaction DarazStoreTransactions[]
+    Customer               Customer[]
 }
 
 model Store {
@@ -50,16 +51,17 @@ model DarazOrders {
     voucher_code                   String?
     gift_option                    String?
     shipping_fee_discount_platform String?
-    customer_name                  String?
     promised_shipping_times        String?
     updated_at                     DateTime
-    price                          String
+    price                          Decimal
     shipping_fee_original          String
     payment_method                 String
     shipping_fee_discount_seller   String
     shipping_fee                   String
     items_count                    String
-    statuses                       String
+    payment_status                 Boolean
+    statuses                       String[]
+    is_received                    Boolean
     address_billing                Json
     gift_message                   String
     remarks                        String
@@ -68,11 +70,28 @@ model DarazOrders {
     transactions                   Json
     shop_logo                      String
     user_id                        Int
+    customer_id                    String
     user                           User      @relation(fields: [user_id], references: [id])
+    customer                       Customer  @relation(fields: [customer_id], references: [id])
+}
+
+model Customer {
+    id            String          @id @unique
+    shopify_id    String?
+    first_name    String?
+    last_name     String?
+    email         String?
+    city          String?
+    province      String?
+    country       String?
+    user_id       Int
+    user          User            @relation(fields: [user_id], references: [id])
+    DarazOrders   DarazOrders[]
+    ShopifyOrders ShopifyOrders[]
 }
 
 model DarazStoreTransactions {
-    id                 Int       @id @unique @default(autoincrement())
+    seller_id          String    @id @unique
     amount             String?
     transaction_date   DateTime?
     transaction_type   String?
@@ -116,7 +135,9 @@ model ShopifyOrders {
     total_price                       String?
     updated_at                        DateTime
     user_id                           Int
+    customer_id                       String
     user                              User     @relation(fields: [user_id], references: [id])
+    customer                          Customer @relation(fields: [customer_id], references: [id])
 }
 
 model Courier {
@@ -138,15 +159,6 @@ model TemporaryData {
     User   User? @relation(fields: [userId], references: [id])
     userId Int?
 }
-
-// CREATE TABLE "DarazLogs" (
-// "seller_id" VARCHAR PRIMARY KEY,
-// "fetched_from_api" VARCHAR,
-// "orders_appended_single_request" VARCHAR,
-// "orders_appended" VARCHAR,
-// "total_store_orders" VARCHAR,
-// "daraz_url" VARCHAR
-// );
 
 model DarazLogs {
     id                             Int    @id @unique @default(autoincrement())

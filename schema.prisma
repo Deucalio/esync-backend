@@ -1,5 +1,3 @@
-// schema.prisma
-
 generator client {
     provider = "prisma-client-js"
     output   = "./generated/client"
@@ -7,149 +5,154 @@ generator client {
 
 datasource db {
     provider  = "postgresql"
-    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+    url       = env("POSTGRES_PRISMA_URL")
+    directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
-    id                      Int                      @id @default(autoincrement())
-    first_name              String
-    last_name               String
-    email                   String                   @unique
-    password                String
-    phone                   String
-    address                 String
-    joinedat                DateTime                 @default(now())
-    Stores                  Store[]
-    Courier                 Courier[]
-    DarazOrders             DarazOrders[]
-    ShopifyOrders           ShopifyOrders[]
-    TemporaryData           TemporaryData[]
-    DarazUnpaidTransactions DarazStoreTransactions[]
+    id                    Int                     @id @default(autoincrement())
+    first_name            String
+    last_name             String
+    email                 String                  @unique
+    password              String
+    phone                 String
+    address               String
+    joined_at             DateTime                @default(now())
+    Store                 Store[]
+    Customer              Customer[]
+    DarazOrder            DarazOrder[]
+    DarazStoreTransaction DarazStoreTransaction[]
+    TemporaryData         TemporaryData[]
+    ShopifyOrder          ShopifyOrder[]
+    Courier               Courier[]
 }
 
 model Store {
-    seller_id       String @id @unique
-    name            String
-    platform        String
-    image_url       String
-    image_public_id String
-    store_info      Json
-    user_id         Int
-    user            User   @relation(fields: [user_id], references: [id])
+    seller_id    String   @id
+    name         String
+    platform     String
+    image_url    String
+    connected_at DateTime @default(now())
+    store_info   Json
+    user         User     @relation(fields: [user_id], references: [id])
+    user_id      Int
 }
 
-model DarazOrders {
-    order_id                       String    @id @unique @default(uuid())
-    seller_id                      String?
-    voucher_platform               String?
-    voucher                        String?
-    voucher_seller                 String?
-    order_number                   String?
-    created_at                     DateTime?
-    voucher_code                   String?
-    gift_option                    String?
-    shipping_fee_discount_platform String?
-    customer_name                  String?
-    promised_shipping_times        String?
+model Customer {
+    id           String         @id
+    shopify_id   String
+    first_name   String
+    last_name    String
+    email        String
+    city         String
+    province     String
+    country      String
+    user         User           @relation(fields: [user_id], references: [id])
+    user_id      Int
+    DarazOrder   DarazOrder[]
+    ShopifyOrder ShopifyOrder[]
+}
+
+model DarazOrder {
+    order_id                       String   @id
+    seller_id                      String
+    voucher_platform               String
+    voucher                        String
+    voucher_seller                 String
+    order_number                   String
+    created_at                     DateTime
+    voucher_code                   String
+    gift_option                    String
+    shipping_fee_discount_platform String
+    promised_shipping_times        String
     updated_at                     DateTime
-    price                          String
-    shipping_fee_original          String
+    price                          Float
+    shipping_fee_original          Float
     payment_method                 String
-    shipping_fee_discount_seller   String
-    shipping_fee                   String
-    items_count                    String
-    statuses                       String
-    address_billing                Json
+    shipping_fee_discount_seller   Float
+    shipping_fee                   Float
+    items_count                    Int
+    payment_status                 Boolean
+    statuses                       String[]
+    is_received                    Boolean
     gift_message                   String
     remarks                        String
-    address_shipping               Json
     order_items                    Json
     transactions                   Json
-    shop_logo                      String
+    shipping_address               Json
+    billing_address                Json
+    user                           User     @relation(fields: [user_id], references: [id])
     user_id                        Int
-    user                           User      @relation(fields: [user_id], references: [id])
+    customer                       Customer @relation(fields: [customer_id], references: [id])
+    customer_id                    String
 }
 
-model DarazStoreTransactions {
-    id                 Int       @id @unique @default(autoincrement())
-    amount             String?
-    transaction_date   DateTime?
-    transaction_type   String?
-    statement          String?
-    payment_ref_id     String?
-    fee_name           String?
-    paid_status        String?
-    WHT_amount         String?
-    VAT_in_amount      String?
-    transaction_number String?
-    comment            String?
+model DarazStoreTransaction {
+    seller_id          String   @id
+    amount             String
+    transaction_date   DateTime
+    transaction_type   String
+    statement          String
+    payment_ref_id     String
+    fee_name           String
+    paid_status        String
+    WHT_amount         String
+    VAT_in_amount      String
+    transaction_number String
+    comment            String
+    user               User     @relation(fields: [user_id], references: [id])
     user_id            Int
-    user               User      @relation(fields: [user_id], references: [id])
 }
 
-model ShopifyOrders {
-    order_id                          String   @id @unique @default(uuid())
-    domain                            String
-    order_name                        String?
-    contact_email                     String?
-    created_at                        DateTime
-    current_total_additional_fees_set String?
-    current_total_discounts           String?
-    current_total_duties_set          String?
-    current_total_price               String?
-    current_total_tax                 String?
-    email                             String?
-    financial_status                  String?
-    fulfillment_status                Json
-    line_items                        Json
-    note                              String?
-    phone                             String
-    processed_at                      DateTime
-    referring_site                    String?
-    source_name                       String?
-    subtotal_price                    String?
-    tags                              String?
-    total_discounts                   String?
-    total_line_items_price            String?
-    total_outstanding                 String?
-    total_price                       String?
-    updated_at                        DateTime
-    user_id                           Int
-    user                              User     @relation(fields: [user_id], references: [id])
-}
-
-model Courier {
-    id       Int    @id @unique @default(autoincrement())
-    name     String
-    data     Json
-    shippers Json
-    user_id  Int
-    user     User   @relation(fields: [user_id], references: [id])
-}
-
-// Define a model to hold the temporary data
 model TemporaryData {
     id        Int      @id @default(autoincrement())
     email     String
-    data      Json
     createdAt DateTime @default(now())
-
-    User   User? @relation(fields: [userId], references: [id])
-    userId Int?
+    data      Json
+    user      User     @relation(fields: [user_id], references: [id])
+    user_id   Int
 }
 
-// CREATE TABLE "DarazLogs" (
-// "seller_id" VARCHAR PRIMARY KEY,
-// "fetched_from_api" VARCHAR,
-// "orders_appended_single_request" VARCHAR,
-// "orders_appended" VARCHAR,
-// "total_store_orders" VARCHAR,
-// "daraz_url" VARCHAR
-// );
+model ShopifyOrder {
+    id                                String   @id
+    current_total_additional_fees_set String
+    current_total_discounts           String
+    current_total_duties_set          String
+    current_total_price               String
+    current_total_tax                 String
+    email                             String
+    financial_status                  String
+    fulfillment_status                Json
+    line_items                        Json
+    note                              String
+    phone                             String
+    processed_at                      DateTime
+    referring_site                    String
+    source_name                       String
+    subtotal_price                    String
+    tags                              String
+    total_discounts                   String
+    total_line_items_price            String
+    total_outstanding                 String
+    total_price                       String
+    updated_at                        DateTime
+    user                              User     @relation(fields: [user_id], references: [id])
+    user_id                           Int
+    customer                          Customer @relation(fields: [customer_id], references: [id])
+    customer_id                       String
+}
+
+model Courier {
+    id       Int    @id @default(autoincrement())
+    name     String
+    data     Json
+    shippers Json
+    user     User   @relation(fields: [user_id], references: [id])
+    user_id  Int
+}
 
 model DarazLogs {
-    id                             Int    @id @unique @default(autoincrement())
+    id                             Int    @id @default(autoincrement())
     seller_id                      String
     fetched_from_api               String
     orders_appended_single_request String
