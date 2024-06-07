@@ -65,6 +65,8 @@ router.post("/access-token", async (req, res) => {
     return res.status(200).json({ message: "Invalid Code" });
   }
 
+  
+
   const storeAlreadyExists = stores.find(
     (s) => s.store_info.account === storeData.account
   );
