@@ -350,7 +350,7 @@ app.post("/orders", async (req, res) => {
     if (store.platform === "daraz") {
       // SELECT * FROM "DarazOrders" where user_id = user.id ORDER BY created_at DESC LIMIT 500
 
-      const darazOrders = await prisma.darazOrders.findMany({
+      const darazOrders = await prisma.darazOrder.findMany({
         where: { seller_id: store.store_info.user_info.seller_id },
         orderBy: { created_at: "desc" },
         take: 50,
@@ -713,7 +713,7 @@ app.get("/orders", async (req, res) => {
 
   if (platform === "daraz") {
     // Get orders from Daraz
-    let orders = await prisma.darazOrders.findMany({
+    let orders = await prisma.darazOrder.findMany({
       skip: Number(offset),
       take: Number(limit),
       where: {
@@ -722,20 +722,20 @@ app.get("/orders", async (req, res) => {
           contains: shop === "all" ? "" : shop, // If shop is all, then return all orders of all seller_ids, else return orders of the specific seller_id
         },
         statuses: {
-          contains: status === "all" ? "" : status, // If status is all, then return all orders, else return orders with the specific status
+          has: status === "all" ? "" : status,
         },
       },
       orderBy: { created_at: "desc" },
     });
 
-    const count = await prisma.darazOrders.count({
+    const count = await prisma.darazOrder.count({
       where: {
         user_id: user_id,
         seller_id: {
           contains: shop === "all" ? "" : shop,
         },
         statuses: {
-          contains: status === "all" ? "" : status,
+          has: status === "all" ? "" : status,
         },
       },
     });
@@ -755,12 +755,12 @@ app.get("/orders", async (req, res) => {
 
 app.get("/delete/:seller_id", async (req, res) => {
   const { seller_id } = req.params;
-  const orders = await prisma.darazOrders.deleteMany({
+  const orders = await prisma.darazOrder.deleteMany({
     where: {
       seller_id: seller_id,
     },
   });
-  const dd = await prisma.darazStoreTransactions.deleteMany({});
+  const dd = await prisma.darazStoreTransaction.deleteMany({});
   res.status(200).send(orders);
 });
 
@@ -769,7 +769,7 @@ app.get("/order", async (req, res) => {
 
   let order = "";
   if (platform === "daraz") {
-    const order = await prisma.darazOrders.findUnique({
+    const order = await prisma.darazOrder.findUnique({
       where: { order_id: orderId },
     });
     return res.status(200).send(order);
