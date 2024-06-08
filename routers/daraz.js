@@ -587,9 +587,9 @@ router.get("/orders/add-new-order", async (req, res) => {
   const newOrder = {
     seller_id: `${seller_id}`,
     promised_shipping_times: `${order.promised_shipping_times}`,
-    voucher_platform: `${order.voucher_platform}`,
+    voucher_platform: `${order.voucher_platform || 0}`,
     voucher: `${order.voucher}`,
-    voucher_seller: `${order.voucher_seller}`,
+    voucher_seller: `${order.voucher_seller || 0}`,
     payment_status: false,
     order_number: `${order.order_number}`,
     created_at: new Date(order.created_at).toISOString(),
@@ -603,7 +603,7 @@ router.get("/orders/add-new-order", async (req, res) => {
     shipping_fee_discount_seller: order.shipping_fee_discount_seller,
     shipping_fee: order.shipping_fee,
     items_count: order.items_count,
-    statuses: order.statuses,
+    statuses: order.statuses.join(","),
     order_id: `${order.order_id}`,
     gift_message: order.gift_message,
     remarks: order.remarks,
@@ -612,9 +612,35 @@ router.get("/orders/add-new-order", async (req, res) => {
     shipping_address: order.address_shipping,
     billing_address: order.address_billing,
     is_received: false,
-    user_id: userID,
+    user_id: store.user_id,
     customer_id: phone,
   };
+
+  const potentialNewCustomer = [
+    {
+      id: phone,
+      shopify_id: "none",
+      first_name: order.address_shipping.first_name,
+      last_name: order.address_shipping.last_name,
+      email: "none",
+      city: order.address_shipping.city,
+      province: order.address_shipping.address3,
+      country: order.address_shipping.country,
+      user_id: store.user_id,
+    },
+  ];
+
+  // Add The Customer
+  let customerAdded = "";
+  try {
+    customerAdded = await prisma.customer.createMany({
+      data: potentialNewCustomer,
+      skipDuplicates: true,
+    });
+  } catch (e) {
+    console.log("Error Adding Customer: ", e);
+    return res.status(400).json({ message: "Could not Add Customer" });
+  }
 
   // Get its line items
   const darazURL2 = generateDarazURL("/order/items/get", access_token, {
@@ -641,9 +667,9 @@ router.get("/orders/add-new-order", async (req, res) => {
     });
   } catch (e) {
     console.log("error: ", e);
-
+    console.log("e", e.code);
     // If the prisma error is due to the unique constraint violation, it means the order already exists
-    if (e.meta.target[0] === "order_id") {
+    if (e.code === "P2002") {
       return res
         .status(400)
         .json({ message: "Order Already Exists", newOrder });
