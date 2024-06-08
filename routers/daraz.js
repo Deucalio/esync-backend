@@ -586,8 +586,9 @@ router.get("/orders/add-new-order", async (req, res) => {
   let phone = convertPhoneNumber(order.address_shipping.phone);
   // If phone is ""
   if (phone === "" || !phone) {
-    phone = `${Math.floor(10000000000 + Math.random() * 90000000000)}`;
+    phone = `${Math.floor(10000000000 + Math.random() * 90000000000)}1234`;
   }
+
   const newOrder = {
     seller_id: `${seller_id}`,
     promised_shipping_times: `${order.promised_shipping_times}`,
