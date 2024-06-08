@@ -8,6 +8,40 @@ const CryptoJS = require("crypto-js");
 const { generateDarazURL, orders } = require("../utils/darazActions");
 const { create } = require("domain");
 
+function convertStringToFloat(str) {
+  // Remove commas from the string
+  const sanitizedStr = str.replace(/,/g, "");
+  // Convert the sanitized string to a float
+  const floatValue = parseFloat(sanitizedStr);
+
+  // Return the float value
+  return floatValue;
+}
+
+function convertStringToInt(str) {
+  // Remove commas from the string
+  const sanitizedStr = str.replace(/,/g, "");
+  // Convert the sanitized string to a float
+  const intValue = parseInt(sanitizedStr);
+
+  // Return the float value
+  return intValue;
+}
+
+function convertPhoneNumber(phoneNumber) {
+  // Remove all non-digit characters except for the leading '+'
+  const cleanedNumber = phoneNumber.replace(/[^\d+]/g, "");
+
+  // Check if the phone number starts with '+92'
+  if (cleanedNumber.startsWith("92")) {
+    // Replace '+92' with '0'
+    return cleanedNumber.replace("92", "0");
+  }
+
+  // If the number does not start with '+92', return it as is
+  return cleanedNumber;
+}
+
 function sign(secret, api, parameters) {
   const sortKeys = Object.keys(parameters).sort();
   let parametersStr = api;
@@ -174,26 +208,19 @@ router.delete("/delete-store/:id", async (req, res) => {
 });
 
 router.delete("/dd", async (req, res) => {
-  const cus = await prisma.customer.deleteMany({});
   const ord = await prisma.darazOrder.deleteMany({});
+  const cus = await prisma.customer.deleteMany({});
+  res.status(200).json({ cus, ord });
 });
-
 router.post("/add-customers", async (req, res) => {
   const { customers } = req.body;
-  console.log("customer: ", customer);
   try {
     const newCustomer = await prisma.customer.createMany({
-      data: {
-        ...customers,
-      },
+      data: customers,
+      skipDuplicates: true,
     });
     return res.status(200).json({ newCustomer });
   } catch (e) {
-    // Catch the error if the customer already exists
-    if (e.code === "P2002") {
-      return res.status(200).json({ newCustomer: customer });
-    }
-
     console.log("Error adding customer", e);
     return res.status(400).json({ message: "Error adding customer" });
   }
@@ -201,6 +228,7 @@ router.post("/add-customers", async (req, res) => {
 
 router.post("/append-orders", async (req, res) => {
   const { orders } = req.body;
+  console.log("orders:", orders.length);
   let data = "";
   try {
     data = await prisma.darazOrder.createMany({
@@ -211,6 +239,7 @@ router.post("/append-orders", async (req, res) => {
     console.log("Couldn't append to DB", e);
     return res.status(400).json({ message: "Couldn't append to DB" });
   }
+
   res.status(200).json({ message: "Success", data: data });
 });
 
@@ -554,48 +583,41 @@ router.get("/orders/add-new-order", async (req, res) => {
     return res.status(400).json({ message: "Could not get order details" });
   }
 
+  const phone = convertPhoneNumber(order.address_shipping.phone);
   const newOrder = {
     seller_id: `${seller_id}`,
-    //promised_shipping_times, updated_at, price, shipping_fee_original, payment_method, shipping_fee_discount_seller, shipping_fee,
-    // items_count, statuses, address_billing, order_id, gift_message, remarks, address_shipping, order_items
     promised_shipping_times: `${order.promised_shipping_times}`,
-    voucher_platform: `${order.voucher_platform || 0}`,
+    voucher_platform: `${order.voucher_platform}`,
     voucher: `${order.voucher}`,
-    voucher_seller: `${order.voucher_seller || 0}`,
+    voucher_seller: `${order.voucher_seller}`,
+    payment_status: false,
     order_number: `${order.order_number}`,
     created_at: new Date(order.created_at).toISOString(),
     voucher_code: `${order.voucher_code}`,
     gift_option: `${order.gift_option}`,
     shipping_fee_discount_platform: `${order.shipping_fee_discount_platform}`,
-    customer_name:
-      order.customer_first_name && order.customer_last_name
-        ? order.customer_first_name + " " + order.customer_last_name
-        : order.customer_first_name
-        ? order.customer_first_name
-        : order.customer_last_name
-        ? order.customer_last_name
-        : "N/A",
     updated_at: new Date(order.updated_at).toISOString(),
-    price: order.price,
-    shipping_fee_original: `${order.shipping_fee_original}`,
+    price: convertStringToFloat(order.price),
+    shipping_fee_original: order.shipping_fee_original,
     payment_method: `${order.payment_method}`,
-    shipping_fee_discount_seller: `${order.shipping_fee_discount_seller}`,
-    shipping_fee: `${order.shipping_fee}`,
-    items_count: `${order.items_count}`,
-    statuses: `${order.statuses}`,
-    address_billing: order.address_billing,
+    shipping_fee_discount_seller: order.shipping_fee_discount_seller,
+    shipping_fee: order.shipping_fee,
+    items_count: order.items_count,
+    statuses: order.statuses,
     order_id: `${order.order_id}`,
     gift_message: order.gift_message,
     remarks: order.remarks,
-    address_shipping: order.address_shipping,
-    order_items: [],
+    order_items: order.line_items || [],
     transactions: [],
-    shop_logo: "none",
-    user_id: store.user_id,
+    shipping_address: order.address_shipping,
+    billing_address: order.address_billing,
+    is_received: false,
+    user_id: userID,
+    customer_id: phone,
   };
 
   // Get its line items
-  const darazURL2 = await generateDarazURL("/order/items/get", access_token, {
+  const darazURL2 = generateDarazURL("/order/items/get", access_token, {
     order_id: order_id,
   });
 
@@ -1141,15 +1163,6 @@ router.post("/shipping-label", async (req, res) => {
   const timeTaken = (end - start) / 1000;
 
   res.status(200).json({ timeTaken, shippingLabelURL });
-});
-
-router.get("/ddd", async (req, res) => {
-  const d = await prisma.darazOrders.deleteMany({
-    where: {
-      seller_id: "6005012466536",
-    },
-  });
-  res.status(200).json({ d });
 });
 
 router.put("/update-store", async (req, res) => {
