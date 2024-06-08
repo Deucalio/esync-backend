@@ -722,7 +722,7 @@ app.get("/orders", async (req, res) => {
           contains: shop === "all" ? "" : shop, // If shop is all, then return all orders of all seller_ids, else return orders of the specific seller_id
         },
         statuses: {
-          has: status === "all" ? "" : status,
+          contains: status === "all" ? "" : status, // If status is all, then return all orders, else return orders with the specific status
         },
       },
       orderBy: { created_at: "desc" },
@@ -735,7 +735,7 @@ app.get("/orders", async (req, res) => {
           contains: shop === "all" ? "" : shop,
         },
         statuses: {
-          has: status === "all" ? "" : status,
+          contains: status === "all" ? "" : status,
         },
       },
     });

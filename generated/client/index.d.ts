@@ -4883,6 +4883,7 @@ export namespace Prisma {
     shipping_fee: number | null
     items_count: number | null
     payment_status: boolean | null
+    statuses: string | null
     is_received: boolean | null
     gift_message: string | null
     remarks: string | null
@@ -4910,6 +4911,7 @@ export namespace Prisma {
     shipping_fee: number | null
     items_count: number | null
     payment_status: boolean | null
+    statuses: string | null
     is_received: boolean | null
     gift_message: string | null
     remarks: string | null
@@ -4989,6 +4991,7 @@ export namespace Prisma {
     shipping_fee?: true
     items_count?: true
     payment_status?: true
+    statuses?: true
     is_received?: true
     gift_message?: true
     remarks?: true
@@ -5016,6 +5019,7 @@ export namespace Prisma {
     shipping_fee?: true
     items_count?: true
     payment_status?: true
+    statuses?: true
     is_received?: true
     gift_message?: true
     remarks?: true
@@ -5162,7 +5166,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses: string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -5291,7 +5295,7 @@ export namespace Prisma {
       shipping_fee: number
       items_count: number
       payment_status: boolean
-      statuses: string[]
+      statuses: string
       is_received: boolean
       gift_message: string
       remarks: string
@@ -5717,7 +5721,7 @@ export namespace Prisma {
     readonly shipping_fee: FieldRef<"DarazOrder", 'Float'>
     readonly items_count: FieldRef<"DarazOrder", 'Int'>
     readonly payment_status: FieldRef<"DarazOrder", 'Boolean'>
-    readonly statuses: FieldRef<"DarazOrder", 'String[]'>
+    readonly statuses: FieldRef<"DarazOrder", 'String'>
     readonly is_received: FieldRef<"DarazOrder", 'Boolean'>
     readonly gift_message: FieldRef<"DarazOrder", 'String'>
     readonly remarks: FieldRef<"DarazOrder", 'String'>
@@ -11626,7 +11630,7 @@ export namespace Prisma {
     shipping_fee?: FloatFilter<"DarazOrder"> | number
     items_count?: IntFilter<"DarazOrder"> | number
     payment_status?: BoolFilter<"DarazOrder"> | boolean
-    statuses?: StringNullableListFilter<"DarazOrder">
+    statuses?: StringFilter<"DarazOrder"> | string
     is_received?: BoolFilter<"DarazOrder"> | boolean
     gift_message?: StringFilter<"DarazOrder"> | string
     remarks?: StringFilter<"DarazOrder"> | string
@@ -11697,7 +11701,7 @@ export namespace Prisma {
     shipping_fee?: FloatFilter<"DarazOrder"> | number
     items_count?: IntFilter<"DarazOrder"> | number
     payment_status?: BoolFilter<"DarazOrder"> | boolean
-    statuses?: StringNullableListFilter<"DarazOrder">
+    statuses?: StringFilter<"DarazOrder"> | string
     is_received?: BoolFilter<"DarazOrder"> | boolean
     gift_message?: StringFilter<"DarazOrder"> | string
     remarks?: StringFilter<"DarazOrder"> | string
@@ -11771,7 +11775,7 @@ export namespace Prisma {
     shipping_fee?: FloatWithAggregatesFilter<"DarazOrder"> | number
     items_count?: IntWithAggregatesFilter<"DarazOrder"> | number
     payment_status?: BoolWithAggregatesFilter<"DarazOrder"> | boolean
-    statuses?: StringNullableListFilter<"DarazOrder">
+    statuses?: StringWithAggregatesFilter<"DarazOrder"> | string
     is_received?: BoolWithAggregatesFilter<"DarazOrder"> | boolean
     gift_message?: StringWithAggregatesFilter<"DarazOrder"> | string
     remarks?: StringWithAggregatesFilter<"DarazOrder"> | string
@@ -12495,7 +12499,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -12527,7 +12531,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -12559,7 +12563,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -12591,7 +12595,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -12623,7 +12627,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -12655,7 +12659,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -12685,7 +12689,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -13510,14 +13514,6 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
   export type CustomerRelationFilter = {
     is?: CustomerWhereInput
     isNot?: CustomerWhereInput
@@ -13584,6 +13580,7 @@ export namespace Prisma {
     shipping_fee?: SortOrder
     items_count?: SortOrder
     payment_status?: SortOrder
+    statuses?: SortOrder
     is_received?: SortOrder
     gift_message?: SortOrder
     remarks?: SortOrder
@@ -13611,6 +13608,7 @@ export namespace Prisma {
     shipping_fee?: SortOrder
     items_count?: SortOrder
     payment_status?: SortOrder
+    statuses?: SortOrder
     is_received?: SortOrder
     gift_message?: SortOrder
     remarks?: SortOrder
@@ -14314,10 +14312,6 @@ export namespace Prisma {
     deleteMany?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
   }
 
-  export type DarazOrderCreatestatusesInput = {
-    set: string[]
-  }
-
   export type UserCreateNestedOneWithoutDarazOrderInput = {
     create?: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
     connectOrCreate?: UserCreateOrConnectWithoutDarazOrderInput
@@ -14340,11 +14334,6 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type DarazOrderUpdatestatusesInput = {
-    set?: string[]
-    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutDarazOrderNestedInput = {
@@ -14662,7 +14651,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -14693,7 +14682,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -14961,7 +14950,7 @@ export namespace Prisma {
     shipping_fee?: FloatFilter<"DarazOrder"> | number
     items_count?: IntFilter<"DarazOrder"> | number
     payment_status?: BoolFilter<"DarazOrder"> | boolean
-    statuses?: StringNullableListFilter<"DarazOrder">
+    statuses?: StringFilter<"DarazOrder"> | string
     is_received?: BoolFilter<"DarazOrder"> | boolean
     gift_message?: StringFilter<"DarazOrder"> | string
     remarks?: StringFilter<"DarazOrder"> | string
@@ -15248,7 +15237,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -15279,7 +15268,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -16024,7 +16013,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -16174,7 +16163,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -16205,7 +16194,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -16236,7 +16225,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -16430,7 +16419,7 @@ export namespace Prisma {
     shipping_fee: number
     items_count: number
     payment_status: boolean
-    statuses?: DarazOrderCreatestatusesInput | string[]
+    statuses: string
     is_received: boolean
     gift_message: string
     remarks: string
@@ -16487,7 +16476,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -16518,7 +16507,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
@@ -16549,7 +16538,7 @@ export namespace Prisma {
     shipping_fee?: FloatFieldUpdateOperationsInput | number
     items_count?: IntFieldUpdateOperationsInput | number
     payment_status?: BoolFieldUpdateOperationsInput | boolean
-    statuses?: DarazOrderUpdatestatusesInput | string[]
+    statuses?: StringFieldUpdateOperationsInput | string
     is_received?: BoolFieldUpdateOperationsInput | boolean
     gift_message?: StringFieldUpdateOperationsInput | string
     remarks?: StringFieldUpdateOperationsInput | string
