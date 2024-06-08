@@ -716,7 +716,7 @@ router.get("/orders/sync", async (req, res) => {
   }
 
   const updatedFields = {
-    statuses: `${fetched_order.statuses}`,
+    statuses: fetched_order.statuses.join(","),
     order_items: orderItems,
     updated_at: new Date(fetched_order.updated_at).toISOString(),
   };

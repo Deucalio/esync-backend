@@ -38,8 +38,6 @@ model Store {
     user_id      Int
 }
 
-
-
 model Customer {
     id           String         @id
     shopify_id   String
@@ -54,8 +52,6 @@ model Customer {
     DarazOrder   DarazOrder[]
     ShopifyOrder ShopifyOrder[]
 }
-
-
 
 model DarazOrder {
     order_id                       String   @id
@@ -77,7 +73,7 @@ model DarazOrder {
     shipping_fee                   Float
     items_count                    Int
     payment_status                 Boolean
-    statuses                       String[]
+    statuses                       String
     is_received                    Boolean
     gift_message                   String
     remarks                        String
@@ -90,7 +86,6 @@ model DarazOrder {
     customer                       Customer @relation(fields: [customer_id], references: [id])
     customer_id                    String
 }
-
 
 model DarazStoreTransaction {
     seller_id          String   @id
@@ -117,7 +112,6 @@ model TemporaryData {
     user      User     @relation(fields: [user_id], references: [id])
     user_id   Int
 }
-
 
 model ShopifyOrder {
     id                                String   @id
