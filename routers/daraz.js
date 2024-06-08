@@ -583,7 +583,11 @@ router.get("/orders/add-new-order", async (req, res) => {
     return res.status(400).json({ message: "Could not get order details" });
   }
 
-  const phone = convertPhoneNumber(order.address_shipping.phone);
+  let phone = convertPhoneNumber(order.address_shipping.phone);
+  // If phone is ""
+  if (phone === "" || !phone) {
+    phone = `${Math.floor(10000000000 + Math.random() * 90000000000)}`;
+  }
   const newOrder = {
     seller_id: `${seller_id}`,
     promised_shipping_times: `${order.promised_shipping_times}`,
