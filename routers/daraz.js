@@ -1210,4 +1210,27 @@ router.put("/update-store", async (req, res) => {
   res.status(200).json(updatedStore);
 });
 
+router.put("/mark-orders-as-received", async (req, res) => {
+  const { order_ids } = req.body;
+
+  try {
+    const updatedOrders = await prisma.darazOrder.updateMany({
+      where: {
+        order_id: {
+          in: order_ids,
+        },
+      },
+      data: {
+        is_received: true,
+      },
+    });
+    return res.status(200).json({ updatedOrders });
+  } catch (e) {
+    console.log("Error marking orders as received", e);
+    return res
+      .status(400)
+      .json({ message: "Error marking orders as received" });
+  }
+});
+
 module.exports = router;
