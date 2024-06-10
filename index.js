@@ -132,6 +132,12 @@ app.post("/user", async (req, res) => {
   });
   res.status(200).send(user);
 });
+
+app.get("/users", async (req, res) => {
+  const users = await prisma.user.findMany({});
+  res.status(200).json({users});
+});
+
 // Add Shipper
 app.post("/add-shipper", async (req, res) => {
   const {
@@ -815,18 +821,13 @@ app.get("/customers", async (req, res) => {
     },
   });
 
-
   customers.forEach((customer) => {
-
     const darazOrders = customerDaraz.filter(
       (order) => order.customer_id === customer.id
     );
 
     customer["darazOrders"] = darazOrders;
-
-  })
-
-
+  });
 
   const count = await prisma.customer.count({
     where: {
@@ -835,6 +836,62 @@ app.get("/customers", async (req, res) => {
   });
 
   res.status(200).json({ customers, count });
+});
+
+async function getTopCustomersWithOrders() {
+  // Step 1: Get the count of orders for each customer
+  const orderCounts = await prisma.darazOrder.groupBy({
+    by: ["customer_id"],
+    _count: {
+      _all: true,
+    },
+  });
+
+  // Step 2: Fetch all customers
+  const customers = await prisma.customer.findMany();
+
+  // Step 3: Fetch selected fields from DarazOrders for each customer
+  const customersWithSelectedOrders = await Promise.all(
+    customers.map(async (customer) => {
+      const orders = await prisma.darazOrder.findMany({
+        where: {
+          customer_id: customer.id,
+        },
+        select: {
+          order_id: true,
+          shipping_address: true,
+        },
+      });
+      return {
+        ...customer,
+        DarazOrders: orders,
+      };
+    })
+  );
+  // Step 4: Combine order counts with customer data
+  const customersWithOrderCounts = customersWithSelectedOrders.map(
+    (customer) => {
+      const orderCount =
+        orderCounts.find((count) => count.customer_id === customer.id)?._count
+          ._all || 0;
+      return {
+        ...customer,
+        orderCount,
+      };
+    }
+  );
+
+  // Step 5: Sort by order count and limit to top 10
+  const sortedCustomers = customersWithOrderCounts
+    .sort((a, b) => b.orderCount - a.orderCount)
+    .slice(0, 10);
+
+  return sortedCustomers;
+}
+
+app.get("/bepis", async (req, res) => {
+  const customers = await getTopCustomersWithOrders();
+  res.status(200).send(customers);
 });
 
 app.listen(port, () => {
