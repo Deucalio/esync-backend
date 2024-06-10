@@ -807,6 +807,11 @@ app.get("/customers", async (req, res) => {
         in: customers_ids,
       },
     },
+    select: {
+      customer_id: true,
+      user_id: true,
+      order_id: true,
+    },
   });
 
   customers = customers.map((customer) => {
