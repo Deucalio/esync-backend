@@ -811,18 +811,22 @@ app.get("/customers", async (req, res) => {
       customer_id: true,
       user_id: true,
       order_id: true,
+      statuses: true,
     },
   });
 
-  customers = customers.map((customer) => {
-    const darazCustomer = customerDaraz.find(
-      (darazCustomer) => darazCustomer.customer_id === customer.id
+
+  customers.forEach((customer) => {
+
+    const darazOrders = customerDaraz.filter(
+      (order) => order.customer_id === customer.id
     );
-    return {
-      ...customer,
-      darazCustomer: darazCustomer ? darazCustomer : null,
-    };
-  });
+
+    customer["darazOrders"] = darazOrders;
+
+  })
+
+
 
   const count = await prisma.customer.count({
     where: {
