@@ -808,6 +808,11 @@ app.get("/customers", async (req, res) => {
         in: customer_ids,
       },
     },
+    select: {
+      order_id: true,
+      user_id: true,
+      customer_id: true,
+    },
   });
 
   customers = customers.map((customer) => {
@@ -818,6 +823,12 @@ app.get("/customers", async (req, res) => {
       ...customer,
       darazOrders: customerDarazOrders,
     };
+  });
+
+  // Sort the customers by the number of orders they have
+
+  customers.sort((a, b) => {
+    return b.darazOrders.length - a.darazOrders.length;
   });
 
   // Now get the count of all customers
