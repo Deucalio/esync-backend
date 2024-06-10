@@ -778,6 +778,71 @@ app.get("/order", async (req, res) => {
   res.status(200).send(order);
 });
 
+// Customers
+
+app.get("/customers", async (req, res) => {
+  const { email, page, customersPerPage } = req.query;
+
+  const limit = customersPerPage;
+  const offset = (page - 1) * customersPerPage;
+
+  const user = await prisma.user.findUnique({
+    where: { email: email },
+  });
+
+  // Get all customers
+  let customers = await prisma.customer.findMany({
+    skip: Number(offset),
+    take: Number(limit),
+    where: {
+      user_id: user.id,
+    },
+  });
+
+  const customer_ids = customers.map((customer) => customer.id);
+
+  // Get their DaraOrders
+  const darazOrders = await prisma.darazOrder.findMany({
+    where: {
+      customer_id: {
+        in: customer_ids,
+      },
+    },
+  });
+
+  customers = customers.map((customer) => {
+    const customerDarazOrders = darazOrders.filter(
+      (order) => order.customer_id === customer.id
+    );
+    return {
+      ...customer,
+      darazOrders: customerDarazOrders,
+    };
+  });
+
+  // Now get the count of all customers
+
+  const count = await prisma.customer.count({
+    where: {
+      user_id: user.id,
+    },
+  });
+
+  // DarazOrders where customer_id = customer.id and user_id = user.id
+
+  // const customerDarazOrdersOfAllStores = await prisma.darazOrder.groupBy({
+  //   by: ["customer_id"],
+  //   where: {
+  //     user_id: user.id,
+  //   },
+  //   count: {
+  //     _all: true,
+  //   },
+  // });
+
+  res.status(200).json({ customers, count });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
