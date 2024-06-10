@@ -799,57 +799,31 @@ app.get("/customers", async (req, res) => {
     },
   });
 
-  const customer_ids = customers.map((customer) => customer.id);
+  const customers_ids = customers.map((customer) => customer.id);
 
-  // Get their DaraOrders
-  const darazOrders = await prisma.darazOrder.findMany({
+  const customerDaraz = await prisma.darazOrder.findMany({
     where: {
       customer_id: {
-        in: customer_ids,
+        in: customers_ids,
       },
-    },
-    select: {
-      order_id: true,
-      user_id: true,
-      customer_id: true,
     },
   });
 
   customers = customers.map((customer) => {
-    const customerDarazOrders = darazOrders.filter(
-      (order) => order.customer_id === customer.id
+    const darazCustomer = customerDaraz.find(
+      (darazCustomer) => darazCustomer.customer_id === customer.id
     );
     return {
       ...customer,
-      darazOrders: customerDarazOrders,
+      darazCustomer: darazCustomer ? darazCustomer : null,
     };
   });
-
-  // Sort the customers by the number of orders they have
-
-  customers.sort((a, b) => {
-    return b.darazOrders.length - a.darazOrders.length;
-  });
-
-  // Now get the count of all customers
 
   const count = await prisma.customer.count({
     where: {
       user_id: user.id,
     },
   });
-
-  // DarazOrders where customer_id = customer.id and user_id = user.id
-
-  // const customerDarazOrdersOfAllStores = await prisma.darazOrder.groupBy({
-  //   by: ["customer_id"],
-  //   where: {
-  //     user_id: user.id,
-  //   },
-  //   count: {
-  //     _all: true,
-  //   },
-  // });
 
   res.status(200).json({ customers, count });
 });
