@@ -895,6 +895,22 @@ app.get("/bepis", async (req, res) => {
   res.status(200).send(customers);
 });
 
+
+
+// Route to update user user_events
+app.post("/update-user-events", async (req, res) => {
+  const { email, events } = req.body;
+
+  const updatedUser = await prisma.user.update({
+    where: { email: email },
+    data: {
+      user_events: events,
+    },
+  });
+
+  res.status(200).send(updatedUser);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

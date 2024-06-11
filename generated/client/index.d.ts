@@ -1512,23 +1512,23 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    Store: number
+    Courier: number
     Customer: number
     DarazOrder: number
     DarazStoreTransaction: number
-    TemporaryData: number
     ShopifyOrder: number
-    Courier: number
+    Store: number
+    TemporaryData: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Store?: boolean | UserCountOutputTypeCountStoreArgs
+    Courier?: boolean | UserCountOutputTypeCountCourierArgs
     Customer?: boolean | UserCountOutputTypeCountCustomerArgs
     DarazOrder?: boolean | UserCountOutputTypeCountDarazOrderArgs
     DarazStoreTransaction?: boolean | UserCountOutputTypeCountDarazStoreTransactionArgs
-    TemporaryData?: boolean | UserCountOutputTypeCountTemporaryDataArgs
     ShopifyOrder?: boolean | UserCountOutputTypeCountShopifyOrderArgs
-    Courier?: boolean | UserCountOutputTypeCountCourierArgs
+    Store?: boolean | UserCountOutputTypeCountStoreArgs
+    TemporaryData?: boolean | UserCountOutputTypeCountTemporaryDataArgs
   }
 
   // Custom InputTypes
@@ -1547,8 +1547,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountStoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StoreWhereInput
+  export type UserCountOutputTypeCountCourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourierWhereInput
   }
 
 
@@ -1579,14 +1579,6 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountTemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TemporaryDataWhereInput
-  }
-
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountShopifyOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ShopifyOrderWhereInput
   }
@@ -1595,8 +1587,16 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CourierWhereInput
+  export type UserCountOutputTypeCountStoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoreWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemporaryDataWhereInput
   }
 
 
@@ -1700,6 +1700,7 @@ export namespace Prisma {
     phone: number
     address: number
     joined_at: number
+    user_events: number
     _all: number
   }
 
@@ -1743,6 +1744,7 @@ export namespace Prisma {
     phone?: true
     address?: true
     joined_at?: true
+    user_events?: true
     _all?: true
   }
 
@@ -1841,6 +1843,7 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at: Date
+    user_events: JsonValue | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1871,13 +1874,14 @@ export namespace Prisma {
     phone?: boolean
     address?: boolean
     joined_at?: boolean
-    Store?: boolean | User$StoreArgs<ExtArgs>
+    user_events?: boolean
+    Courier?: boolean | User$CourierArgs<ExtArgs>
     Customer?: boolean | User$CustomerArgs<ExtArgs>
     DarazOrder?: boolean | User$DarazOrderArgs<ExtArgs>
     DarazStoreTransaction?: boolean | User$DarazStoreTransactionArgs<ExtArgs>
-    TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
     ShopifyOrder?: boolean | User$ShopifyOrderArgs<ExtArgs>
-    Courier?: boolean | User$CourierArgs<ExtArgs>
+    Store?: boolean | User$StoreArgs<ExtArgs>
+    TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1890,16 +1894,17 @@ export namespace Prisma {
     phone?: boolean
     address?: boolean
     joined_at?: boolean
+    user_events?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Store?: boolean | User$StoreArgs<ExtArgs>
+    Courier?: boolean | User$CourierArgs<ExtArgs>
     Customer?: boolean | User$CustomerArgs<ExtArgs>
     DarazOrder?: boolean | User$DarazOrderArgs<ExtArgs>
     DarazStoreTransaction?: boolean | User$DarazStoreTransactionArgs<ExtArgs>
-    TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
     ShopifyOrder?: boolean | User$ShopifyOrderArgs<ExtArgs>
-    Courier?: boolean | User$CourierArgs<ExtArgs>
+    Store?: boolean | User$StoreArgs<ExtArgs>
+    TemporaryData?: boolean | User$TemporaryDataArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1907,13 +1912,13 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      Store: Prisma.$StorePayload<ExtArgs>[]
+      Courier: Prisma.$CourierPayload<ExtArgs>[]
       Customer: Prisma.$CustomerPayload<ExtArgs>[]
       DarazOrder: Prisma.$DarazOrderPayload<ExtArgs>[]
       DarazStoreTransaction: Prisma.$DarazStoreTransactionPayload<ExtArgs>[]
-      TemporaryData: Prisma.$TemporaryDataPayload<ExtArgs>[]
       ShopifyOrder: Prisma.$ShopifyOrderPayload<ExtArgs>[]
-      Courier: Prisma.$CourierPayload<ExtArgs>[]
+      Store: Prisma.$StorePayload<ExtArgs>[]
+      TemporaryData: Prisma.$TemporaryDataPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1924,6 +1929,7 @@ export namespace Prisma {
       phone: string
       address: string
       joined_at: Date
+      user_events: Prisma.JsonValue | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2289,7 +2295,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    Store<T extends User$StoreArgs<ExtArgs> = {}>(args?: Subset<T, User$StoreArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, 'findMany'> | Null>;
+    Courier<T extends User$CourierArgs<ExtArgs> = {}>(args?: Subset<T, User$CourierArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     Customer<T extends User$CustomerArgs<ExtArgs> = {}>(args?: Subset<T, User$CustomerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, 'findMany'> | Null>;
 
@@ -2297,11 +2303,11 @@ export namespace Prisma {
 
     DarazStoreTransaction<T extends User$DarazStoreTransactionArgs<ExtArgs> = {}>(args?: Subset<T, User$DarazStoreTransactionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DarazStoreTransactionPayload<ExtArgs>, T, 'findMany'> | Null>;
 
-    TemporaryData<T extends User$TemporaryDataArgs<ExtArgs> = {}>(args?: Subset<T, User$TemporaryDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findMany'> | Null>;
-
     ShopifyOrder<T extends User$ShopifyOrderArgs<ExtArgs> = {}>(args?: Subset<T, User$ShopifyOrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyOrderPayload<ExtArgs>, T, 'findMany'> | Null>;
 
-    Courier<T extends User$CourierArgs<ExtArgs> = {}>(args?: Subset<T, User$CourierArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourierPayload<ExtArgs>, T, 'findMany'> | Null>;
+    Store<T extends User$StoreArgs<ExtArgs> = {}>(args?: Subset<T, User$StoreArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    TemporaryData<T extends User$TemporaryDataArgs<ExtArgs> = {}>(args?: Subset<T, User$TemporaryDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryDataPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2339,6 +2345,7 @@ export namespace Prisma {
     readonly phone: FieldRef<"User", 'String'>
     readonly address: FieldRef<"User", 'String'>
     readonly joined_at: FieldRef<"User", 'DateTime'>
+    readonly user_events: FieldRef<"User", 'Json'>
   }
     
 
@@ -2651,23 +2658,23 @@ export namespace Prisma {
 
 
   /**
-   * User.Store
+   * User.Courier
    */
-  export type User$StoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$CourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Store
+     * Select specific fields to fetch from the Courier
      */
-    select?: StoreSelect<ExtArgs> | null
+    select?: CourierSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: StoreInclude<ExtArgs> | null
-    where?: StoreWhereInput
-    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
-    cursor?: StoreWhereUniqueInput
+    include?: CourierInclude<ExtArgs> | null
+    where?: CourierWhereInput
+    orderBy?: CourierOrderByWithRelationInput | CourierOrderByWithRelationInput[]
+    cursor?: CourierWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
+    distinct?: CourierScalarFieldEnum | CourierScalarFieldEnum[]
   }
 
 
@@ -2735,27 +2742,6 @@ export namespace Prisma {
 
 
   /**
-   * User.TemporaryData
-   */
-  export type User$TemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TemporaryData
-     */
-    select?: TemporaryDataSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TemporaryDataInclude<ExtArgs> | null
-    where?: TemporaryDataWhereInput
-    orderBy?: TemporaryDataOrderByWithRelationInput | TemporaryDataOrderByWithRelationInput[]
-    cursor?: TemporaryDataWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TemporaryDataScalarFieldEnum | TemporaryDataScalarFieldEnum[]
-  }
-
-
-  /**
    * User.ShopifyOrder
    */
   export type User$ShopifyOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2777,23 +2763,44 @@ export namespace Prisma {
 
 
   /**
-   * User.Courier
+   * User.Store
    */
-  export type User$CourierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$StoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Courier
+     * Select specific fields to fetch from the Store
      */
-    select?: CourierSelect<ExtArgs> | null
+    select?: StoreSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CourierInclude<ExtArgs> | null
-    where?: CourierWhereInput
-    orderBy?: CourierOrderByWithRelationInput | CourierOrderByWithRelationInput[]
-    cursor?: CourierWhereUniqueInput
+    include?: StoreInclude<ExtArgs> | null
+    where?: StoreWhereInput
+    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
+    cursor?: StoreWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: CourierScalarFieldEnum | CourierScalarFieldEnum[]
+    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.TemporaryData
+   */
+  export type User$TemporaryDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryData
+     */
+    select?: TemporaryDataSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TemporaryDataInclude<ExtArgs> | null
+    where?: TemporaryDataWhereInput
+    orderBy?: TemporaryDataOrderByWithRelationInput | TemporaryDataOrderByWithRelationInput[]
+    cursor?: TemporaryDataWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemporaryDataScalarFieldEnum | TemporaryDataScalarFieldEnum[]
   }
 
 
@@ -5227,8 +5234,8 @@ export namespace Prisma {
     billing_address?: boolean
     user_id?: boolean
     customer_id?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["darazOrder"]>
 
   export type DarazOrderSelectScalar = {
@@ -5264,16 +5271,16 @@ export namespace Prisma {
   }
 
   export type DarazOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
 
   export type $DarazOrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "DarazOrder"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       customer: Prisma.$CustomerPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       order_id: string
@@ -5670,9 +5677,9 @@ export namespace Prisma {
   export interface Prisma__DarazOrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
-
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8071,7 +8078,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderMinAggregateOutputType = {
-    id: string | null
     current_total_additional_fees_set: string | null
     current_total_discounts: string | null
     current_total_duties_set: string | null
@@ -8093,10 +8099,10 @@ export namespace Prisma {
     updated_at: Date | null
     user_id: number | null
     customer_id: string | null
+    id: string | null
   }
 
   export type ShopifyOrderMaxAggregateOutputType = {
-    id: string | null
     current_total_additional_fees_set: string | null
     current_total_discounts: string | null
     current_total_duties_set: string | null
@@ -8118,10 +8124,10 @@ export namespace Prisma {
     updated_at: Date | null
     user_id: number | null
     customer_id: string | null
+    id: string | null
   }
 
   export type ShopifyOrderCountAggregateOutputType = {
-    id: number
     current_total_additional_fees_set: number
     current_total_discounts: number
     current_total_duties_set: number
@@ -8145,6 +8151,7 @@ export namespace Prisma {
     updated_at: number
     user_id: number
     customer_id: number
+    id: number
     _all: number
   }
 
@@ -8158,7 +8165,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderMinAggregateInputType = {
-    id?: true
     current_total_additional_fees_set?: true
     current_total_discounts?: true
     current_total_duties_set?: true
@@ -8180,10 +8186,10 @@ export namespace Prisma {
     updated_at?: true
     user_id?: true
     customer_id?: true
+    id?: true
   }
 
   export type ShopifyOrderMaxAggregateInputType = {
-    id?: true
     current_total_additional_fees_set?: true
     current_total_discounts?: true
     current_total_duties_set?: true
@@ -8205,10 +8211,10 @@ export namespace Prisma {
     updated_at?: true
     user_id?: true
     customer_id?: true
+    id?: true
   }
 
   export type ShopifyOrderCountAggregateInputType = {
-    id?: true
     current_total_additional_fees_set?: true
     current_total_discounts?: true
     current_total_duties_set?: true
@@ -8232,6 +8238,7 @@ export namespace Prisma {
     updated_at?: true
     user_id?: true
     customer_id?: true
+    id?: true
     _all?: true
   }
 
@@ -8322,7 +8329,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderGroupByOutputType = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -8346,6 +8352,7 @@ export namespace Prisma {
     updated_at: Date
     user_id: number
     customer_id: string
+    id: string
     _count: ShopifyOrderCountAggregateOutputType | null
     _avg: ShopifyOrderAvgAggregateOutputType | null
     _sum: ShopifyOrderSumAggregateOutputType | null
@@ -8368,7 +8375,6 @@ export namespace Prisma {
 
 
   export type ShopifyOrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
     current_total_additional_fees_set?: boolean
     current_total_discounts?: boolean
     current_total_duties_set?: boolean
@@ -8392,12 +8398,12 @@ export namespace Prisma {
     updated_at?: boolean
     user_id?: boolean
     customer_id?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    id?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shopifyOrder"]>
 
   export type ShopifyOrderSelectScalar = {
-    id?: boolean
     current_total_additional_fees_set?: boolean
     current_total_discounts?: boolean
     current_total_duties_set?: boolean
@@ -8421,22 +8427,22 @@ export namespace Prisma {
     updated_at?: boolean
     user_id?: boolean
     customer_id?: boolean
+    id?: boolean
   }
 
   export type ShopifyOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
 
   export type $ShopifyOrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ShopifyOrder"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       customer: Prisma.$CustomerPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
       current_total_additional_fees_set: string
       current_total_discounts: string
       current_total_duties_set: string
@@ -8460,6 +8466,7 @@ export namespace Prisma {
       updated_at: Date
       user_id: number
       customer_id: string
+      id: string
     }, ExtArgs["result"]["shopifyOrder"]>
     composites: {}
   }
@@ -8552,8 +8559,8 @@ export namespace Prisma {
      * // Get first 10 ShopifyOrders
      * const shopifyOrders = await prisma.shopifyOrder.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const shopifyOrderWithIdOnly = await prisma.shopifyOrder.findMany({ select: { id: true } })
+     * // Only select the `current_total_additional_fees_set`
+     * const shopifyOrderWithCurrent_total_additional_fees_setOnly = await prisma.shopifyOrder.findMany({ select: { current_total_additional_fees_set: true } })
      * 
     **/
     findMany<T extends ShopifyOrderFindManyArgs<ExtArgs>>(
@@ -8825,9 +8832,9 @@ export namespace Prisma {
   export interface Prisma__ShopifyOrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
-
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8857,7 +8864,6 @@ export namespace Prisma {
    * Fields of the ShopifyOrder model
    */ 
   interface ShopifyOrderFieldRefs {
-    readonly id: FieldRef<"ShopifyOrder", 'String'>
     readonly current_total_additional_fees_set: FieldRef<"ShopifyOrder", 'String'>
     readonly current_total_discounts: FieldRef<"ShopifyOrder", 'String'>
     readonly current_total_duties_set: FieldRef<"ShopifyOrder", 'String'>
@@ -8881,6 +8887,7 @@ export namespace Prisma {
     readonly updated_at: FieldRef<"ShopifyOrder", 'DateTime'>
     readonly user_id: FieldRef<"ShopifyOrder", 'Int'>
     readonly customer_id: FieldRef<"ShopifyOrder", 'String'>
+    readonly id: FieldRef<"ShopifyOrder", 'String'>
   }
     
 
@@ -11104,7 +11111,8 @@ export namespace Prisma {
     password: 'password',
     phone: 'phone',
     address: 'address',
-    joined_at: 'joined_at'
+    joined_at: 'joined_at',
+    user_events: 'user_events'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -11204,7 +11212,6 @@ export namespace Prisma {
 
 
   export const ShopifyOrderScalarFieldEnum: {
-    id: 'id',
     current_total_additional_fees_set: 'current_total_additional_fees_set',
     current_total_discounts: 'current_total_discounts',
     current_total_duties_set: 'current_total_duties_set',
@@ -11227,7 +11234,8 @@ export namespace Prisma {
     total_price: 'total_price',
     updated_at: 'updated_at',
     user_id: 'user_id',
-    customer_id: 'customer_id'
+    customer_id: 'customer_id',
+    id: 'id'
   };
 
   export type ShopifyOrderScalarFieldEnum = (typeof ShopifyOrderScalarFieldEnum)[keyof typeof ShopifyOrderScalarFieldEnum]
@@ -11265,6 +11273,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const JsonNullValueInput: {
     JsonNull: typeof JsonNull
   };
@@ -11287,6 +11303,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -11379,13 +11403,14 @@ export namespace Prisma {
     phone?: StringFilter<"User"> | string
     address?: StringFilter<"User"> | string
     joined_at?: DateTimeFilter<"User"> | Date | string
-    Store?: StoreListRelationFilter
+    user_events?: JsonNullableFilter<"User">
+    Courier?: CourierListRelationFilter
     Customer?: CustomerListRelationFilter
     DarazOrder?: DarazOrderListRelationFilter
     DarazStoreTransaction?: DarazStoreTransactionListRelationFilter
-    TemporaryData?: TemporaryDataListRelationFilter
     ShopifyOrder?: ShopifyOrderListRelationFilter
-    Courier?: CourierListRelationFilter
+    Store?: StoreListRelationFilter
+    TemporaryData?: TemporaryDataListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11397,13 +11422,14 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
-    Store?: StoreOrderByRelationAggregateInput
+    user_events?: SortOrderInput | SortOrder
+    Courier?: CourierOrderByRelationAggregateInput
     Customer?: CustomerOrderByRelationAggregateInput
     DarazOrder?: DarazOrderOrderByRelationAggregateInput
     DarazStoreTransaction?: DarazStoreTransactionOrderByRelationAggregateInput
-    TemporaryData?: TemporaryDataOrderByRelationAggregateInput
     ShopifyOrder?: ShopifyOrderOrderByRelationAggregateInput
-    Courier?: CourierOrderByRelationAggregateInput
+    Store?: StoreOrderByRelationAggregateInput
+    TemporaryData?: TemporaryDataOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11418,13 +11444,14 @@ export namespace Prisma {
     phone?: StringFilter<"User"> | string
     address?: StringFilter<"User"> | string
     joined_at?: DateTimeFilter<"User"> | Date | string
-    Store?: StoreListRelationFilter
+    user_events?: JsonNullableFilter<"User">
+    Courier?: CourierListRelationFilter
     Customer?: CustomerListRelationFilter
     DarazOrder?: DarazOrderListRelationFilter
     DarazStoreTransaction?: DarazStoreTransactionListRelationFilter
-    TemporaryData?: TemporaryDataListRelationFilter
     ShopifyOrder?: ShopifyOrderListRelationFilter
-    Courier?: CourierListRelationFilter
+    Store?: StoreListRelationFilter
+    TemporaryData?: TemporaryDataListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11436,6 +11463,7 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
+    user_events?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -11455,6 +11483,7 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"User"> | string
     address?: StringWithAggregatesFilter<"User"> | string
     joined_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    user_events?: JsonNullableWithAggregatesFilter<"User">
   }
 
   export type StoreWhereInput = {
@@ -11640,8 +11669,8 @@ export namespace Prisma {
     billing_address?: JsonFilter<"DarazOrder">
     user_id?: IntFilter<"DarazOrder"> | number
     customer_id?: StringFilter<"DarazOrder"> | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
     customer?: XOR<CustomerRelationFilter, CustomerWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }
 
   export type DarazOrderOrderByWithRelationInput = {
@@ -11674,8 +11703,8 @@ export namespace Prisma {
     billing_address?: SortOrder
     user_id?: SortOrder
     customer_id?: SortOrder
-    user?: UserOrderByWithRelationInput
     customer?: CustomerOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type DarazOrderWhereUniqueInput = Prisma.AtLeast<{
@@ -11711,8 +11740,8 @@ export namespace Prisma {
     billing_address?: JsonFilter<"DarazOrder">
     user_id?: IntFilter<"DarazOrder"> | number
     customer_id?: StringFilter<"DarazOrder"> | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
     customer?: XOR<CustomerRelationFilter, CustomerWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }, "order_id">
 
   export type DarazOrderOrderByWithAggregationInput = {
@@ -11945,7 +11974,6 @@ export namespace Prisma {
     AND?: ShopifyOrderWhereInput | ShopifyOrderWhereInput[]
     OR?: ShopifyOrderWhereInput[]
     NOT?: ShopifyOrderWhereInput | ShopifyOrderWhereInput[]
-    id?: StringFilter<"ShopifyOrder"> | string
     current_total_additional_fees_set?: StringFilter<"ShopifyOrder"> | string
     current_total_discounts?: StringFilter<"ShopifyOrder"> | string
     current_total_duties_set?: StringFilter<"ShopifyOrder"> | string
@@ -11969,12 +11997,12 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"ShopifyOrder"> | Date | string
     user_id?: IntFilter<"ShopifyOrder"> | number
     customer_id?: StringFilter<"ShopifyOrder"> | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    id?: StringFilter<"ShopifyOrder"> | string
     customer?: XOR<CustomerRelationFilter, CustomerWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }
 
   export type ShopifyOrderOrderByWithRelationInput = {
-    id?: SortOrder
     current_total_additional_fees_set?: SortOrder
     current_total_discounts?: SortOrder
     current_total_duties_set?: SortOrder
@@ -11998,8 +12026,9 @@ export namespace Prisma {
     updated_at?: SortOrder
     user_id?: SortOrder
     customer_id?: SortOrder
-    user?: UserOrderByWithRelationInput
+    id?: SortOrder
     customer?: CustomerOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type ShopifyOrderWhereUniqueInput = Prisma.AtLeast<{
@@ -12030,12 +12059,11 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"ShopifyOrder"> | Date | string
     user_id?: IntFilter<"ShopifyOrder"> | number
     customer_id?: StringFilter<"ShopifyOrder"> | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
     customer?: XOR<CustomerRelationFilter, CustomerWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
 
   export type ShopifyOrderOrderByWithAggregationInput = {
-    id?: SortOrder
     current_total_additional_fees_set?: SortOrder
     current_total_discounts?: SortOrder
     current_total_duties_set?: SortOrder
@@ -12059,6 +12087,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     user_id?: SortOrder
     customer_id?: SortOrder
+    id?: SortOrder
     _count?: ShopifyOrderCountOrderByAggregateInput
     _avg?: ShopifyOrderAvgOrderByAggregateInput
     _max?: ShopifyOrderMaxOrderByAggregateInput
@@ -12070,7 +12099,6 @@ export namespace Prisma {
     AND?: ShopifyOrderScalarWhereWithAggregatesInput | ShopifyOrderScalarWhereWithAggregatesInput[]
     OR?: ShopifyOrderScalarWhereWithAggregatesInput[]
     NOT?: ShopifyOrderScalarWhereWithAggregatesInput | ShopifyOrderScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ShopifyOrder"> | string
     current_total_additional_fees_set?: StringWithAggregatesFilter<"ShopifyOrder"> | string
     current_total_discounts?: StringWithAggregatesFilter<"ShopifyOrder"> | string
     current_total_duties_set?: StringWithAggregatesFilter<"ShopifyOrder"> | string
@@ -12094,6 +12122,7 @@ export namespace Prisma {
     updated_at?: DateTimeWithAggregatesFilter<"ShopifyOrder"> | Date | string
     user_id?: IntWithAggregatesFilter<"ShopifyOrder"> | number
     customer_id?: StringWithAggregatesFilter<"ShopifyOrder"> | string
+    id?: StringWithAggregatesFilter<"ShopifyOrder"> | string
   }
 
   export type CourierWhereInput = {
@@ -12225,13 +12254,14 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierCreateNestedManyWithoutUserInput
     Customer?: CustomerCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
+    Store?: StoreCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12243,13 +12273,14 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12260,13 +12291,14 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUpdateManyWithoutUserNestedInput
     Customer?: CustomerUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
+    Store?: StoreUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12278,13 +12310,14 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12296,6 +12329,7 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserUpdateManyMutationInput = {
@@ -12306,6 +12340,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -12317,6 +12352,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type StoreCreateInput = {
@@ -12507,8 +12543,8 @@ export namespace Prisma {
     transactions: JsonNullValueInput | InputJsonValue
     shipping_address: JsonNullValueInput | InputJsonValue
     billing_address: JsonNullValueInput | InputJsonValue
-    user: UserCreateNestedOneWithoutDarazOrderInput
     customer: CustomerCreateNestedOneWithoutDarazOrderInput
+    user: UserCreateNestedOneWithoutDarazOrderInput
   }
 
   export type DarazOrderUncheckedCreateInput = {
@@ -12571,8 +12607,8 @@ export namespace Prisma {
     transactions?: JsonNullValueInput | InputJsonValue
     shipping_address?: JsonNullValueInput | InputJsonValue
     billing_address?: JsonNullValueInput | InputJsonValue
-    user?: UserUpdateOneRequiredWithoutDarazOrderNestedInput
     customer?: CustomerUpdateOneRequiredWithoutDarazOrderNestedInput
+    user?: UserUpdateOneRequiredWithoutDarazOrderNestedInput
   }
 
   export type DarazOrderUncheckedUpdateInput = {
@@ -12865,7 +12901,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderCreateInput = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -12887,12 +12922,12 @@ export namespace Prisma {
     total_outstanding: string
     total_price: string
     updated_at: Date | string
-    user: UserCreateNestedOneWithoutShopifyOrderInput
+    id: string
     customer: CustomerCreateNestedOneWithoutShopifyOrderInput
+    user: UserCreateNestedOneWithoutShopifyOrderInput
   }
 
   export type ShopifyOrderUncheckedCreateInput = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -12916,10 +12951,10 @@ export namespace Prisma {
     updated_at: Date | string
     user_id: number
     customer_id: string
+    id: string
   }
 
   export type ShopifyOrderUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
     current_total_discounts?: StringFieldUpdateOperationsInput | string
     current_total_duties_set?: StringFieldUpdateOperationsInput | string
@@ -12941,12 +12976,12 @@ export namespace Prisma {
     total_outstanding?: StringFieldUpdateOperationsInput | string
     total_price?: StringFieldUpdateOperationsInput | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutShopifyOrderNestedInput
+    id?: StringFieldUpdateOperationsInput | string
     customer?: CustomerUpdateOneRequiredWithoutShopifyOrderNestedInput
+    user?: UserUpdateOneRequiredWithoutShopifyOrderNestedInput
   }
 
   export type ShopifyOrderUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
     current_total_discounts?: StringFieldUpdateOperationsInput | string
     current_total_duties_set?: StringFieldUpdateOperationsInput | string
@@ -12970,10 +13005,10 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: IntFieldUpdateOperationsInput | number
     customer_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ShopifyOrderCreateManyInput = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -12997,10 +13032,10 @@ export namespace Prisma {
     updated_at: Date | string
     user_id: number
     customer_id: string
+    id: string
   }
 
   export type ShopifyOrderUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
     current_total_discounts?: StringFieldUpdateOperationsInput | string
     current_total_duties_set?: StringFieldUpdateOperationsInput | string
@@ -13022,10 +13057,10 @@ export namespace Prisma {
     total_outstanding?: StringFieldUpdateOperationsInput | string
     total_price?: StringFieldUpdateOperationsInput | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ShopifyOrderUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
     current_total_discounts?: StringFieldUpdateOperationsInput | string
     current_total_duties_set?: StringFieldUpdateOperationsInput | string
@@ -13049,6 +13084,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: IntFieldUpdateOperationsInput | number
     customer_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
   }
 
   export type CourierCreateInput = {
@@ -13206,11 +13242,33 @@ export namespace Prisma {
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type StoreListRelationFilter = {
-    every?: StoreWhereInput
-    some?: StoreWhereInput
-    none?: StoreWhereInput
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type CourierListRelationFilter = {
+    every?: CourierWhereInput
+    some?: CourierWhereInput
+    none?: CourierWhereInput
   }
 
   export type CustomerListRelationFilter = {
@@ -13231,25 +13289,30 @@ export namespace Prisma {
     none?: DarazStoreTransactionWhereInput
   }
 
-  export type TemporaryDataListRelationFilter = {
-    every?: TemporaryDataWhereInput
-    some?: TemporaryDataWhereInput
-    none?: TemporaryDataWhereInput
-  }
-
   export type ShopifyOrderListRelationFilter = {
     every?: ShopifyOrderWhereInput
     some?: ShopifyOrderWhereInput
     none?: ShopifyOrderWhereInput
   }
 
-  export type CourierListRelationFilter = {
-    every?: CourierWhereInput
-    some?: CourierWhereInput
-    none?: CourierWhereInput
+  export type StoreListRelationFilter = {
+    every?: StoreWhereInput
+    some?: StoreWhereInput
+    none?: StoreWhereInput
   }
 
-  export type StoreOrderByRelationAggregateInput = {
+  export type TemporaryDataListRelationFilter = {
+    every?: TemporaryDataWhereInput
+    some?: TemporaryDataWhereInput
+    none?: TemporaryDataWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type CourierOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13265,15 +13328,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type TemporaryDataOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type ShopifyOrderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type CourierOrderByRelationAggregateInput = {
+  export type StoreOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TemporaryDataOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13286,6 +13349,7 @@ export namespace Prisma {
     phone?: SortOrder
     address?: SortOrder
     joined_at?: SortOrder
+    user_events?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -13364,6 +13428,31 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
   export type JsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -13738,7 +13827,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderCountOrderByAggregateInput = {
-    id?: SortOrder
     current_total_additional_fees_set?: SortOrder
     current_total_discounts?: SortOrder
     current_total_duties_set?: SortOrder
@@ -13762,6 +13850,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     user_id?: SortOrder
     customer_id?: SortOrder
+    id?: SortOrder
   }
 
   export type ShopifyOrderAvgOrderByAggregateInput = {
@@ -13769,7 +13858,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderMaxOrderByAggregateInput = {
-    id?: SortOrder
     current_total_additional_fees_set?: SortOrder
     current_total_discounts?: SortOrder
     current_total_duties_set?: SortOrder
@@ -13791,10 +13879,10 @@ export namespace Prisma {
     updated_at?: SortOrder
     user_id?: SortOrder
     customer_id?: SortOrder
+    id?: SortOrder
   }
 
   export type ShopifyOrderMinOrderByAggregateInput = {
-    id?: SortOrder
     current_total_additional_fees_set?: SortOrder
     current_total_discounts?: SortOrder
     current_total_duties_set?: SortOrder
@@ -13816,6 +13904,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     user_id?: SortOrder
     customer_id?: SortOrder
+    id?: SortOrder
   }
 
   export type ShopifyOrderSumOrderByAggregateInput = {
@@ -13890,11 +13979,11 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type StoreCreateNestedManyWithoutUserInput = {
-    create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
-    createMany?: StoreCreateManyUserInputEnvelope
-    connect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+  export type CourierCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
   }
 
   export type CustomerCreateNestedManyWithoutUserInput = {
@@ -13918,13 +14007,6 @@ export namespace Prisma {
     connect?: DarazStoreTransactionWhereUniqueInput | DarazStoreTransactionWhereUniqueInput[]
   }
 
-  export type TemporaryDataCreateNestedManyWithoutUserInput = {
-    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
-    createMany?: TemporaryDataCreateManyUserInputEnvelope
-    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-  }
-
   export type ShopifyOrderCreateNestedManyWithoutUserInput = {
     create?: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput> | ShopifyOrderCreateWithoutUserInput[] | ShopifyOrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ShopifyOrderCreateOrConnectWithoutUserInput | ShopifyOrderCreateOrConnectWithoutUserInput[]
@@ -13932,18 +14014,25 @@ export namespace Prisma {
     connect?: ShopifyOrderWhereUniqueInput | ShopifyOrderWhereUniqueInput[]
   }
 
-  export type CourierCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
-    createMany?: CourierCreateManyUserInputEnvelope
-    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-  }
-
-  export type StoreUncheckedCreateNestedManyWithoutUserInput = {
+  export type StoreCreateNestedManyWithoutUserInput = {
     create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
     createMany?: StoreCreateManyUserInputEnvelope
     connect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+  }
+
+  export type TemporaryDataCreateNestedManyWithoutUserInput = {
+    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
+    createMany?: TemporaryDataCreateManyUserInputEnvelope
+    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+  }
+
+  export type CourierUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
   }
 
   export type CustomerUncheckedCreateNestedManyWithoutUserInput = {
@@ -13967,13 +14056,6 @@ export namespace Prisma {
     connect?: DarazStoreTransactionWhereUniqueInput | DarazStoreTransactionWhereUniqueInput[]
   }
 
-  export type TemporaryDataUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
-    createMany?: TemporaryDataCreateManyUserInputEnvelope
-    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-  }
-
   export type ShopifyOrderUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput> | ShopifyOrderCreateWithoutUserInput[] | ShopifyOrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ShopifyOrderCreateOrConnectWithoutUserInput | ShopifyOrderCreateOrConnectWithoutUserInput[]
@@ -13981,11 +14063,18 @@ export namespace Prisma {
     connect?: ShopifyOrderWhereUniqueInput | ShopifyOrderWhereUniqueInput[]
   }
 
-  export type CourierUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
-    createMany?: CourierCreateManyUserInputEnvelope
-    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+  export type StoreUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
+    createMany?: StoreCreateManyUserInputEnvelope
+    connect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+  }
+
+  export type TemporaryDataUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
+    createMany?: TemporaryDataCreateManyUserInputEnvelope
+    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -13996,18 +14085,18 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type StoreUpdateManyWithoutUserNestedInput = {
-    create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
-    upsert?: StoreUpsertWithWhereUniqueWithoutUserInput | StoreUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: StoreCreateManyUserInputEnvelope
-    set?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
-    disconnect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
-    delete?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
-    connect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
-    update?: StoreUpdateWithWhereUniqueWithoutUserInput | StoreUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: StoreUpdateManyWithWhereWithoutUserInput | StoreUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: StoreScalarWhereInput | StoreScalarWhereInput[]
+  export type CourierUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    upsert?: CourierUpsertWithWhereUniqueWithoutUserInput | CourierUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    set?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    disconnect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    delete?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    update?: CourierUpdateWithWhereUniqueWithoutUserInput | CourierUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourierUpdateManyWithWhereWithoutUserInput | CourierUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourierScalarWhereInput | CourierScalarWhereInput[]
   }
 
   export type CustomerUpdateManyWithoutUserNestedInput = {
@@ -14052,20 +14141,6 @@ export namespace Prisma {
     deleteMany?: DarazStoreTransactionScalarWhereInput | DarazStoreTransactionScalarWhereInput[]
   }
 
-  export type TemporaryDataUpdateManyWithoutUserNestedInput = {
-    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
-    upsert?: TemporaryDataUpsertWithWhereUniqueWithoutUserInput | TemporaryDataUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: TemporaryDataCreateManyUserInputEnvelope
-    set?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    disconnect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    delete?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    update?: TemporaryDataUpdateWithWhereUniqueWithoutUserInput | TemporaryDataUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: TemporaryDataUpdateManyWithWhereWithoutUserInput | TemporaryDataUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
-  }
-
   export type ShopifyOrderUpdateManyWithoutUserNestedInput = {
     create?: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput> | ShopifyOrderCreateWithoutUserInput[] | ShopifyOrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ShopifyOrderCreateOrConnectWithoutUserInput | ShopifyOrderCreateOrConnectWithoutUserInput[]
@@ -14080,29 +14155,7 @@ export namespace Prisma {
     deleteMany?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
   }
 
-  export type CourierUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
-    upsert?: CourierUpsertWithWhereUniqueWithoutUserInput | CourierUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourierCreateManyUserInputEnvelope
-    set?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    disconnect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    delete?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    update?: CourierUpdateWithWhereUniqueWithoutUserInput | CourierUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourierUpdateManyWithWhereWithoutUserInput | CourierUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CourierScalarWhereInput | CourierScalarWhereInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type StoreUncheckedUpdateManyWithoutUserNestedInput = {
+  export type StoreUpdateManyWithoutUserNestedInput = {
     create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
     upsert?: StoreUpsertWithWhereUniqueWithoutUserInput | StoreUpsertWithWhereUniqueWithoutUserInput[]
@@ -14114,6 +14167,42 @@ export namespace Prisma {
     update?: StoreUpdateWithWhereUniqueWithoutUserInput | StoreUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: StoreUpdateManyWithWhereWithoutUserInput | StoreUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: StoreScalarWhereInput | StoreScalarWhereInput[]
+  }
+
+  export type TemporaryDataUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
+    upsert?: TemporaryDataUpsertWithWhereUniqueWithoutUserInput | TemporaryDataUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TemporaryDataCreateManyUserInputEnvelope
+    set?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    disconnect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    delete?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    update?: TemporaryDataUpdateWithWhereUniqueWithoutUserInput | TemporaryDataUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TemporaryDataUpdateManyWithWhereWithoutUserInput | TemporaryDataUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CourierUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
+    upsert?: CourierUpsertWithWhereUniqueWithoutUserInput | CourierUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourierCreateManyUserInputEnvelope
+    set?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    disconnect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    delete?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
+    update?: CourierUpdateWithWhereUniqueWithoutUserInput | CourierUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourierUpdateManyWithWhereWithoutUserInput | CourierUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourierScalarWhereInput | CourierScalarWhereInput[]
   }
 
   export type CustomerUncheckedUpdateManyWithoutUserNestedInput = {
@@ -14158,20 +14247,6 @@ export namespace Prisma {
     deleteMany?: DarazStoreTransactionScalarWhereInput | DarazStoreTransactionScalarWhereInput[]
   }
 
-  export type TemporaryDataUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
-    upsert?: TemporaryDataUpsertWithWhereUniqueWithoutUserInput | TemporaryDataUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: TemporaryDataCreateManyUserInputEnvelope
-    set?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    disconnect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    delete?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
-    update?: TemporaryDataUpdateWithWhereUniqueWithoutUserInput | TemporaryDataUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: TemporaryDataUpdateManyWithWhereWithoutUserInput | TemporaryDataUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
-  }
-
   export type ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput> | ShopifyOrderCreateWithoutUserInput[] | ShopifyOrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ShopifyOrderCreateOrConnectWithoutUserInput | ShopifyOrderCreateOrConnectWithoutUserInput[]
@@ -14186,18 +14261,32 @@ export namespace Prisma {
     deleteMany?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
   }
 
-  export type CourierUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput> | CourierCreateWithoutUserInput[] | CourierUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourierCreateOrConnectWithoutUserInput | CourierCreateOrConnectWithoutUserInput[]
-    upsert?: CourierUpsertWithWhereUniqueWithoutUserInput | CourierUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourierCreateManyUserInputEnvelope
-    set?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    disconnect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    delete?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    connect?: CourierWhereUniqueInput | CourierWhereUniqueInput[]
-    update?: CourierUpdateWithWhereUniqueWithoutUserInput | CourierUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourierUpdateManyWithWhereWithoutUserInput | CourierUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CourierScalarWhereInput | CourierScalarWhereInput[]
+  export type StoreUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput> | StoreCreateWithoutUserInput[] | StoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StoreCreateOrConnectWithoutUserInput | StoreCreateOrConnectWithoutUserInput[]
+    upsert?: StoreUpsertWithWhereUniqueWithoutUserInput | StoreUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StoreCreateManyUserInputEnvelope
+    set?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+    disconnect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+    delete?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+    connect?: StoreWhereUniqueInput | StoreWhereUniqueInput[]
+    update?: StoreUpdateWithWhereUniqueWithoutUserInput | StoreUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StoreUpdateManyWithWhereWithoutUserInput | StoreUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StoreScalarWhereInput | StoreScalarWhereInput[]
+  }
+
+  export type TemporaryDataUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TemporaryDataCreateWithoutUserInput, TemporaryDataUncheckedCreateWithoutUserInput> | TemporaryDataCreateWithoutUserInput[] | TemporaryDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemporaryDataCreateOrConnectWithoutUserInput | TemporaryDataCreateOrConnectWithoutUserInput[]
+    upsert?: TemporaryDataUpsertWithWhereUniqueWithoutUserInput | TemporaryDataUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TemporaryDataCreateManyUserInputEnvelope
+    set?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    disconnect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    delete?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    connect?: TemporaryDataWhereUniqueInput | TemporaryDataWhereUniqueInput[]
+    update?: TemporaryDataUpdateWithWhereUniqueWithoutUserInput | TemporaryDataUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TemporaryDataUpdateManyWithWhereWithoutUserInput | TemporaryDataUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TemporaryDataScalarWhereInput | TemporaryDataScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutStoreInput = {
@@ -14312,16 +14401,16 @@ export namespace Prisma {
     deleteMany?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutDarazOrderInput = {
-    create?: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDarazOrderInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type CustomerCreateNestedOneWithoutDarazOrderInput = {
     create?: XOR<CustomerCreateWithoutDarazOrderInput, CustomerUncheckedCreateWithoutDarazOrderInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutDarazOrderInput
     connect?: CustomerWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDarazOrderInput = {
+    create?: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDarazOrderInput
+    connect?: UserWhereUniqueInput
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -14336,20 +14425,20 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type UserUpdateOneRequiredWithoutDarazOrderNestedInput = {
-    create?: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDarazOrderInput
-    upsert?: UserUpsertWithoutDarazOrderInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDarazOrderInput, UserUpdateWithoutDarazOrderInput>, UserUncheckedUpdateWithoutDarazOrderInput>
-  }
-
   export type CustomerUpdateOneRequiredWithoutDarazOrderNestedInput = {
     create?: XOR<CustomerCreateWithoutDarazOrderInput, CustomerUncheckedCreateWithoutDarazOrderInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutDarazOrderInput
     upsert?: CustomerUpsertWithoutDarazOrderInput
     connect?: CustomerWhereUniqueInput
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutDarazOrderInput, CustomerUpdateWithoutDarazOrderInput>, CustomerUncheckedUpdateWithoutDarazOrderInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDarazOrderNestedInput = {
+    create?: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDarazOrderInput
+    upsert?: UserUpsertWithoutDarazOrderInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDarazOrderInput, UserUpdateWithoutDarazOrderInput>, UserUncheckedUpdateWithoutDarazOrderInput>
   }
 
   export type UserCreateNestedOneWithoutDarazStoreTransactionInput = {
@@ -14380,24 +14469,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTemporaryDataInput, UserUpdateWithoutTemporaryDataInput>, UserUncheckedUpdateWithoutTemporaryDataInput>
   }
 
-  export type UserCreateNestedOneWithoutShopifyOrderInput = {
-    create?: XOR<UserCreateWithoutShopifyOrderInput, UserUncheckedCreateWithoutShopifyOrderInput>
-    connectOrCreate?: UserCreateOrConnectWithoutShopifyOrderInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type CustomerCreateNestedOneWithoutShopifyOrderInput = {
     create?: XOR<CustomerCreateWithoutShopifyOrderInput, CustomerUncheckedCreateWithoutShopifyOrderInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutShopifyOrderInput
     connect?: CustomerWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutShopifyOrderNestedInput = {
+  export type UserCreateNestedOneWithoutShopifyOrderInput = {
     create?: XOR<UserCreateWithoutShopifyOrderInput, UserUncheckedCreateWithoutShopifyOrderInput>
     connectOrCreate?: UserCreateOrConnectWithoutShopifyOrderInput
-    upsert?: UserUpsertWithoutShopifyOrderInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShopifyOrderInput, UserUpdateWithoutShopifyOrderInput>, UserUncheckedUpdateWithoutShopifyOrderInput>
   }
 
   export type CustomerUpdateOneRequiredWithoutShopifyOrderNestedInput = {
@@ -14406,6 +14487,14 @@ export namespace Prisma {
     upsert?: CustomerUpsertWithoutShopifyOrderInput
     connect?: CustomerWhereUniqueInput
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutShopifyOrderInput, CustomerUpdateWithoutShopifyOrderInput>, CustomerUncheckedUpdateWithoutShopifyOrderInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutShopifyOrderNestedInput = {
+    create?: XOR<UserCreateWithoutShopifyOrderInput, UserUncheckedCreateWithoutShopifyOrderInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShopifyOrderInput
+    upsert?: UserUpsertWithoutShopifyOrderInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShopifyOrderInput, UserUpdateWithoutShopifyOrderInput>, UserUncheckedUpdateWithoutShopifyOrderInput>
   }
 
   export type UserCreateNestedOneWithoutCourierInput = {
@@ -14515,6 +14604,39 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
   export type NestedJsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -14567,31 +14689,26 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type StoreCreateWithoutUserInput = {
-    seller_id: string
+  export type CourierCreateWithoutUserInput = {
     name: string
-    platform: string
-    image_url: string
-    connected_at?: Date | string
-    store_info: JsonNullValueInput | InputJsonValue
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
   }
 
-  export type StoreUncheckedCreateWithoutUserInput = {
-    seller_id: string
+  export type CourierUncheckedCreateWithoutUserInput = {
+    id?: number
     name: string
-    platform: string
-    image_url: string
-    connected_at?: Date | string
-    store_info: JsonNullValueInput | InputJsonValue
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
   }
 
-  export type StoreCreateOrConnectWithoutUserInput = {
-    where: StoreWhereUniqueInput
-    create: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput>
+  export type CourierCreateOrConnectWithoutUserInput = {
+    where: CourierWhereUniqueInput
+    create: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput>
   }
 
-  export type StoreCreateManyUserInputEnvelope = {
-    data: StoreCreateManyUserInput | StoreCreateManyUserInput[]
+  export type CourierCreateManyUserInputEnvelope = {
+    data: CourierCreateManyUserInput | CourierCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -14743,6 +14860,96 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ShopifyOrderCreateWithoutUserInput = {
+    current_total_additional_fees_set: string
+    current_total_discounts: string
+    current_total_duties_set: string
+    current_total_price: string
+    current_total_tax: string
+    email: string
+    financial_status: string
+    fulfillment_status: JsonNullValueInput | InputJsonValue
+    line_items: JsonNullValueInput | InputJsonValue
+    note: string
+    phone: string
+    processed_at: Date | string
+    referring_site: string
+    source_name: string
+    subtotal_price: string
+    tags: string
+    total_discounts: string
+    total_line_items_price: string
+    total_outstanding: string
+    total_price: string
+    updated_at: Date | string
+    id: string
+    customer: CustomerCreateNestedOneWithoutShopifyOrderInput
+  }
+
+  export type ShopifyOrderUncheckedCreateWithoutUserInput = {
+    current_total_additional_fees_set: string
+    current_total_discounts: string
+    current_total_duties_set: string
+    current_total_price: string
+    current_total_tax: string
+    email: string
+    financial_status: string
+    fulfillment_status: JsonNullValueInput | InputJsonValue
+    line_items: JsonNullValueInput | InputJsonValue
+    note: string
+    phone: string
+    processed_at: Date | string
+    referring_site: string
+    source_name: string
+    subtotal_price: string
+    tags: string
+    total_discounts: string
+    total_line_items_price: string
+    total_outstanding: string
+    total_price: string
+    updated_at: Date | string
+    customer_id: string
+    id: string
+  }
+
+  export type ShopifyOrderCreateOrConnectWithoutUserInput = {
+    where: ShopifyOrderWhereUniqueInput
+    create: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput>
+  }
+
+  export type ShopifyOrderCreateManyUserInputEnvelope = {
+    data: ShopifyOrderCreateManyUserInput | ShopifyOrderCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StoreCreateWithoutUserInput = {
+    seller_id: string
+    name: string
+    platform: string
+    image_url: string
+    connected_at?: Date | string
+    store_info: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StoreUncheckedCreateWithoutUserInput = {
+    seller_id: string
+    name: string
+    platform: string
+    image_url: string
+    connected_at?: Date | string
+    store_info: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StoreCreateOrConnectWithoutUserInput = {
+    where: StoreWhereUniqueInput
+    create: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput>
+  }
+
+  export type StoreCreateManyUserInputEnvelope = {
+    data: StoreCreateManyUserInput | StoreCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TemporaryDataCreateWithoutUserInput = {
     email: string
     createdAt?: Date | string
@@ -14766,118 +14973,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ShopifyOrderCreateWithoutUserInput = {
-    id: string
-    current_total_additional_fees_set: string
-    current_total_discounts: string
-    current_total_duties_set: string
-    current_total_price: string
-    current_total_tax: string
-    email: string
-    financial_status: string
-    fulfillment_status: JsonNullValueInput | InputJsonValue
-    line_items: JsonNullValueInput | InputJsonValue
-    note: string
-    phone: string
-    processed_at: Date | string
-    referring_site: string
-    source_name: string
-    subtotal_price: string
-    tags: string
-    total_discounts: string
-    total_line_items_price: string
-    total_outstanding: string
-    total_price: string
-    updated_at: Date | string
-    customer: CustomerCreateNestedOneWithoutShopifyOrderInput
-  }
-
-  export type ShopifyOrderUncheckedCreateWithoutUserInput = {
-    id: string
-    current_total_additional_fees_set: string
-    current_total_discounts: string
-    current_total_duties_set: string
-    current_total_price: string
-    current_total_tax: string
-    email: string
-    financial_status: string
-    fulfillment_status: JsonNullValueInput | InputJsonValue
-    line_items: JsonNullValueInput | InputJsonValue
-    note: string
-    phone: string
-    processed_at: Date | string
-    referring_site: string
-    source_name: string
-    subtotal_price: string
-    tags: string
-    total_discounts: string
-    total_line_items_price: string
-    total_outstanding: string
-    total_price: string
-    updated_at: Date | string
-    customer_id: string
-  }
-
-  export type ShopifyOrderCreateOrConnectWithoutUserInput = {
-    where: ShopifyOrderWhereUniqueInput
-    create: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput>
-  }
-
-  export type ShopifyOrderCreateManyUserInputEnvelope = {
-    data: ShopifyOrderCreateManyUserInput | ShopifyOrderCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CourierCreateWithoutUserInput = {
-    name: string
-    data: JsonNullValueInput | InputJsonValue
-    shippers: JsonNullValueInput | InputJsonValue
-  }
-
-  export type CourierUncheckedCreateWithoutUserInput = {
-    id?: number
-    name: string
-    data: JsonNullValueInput | InputJsonValue
-    shippers: JsonNullValueInput | InputJsonValue
-  }
-
-  export type CourierCreateOrConnectWithoutUserInput = {
+  export type CourierUpsertWithWhereUniqueWithoutUserInput = {
     where: CourierWhereUniqueInput
+    update: XOR<CourierUpdateWithoutUserInput, CourierUncheckedUpdateWithoutUserInput>
     create: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput>
   }
 
-  export type CourierCreateManyUserInputEnvelope = {
-    data: CourierCreateManyUserInput | CourierCreateManyUserInput[]
-    skipDuplicates?: boolean
+  export type CourierUpdateWithWhereUniqueWithoutUserInput = {
+    where: CourierWhereUniqueInput
+    data: XOR<CourierUpdateWithoutUserInput, CourierUncheckedUpdateWithoutUserInput>
   }
 
-  export type StoreUpsertWithWhereUniqueWithoutUserInput = {
-    where: StoreWhereUniqueInput
-    update: XOR<StoreUpdateWithoutUserInput, StoreUncheckedUpdateWithoutUserInput>
-    create: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput>
+  export type CourierUpdateManyWithWhereWithoutUserInput = {
+    where: CourierScalarWhereInput
+    data: XOR<CourierUpdateManyMutationInput, CourierUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type StoreUpdateWithWhereUniqueWithoutUserInput = {
-    where: StoreWhereUniqueInput
-    data: XOR<StoreUpdateWithoutUserInput, StoreUncheckedUpdateWithoutUserInput>
-  }
-
-  export type StoreUpdateManyWithWhereWithoutUserInput = {
-    where: StoreScalarWhereInput
-    data: XOR<StoreUpdateManyMutationInput, StoreUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type StoreScalarWhereInput = {
-    AND?: StoreScalarWhereInput | StoreScalarWhereInput[]
-    OR?: StoreScalarWhereInput[]
-    NOT?: StoreScalarWhereInput | StoreScalarWhereInput[]
-    seller_id?: StringFilter<"Store"> | string
-    name?: StringFilter<"Store"> | string
-    platform?: StringFilter<"Store"> | string
-    image_url?: StringFilter<"Store"> | string
-    connected_at?: DateTimeFilter<"Store"> | Date | string
-    store_info?: JsonFilter<"Store">
-    user_id?: IntFilter<"Store"> | number
+  export type CourierScalarWhereInput = {
+    AND?: CourierScalarWhereInput | CourierScalarWhereInput[]
+    OR?: CourierScalarWhereInput[]
+    NOT?: CourierScalarWhereInput | CourierScalarWhereInput[]
+    id?: IntFilter<"Courier"> | number
+    name?: StringFilter<"Courier"> | string
+    data?: JsonFilter<"Courier">
+    shippers?: JsonFilter<"Courier">
+    user_id?: IntFilter<"Courier"> | number
   }
 
   export type CustomerUpsertWithWhereUniqueWithoutUserInput = {
@@ -14997,6 +15117,81 @@ export namespace Prisma {
     user_id?: IntFilter<"DarazStoreTransaction"> | number
   }
 
+  export type ShopifyOrderUpsertWithWhereUniqueWithoutUserInput = {
+    where: ShopifyOrderWhereUniqueInput
+    update: XOR<ShopifyOrderUpdateWithoutUserInput, ShopifyOrderUncheckedUpdateWithoutUserInput>
+    create: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput>
+  }
+
+  export type ShopifyOrderUpdateWithWhereUniqueWithoutUserInput = {
+    where: ShopifyOrderWhereUniqueInput
+    data: XOR<ShopifyOrderUpdateWithoutUserInput, ShopifyOrderUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ShopifyOrderUpdateManyWithWhereWithoutUserInput = {
+    where: ShopifyOrderScalarWhereInput
+    data: XOR<ShopifyOrderUpdateManyMutationInput, ShopifyOrderUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ShopifyOrderScalarWhereInput = {
+    AND?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
+    OR?: ShopifyOrderScalarWhereInput[]
+    NOT?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
+    current_total_additional_fees_set?: StringFilter<"ShopifyOrder"> | string
+    current_total_discounts?: StringFilter<"ShopifyOrder"> | string
+    current_total_duties_set?: StringFilter<"ShopifyOrder"> | string
+    current_total_price?: StringFilter<"ShopifyOrder"> | string
+    current_total_tax?: StringFilter<"ShopifyOrder"> | string
+    email?: StringFilter<"ShopifyOrder"> | string
+    financial_status?: StringFilter<"ShopifyOrder"> | string
+    fulfillment_status?: JsonFilter<"ShopifyOrder">
+    line_items?: JsonFilter<"ShopifyOrder">
+    note?: StringFilter<"ShopifyOrder"> | string
+    phone?: StringFilter<"ShopifyOrder"> | string
+    processed_at?: DateTimeFilter<"ShopifyOrder"> | Date | string
+    referring_site?: StringFilter<"ShopifyOrder"> | string
+    source_name?: StringFilter<"ShopifyOrder"> | string
+    subtotal_price?: StringFilter<"ShopifyOrder"> | string
+    tags?: StringFilter<"ShopifyOrder"> | string
+    total_discounts?: StringFilter<"ShopifyOrder"> | string
+    total_line_items_price?: StringFilter<"ShopifyOrder"> | string
+    total_outstanding?: StringFilter<"ShopifyOrder"> | string
+    total_price?: StringFilter<"ShopifyOrder"> | string
+    updated_at?: DateTimeFilter<"ShopifyOrder"> | Date | string
+    user_id?: IntFilter<"ShopifyOrder"> | number
+    customer_id?: StringFilter<"ShopifyOrder"> | string
+    id?: StringFilter<"ShopifyOrder"> | string
+  }
+
+  export type StoreUpsertWithWhereUniqueWithoutUserInput = {
+    where: StoreWhereUniqueInput
+    update: XOR<StoreUpdateWithoutUserInput, StoreUncheckedUpdateWithoutUserInput>
+    create: XOR<StoreCreateWithoutUserInput, StoreUncheckedCreateWithoutUserInput>
+  }
+
+  export type StoreUpdateWithWhereUniqueWithoutUserInput = {
+    where: StoreWhereUniqueInput
+    data: XOR<StoreUpdateWithoutUserInput, StoreUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StoreUpdateManyWithWhereWithoutUserInput = {
+    where: StoreScalarWhereInput
+    data: XOR<StoreUpdateManyMutationInput, StoreUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type StoreScalarWhereInput = {
+    AND?: StoreScalarWhereInput | StoreScalarWhereInput[]
+    OR?: StoreScalarWhereInput[]
+    NOT?: StoreScalarWhereInput | StoreScalarWhereInput[]
+    seller_id?: StringFilter<"Store"> | string
+    name?: StringFilter<"Store"> | string
+    platform?: StringFilter<"Store"> | string
+    image_url?: StringFilter<"Store"> | string
+    connected_at?: DateTimeFilter<"Store"> | Date | string
+    store_info?: JsonFilter<"Store">
+    user_id?: IntFilter<"Store"> | number
+  }
+
   export type TemporaryDataUpsertWithWhereUniqueWithoutUserInput = {
     where: TemporaryDataWhereUniqueInput
     update: XOR<TemporaryDataUpdateWithoutUserInput, TemporaryDataUncheckedUpdateWithoutUserInput>
@@ -15024,79 +15219,6 @@ export namespace Prisma {
     user_id?: IntFilter<"TemporaryData"> | number
   }
 
-  export type ShopifyOrderUpsertWithWhereUniqueWithoutUserInput = {
-    where: ShopifyOrderWhereUniqueInput
-    update: XOR<ShopifyOrderUpdateWithoutUserInput, ShopifyOrderUncheckedUpdateWithoutUserInput>
-    create: XOR<ShopifyOrderCreateWithoutUserInput, ShopifyOrderUncheckedCreateWithoutUserInput>
-  }
-
-  export type ShopifyOrderUpdateWithWhereUniqueWithoutUserInput = {
-    where: ShopifyOrderWhereUniqueInput
-    data: XOR<ShopifyOrderUpdateWithoutUserInput, ShopifyOrderUncheckedUpdateWithoutUserInput>
-  }
-
-  export type ShopifyOrderUpdateManyWithWhereWithoutUserInput = {
-    where: ShopifyOrderScalarWhereInput
-    data: XOR<ShopifyOrderUpdateManyMutationInput, ShopifyOrderUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type ShopifyOrderScalarWhereInput = {
-    AND?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
-    OR?: ShopifyOrderScalarWhereInput[]
-    NOT?: ShopifyOrderScalarWhereInput | ShopifyOrderScalarWhereInput[]
-    id?: StringFilter<"ShopifyOrder"> | string
-    current_total_additional_fees_set?: StringFilter<"ShopifyOrder"> | string
-    current_total_discounts?: StringFilter<"ShopifyOrder"> | string
-    current_total_duties_set?: StringFilter<"ShopifyOrder"> | string
-    current_total_price?: StringFilter<"ShopifyOrder"> | string
-    current_total_tax?: StringFilter<"ShopifyOrder"> | string
-    email?: StringFilter<"ShopifyOrder"> | string
-    financial_status?: StringFilter<"ShopifyOrder"> | string
-    fulfillment_status?: JsonFilter<"ShopifyOrder">
-    line_items?: JsonFilter<"ShopifyOrder">
-    note?: StringFilter<"ShopifyOrder"> | string
-    phone?: StringFilter<"ShopifyOrder"> | string
-    processed_at?: DateTimeFilter<"ShopifyOrder"> | Date | string
-    referring_site?: StringFilter<"ShopifyOrder"> | string
-    source_name?: StringFilter<"ShopifyOrder"> | string
-    subtotal_price?: StringFilter<"ShopifyOrder"> | string
-    tags?: StringFilter<"ShopifyOrder"> | string
-    total_discounts?: StringFilter<"ShopifyOrder"> | string
-    total_line_items_price?: StringFilter<"ShopifyOrder"> | string
-    total_outstanding?: StringFilter<"ShopifyOrder"> | string
-    total_price?: StringFilter<"ShopifyOrder"> | string
-    updated_at?: DateTimeFilter<"ShopifyOrder"> | Date | string
-    user_id?: IntFilter<"ShopifyOrder"> | number
-    customer_id?: StringFilter<"ShopifyOrder"> | string
-  }
-
-  export type CourierUpsertWithWhereUniqueWithoutUserInput = {
-    where: CourierWhereUniqueInput
-    update: XOR<CourierUpdateWithoutUserInput, CourierUncheckedUpdateWithoutUserInput>
-    create: XOR<CourierCreateWithoutUserInput, CourierUncheckedCreateWithoutUserInput>
-  }
-
-  export type CourierUpdateWithWhereUniqueWithoutUserInput = {
-    where: CourierWhereUniqueInput
-    data: XOR<CourierUpdateWithoutUserInput, CourierUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CourierUpdateManyWithWhereWithoutUserInput = {
-    where: CourierScalarWhereInput
-    data: XOR<CourierUpdateManyMutationInput, CourierUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type CourierScalarWhereInput = {
-    AND?: CourierScalarWhereInput | CourierScalarWhereInput[]
-    OR?: CourierScalarWhereInput[]
-    NOT?: CourierScalarWhereInput | CourierScalarWhereInput[]
-    id?: IntFilter<"Courier"> | number
-    name?: StringFilter<"Courier"> | string
-    data?: JsonFilter<"Courier">
-    shippers?: JsonFilter<"Courier">
-    user_id?: IntFilter<"Courier"> | number
-  }
-
   export type UserCreateWithoutStoreInput = {
     first_name: string
     last_name: string
@@ -15105,12 +15227,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierCreateNestedManyWithoutUserInput
     Customer?: CustomerCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStoreInput = {
@@ -15122,12 +15245,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStoreInput = {
@@ -15154,12 +15278,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUpdateManyWithoutUserNestedInput
     Customer?: CustomerUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStoreInput = {
@@ -15171,12 +15296,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCustomerInput = {
@@ -15187,12 +15313,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
+    Store?: StoreCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomerInput = {
@@ -15204,12 +15331,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomerInput = {
@@ -15290,7 +15418,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderCreateWithoutCustomerInput = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -15312,11 +15439,11 @@ export namespace Prisma {
     total_outstanding: string
     total_price: string
     updated_at: Date | string
+    id: string
     user: UserCreateNestedOneWithoutShopifyOrderInput
   }
 
   export type ShopifyOrderUncheckedCreateWithoutCustomerInput = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -15339,6 +15466,7 @@ export namespace Prisma {
     total_price: string
     updated_at: Date | string
     user_id: number
+    id: string
   }
 
   export type ShopifyOrderCreateOrConnectWithoutCustomerInput = {
@@ -15370,12 +15498,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
+    Store?: StoreUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomerInput = {
@@ -15387,12 +15516,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DarazOrderUpsertWithWhereUniqueWithoutCustomerInput = {
@@ -15427,44 +15557,6 @@ export namespace Prisma {
     data: XOR<ShopifyOrderUpdateManyMutationInput, ShopifyOrderUncheckedUpdateManyWithoutCustomerInput>
   }
 
-  export type UserCreateWithoutDarazOrderInput = {
-    first_name: string
-    last_name: string
-    email: string
-    password: string
-    phone: string
-    address: string
-    joined_at?: Date | string
-    Store?: StoreCreateNestedManyWithoutUserInput
-    Customer?: CustomerCreateNestedManyWithoutUserInput
-    DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-    ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutDarazOrderInput = {
-    id?: number
-    first_name: string
-    last_name: string
-    email: string
-    password: string
-    phone: string
-    address: string
-    joined_at?: Date | string
-    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
-    Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
-    DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-    ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutDarazOrderInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
-  }
-
   export type CustomerCreateWithoutDarazOrderInput = {
     id: string
     shopify_id: string
@@ -15496,48 +15588,44 @@ export namespace Prisma {
     create: XOR<CustomerCreateWithoutDarazOrderInput, CustomerUncheckedCreateWithoutDarazOrderInput>
   }
 
-  export type UserUpsertWithoutDarazOrderInput = {
-    update: XOR<UserUpdateWithoutDarazOrderInput, UserUncheckedUpdateWithoutDarazOrderInput>
+  export type UserCreateWithoutDarazOrderInput = {
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joined_at?: Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierCreateNestedManyWithoutUserInput
+    Customer?: CustomerCreateNestedManyWithoutUserInput
+    DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
+    ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
+    Store?: StoreCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDarazOrderInput = {
+    id?: number
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joined_at?: Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
+    DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
+    ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
+    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDarazOrderInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutDarazOrderInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutDarazOrderInput, UserUncheckedUpdateWithoutDarazOrderInput>
-  }
-
-  export type UserUpdateWithoutDarazOrderInput = {
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUpdateManyWithoutUserNestedInput
-    Customer?: CustomerUpdateManyWithoutUserNestedInput
-    DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-    ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutDarazOrderInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
-    Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
-    DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
-    ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerUpsertWithoutDarazOrderInput = {
@@ -15577,6 +15665,52 @@ export namespace Prisma {
     ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
+  export type UserUpsertWithoutDarazOrderInput = {
+    update: XOR<UserUpdateWithoutDarazOrderInput, UserUncheckedUpdateWithoutDarazOrderInput>
+    create: XOR<UserCreateWithoutDarazOrderInput, UserUncheckedCreateWithoutDarazOrderInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDarazOrderInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDarazOrderInput, UserUncheckedUpdateWithoutDarazOrderInput>
+  }
+
+  export type UserUpdateWithoutDarazOrderInput = {
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUpdateManyWithoutUserNestedInput
+    Customer?: CustomerUpdateManyWithoutUserNestedInput
+    DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
+    ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
+    Store?: StoreUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDarazOrderInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
+    DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
+    ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
+    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutDarazStoreTransactionInput = {
     first_name: string
     last_name: string
@@ -15585,12 +15719,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierCreateNestedManyWithoutUserInput
     Customer?: CustomerCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
+    Store?: StoreCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDarazStoreTransactionInput = {
@@ -15602,12 +15737,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDarazStoreTransactionInput = {
@@ -15634,12 +15770,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUpdateManyWithoutUserNestedInput
     Customer?: CustomerUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
+    Store?: StoreUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDarazStoreTransactionInput = {
@@ -15651,12 +15788,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTemporaryDataInput = {
@@ -15667,12 +15805,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierCreateNestedManyWithoutUserInput
     Customer?: CustomerCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
+    Store?: StoreCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTemporaryDataInput = {
@@ -15684,12 +15823,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
     Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTemporaryDataInput = {
@@ -15716,12 +15856,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUpdateManyWithoutUserNestedInput
     Customer?: CustomerUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
+    Store?: StoreUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTemporaryDataInput = {
@@ -15733,50 +15874,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
     Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutShopifyOrderInput = {
-    first_name: string
-    last_name: string
-    email: string
-    password: string
-    phone: string
-    address: string
-    joined_at?: Date | string
-    Store?: StoreCreateNestedManyWithoutUserInput
-    Customer?: CustomerCreateNestedManyWithoutUserInput
-    DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
-    DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
-    Courier?: CourierCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutShopifyOrderInput = {
-    id?: number
-    first_name: string
-    last_name: string
-    email: string
-    password: string
-    phone: string
-    address: string
-    joined_at?: Date | string
-    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
-    Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
-    DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
-    DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
-    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutShopifyOrderInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutShopifyOrderInput, UserUncheckedCreateWithoutShopifyOrderInput>
+    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerCreateWithoutShopifyOrderInput = {
@@ -15810,48 +15914,44 @@ export namespace Prisma {
     create: XOR<CustomerCreateWithoutShopifyOrderInput, CustomerUncheckedCreateWithoutShopifyOrderInput>
   }
 
-  export type UserUpsertWithoutShopifyOrderInput = {
-    update: XOR<UserUpdateWithoutShopifyOrderInput, UserUncheckedUpdateWithoutShopifyOrderInput>
+  export type UserCreateWithoutShopifyOrderInput = {
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joined_at?: Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierCreateNestedManyWithoutUserInput
+    Customer?: CustomerCreateNestedManyWithoutUserInput
+    DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
+    DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
+    Store?: StoreCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutShopifyOrderInput = {
+    id?: number
+    first_name: string
+    last_name: string
+    email: string
+    password: string
+    phone: string
+    address: string
+    joined_at?: Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedCreateNestedManyWithoutUserInput
+    Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
+    DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
+    DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
+    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutShopifyOrderInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutShopifyOrderInput, UserUncheckedCreateWithoutShopifyOrderInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutShopifyOrderInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutShopifyOrderInput, UserUncheckedUpdateWithoutShopifyOrderInput>
-  }
-
-  export type UserUpdateWithoutShopifyOrderInput = {
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUpdateManyWithoutUserNestedInput
-    Customer?: CustomerUpdateManyWithoutUserNestedInput
-    DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
-    DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
-    Courier?: CourierUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutShopifyOrderInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
-    Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
-    DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
-    DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
-    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CustomerUpsertWithoutShopifyOrderInput = {
@@ -15891,6 +15991,52 @@ export namespace Prisma {
     DarazOrder?: DarazOrderUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
+  export type UserUpsertWithoutShopifyOrderInput = {
+    update: XOR<UserUpdateWithoutShopifyOrderInput, UserUncheckedUpdateWithoutShopifyOrderInput>
+    create: XOR<UserCreateWithoutShopifyOrderInput, UserUncheckedCreateWithoutShopifyOrderInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutShopifyOrderInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutShopifyOrderInput, UserUncheckedUpdateWithoutShopifyOrderInput>
+  }
+
+  export type UserUpdateWithoutShopifyOrderInput = {
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUpdateManyWithoutUserNestedInput
+    Customer?: CustomerUpdateManyWithoutUserNestedInput
+    DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
+    DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
+    Store?: StoreUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutShopifyOrderInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_events?: NullableJsonNullValueInput | InputJsonValue
+    Courier?: CourierUncheckedUpdateManyWithoutUserNestedInput
+    Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
+    DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
+    DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
+    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutCourierInput = {
     first_name: string
     last_name: string
@@ -15899,12 +16045,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
     Customer?: CustomerCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderCreateNestedManyWithoutUserInput
+    Store?: StoreCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCourierInput = {
@@ -15916,12 +16063,13 @@ export namespace Prisma {
     phone: string
     address: string
     joined_at?: Date | string
-    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
     Customer?: CustomerUncheckedCreateNestedManyWithoutUserInput
     DarazOrder?: DarazOrderUncheckedCreateNestedManyWithoutUserInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedCreateNestedManyWithoutUserInput
-    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
     ShopifyOrder?: ShopifyOrderUncheckedCreateNestedManyWithoutUserInput
+    Store?: StoreUncheckedCreateNestedManyWithoutUserInput
+    TemporaryData?: TemporaryDataUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCourierInput = {
@@ -15948,12 +16096,13 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
     Customer?: CustomerUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUpdateManyWithoutUserNestedInput
+    Store?: StoreUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCourierInput = {
@@ -15965,21 +16114,20 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     joined_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    user_events?: NullableJsonNullValueInput | InputJsonValue
     Customer?: CustomerUncheckedUpdateManyWithoutUserNestedInput
     DarazOrder?: DarazOrderUncheckedUpdateManyWithoutUserNestedInput
     DarazStoreTransaction?: DarazStoreTransactionUncheckedUpdateManyWithoutUserNestedInput
-    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
     ShopifyOrder?: ShopifyOrderUncheckedUpdateManyWithoutUserNestedInput
+    Store?: StoreUncheckedUpdateManyWithoutUserNestedInput
+    TemporaryData?: TemporaryDataUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type StoreCreateManyUserInput = {
-    seller_id: string
+  export type CourierCreateManyUserInput = {
+    id?: number
     name: string
-    platform: string
-    image_url: string
-    connected_at?: Date | string
-    store_info: JsonNullValueInput | InputJsonValue
+    data: JsonNullValueInput | InputJsonValue
+    shippers: JsonNullValueInput | InputJsonValue
   }
 
   export type CustomerCreateManyUserInput = {
@@ -16039,15 +16187,7 @@ export namespace Prisma {
     comment: string
   }
 
-  export type TemporaryDataCreateManyUserInput = {
-    id?: number
-    email: string
-    createdAt?: Date | string
-    data: JsonNullValueInput | InputJsonValue
-  }
-
   export type ShopifyOrderCreateManyUserInput = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -16070,40 +16210,43 @@ export namespace Prisma {
     total_price: string
     updated_at: Date | string
     customer_id: string
+    id: string
   }
 
-  export type CourierCreateManyUserInput = {
-    id?: number
+  export type StoreCreateManyUserInput = {
+    seller_id: string
     name: string
+    platform: string
+    image_url: string
+    connected_at?: Date | string
+    store_info: JsonNullValueInput | InputJsonValue
+  }
+
+  export type TemporaryDataCreateManyUserInput = {
+    id?: number
+    email: string
+    createdAt?: Date | string
     data: JsonNullValueInput | InputJsonValue
-    shippers: JsonNullValueInput | InputJsonValue
   }
 
-  export type StoreUpdateWithoutUserInput = {
-    seller_id?: StringFieldUpdateOperationsInput | string
+  export type CourierUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
-    platform?: StringFieldUpdateOperationsInput | string
-    image_url?: StringFieldUpdateOperationsInput | string
-    connected_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    store_info?: JsonNullValueInput | InputJsonValue
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
   }
 
-  export type StoreUncheckedUpdateWithoutUserInput = {
-    seller_id?: StringFieldUpdateOperationsInput | string
+  export type CourierUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    platform?: StringFieldUpdateOperationsInput | string
-    image_url?: StringFieldUpdateOperationsInput | string
-    connected_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    store_info?: JsonNullValueInput | InputJsonValue
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
   }
 
-  export type StoreUncheckedUpdateManyWithoutUserInput = {
-    seller_id?: StringFieldUpdateOperationsInput | string
+  export type CourierUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    platform?: StringFieldUpdateOperationsInput | string
-    image_url?: StringFieldUpdateOperationsInput | string
-    connected_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    store_info?: JsonNullValueInput | InputJsonValue
+    data?: JsonNullValueInput | InputJsonValue
+    shippers?: JsonNullValueInput | InputJsonValue
   }
 
   export type CustomerUpdateWithoutUserInput = {
@@ -16281,6 +16424,111 @@ export namespace Prisma {
     comment?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ShopifyOrderUpdateWithoutUserInput = {
+    current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
+    current_total_discounts?: StringFieldUpdateOperationsInput | string
+    current_total_duties_set?: StringFieldUpdateOperationsInput | string
+    current_total_price?: StringFieldUpdateOperationsInput | string
+    current_total_tax?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    financial_status?: StringFieldUpdateOperationsInput | string
+    fulfillment_status?: JsonNullValueInput | InputJsonValue
+    line_items?: JsonNullValueInput | InputJsonValue
+    note?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    processed_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referring_site?: StringFieldUpdateOperationsInput | string
+    source_name?: StringFieldUpdateOperationsInput | string
+    subtotal_price?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    total_discounts?: StringFieldUpdateOperationsInput | string
+    total_line_items_price?: StringFieldUpdateOperationsInput | string
+    total_outstanding?: StringFieldUpdateOperationsInput | string
+    total_price?: StringFieldUpdateOperationsInput | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
+    customer?: CustomerUpdateOneRequiredWithoutShopifyOrderNestedInput
+  }
+
+  export type ShopifyOrderUncheckedUpdateWithoutUserInput = {
+    current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
+    current_total_discounts?: StringFieldUpdateOperationsInput | string
+    current_total_duties_set?: StringFieldUpdateOperationsInput | string
+    current_total_price?: StringFieldUpdateOperationsInput | string
+    current_total_tax?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    financial_status?: StringFieldUpdateOperationsInput | string
+    fulfillment_status?: JsonNullValueInput | InputJsonValue
+    line_items?: JsonNullValueInput | InputJsonValue
+    note?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    processed_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referring_site?: StringFieldUpdateOperationsInput | string
+    source_name?: StringFieldUpdateOperationsInput | string
+    subtotal_price?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    total_discounts?: StringFieldUpdateOperationsInput | string
+    total_line_items_price?: StringFieldUpdateOperationsInput | string
+    total_outstanding?: StringFieldUpdateOperationsInput | string
+    total_price?: StringFieldUpdateOperationsInput | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ShopifyOrderUncheckedUpdateManyWithoutUserInput = {
+    current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
+    current_total_discounts?: StringFieldUpdateOperationsInput | string
+    current_total_duties_set?: StringFieldUpdateOperationsInput | string
+    current_total_price?: StringFieldUpdateOperationsInput | string
+    current_total_tax?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    financial_status?: StringFieldUpdateOperationsInput | string
+    fulfillment_status?: JsonNullValueInput | InputJsonValue
+    line_items?: JsonNullValueInput | InputJsonValue
+    note?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    processed_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referring_site?: StringFieldUpdateOperationsInput | string
+    source_name?: StringFieldUpdateOperationsInput | string
+    subtotal_price?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    total_discounts?: StringFieldUpdateOperationsInput | string
+    total_line_items_price?: StringFieldUpdateOperationsInput | string
+    total_outstanding?: StringFieldUpdateOperationsInput | string
+    total_price?: StringFieldUpdateOperationsInput | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StoreUpdateWithoutUserInput = {
+    seller_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+    connected_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    store_info?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StoreUncheckedUpdateWithoutUserInput = {
+    seller_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+    connected_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    store_info?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StoreUncheckedUpdateManyWithoutUserInput = {
+    seller_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+    connected_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    store_info?: JsonNullValueInput | InputJsonValue
+  }
+
   export type TemporaryDataUpdateWithoutUserInput = {
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16299,104 +16547,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     data?: JsonNullValueInput | InputJsonValue
-  }
-
-  export type ShopifyOrderUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
-    current_total_discounts?: StringFieldUpdateOperationsInput | string
-    current_total_duties_set?: StringFieldUpdateOperationsInput | string
-    current_total_price?: StringFieldUpdateOperationsInput | string
-    current_total_tax?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    financial_status?: StringFieldUpdateOperationsInput | string
-    fulfillment_status?: JsonNullValueInput | InputJsonValue
-    line_items?: JsonNullValueInput | InputJsonValue
-    note?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    processed_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    referring_site?: StringFieldUpdateOperationsInput | string
-    source_name?: StringFieldUpdateOperationsInput | string
-    subtotal_price?: StringFieldUpdateOperationsInput | string
-    tags?: StringFieldUpdateOperationsInput | string
-    total_discounts?: StringFieldUpdateOperationsInput | string
-    total_line_items_price?: StringFieldUpdateOperationsInput | string
-    total_outstanding?: StringFieldUpdateOperationsInput | string
-    total_price?: StringFieldUpdateOperationsInput | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer?: CustomerUpdateOneRequiredWithoutShopifyOrderNestedInput
-  }
-
-  export type ShopifyOrderUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
-    current_total_discounts?: StringFieldUpdateOperationsInput | string
-    current_total_duties_set?: StringFieldUpdateOperationsInput | string
-    current_total_price?: StringFieldUpdateOperationsInput | string
-    current_total_tax?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    financial_status?: StringFieldUpdateOperationsInput | string
-    fulfillment_status?: JsonNullValueInput | InputJsonValue
-    line_items?: JsonNullValueInput | InputJsonValue
-    note?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    processed_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    referring_site?: StringFieldUpdateOperationsInput | string
-    source_name?: StringFieldUpdateOperationsInput | string
-    subtotal_price?: StringFieldUpdateOperationsInput | string
-    tags?: StringFieldUpdateOperationsInput | string
-    total_discounts?: StringFieldUpdateOperationsInput | string
-    total_line_items_price?: StringFieldUpdateOperationsInput | string
-    total_outstanding?: StringFieldUpdateOperationsInput | string
-    total_price?: StringFieldUpdateOperationsInput | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ShopifyOrderUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
-    current_total_discounts?: StringFieldUpdateOperationsInput | string
-    current_total_duties_set?: StringFieldUpdateOperationsInput | string
-    current_total_price?: StringFieldUpdateOperationsInput | string
-    current_total_tax?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    financial_status?: StringFieldUpdateOperationsInput | string
-    fulfillment_status?: JsonNullValueInput | InputJsonValue
-    line_items?: JsonNullValueInput | InputJsonValue
-    note?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    processed_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    referring_site?: StringFieldUpdateOperationsInput | string
-    source_name?: StringFieldUpdateOperationsInput | string
-    subtotal_price?: StringFieldUpdateOperationsInput | string
-    tags?: StringFieldUpdateOperationsInput | string
-    total_discounts?: StringFieldUpdateOperationsInput | string
-    total_line_items_price?: StringFieldUpdateOperationsInput | string
-    total_outstanding?: StringFieldUpdateOperationsInput | string
-    total_price?: StringFieldUpdateOperationsInput | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CourierUpdateWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    shippers?: JsonNullValueInput | InputJsonValue
-  }
-
-  export type CourierUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    shippers?: JsonNullValueInput | InputJsonValue
-  }
-
-  export type CourierUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    shippers?: JsonNullValueInput | InputJsonValue
   }
 
   export type DarazOrderCreateManyCustomerInput = {
@@ -16431,7 +16581,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderCreateManyCustomerInput = {
-    id: string
     current_total_additional_fees_set: string
     current_total_discounts: string
     current_total_duties_set: string
@@ -16454,6 +16603,7 @@ export namespace Prisma {
     total_price: string
     updated_at: Date | string
     user_id: number
+    id: string
   }
 
   export type DarazOrderUpdateWithoutCustomerInput = {
@@ -16550,7 +16700,6 @@ export namespace Prisma {
   }
 
   export type ShopifyOrderUpdateWithoutCustomerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
     current_total_discounts?: StringFieldUpdateOperationsInput | string
     current_total_duties_set?: StringFieldUpdateOperationsInput | string
@@ -16572,11 +16721,11 @@ export namespace Prisma {
     total_outstanding?: StringFieldUpdateOperationsInput | string
     total_price?: StringFieldUpdateOperationsInput | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutShopifyOrderNestedInput
   }
 
   export type ShopifyOrderUncheckedUpdateWithoutCustomerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
     current_total_discounts?: StringFieldUpdateOperationsInput | string
     current_total_duties_set?: StringFieldUpdateOperationsInput | string
@@ -16599,10 +16748,10 @@ export namespace Prisma {
     total_price?: StringFieldUpdateOperationsInput | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ShopifyOrderUncheckedUpdateManyWithoutCustomerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     current_total_additional_fees_set?: StringFieldUpdateOperationsInput | string
     current_total_discounts?: StringFieldUpdateOperationsInput | string
     current_total_duties_set?: StringFieldUpdateOperationsInput | string
@@ -16625,6 +16774,7 @@ export namespace Prisma {
     total_price?: StringFieldUpdateOperationsInput | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
   }
 
 

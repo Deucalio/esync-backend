@@ -115,7 +115,8 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   phone: 'phone',
   address: 'address',
-  joined_at: 'joined_at'
+  joined_at: 'joined_at',
+  user_events: 'user_events'
 };
 
 exports.Prisma.StoreScalarFieldEnum = {
@@ -197,7 +198,6 @@ exports.Prisma.TemporaryDataScalarFieldEnum = {
 };
 
 exports.Prisma.ShopifyOrderScalarFieldEnum = {
-  id: 'id',
   current_total_additional_fees_set: 'current_total_additional_fees_set',
   current_total_discounts: 'current_total_discounts',
   current_total_duties_set: 'current_total_duties_set',
@@ -220,7 +220,8 @@ exports.Prisma.ShopifyOrderScalarFieldEnum = {
   total_price: 'total_price',
   updated_at: 'updated_at',
   user_id: 'user_id',
-  customer_id: 'customer_id'
+  customer_id: 'customer_id',
+  id: 'id'
 };
 
 exports.Prisma.CourierScalarFieldEnum = {
@@ -246,6 +247,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
@@ -259,6 +265,11 @@ exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 
