@@ -522,6 +522,7 @@ app.post("/register", async (req, res) => {
         password: passwordHash, // Hash the password using a secure method
         phone: "null",
         address: "null",
+        user_events: "null",
       },
     });
     console.log("User Inserted:", user);
