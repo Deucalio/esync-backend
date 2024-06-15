@@ -119,6 +119,129 @@ exports.Prisma.UserScalarFieldEnum = {
   user_events: 'user_events'
 };
 
+exports.Prisma.StoreScalarFieldEnum = {
+  seller_id: 'seller_id',
+  name: 'name',
+  platform: 'platform',
+  image_url: 'image_url',
+  connected_at: 'connected_at',
+  store_info: 'store_info',
+  user_id: 'user_id'
+};
+
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  shopify_id: 'shopify_id',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  email: 'email',
+  city: 'city',
+  province: 'province',
+  country: 'country',
+  user_id: 'user_id'
+};
+
+exports.Prisma.DarazOrderScalarFieldEnum = {
+  order_id: 'order_id',
+  seller_id: 'seller_id',
+  voucher_platform: 'voucher_platform',
+  voucher: 'voucher',
+  voucher_seller: 'voucher_seller',
+  order_number: 'order_number',
+  created_at: 'created_at',
+  voucher_code: 'voucher_code',
+  gift_option: 'gift_option',
+  shipping_fee_discount_platform: 'shipping_fee_discount_platform',
+  promised_shipping_times: 'promised_shipping_times',
+  updated_at: 'updated_at',
+  price: 'price',
+  shipping_fee_original: 'shipping_fee_original',
+  payment_method: 'payment_method',
+  shipping_fee_discount_seller: 'shipping_fee_discount_seller',
+  shipping_fee: 'shipping_fee',
+  items_count: 'items_count',
+  payment_status: 'payment_status',
+  statuses: 'statuses',
+  is_received: 'is_received',
+  gift_message: 'gift_message',
+  remarks: 'remarks',
+  order_items: 'order_items',
+  transactions: 'transactions',
+  shipping_address: 'shipping_address',
+  billing_address: 'billing_address',
+  user_id: 'user_id',
+  customer_id: 'customer_id'
+};
+
+exports.Prisma.DarazStoreTransactionScalarFieldEnum = {
+  seller_id: 'seller_id',
+  amount: 'amount',
+  transaction_date: 'transaction_date',
+  transaction_type: 'transaction_type',
+  statement: 'statement',
+  payment_ref_id: 'payment_ref_id',
+  fee_name: 'fee_name',
+  paid_status: 'paid_status',
+  WHT_amount: 'WHT_amount',
+  VAT_in_amount: 'VAT_in_amount',
+  transaction_number: 'transaction_number',
+  comment: 'comment',
+  user_id: 'user_id'
+};
+
+exports.Prisma.TemporaryDataScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt',
+  data: 'data',
+  user_id: 'user_id'
+};
+
+exports.Prisma.ShopifyOrderScalarFieldEnum = {
+  current_total_additional_fees_set: 'current_total_additional_fees_set',
+  current_total_discounts: 'current_total_discounts',
+  current_total_duties_set: 'current_total_duties_set',
+  current_total_price: 'current_total_price',
+  current_total_tax: 'current_total_tax',
+  email: 'email',
+  financial_status: 'financial_status',
+  fulfillment_status: 'fulfillment_status',
+  line_items: 'line_items',
+  note: 'note',
+  phone: 'phone',
+  processed_at: 'processed_at',
+  referring_site: 'referring_site',
+  source_name: 'source_name',
+  subtotal_price: 'subtotal_price',
+  tags: 'tags',
+  total_discounts: 'total_discounts',
+  total_line_items_price: 'total_line_items_price',
+  total_outstanding: 'total_outstanding',
+  total_price: 'total_price',
+  updated_at: 'updated_at',
+  user_id: 'user_id',
+  customer_id: 'customer_id',
+  id: 'id'
+};
+
+exports.Prisma.CourierScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  data: 'data',
+  shippers: 'shippers',
+  user_id: 'user_id'
+};
+
+exports.Prisma.DarazLogsScalarFieldEnum = {
+  id: 'id',
+  seller_id: 'seller_id',
+  fetched_from_api: 'fetched_from_api',
+  orders_appended_single_request: 'orders_appended_single_request',
+  orders_appended: 'orders_appended',
+  total_store_orders: 'total_store_orders',
+  daraz_url: 'daraz_url'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -126,6 +249,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -147,7 +274,15 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Store: 'Store',
+  Customer: 'Customer',
+  DarazOrder: 'DarazOrder',
+  DarazStoreTransaction: 'DarazStoreTransaction',
+  TemporaryData: 'TemporaryData',
+  ShopifyOrder: 'ShopifyOrder',
+  Courier: 'Courier',
+  DarazLogs: 'DarazLogs'
 };
 
 /**
