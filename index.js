@@ -899,7 +899,7 @@ app.get("/bepis", async (req, res) => {
 
 // Route to update user user_events
 app.post("/update-user-events", async (req, res) => {
-  const { email, events } = req.body;
+  const { email, events,  } = req.body;
 
   const updatedUser = await prisma.user.update({
     where: { email: email },

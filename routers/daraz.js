@@ -276,190 +276,24 @@ function convertDateFormat(inputDate) {
 
   return formattedDate;
 }
-router.get("/f", async (req, res) => {
-  const start = new Date();
-  // Already have (userid, access_token, seller_id)
-
-  // ________
-
-  // Right when all the orders are appended into the db with their line items, do this ->
-  let updatedRowsCount = 0;
-  let NumberOfTimesTransactionApiCalled = 0;
-  let storeTransactionsCount = 0;
-
-  let offset = 0;
-  while (true) {
-    const transactionAPIURL = await generateDarazURL(
-      "/finance/transaction/detail/get",
-      accessToken,
-      {
-        start_time: "2024-01-01",
-        end_time: new Date().toISOString(),
-        limit: 500,
-        offset,
-      }
-    );
-    let response = "";
-    let transactions = "";
-    try {
-      response = await axios.get(transactionAPIURL);
-      transactions = response.data.data;
-    } catch (e) {
-      console.log("error: Could not send request to Transaction API", e);
-    }
-
-    NumberOfTimesTransactionApiCalled += 1;
-
-    if (transactions.length === 0) {
-      console.log("Transactions Appended!");
-      break;
-    }
-
-    // 1.  Append all those transactions which contains order_no into DarazOrders
-    const order_numbers = [];
-    const order_transaction = {
-      // 176267067548404: [
-      //   {
-      //     sad: "Hammad",
-      //     desk: "sad",
-      //   },
-      // ],
-      // 176264886101675: [
-      //   {
-      //     s: "i",
-      //     f: "r",
-      //   },
-      //   {
-      //     s: "sss",
-      //     f: "yo",
-      //   },
-      // ],
-    };
-
-    // 2.
-    const daraz_store_transaction = [];
-
-    // Get all the order numbers without duplicates
-    for (let data of transactions) {
-      const order_number = data.order_no;
-      data.transaction_date = new Date(data.transaction_date).toISOString();
-      if (order_number) {
-        if (!order_numbers.includes(order_number)) {
-          order_transaction[order_number] = [
-            {
-              statement: data.statement,
-              order_item_status: data.orderItem_status,
-              fee_name: data.feeName,
-              transaction_date: data.transaction_date,
-              transtion_type: data.transaction_type,
-              amount: data.amount,
-              paid_status: data.paid_status,
-              VAT_in_amount: data.VAT_in_amount,
-              WHT_amount: data.WHT_amount,
-            },
-          ];
-          order_numbers.push(order_number);
-        } else {
-          order_transaction[order_number].push({
-            statement: data.statement,
-            order_item_status: data.orderItem_status,
-            fee_name: data.feeName,
-            transaction_date: data.transaction_date,
-            transtion_type: data.transaction_type,
-
-            amount: data.amount,
-            paid_status: data.paid_status,
-            VAT_in_amount: data.VAT_in_amount,
-            WHT_amount: data.WHT_amount,
-          });
-        }
-      } else {
-        daraz_store_transaction.push({
-          statement: data.statement,
-          amount: data.amount,
-          transaction_date: data.transaction_date,
-          fee_name: data.feeName,
-          payment_ref_id: data.payment_ref_id,
-          transaction_type: data.transaction_type,
-
-          paid_status: data.paid_status,
-          VAT_in_amount: data.VAT_in_amount,
-          WHT_amount: data.WHT_amount,
-          transaction_number: data.transaction_number,
-          comment: data.comment,
-          user_id: userID,
-        });
-      }
-    }
-
-    // return res.status(200).json({
-    //   order_numbers,
-    //   transactions: order_transaction,
-    //   daraz_store_transaction,
-    // });
-
-    // Append into DarazOrders transcations columns with corresponding order_numbers
-    let response_ = "";
-    let result = "";
-    try {
-      response_ = await axios.post(
-        "http://localhost:4000/daraz/add-transaction",
-        {
-          order_numbers: order_numbers,
-          transactions: order_transaction,
-        }
-      );
-      result = response_.data;
-    } catch (e) {
-      console.log("error: Could not get orders", e);
-    }
-
-    updatedRowsCount += result.rowsUpdated;
-
-    // Append into DarazStoreTransactions
-    let response__ = "";
-    let result_ = "";
-    try {
-      response__ = await axios.post(
-        "http://localhost:4000/daraz/add-store-transactions",
-        {
-          transactions: daraz_store_transaction,
-        }
-      );
-      result_ = response__.data;
-      storeTransactionsCount += result_.storeTransactionsCount;
-    } catch (e) {
-      console.log("error: Could not get orders", e);
-    }
-    const log = {
-      Transaction_API_Called: NumberOfTimesTransactionApiCalled,
-      Updated_Orders_Rows: result.rowsUpdated,
-      TimeTaken_In_Updating_Orders: result.timeTaken,
-      Store_Transactions: storeTransactionsCount,
-      Offset: offset,
-    };
-
-    console.log("log: ", log);
-
-    offset += 500;
-  }
-
-  const end = new Date().getTime();
-  const timeTaken = (end - start) / 1000;
-  res.status(200).json({
-    ordersRowsUpdatedCount: updatedRowsCount,
-    NumberOfTimesTransactionApiCalled,
-    storeTransactionsCount,
-    timeTaken,
-    offset,
-  });
-});
 
 router.post("/add-transaction", async (req, res) => {
   // Only adds transactions orderItem_status of which is Delivered or Returned
 
   const start = new Date();
-  const { order_numbers, transactions } = req.body;
+  const { order_numbers, order_transactions } = req.body;
+  let compressedTransactions = "";
+
+
+  if (
+    !order_numbers ||
+    order_numbers.length === 0 ||
+    !order_transactions ||
+    Object.values(order_transactions).length === 0
+  ) {
+    compressedTransactions = req.body.compressedTransactions;
+  }
+
 
   //  "transactions": {
   //       "176267067548404": [
@@ -484,7 +318,6 @@ router.post("/add-transaction", async (req, res) => {
       },
     },
   });
-
   if (orders.length === 0) {
     return res.status(200).json({ rowsUpdated: 0, timeTaken: 0 });
   }
@@ -492,36 +325,159 @@ router.post("/add-transaction", async (req, res) => {
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
-  const updates = orders.map((order) => {
-    const order_number = order.order_number;
-    const order_transactions = transactions[order_number];
-    return {
-      order_number,
-      data: {
-        transactions: [...order.transactions, ...order_transactions],
-      },
-    };
-  });
+  // const updates = orders.map((order) => {
+  //   const order_number = order.order_number;
+  //   const order_transactions = transactions[order_number];
+  //   return {
+  //     order_number,
+  //     data: {
+  //       transactions: [...order.transactions, ...order_transactions],
+  //     },
+  //   };
+  // });
 
   // Write an update query to update all the orders at once, updateMany
   let t;
 
-  try {
-    t = await prisma.$transaction(
-      updates.map((update) =>
-        prisma.darazOrder.update({
-          where: { order_id: update.order_number },
-          data: update.data,
-        })
-      )
+  let counter = 0;
+  for (let order of orders) {
+    
+    let transactionToBeUpdated = order_transactions[order.order_id];
+    let transactions = order.transactions;
+
+
+
+    transactions = [...transactions, ...transactionToBeUpdated];
+
+    transactions = // Remove duplicates and append the new transactions
+    transactions.filter(
+      (obj1, i, arr) =>
+        arr.findIndex(
+          (obj2) => JSON.stringify(obj2) === JSON.stringify(obj1)
+        ) === i
     );
-  } catch (e) {
-    console.log("Could not Update Orders", e);
-    console.log("Order Number: ", order_numbers);
-    return res.status(400).json({ message: "Could not Update Orders" });
+    
+    
+    order.transactions = transactions;
+    console.log("created at: ", order.created_at, "count: ", counter+1, "order_id: ", order.order_id)
+    counter+=1
   }
 
-  res.status(200).json({ rowsUpdated: t.length, timeTaken });
+  // useUpdateMany to update orders
+
+
+  const updatedOrders = await prisma.darazOrder.updateMany({
+    where: {
+      order_id: {
+        in: order_numbers,
+      },
+    },
+    data: {
+      transactions: orders.map((order) => order.transactions)
+    },
+  })
+
+  
+
+  res.status(200).json({ updatedOrdersCount: updatedOrders.count, timeTaken });
+});
+const fetchTransactions = async (startDate, endDate, accessToken) => {
+  const limit = 500;
+  const maxOffset = 100000;
+  const order_numbers = [];
+  const order_transaction = {};
+
+  let currentStartDate = new Date(startDate);
+  const finalEndDate = new Date(endDate);
+
+  while (currentStartDate < finalEndDate) {
+    let currentEndDate = new Date(currentStartDate);
+    currentEndDate.setDate(currentEndDate.getDate() + 179);
+    if (currentEndDate > finalEndDate) {
+      currentEndDate = finalEndDate;
+    }
+
+    let offset = 0;
+    while (true) {
+      const transactionAPIURL = generateDarazURL(
+        "/finance/transaction/details/get",
+        accessToken,
+        {
+          start_time: currentStartDate.toISOString(),
+          end_time: currentEndDate.toISOString(),
+          limit,
+          offset,
+        }
+      );
+
+      let response = "";
+      let transactions = "";
+      try {
+        response = await fetch(transactionAPIURL, {
+          method: "GET",
+          redirect: "follow",
+        });
+        transactions = await response.json();
+        transactions = transactions.data;
+      } catch (e) {
+        console.log("error: Could not send request to Transaction API", e);
+      }
+
+      if (transactions.length === 0) break;
+
+      for (let transaction of transactions) {
+        const order_no = transaction.order_no;
+        console.log(
+          "Date: ",
+          transaction.transaction_date,
+          "Offset: ",
+          offset,
+          "currentEndDate: ",
+          currentEndDate
+        );
+        if (order_no) {
+          if (!order_transaction[order_no]) {
+            order_transaction[order_no] = [];
+            order_numbers.push(order_no);
+          }
+          if (
+            !order_transaction[order_no].some(
+              (t) => JSON.stringify(t) === JSON.stringify(transaction)
+            )
+          ) {
+            order_transaction[order_no].push(transaction);
+          }
+        }
+      }
+
+      offset += limit;
+      if (offset >= maxOffset) {
+        currentEndDate = new Date(
+          convertDateFormat(
+            transactions[transactions.length - 1].transaction_date
+          )
+        );
+        currentEndDate.setSeconds(currentEndDate.getSeconds() - 1);
+        offset = 0;
+      }
+    }
+
+    currentStartDate.setDate(currentStartDate.getDate() + 180);
+  }
+  return { order_numbers, order_transaction };
+};
+router.get("/trans", async (req, res) => {
+  // 60 days of transactions. should be appended within 30 mins
+  const startDate = new Date("2024-06-05").toISOString();
+  const endDate = new Date().toISOString();
+
+  const t = await fetchTransactions(
+    startDate,
+    endDate,
+    "500009000281H3ZxXReCQSeRjLow4vpED3lUelsB1e9e3d9ausCABiR5WFXJve"
+  );
+
+  res.status(200).json({ message: "Transactions Fetched", t });
 });
 
 router.post("/add-store-transactions", async (req, res) => {
