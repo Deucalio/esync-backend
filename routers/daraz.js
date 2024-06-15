@@ -1188,5 +1188,4 @@ router.put("/mark-orders-as-received", async (req, res) => {
       .json({ message: "Error marking orders as received" });
   }
 });
-
 module.exports = router;
