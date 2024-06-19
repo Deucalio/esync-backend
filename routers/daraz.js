@@ -228,6 +228,15 @@ router.post("/add-customers", async (req, res) => {
 
 router.post("/append-orders", async (req, res) => {
   const { orders } = req.body;
+
+  for (let order of orders) {
+    if (!order.order_items){
+      console.log("Order Items not found", order.order_id)
+      continue;
+    }
+  }
+
+
   console.log("orders:", orders.length);
   let data = "";
   try {
@@ -468,7 +477,7 @@ const fetchTransactions = async (startDate, endDate, accessToken) => {
 };
 router.get("/trans", async (req, res) => {
   // 60 days of transactions. should be appended within 30 mins
-  const startDate = new Date("2024-06-05").toISOString();
+  const startDate = new Date("2024-06-10").toISOString();
   const endDate = new Date().toISOString();
 
   const t = await fetchTransactions(
