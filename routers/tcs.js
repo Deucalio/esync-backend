@@ -581,33 +581,4 @@ router.delete("/delete-account/:id", async (req, res) => {
 module.exports = router;
 
 // __________________________________
-<Request>
-  {" "}
-  <Product>
-    {" "}
-    <Skus>
-      {" "}
-      <Sku>
-        {" "}
-        <ItemId>315999351</ItemId> <SkuId>1673621407</SkuId>{" "}
-        {/* <SellerSku>Abs_Lock_Pink</SellerSku> <Price>1099.00</Price>{" "} */}
-        <SellerSku>Abs_Lock_Pink</SellerSku>{" "}
-        {/* <SalePrice>900.00</SalePrice> <SaleStartDate>2017-08-08</SaleStartDate>{" "} */}
-        {/* <SaleEndDate>2017-08-31</SaleEndDate>{" "} */}
-        <MultiWarehouseInventories>
-          {" "}
-          <MultiWarehouseInventory>
-            {" "}
-            <WarehouseCode>"dropshipping</WarehouseCode>{" "}
-            <Quantity>10</Quantity>{" "}
-          </MultiWarehouseInventory>{" "}
-          <MultiWarehouseInventory>
-            {" "}
-            <WarehouseCode>dropshipping</WarehouseCode>{" "}
-            {/* <Quantity>30</Quantity>{" "} */}
-          </MultiWarehouseInventory>{" "}
-        </MultiWarehouseInventories>{" "}
-      </Sku>{" "}
-    </Skus>{" "}
-  </Product>{" "}
-</Request>;
+
