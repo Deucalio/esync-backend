@@ -230,12 +230,11 @@ router.post("/append-orders", async (req, res) => {
   const { orders } = req.body;
 
   for (let order of orders) {
-    if (!order.order_items){
-      console.log("Order Items not found", order.order_id)
+    if (!order.order_items) {
+      console.log("Order Items not found", order.order_id);
       continue;
     }
   }
-
 
   console.log("orders:", orders.length);
   let data = "";
@@ -293,7 +292,6 @@ router.post("/add-transaction", async (req, res) => {
   const { order_numbers, order_transactions } = req.body;
   let compressedTransactions = "";
 
-
   if (
     !order_numbers ||
     order_numbers.length === 0 ||
@@ -302,7 +300,6 @@ router.post("/add-transaction", async (req, res) => {
   ) {
     compressedTransactions = req.body.compressedTransactions;
   }
-
 
   //  "transactions": {
   //       "176267067548404": [
@@ -350,30 +347,32 @@ router.post("/add-transaction", async (req, res) => {
 
   let counter = 0;
   for (let order of orders) {
-    
     let transactionToBeUpdated = order_transactions[order.order_id];
     let transactions = order.transactions;
-
-
 
     transactions = [...transactions, ...transactionToBeUpdated];
 
     transactions = // Remove duplicates and append the new transactions
-    transactions.filter(
-      (obj1, i, arr) =>
-        arr.findIndex(
-          (obj2) => JSON.stringify(obj2) === JSON.stringify(obj1)
-        ) === i
-    );
-    
-    
+      transactions.filter(
+        (obj1, i, arr) =>
+          arr.findIndex(
+            (obj2) => JSON.stringify(obj2) === JSON.stringify(obj1)
+          ) === i
+      );
+
     order.transactions = transactions;
-    console.log("created at: ", order.created_at, "count: ", counter+1, "order_id: ", order.order_id)
-    counter+=1
+    console.log(
+      "created at: ",
+      order.created_at,
+      "count: ",
+      counter + 1,
+      "order_id: ",
+      order.order_id
+    );
+    counter += 1;
   }
 
   // useUpdateMany to update orders
-
 
   const updatedOrders = await prisma.darazOrder.updateMany({
     where: {
@@ -382,19 +381,104 @@ router.post("/add-transaction", async (req, res) => {
       },
     },
     data: {
-      transactions: orders.map((order) => order.transactions)
+      transactions: orders.map((order) => order.transactions),
     },
-  })
-
-  
+  });
 
   res.status(200).json({ updatedOrdersCount: updatedOrders.count, timeTaken });
 });
+// const fetchTransactions = async (startDate, endDate, accessToken) => {
+//   const limit = 500;
+//   const maxOffset = 100000;
+//   const order_numbers = [];
+//   const order_transaction = {};
+
+//   let currentStartDate = new Date(startDate);
+//   const finalEndDate = new Date(endDate);
+
+//   while (currentStartDate < finalEndDate) {
+//     let currentEndDate = new Date(currentStartDate);
+//     currentEndDate.setDate(currentEndDate.getDate() + 179);
+//     if (currentEndDate > finalEndDate) {
+//       currentEndDate = finalEndDate;
+//     }
+
+//     let offset = 0;
+//     while (true) {
+//       const transactionAPIURL = generateDarazURL(
+//         "/finance/transaction/details/get",
+//         accessToken,
+//         {
+//           start_time: currentStartDate.toISOString(),
+//           end_time: currentEndDate.toISOString(),
+//           limit,
+//           offset,
+//         }
+//       );
+
+//       let response = "";
+//       let transactions = "";
+//       try {
+//         response = await fetch(transactionAPIURL, {
+//           method: "GET",
+//           redirect: "follow",
+//         });
+//         transactions = await response.json();
+//         transactions = transactions.data;
+//       } catch (e) {
+//         console.log("error: Could not send request to Transaction API", e);
+//       }
+
+//       if (transactions.length === 0) break;
+
+//       for (let transaction of transactions) {
+//         const order_no = transaction.order_no;
+//         console.log(
+//           "Date: ",
+//           transaction.transaction_date,
+//           "Offset: ",
+//           offset,
+//           "currentEndDate: ",
+//           currentEndDate
+//         );
+//         if (order_no) {
+//           if (!order_transaction[order_no]) {
+//             order_transaction[order_no] = [];
+//             order_numbers.push(order_no);
+//           }
+//           if (
+//             !order_transaction[order_no].some(
+//               (t) => JSON.stringify(t) === JSON.stringify(transaction)
+//             )
+//           ) {
+//             order_transaction[order_no].push(transaction);
+//           }
+//         }
+//       }
+
+//       offset += limit;
+//       if (offset >= maxOffset) {
+//         currentEndDate = new Date(
+//           convertDateFormat(
+//             transactions[transactions.length - 1].transaction_date
+//           )
+//         );
+//         currentEndDate.setSeconds(currentEndDate.getSeconds() - 1);
+//         offset = 0;
+//       }
+//     }
+
+//     currentStartDate.setDate(currentStartDate.getDate() + 180);
+//   }
+//   return { order_numbers, order_transaction };
+// };
+
 const fetchTransactions = async (startDate, endDate, accessToken) => {
+  console.log("Fetching transactions from Daraz API");
   const limit = 500;
   const maxOffset = 100000;
   const order_numbers = [];
-  const order_transaction = {};
+  const order_transaction = [];
 
   let currentStartDate = new Date(startDate);
   const finalEndDate = new Date(endDate);
@@ -434,30 +518,11 @@ const fetchTransactions = async (startDate, endDate, accessToken) => {
 
       if (transactions.length === 0) break;
 
-      for (let transaction of transactions) {
-        const order_no = transaction.order_no;
-        console.log(
-          "Date: ",
-          transaction.transaction_date,
-          "Offset: ",
-          offset,
-          "currentEndDate: ",
-          currentEndDate
-        );
-        if (order_no) {
-          if (!order_transaction[order_no]) {
-            order_transaction[order_no] = [];
-            order_numbers.push(order_no);
-          }
-          if (
-            !order_transaction[order_no].some(
-              (t) => JSON.stringify(t) === JSON.stringify(transaction)
-            )
-          ) {
-            order_transaction[order_no].push(transaction);
-          }
-        }
-      }
+      order_transaction.push(...transactions);
+      console.log(
+        "transaction_date",
+        transactions[transactions.length - 1].transaction_date
+      );
 
       offset += limit;
       if (offset >= maxOffset) {
@@ -475,9 +540,10 @@ const fetchTransactions = async (startDate, endDate, accessToken) => {
   }
   return { order_numbers, order_transaction };
 };
+
 router.get("/trans", async (req, res) => {
   // 60 days of transactions. should be appended within 30 mins
-  const startDate = new Date("2024-06-10").toISOString();
+  const startDate = new Date("2024-05-20").toISOString();
   const endDate = new Date().toISOString();
 
   const t = await fetchTransactions(

@@ -26,6 +26,7 @@ model User {
   ShopifyOrder          ShopifyOrder[]
   Store                 Store[]
   TemporaryData         TemporaryData[]
+  DarazTransaction      DarazTransaction[]
 }
 
 model Store {
@@ -86,6 +87,27 @@ model DarazOrder {
   customer_id                    String
   customer                       Customer @relation(fields: [customer_id], references: [id])
   user                           User     @relation(fields: [user_id], references: [id])
+}
+
+
+model DarazTransaction {
+  id                 String   @id
+  seller_id          String
+  order_number       String
+  order_item_status  String
+  amount             String
+  transaction_date   DateTime
+  transaction_type   String
+  statement          String
+  payment_ref_id     String
+  fee_name           String
+  paid_status        String
+  WHT_amount         String
+  VAT_in_amount      String
+  transaction_number String
+  comment            String
+  user_id            Int
+  user               User     @relation(fields: [user_id], references: [id])
 }
 
 model DarazStoreTransaction {
