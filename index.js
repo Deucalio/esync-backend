@@ -913,3 +913,45 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 module.exports = app;
+
+// _____________--
+
+<Request>
+  <Product>
+    <Skus>
+      <Sku>
+        <ItemId>315999351</ItemId> <SkuId>1673621407</SkuId>
+        <SellerSku>Abs_Lock_Pink</SellerSku>
+        <MultiWarehouseInventories>
+          <MultiWarehouseInventory>
+            <WarehouseCode>"dropshipping</WarehouseCode>
+            <Quantity>10</Quantity>
+          </MultiWarehouseInventory>
+          <MultiWarehouseInventory>
+            <WarehouseCode>dropshipping</WarehouseCode>
+            <Quantity>10</Quantity>
+          </MultiWarehouseInventory>
+        </MultiWarehouseInventories>
+      </Sku>
+    </Skus>
+  </Product>
+</Request>;
+
+// SAD
+<Request>
+  <Product>
+    <Skus>
+      <Sku>
+        <ItemId>315999351</ItemId>
+        <SkuId>1673621407</SkuId>
+        <SellerSku>Abs_Lock_Pink</SellerSku>
+        <MultiWarehouseInventories>
+          <MultiWarehouseInventory>
+            <WarehouseCode>dropshipping</WarehouseCode>
+            <SellableQuantity>500</SellableQuantity>
+          </MultiWarehouseInventory>
+        </MultiWarehouseInventories>
+      </Sku>
+    </Skus>
+  </Product>
+</Request>;
