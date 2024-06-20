@@ -135,7 +135,7 @@ app.post("/user", async (req, res) => {
 
 app.get("/users", async (req, res) => {
   const users = await prisma.user.findMany({});
-  res.status(200).json({users});
+  res.status(200).json({ users });
 });
 
 // Add Shipper
@@ -708,6 +708,7 @@ app.get("/orders", async (req, res) => {
   // Limit is the orders per page
 
   const { email, platform, shop, status, page, ordersPerPage } = req.query;
+  console.log("req.query: ", req.query);
 
   const limit = ordersPerPage;
   const offset = (page - 1) * ordersPerPage;
@@ -755,7 +756,6 @@ app.get("/orders", async (req, res) => {
         name: order.seller_id,
       };
     }
-    console.log("orders: ", orders);
     return res.status(200).json({ count, orders });
   }
 });
@@ -895,11 +895,9 @@ app.get("/bepis", async (req, res) => {
   res.status(200).send(customers);
 });
 
-
-
 // Route to update user user_events
 app.post("/update-user-events", async (req, res) => {
-  const { email, events,  } = req.body;
+  const { email, events } = req.body;
 
   const updatedUser = await prisma.user.update({
     where: { email: email },
