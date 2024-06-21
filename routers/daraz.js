@@ -518,7 +518,14 @@ const fetchTransactions = async (startDate, endDate, accessToken) => {
 
       if (transactions.length === 0) break;
 
-      order_transaction.push(...transactions);
+      for (let t of transactions) {
+        if (!t.order_no) {
+          continue;
+        } else {
+          order_transaction.push(t);
+        }
+      }
+
       console.log(
         "transaction_date",
         transactions[transactions.length - 1].transaction_date
@@ -543,7 +550,10 @@ const fetchTransactions = async (startDate, endDate, accessToken) => {
 
 router.get("/trans", async (req, res) => {
   // 60 days of transactions. should be appended within 30 mins
-  const startDate = new Date("2024-05-20").toISOString();
+  // const startDate = new Date("2024-05-25").toISOString();
+  // const endDate = new Date().toISOString();
+
+  const startDate = new Date("2023-12-20").toISOString();
   const endDate = new Date().toISOString();
 
   const t = await fetchTransactions(
@@ -551,8 +561,90 @@ router.get("/trans", async (req, res) => {
     endDate,
     "500009000281H3ZxXReCQSeRjLow4vpED3lUelsB1e9e3d9ausCABiR5WFXJve"
   );
+  let order_transactions = t.order_transaction;
+  let order_numbers = t.order_numbers;
 
-  res.status(200).json({ message: "Transactions Fetched", t });
+  let paid_order_numbers = [];
+  let paid_order_amounts = [];
+
+  // Save them in an object {}
+  const paidOrdersMap = {};
+
+  // let sliced_order_transactions: any = Object.keys(order_transactions).slice(i, i + sliceCount).reduce((result, key) => {
+  //   result[key] = order_transactions[key];
+
+  order_transactions = order_transactions.map((t) => {
+    const randomID = Math.floor(10000000000 + Math.random() * 90000000000);
+    return {
+      id: `${randomID}`,
+      // seller_id: `${sellerID}`,
+      order_number: t.order_no || "none",
+      order_item_status: t.orderItem_status,
+      amount: convertStringToFloat(t.amount),
+      transaction_date: new Date(t.transaction_date).toISOString(),
+      transaction_type: t.transaction_type,
+      statement: t.statement,
+      fee_name: t.fee_name,
+      paid_status: t.paid_status,
+      WHT_amount: t.WHT_amount,
+      VAT_in_amount: t.VAT_in_amount,
+      transaction_number: t.transaction_number,
+      comment: t.comment,
+      // user_id: userID,
+    };
+  });
+
+  // for (let t of sliced_order_transcations) {
+  //   console.log("t", t);
+  //   if (
+  //     t.order_item_status === "Delivered" &&
+  //     t.paid_status.toLowerCase() === "paid"
+  //   ) {
+  //     // Mark the order paid in the database
+
+  //     if (!paid_order_numbers.includes(t.order_number)) {
+  //       paid_order_numbers.push(t.order_number);
+  //     }
+  //   }
+  // }
+
+  // for (let on of paid_order_numbers) {
+  //   paid_order_amounts.push(
+  //     sliced_order_transcations
+  //       .filter((t) => t.order_number === on)
+  //       .reduce((acc, t) => acc + t.amount, 0)
+  //   );
+  // }
+  // First, collect the order numbers that are both delivered and paid
+  for (let t of order_transactions) {
+    if (
+      t.order_item_status === "Delivered" &&
+      t.paid_status.toLowerCase() === "paid"
+    ) {
+      if (!paidOrdersMap[t.order_number]) {
+        paidOrdersMap[t.order_number] = 0;
+      }
+    } else if (
+      t.order_item_status === "Returned" &&
+      t.paid_status.toLowerCase() === "paid"
+    ) {
+      if (!paidOrdersMap[t.order_number]) {
+        paidOrdersMap[t.order_number] = 0;
+      }
+    }
+  }
+
+  // Then, sum the amounts for each paid order number
+  for (let t of order_transactions) {
+    if (paidOrdersMap.hasOwnProperty(t.order_number)) {
+      paidOrdersMap[t.order_number] += t.amount;
+    }
+  }
+
+  res.status(200).json({
+    paidOrdersMap,
+    sad: order_transactions.filter((t) => t.order_number === "175985463223476"),
+  });
 });
 
 router.post("/add-store-transactions", async (req, res) => {

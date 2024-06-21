@@ -144,6 +144,7 @@ exports.Prisma.CustomerScalarFieldEnum = {
 exports.Prisma.DarazOrderScalarFieldEnum = {
   order_id: 'order_id',
   seller_id: 'seller_id',
+  transactions_amount: 'transactions_amount',
   voucher_platform: 'voucher_platform',
   voucher: 'voucher',
   voucher_seller: 'voucher_seller',
