@@ -742,6 +742,7 @@ router.get("/orders/add-new-order", async (req, res) => {
     is_received: false,
     user_id: store.user_id,
     customer_id: phone,
+    transactions_amount: 0
   };
 
   const potentialNewCustomer = [
@@ -750,7 +751,7 @@ router.get("/orders/add-new-order", async (req, res) => {
       shopify_id: "none",
       first_name: order.address_shipping.first_name,
       last_name: order.address_shipping.last_name,
-      email: "none",
+      email: order.order_items[0].digital_delivery_info,
       city: order.address_shipping.city,
       province: order.address_shipping.address3,
       country: order.address_shipping.country,
