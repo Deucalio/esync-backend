@@ -807,7 +807,7 @@ router.get("/orders/add-new-order", async (req, res) => {
       .status(400)
       .json({ message: "Could not Append Order into DB", newOrder });
   }
-
+  console.log(`${newOrder.order_id}: ${newOrder}`, "Created")
   res.status(200).json({ orderAdded, message: "Order Added" });
 });
 
@@ -884,6 +884,7 @@ router.get("/orders/sync", async (req, res) => {
       },
       data: updatedFields,
     });
+    console.log(`${order_id}: ${fetched_order.statuses.join(",")}`, "Synced")
   } catch (e) {
     if (e.code === "P2025") {
       // That means the order is not found, so we need to create a new order
