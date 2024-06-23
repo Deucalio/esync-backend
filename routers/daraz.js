@@ -745,13 +745,33 @@ router.get("/orders/add-new-order", async (req, res) => {
     transactions_amount: 0
   };
 
+
+
+  // Get its line items
+  const darazURL2 = generateDarazURL("/order/items/get", access_token, {
+    order_id: order_id,
+  });
+
+  let response2 = "";
+  let orderItems = "";
+
+  try {
+    response2 = await axios.get(darazURL2);
+    orderItems = response2.data.data;
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not get order items" });
+  }
+  newOrder.order_items = orderItems;
+
+
   const potentialNewCustomer = [
     {
       id: phone,
       shopify_id: "none",
       first_name: order.address_shipping.first_name,
       last_name: order.address_shipping.last_name,
-      email: order.order_items[0].digital_delivery_info,
+      email: orderItems[0].digital_delivery_info,
       city: order.address_shipping.city,
       province: order.address_shipping.address3,
       country: order.address_shipping.country,
@@ -771,22 +791,7 @@ router.get("/orders/add-new-order", async (req, res) => {
     return res.status(400).json({ message: "Could not Add Customer" });
   }
 
-  // Get its line items
-  const darazURL2 = generateDarazURL("/order/items/get", access_token, {
-    order_id: order_id,
-  });
 
-  let response2 = "";
-  let orderItems = "";
-
-  try {
-    response2 = await axios.get(darazURL2);
-    orderItems = response2.data.data;
-  } catch (e) {
-    console.log("error: ", e);
-    return res.status(400).json({ message: "Could not get order items" });
-  }
-  newOrder.order_items = orderItems;
 
   // Finally append the order into the DB
   let orderAdded = "";
@@ -807,7 +812,7 @@ router.get("/orders/add-new-order", async (req, res) => {
       .status(400)
       .json({ message: "Could not Append Order into DB", newOrder });
   }
-  console.log(`${newOrder.order_id}: ${newOrder}`, "Created")
+  console.log(`${newOrder.order_id}: ${newOrder.statuses}`, "Created")
   res.status(200).json({ orderAdded, message: "Order Added" });
 });
 
@@ -875,7 +880,6 @@ router.get("/orders/sync", async (req, res) => {
     order_items: orderItems,
     updated_at: new Date(fetched_order.updated_at).toISOString(),
   };
-  console.log("order_id", order_id);
   let orderUpdated = "";
   try {
     orderUpdated = await prisma.darazOrder.update({
