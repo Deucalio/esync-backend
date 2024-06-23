@@ -909,6 +909,33 @@ app.post("/update-user-events", async (req, res) => {
   res.status(200).send(updatedUser);
 });
 
+app.post("/user", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+      include: { Store: true },
+    });
+
+    return res.status(200).json({ user });
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.status(400).json({ message: "User not found" });
+  }
+});
+
+// This is for routes that has nothing to do with individual users
+
+app.get("/stores", async (req, res) => {
+  const { secret } = req.query;
+  if (secret !== process.env.ALL_ROUTES_SECRET) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const stores = await prisma.store.findMany({});
+  res.status(200).send(stores);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
