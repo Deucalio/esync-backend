@@ -1356,4 +1356,121 @@ router.put("/mark-orders-as-received", async (req, res) => {
       .json({ message: "Error marking orders as received" });
   }
 });
+
+// PRODUCTS
+
+router.get("/import-products", async (req, res) => {
+  const stores = await prisma.store.findMany({});
+
+  for (let store of stores) {
+    const { access_token } = store.store_info;
+
+    const product_url = generateDarazURL("/products/get", access_token, {
+      filter: "live",
+    });
+
+    const productsToAppend = [];
+    const variantsToAppend = [];
+    const variantOnStoresToAppend = [];
+
+    let response = "";
+    let products = "";
+
+    try {
+      response = await axios.get(product_url);
+      products = response.data.data.products;
+    } catch (e) {
+      console.log("error: ", e);
+      return res.status(400).json({ message: "Could not get products" });
+    }
+
+    for (let product of products) {
+      // Generate a random number of 9 digits
+      // const randomNum = Math.floor(100000000 + Math.random() * 900000000);
+      const product_id = product.item_id;
+      const newProduct = {
+        id: product_id,
+        name: product.attributes.name_en
+          ? product.attributes.name_en
+          : product.attributes.name,
+        image_url: product.images.join(","),
+        description: product.short_description
+          ? product.short_description
+          : product.description
+          ? product.description
+          : "No Description",
+        created_at: new Date(Number(product.created_time)),
+        updated_at: new Date(Number(product.updated_time)),
+        category_id: 1,
+        user_id: store.user_id,
+        packing_material_cost: 0,
+      };
+      productsToAppend.push(newProduct);
+
+      // Create Variants
+
+      // Generate a random of 9 digits
+
+      for (let sku of product.skus) {
+        const randomNumber = Math.floor(100000000 + Math.random() * 900000000);
+        const newVariant = {
+          id: randomNumber,
+          name: sku.color_family ? sku.color_family : sku.SellerSku,
+          sku: sku.SellerSku,
+          cost: 0,
+          image_url: sku.Images.join(","),
+          product_id: newProduct.id,
+          user_id: store.user_id,
+        };
+        variantsToAppend.push(newVariant);
+        const VariantOnStore = {
+          variant_id: newVariant.id,
+          status: sku.Status,
+          store_id: store.seller_id,
+          daraz_shop_sku: sku.ShopSku,
+          price: sku.price,
+          sale_price: sku.special_price,
+          deduction_unit: 1,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          platform_details: {
+            special_price_start_time: sku.special_from_date,
+            special_price_end_time: sku.special_to_date,
+          },
+          sku_id: sku.ShopSku.split("-")[1],
+          seller_sku: sku.SellerSku,
+          user_id: store.user_id,
+        };
+        variantOnStoresToAppend.push(VariantOnStore);
+      }
+    }
+
+    // Append to Database
+    const productsAppended = await prisma.product.createMany({
+      data: productsToAppend,
+      skipDuplicates: true,
+    });
+    console.log("productsAppended", productsAppended);
+
+    const variantsAppended = await prisma.variant.createMany({
+      data: variantsToAppend,
+      skipDuplicates: true,
+    });
+    console.log("variantsAppended", variantsAppended);
+
+    const variantOnStoresAppended = await prisma.variantOnStores.createMany({
+      data: variantOnStoresToAppend,
+      skipDuplicates: true,
+    });
+    console.log("variantOnStoresAppended", variantOnStoresAppended);
+  }
+
+  res.status(200).json({
+    productsToAppend,
+    variantsToAppend,
+    variantOnStoresToAppend,
+    message: "done",
+  });
+});
+
 module.exports = router;
