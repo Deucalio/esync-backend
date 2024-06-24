@@ -740,7 +740,9 @@ router.get("/orders/add-new-order", async (req, res) => {
     created_at: new Date(order.created_at).toISOString(),
     voucher_code: `${order.voucher_code}`,
     gift_option: `${order.gift_option}`,
-    shipping_fee_discount_platform: `${order.shipping_fee_discount_platform}`,
+    shipping_fee_discount_platform: convertStringToFloat(
+      `${order.shipping_fee_discount_platform}`
+    ),
     updated_at: new Date(order.updated_at).toISOString(),
     price: convertStringToFloat(order.price),
     shipping_fee_original: order.shipping_fee_original,
@@ -753,7 +755,6 @@ router.get("/orders/add-new-order", async (req, res) => {
     gift_message: order.gift_message,
     remarks: order.remarks,
     order_items: orderItems,
-    transactions: [],
     shipping_address: order.address_shipping,
     billing_address: order.address_billing,
     is_received: false,
@@ -761,7 +762,6 @@ router.get("/orders/add-new-order", async (req, res) => {
     customer_id: phone,
     transactions_amount: 0,
   };
-
   const potentialNewCustomer = [
     {
       id: phone,
