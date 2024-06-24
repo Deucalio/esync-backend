@@ -144,8 +144,7 @@ exports.Prisma.CustomerScalarFieldEnum = {
 exports.Prisma.DarazOrderScalarFieldEnum = {
   order_id: 'order_id',
   seller_id: 'seller_id',
-  transactions_amount: 'transactions_amount',
-  item_ids: 'item_ids',
+  shop_skus: 'shop_skus',
   voucher_platform: 'voucher_platform',
   voucher: 'voucher',
   voucher_seller: 'voucher_seller',
@@ -168,9 +167,9 @@ exports.Prisma.DarazOrderScalarFieldEnum = {
   gift_message: 'gift_message',
   remarks: 'remarks',
   order_items: 'order_items',
-  transactions: 'transactions',
   shipping_address: 'shipping_address',
   billing_address: 'billing_address',
+  transactions_amount: 'transactions_amount',
   user_id: 'user_id',
   customer_id: 'customer_id'
 };
@@ -194,73 +193,12 @@ exports.Prisma.DarazTransactionScalarFieldEnum = {
   user_id: 'user_id'
 };
 
-exports.Prisma.DarazStoreTransactionScalarFieldEnum = {
-  seller_id: 'seller_id',
-  amount: 'amount',
-  transaction_date: 'transaction_date',
-  transaction_type: 'transaction_type',
-  statement: 'statement',
-  payment_ref_id: 'payment_ref_id',
-  fee_name: 'fee_name',
-  paid_status: 'paid_status',
-  WHT_amount: 'WHT_amount',
-  VAT_in_amount: 'VAT_in_amount',
-  transaction_number: 'transaction_number',
-  comment: 'comment',
-  user_id: 'user_id'
-};
-
 exports.Prisma.TemporaryDataScalarFieldEnum = {
   id: 'id',
   email: 'email',
   createdAt: 'createdAt',
   data: 'data',
   user_id: 'user_id'
-};
-
-exports.Prisma.ShopifyOrderScalarFieldEnum = {
-  current_total_additional_fees_set: 'current_total_additional_fees_set',
-  current_total_discounts: 'current_total_discounts',
-  current_total_duties_set: 'current_total_duties_set',
-  current_total_price: 'current_total_price',
-  current_total_tax: 'current_total_tax',
-  email: 'email',
-  financial_status: 'financial_status',
-  fulfillment_status: 'fulfillment_status',
-  line_items: 'line_items',
-  note: 'note',
-  phone: 'phone',
-  processed_at: 'processed_at',
-  referring_site: 'referring_site',
-  source_name: 'source_name',
-  subtotal_price: 'subtotal_price',
-  tags: 'tags',
-  total_discounts: 'total_discounts',
-  total_line_items_price: 'total_line_items_price',
-  total_outstanding: 'total_outstanding',
-  total_price: 'total_price',
-  updated_at: 'updated_at',
-  user_id: 'user_id',
-  customer_id: 'customer_id',
-  id: 'id'
-};
-
-exports.Prisma.CourierScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  data: 'data',
-  shippers: 'shippers',
-  user_id: 'user_id'
-};
-
-exports.Prisma.DarazLogsScalarFieldEnum = {
-  id: 'id',
-  seller_id: 'seller_id',
-  fetched_from_api: 'fetched_from_api',
-  orders_appended_single_request: 'orders_appended_single_request',
-  orders_appended: 'orders_appended',
-  total_store_orders: 'total_store_orders',
-  daraz_url: 'daraz_url'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
@@ -277,7 +215,8 @@ exports.Prisma.ProductScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   category_id: 'category_id',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  packing_material_cost: 'packing_material_cost'
 };
 
 exports.Prisma.VariantScalarFieldEnum = {
@@ -290,12 +229,12 @@ exports.Prisma.VariantScalarFieldEnum = {
   user_id: 'user_id'
 };
 
-exports.Prisma.VariantOnStoreScalarFieldEnum = {
+exports.Prisma.VariantOnStoresScalarFieldEnum = {
   id: 'id',
   variant_id: 'variant_id',
   status: 'status',
   store_id: 'store_id',
-  daraz_item_ids: 'daraz_item_ids',
+  daraz_shop_sku: 'daraz_shop_sku',
   price: 'price',
   sale_price: 'sale_price',
   deduction_unit: 'deduction_unit',
@@ -314,6 +253,7 @@ exports.Prisma.WarehouseScalarFieldEnum = {
 };
 
 exports.Prisma.InventoryScalarFieldEnum = {
+  id: 'id',
   variant_id: 'variant_id',
   quantity: 'quantity',
   units: 'units',
@@ -324,11 +264,6 @@ exports.Prisma.InventoryScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
-};
-
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.JsonNullValueInput = {
@@ -358,15 +293,11 @@ exports.Prisma.ModelName = {
   Customer: 'Customer',
   DarazOrder: 'DarazOrder',
   DarazTransaction: 'DarazTransaction',
-  DarazStoreTransaction: 'DarazStoreTransaction',
   TemporaryData: 'TemporaryData',
-  ShopifyOrder: 'ShopifyOrder',
-  Courier: 'Courier',
-  DarazLogs: 'DarazLogs',
   Category: 'Category',
   Product: 'Product',
   Variant: 'Variant',
-  VariantOnStore: 'VariantOnStore',
+  VariantOnStores: 'VariantOnStores',
   Warehouse: 'Warehouse',
   Inventory: 'Inventory'
 };
