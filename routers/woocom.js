@@ -32,7 +32,7 @@ router.post("/get-user", async (req, res) => {
       email: email,
     },
     include: {
-      Stores: true,
+      Store: true,
     },
   });
 
