@@ -145,6 +145,7 @@ exports.Prisma.DarazOrderScalarFieldEnum = {
   order_id: 'order_id',
   seller_id: 'seller_id',
   transactions_amount: 'transactions_amount',
+  item_ids: 'item_ids',
   voucher_platform: 'voucher_platform',
   voucher: 'voucher',
   voucher_seller: 'voucher_seller',
@@ -262,6 +263,64 @@ exports.Prisma.DarazLogsScalarFieldEnum = {
   daraz_url: 'daraz_url'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  user_id: 'user_id'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  image_url: 'image_url',
+  description: 'description',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  category_id: 'category_id',
+  user_id: 'user_id'
+};
+
+exports.Prisma.VariantScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sku: 'sku',
+  cost: 'cost',
+  image_url: 'image_url',
+  product_id: 'product_id',
+  user_id: 'user_id'
+};
+
+exports.Prisma.VariantOnStoreScalarFieldEnum = {
+  id: 'id',
+  variant_id: 'variant_id',
+  status: 'status',
+  store_id: 'store_id',
+  daraz_item_ids: 'daraz_item_ids',
+  price: 'price',
+  sale_price: 'sale_price',
+  deduction_unit: 'deduction_unit',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  platform_details: 'platform_details',
+  sku_id: 'sku_id',
+  seller_sku: 'seller_sku',
+  user_id: 'user_id'
+};
+
+exports.Prisma.WarehouseScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  user_id: 'user_id'
+};
+
+exports.Prisma.InventoryScalarFieldEnum = {
+  variant_id: 'variant_id',
+  quantity: 'quantity',
+  units: 'units',
+  user_id: 'user_id',
+  warehouse_id: 'warehouse_id'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -303,7 +362,13 @@ exports.Prisma.ModelName = {
   TemporaryData: 'TemporaryData',
   ShopifyOrder: 'ShopifyOrder',
   Courier: 'Courier',
-  DarazLogs: 'DarazLogs'
+  DarazLogs: 'DarazLogs',
+  Category: 'Category',
+  Product: 'Product',
+  Variant: 'Variant',
+  VariantOnStore: 'VariantOnStore',
+  Warehouse: 'Warehouse',
+  Inventory: 'Inventory'
 };
 
 /**

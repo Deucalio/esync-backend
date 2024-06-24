@@ -27,17 +27,24 @@ model User {
   Store                 Store[]
   TemporaryData         TemporaryData[]
   DarazTransaction      DarazTransaction[]
+  Category              Category[]
+  Product               Product[]
+  Variant               Variant[]
+  VariantOnStore        VariantOnStore[]
+  Warehouse             Warehouse[]
+  Inventory             Inventory[]
 }
 
 model Store {
-  seller_id    String   @id
-  name         String
-  platform     String
-  image_url    String
-  connected_at DateTime @default(now())
-  store_info   Json
-  user_id      Int
-  user         User     @relation(fields: [user_id], references: [id])
+  seller_id      String           @id
+  name           String
+  platform       String
+  image_url      String
+  connected_at   DateTime         @default(now())
+  store_info     Json
+  user_id        Int
+  user           User             @relation(fields: [user_id], references: [id])
+  VariantOnStore VariantOnStore[]
 }
 
 model Customer {
@@ -56,9 +63,10 @@ model Customer {
 }
 
 model DarazOrder {
-  order_id                       String   @id
+  order_id                       String             @id
   seller_id                      String
   transactions_amount            Decimal
+  item_ids                       String
   voucher_platform               String
   voucher                        String
   voucher_seller                 String
@@ -86,28 +94,30 @@ model DarazOrder {
   billing_address                Json
   user_id                        Int
   customer_id                    String
-  customer                       Customer @relation(fields: [customer_id], references: [id])
-  user                           User     @relation(fields: [user_id], references: [id])
+  customer                       Customer           @relation(fields: [customer_id], references: [id])
+  user                           User               @relation(fields: [user_id], references: [id])
+  DarazTransaction               DarazTransaction[]
 }
 
 model DarazTransaction {
-  id                 String    @id
+  id                 String     @id
   seller_id          String
-  order_number       String?
-  order_item_status  String?
-  amount             String?
-  transaction_date   DateTime?
-  transaction_type   String?
-  statement          String?
-  payment_ref_id     String?
-  fee_name           String?
-  paid_status        String?
-  WHT_amount         String?
-  VAT_in_amount      String?
-  transaction_number String?
+  order_number       String
+  order_item_status  String
+  amount             String
+  transaction_date   DateTime
+  transaction_type   String
+  statement          String
+  payment_ref_id     String
+  fee_name           String
+  paid_status        String
+  WHT_amount         String
+  VAT_in_amount      String
+  transaction_number String
   comment            String
   user_id            Int
-  user               User      @relation(fields: [user_id], references: [id])
+  user               User       @relation(fields: [user_id], references: [id])
+  daraz_order        DarazOrder @relation(fields: [order_number], references: [order_id])
 }
 
 model DarazStoreTransaction {
@@ -182,4 +192,84 @@ model DarazLogs {
   orders_appended                String
   total_store_orders             String
   daraz_url                      String
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String
+  user_id Int
+  user    User      @relation(fields: [user_id], references: [id])
+  Product Product[]
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  image_url   String
+  description String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime
+  category_id Int
+  user_id     Int
+  user        User      @relation(fields: [user_id], references: [id])
+  category    Category  @relation(fields: [category_id], references: [id])
+  Variant     Variant[]
+}
+
+model Variant {
+  id             Int              @id @default(autoincrement())
+  name           String
+  sku            String
+  cost           Float
+  image_url      String
+  product_id     Int
+  user_id        Int
+  user           User             @relation(fields: [user_id], references: [id])
+  product        Product          @relation(fields: [product_id], references: [id])
+  VariantOnStore VariantOnStore[]
+}
+
+model VariantOnStore {
+  id               Int      @id @default(autoincrement())
+  variant_id       Int
+  status           String
+  store_id         String
+  daraz_item_ids   String
+  price            Float
+  sale_price       Float
+  deduction_unit   Float
+  created_at       DateTime @default(now())
+  updated_at       DateTime
+  platform_details Json
+  sku_id           String
+  seller_sku       String
+  user_id          Int
+  user             User     @relation(fields: [user_id], references: [id])
+  store            Store    @relation(fields: [store_id], references: [seller_id])
+  variant          Variant  @relation(fields: [variant_id], references: [id])
+}
+
+// CREATE TABLE "Warehouse" (
+// "id" SERIAL PRIMARY KEY,
+// "name" VARCHAR,
+// "user_id" INT,
+// FOREIGN KEY ("user_id") REFERENCES "User"("id")
+// );
+
+model Warehouse {
+  id        Int         @id @default(autoincrement())
+  name      String
+  user_id   Int
+  user      User        @relation(fields: [user_id], references: [id])
+  Inventory Inventory[]
+}
+
+model Inventory {
+  variant_id   Int       @id
+  quantity     Int
+  units        String
+  user_id      Int
+  user         User      @relation(fields: [user_id], references: [id])
+  warehouse_id Int
+  warehouse    Warehouse @relation(fields: [warehouse_id], references: [id])
 }

@@ -712,8 +712,25 @@ router.get("/orders/add-new-order", async (req, res) => {
     phone = `${Math.floor(10000000000 + Math.random() * 90000000000)}1234`;
   }
 
+  // Get its line items
+  const darazURL2 = generateDarazURL("/order/items/get", access_token, {
+    order_id: order_id,
+  });
+
+  let response2 = "";
+  let orderItems = "";
+
+  try {
+    response2 = await axios.get(darazURL2);
+    orderItems = response2.data.data;
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not get order items" });
+  }
+
   const newOrder = {
     seller_id: `${seller_id}`,
+    order_item_ids: orderItems.map((oi) => oi.order_item_id).join(","),
     promised_shipping_times: `${order.promised_shipping_times}`,
     voucher_platform: `${order.voucher_platform || 0}`,
     voucher: `${order.voucher}`,
@@ -735,35 +752,15 @@ router.get("/orders/add-new-order", async (req, res) => {
     order_id: `${order.order_id}`,
     gift_message: order.gift_message,
     remarks: order.remarks,
-    order_items: order.line_items || [],
+    order_items: orderItems,
     transactions: [],
     shipping_address: order.address_shipping,
     billing_address: order.address_billing,
     is_received: false,
     user_id: store.user_id,
     customer_id: phone,
-    transactions_amount: 0
+    transactions_amount: 0,
   };
-
-
-
-  // Get its line items
-  const darazURL2 = generateDarazURL("/order/items/get", access_token, {
-    order_id: order_id,
-  });
-
-  let response2 = "";
-  let orderItems = "";
-
-  try {
-    response2 = await axios.get(darazURL2);
-    orderItems = response2.data.data;
-  } catch (e) {
-    console.log("error: ", e);
-    return res.status(400).json({ message: "Could not get order items" });
-  }
-  newOrder.order_items = orderItems;
-
 
   const potentialNewCustomer = [
     {
@@ -791,8 +788,6 @@ router.get("/orders/add-new-order", async (req, res) => {
     return res.status(400).json({ message: "Could not Add Customer" });
   }
 
-
-
   // Finally append the order into the DB
   let orderAdded = "";
   try {
@@ -812,7 +807,7 @@ router.get("/orders/add-new-order", async (req, res) => {
       .status(400)
       .json({ message: "Could not Append Order into DB", newOrder });
   }
-  console.log(`${newOrder.order_id}: ${newOrder.statuses}`, "Created")
+  console.log(`${newOrder.order_id}: ${newOrder.statuses}`, "Created");
   res.status(200).json({ orderAdded, message: "Order Added" });
 });
 
@@ -888,7 +883,7 @@ router.get("/orders/sync", async (req, res) => {
       },
       data: updatedFields,
     });
-    console.log(`${order_id}: ${fetched_order.statuses.join(",")}`, "Synced")
+    console.log(`${order_id}: ${fetched_order.statuses.join(",")}`, "Synced");
   } catch (e) {
     if (e.code === "P2025") {
       // That means the order is not found, so we need to create a new order
