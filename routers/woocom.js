@@ -13,7 +13,7 @@ const limiter = new Bottleneck({
 
 // sed
 // Fulfill Orders
-router.post("/wo-com", async (req, res) => {
+router.post("/get-user", async (req, res) => {
   const { email, ck, cs } = req.body;
 
   if (!email) {

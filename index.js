@@ -95,6 +95,10 @@ app.use("/tcs", require("./routers/tcs"));
 // Routes for Daewoo API
 app.use("/daewoo", require("./routers/daewoo"));
 
+
+// Routes for WooCommerce API
+app.use("/woocommerce", require("./routers/woocom"));
+
 app.get("/kewl", async (req, res) => {
   console.log("Hello World!");
   res.status(200).send("Got em!");
