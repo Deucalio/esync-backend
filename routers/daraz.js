@@ -730,7 +730,7 @@ router.get("/orders/add-new-order", async (req, res) => {
 
   const newOrder = {
     seller_id: `${seller_id}`,
-    order_item_ids: orderItems.map((oi) => oi.order_item_id).join(","),
+    item_ids: orderItems.map((oi) => oi.order_item_id).join(","),
     promised_shipping_times: `${order.promised_shipping_times}`,
     voucher_platform: `${order.voucher_platform || 0}`,
     voucher: `${order.voucher}`,
