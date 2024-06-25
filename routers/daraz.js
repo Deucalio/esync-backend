@@ -1359,7 +1359,7 @@ router.put("/mark-orders-as-received", async (req, res) => {
 
 // PRODUCTS
 router.get("/get-products", async (req, res) => {
-  const { at, name } = req.query;
+  const { at, name, seller_id } = req.query;
 
   const product_url = generateDarazURL("/products/get", at, {
     filter: "live",
@@ -1376,93 +1376,74 @@ router.get("/get-products", async (req, res) => {
     return res.status(400).json({ message: "Could not get products" });
   }
 
-  res.status(200).json({ storeName: name, products: products });
+  res.status(200).json({ seller_id: seller_id, storeName: name, products: products });
 });
 
 router.get("/import-products", async (req, res) => {
-  const stores = await prisma.store.findMany({});
+  const { productsToBeImported, user_id, seller_id } = req.body;
 
-  for (let store of stores) {
-    const { access_token } = store.store_info;
+  const productsToAppend = [];
+  const variantsToAppend = [];
+  const variantOnStoresToAppend = [];
 
-    const product_url = generateDarazURL("/products/get", access_token, {
-      filter: "live",
-    });
+  for (let product of productsToBeImported) {
+    // Generate a random number of 9 digits
+    // const randomNum = Math.floor(100000000 + Math.random() * 900000000);
+    const product_id = product.item_id;
+    const newProduct = {
+      id: product_id,
+      name: product.attributes.name_en
+        ? product.attributes.name_en
+        : product.attributes.name,
+      image_url: product.images.join(","),
+      description: product.short_description
+        ? product.short_description
+        : product.description
+        ? product.description
+        : "No Description",
+      created_at: new Date(Number(product.created_time)),
+      updated_at: new Date(Number(product.updated_time)),
+      category_id: 1,
+      user_id: user_id,
+      packing_material_cost: 0,
+    };
+    productsToAppend.push(newProduct);
 
-    const productsToAppend = [];
-    const variantsToAppend = [];
-    const variantOnStoresToAppend = [];
+    // Create Variants
 
-    let response = "";
-    let products = "";
+    // Generate a random of 9 digits
 
-    try {
-      response = await axios.get(product_url);
-      products = response.data.data.products;
-    } catch (e) {
-      console.log("error: ", e);
-      return res.status(400).json({ message: "Could not get products" });
-    }
-
-    for (let product of products) {
-      // Generate a random number of 9 digits
-      // const randomNum = Math.floor(100000000 + Math.random() * 900000000);
-      const product_id = product.item_id;
-      const newProduct = {
-        id: product_id,
-        name: product.attributes.name_en
-          ? product.attributes.name_en
-          : product.attributes.name,
-        image_url: product.images.join(","),
-        description: product.short_description
-          ? product.short_description
-          : product.description
-          ? product.description
-          : "No Description",
-        created_at: new Date(Number(product.created_time)),
-        updated_at: new Date(Number(product.updated_time)),
-        category_id: 1,
-        user_id: store.user_id,
-        packing_material_cost: 0,
+    for (let sku of product.skus) {
+      const randomNumber = Math.floor(100000000 + Math.random() * 900000000);
+      const newVariant = {
+        id: randomNumber,
+        name: sku.color_family ? sku.color_family : sku.SellerSku,
+        sku: sku.SellerSku,
+        cost: 0,
+        image_url: sku.Images.join(","),
+        product_id: newProduct.id,
+        user_id: user_id,
       };
-      productsToAppend.push(newProduct);
-
-      // Create Variants
-
-      // Generate a random of 9 digits
-
-      for (let sku of product.skus) {
-        const randomNumber = Math.floor(100000000 + Math.random() * 900000000);
-        const newVariant = {
-          id: randomNumber,
-          name: sku.color_family ? sku.color_family : sku.SellerSku,
-          sku: sku.SellerSku,
-          cost: 0,
-          image_url: sku.Images.join(","),
-          product_id: newProduct.id,
-          user_id: store.user_id,
-        };
-        variantsToAppend.push(newVariant);
-        const VariantOnStore = {
-          variant_id: newVariant.id,
-          status: sku.Status,
-          store_id: store.seller_id,
-          daraz_shop_sku: sku.ShopSku,
-          price: sku.price,
-          sale_price: sku.special_price,
-          deduction_unit: 1,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          platform_details: {
-            special_price_start_time: sku.special_from_date,
-            special_price_end_time: sku.special_to_date,
-          },
-          sku_id: sku.ShopSku.split("-")[1],
-          seller_sku: sku.SellerSku,
-          user_id: store.user_id,
-        };
-        variantOnStoresToAppend.push(VariantOnStore);
-      }
+      variantsToAppend.push(newVariant);
+      const VariantOnStore = {
+        variant_id: newVariant.id,
+        status: sku.Status,
+        store_id: seller_id,
+        daraz_shop_sku: sku.ShopSku,
+        price: sku.price,
+        sale_price: sku.special_price,
+        deduction_unit: 1,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        platform_details: {
+          special_price_start_time: sku.special_from_date,
+          special_price_end_time: sku.special_to_date,
+        },
+        sku_id: sku.ShopSku.split("-")[1],
+        seller_sku: sku.SellerSku,
+        user_id: user_id,
+      };
+      variantOnStoresToAppend.push(VariantOnStore);
     }
 
     // Append to Database
@@ -1486,9 +1467,6 @@ router.get("/import-products", async (req, res) => {
   }
 
   res.status(200).json({
-    productsToAppend,
-    variantsToAppend,
-    variantOnStoresToAppend,
     message: "done",
   });
 });
