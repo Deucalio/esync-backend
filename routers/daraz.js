@@ -1396,10 +1396,10 @@ router.get("/import-products", async (req, res) => {
         ? product.attributes.name_en
         : product.attributes.name,
       image_url: product.images.join(","),
-      description: product.short_description
-        ? product.short_description
-        : product.description
-        ? product.description
+      description: product.attributes.short_description
+        ? product.attributes.short_description
+        : product.attributes.description
+        ? product.attributes.description
         : "No Description",
       created_at: new Date(Number(product.created_time)),
       updated_at: new Date(Number(product.updated_time)),
