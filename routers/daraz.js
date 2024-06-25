@@ -1376,11 +1376,43 @@ router.get("/get-products", async (req, res) => {
     return res.status(400).json({ message: "Could not get products" });
   }
 
-  res.status(200).json({ seller_id: seller_id, storeName: name, products: products });
+  res
+    .status(200)
+    .json({ seller_id: seller_id, storeName: name, products: products });
 });
 
-router.get("/import-products", async (req, res) => {
-  const { productsToBeImported, user_id, seller_id } = req.body;
+// Remove
+router.delete("/products", async (req, res) => {
+  const vof = await prisma.variantOnStores.deleteMany({});
+  const v = await prisma.variant.deleteMany({});
+  const p = await prisma.product.deleteMany({});
+  res.status(200).json({ message: "Deleted" });
+});
+
+router.post("/import-products", async (req, res) => {
+  const { productsToBeImported, user_id, seller_id, first_time } = req.body;
+
+  // If the user is importing products for the first time, we need to create a warehouse and a category
+  let warehouse_id = "";
+  let category_id = "";
+  if (first_time) {
+    const newWarehouse = await prisma.warehouse.create({
+      data: {
+        name: "Unassigned",
+        user_id: user_id,
+      },
+    });
+
+    const newCategory = await prisma.category.create({
+      data: {
+        name: "Unassigned",
+        user_id: user_id,
+      },
+    });
+    category_id = newCategory.id;
+  } else {
+    return;
+  }
 
   const productsToAppend = [];
   const variantsToAppend = [];
@@ -1403,7 +1435,7 @@ router.get("/import-products", async (req, res) => {
         : "No Description",
       created_at: new Date(Number(product.created_time)),
       updated_at: new Date(Number(product.updated_time)),
-      category_id: 1,
+      category_id: category_id,
       user_id: user_id,
       packing_material_cost: 0,
     };
@@ -1445,26 +1477,26 @@ router.get("/import-products", async (req, res) => {
       };
       variantOnStoresToAppend.push(VariantOnStore);
     }
-
-    // Append to Database
-    const productsAppended = await prisma.product.createMany({
-      data: productsToAppend,
-      skipDuplicates: true,
-    });
-    console.log("productsAppended", productsAppended);
-
-    const variantsAppended = await prisma.variant.createMany({
-      data: variantsToAppend,
-      skipDuplicates: true,
-    });
-    console.log("variantsAppended", variantsAppended);
-
-    const variantOnStoresAppended = await prisma.variantOnStores.createMany({
-      data: variantOnStoresToAppend,
-      skipDuplicates: true,
-    });
-    console.log("variantOnStoresAppended", variantOnStoresAppended);
   }
+
+  // Append to Database
+  const productsAppended = await prisma.product.createMany({
+    data: productsToAppend,
+    skipDuplicates: true,
+  });
+  console.log("productsAppended", productsAppended);
+
+  const variantsAppended = await prisma.variant.createMany({
+    data: variantsToAppend,
+    skipDuplicates: true,
+  });
+  console.log("variantsAppended", variantsAppended);
+
+  const variantOnStoresAppended = await prisma.variantOnStores.createMany({
+    data: variantOnStoresToAppend,
+    skipDuplicates: true,
+  });
+  console.log("variantOnStoresAppended", variantOnStoresAppended);
 
   res.status(200).json({
     message: "done",
