@@ -1358,6 +1358,28 @@ router.put("/mark-orders-as-received", async (req, res) => {
 });
 
 // PRODUCTS
+router.get("/get-products", async (req, res) => {
+  const { at } = req.query;
+  console.log("at", at);
+
+  const product_url = generateDarazURL("/products/get", at, {
+    filter: "live",
+  });
+
+  let response = "";
+  let products = "";
+
+  try {
+    response = await axios.get(product_url);
+    products = response.data.data.products;
+  } catch (e) {
+    console.log("error: ", e);
+    return res.status(400).json({ message: "Could not get products" });
+  }
+  console.log("products", products);
+
+  res.status(200).json({ products: products });
+});
 
 router.get("/import-products", async (req, res) => {
   const stores = await prisma.store.findMany({});
