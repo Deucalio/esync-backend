@@ -95,13 +95,24 @@ app.use("/tcs", require("./routers/tcs"));
 // Routes for Daewoo API
 app.use("/daewoo", require("./routers/daewoo"));
 
-
 // Routes for WooCommerce API
 app.use("/woocommerce", require("./routers/woocom"));
 
 app.get("/kewl", async (req, res) => {
   console.log("Hello World!");
-  res.status(200).send("Got em!");
+  const vons = await prisma.variantOnStores.findMany({
+    include: {
+      store: true,
+      variant: true,
+    },
+  });
+
+  const s = await prisma.store.findMany({
+    include: {
+      VariantOnStores: true,
+    },
+  });
+  res.status(200).json({ vons, s });
 });
 
 // Update Temp Data
@@ -132,7 +143,7 @@ app.post("/user", async (req, res) => {
   console.log("email: ", email);
   const user = await prisma.user.findUnique({
     where: { email: email },
-    include: { Store: true, Courier: true },
+    include: { Store: true },
   });
   res.status(200).send(user);
 });
@@ -165,7 +176,6 @@ app.post("/add-shipper", async (req, res) => {
   // get couriers by user_id
   const user = await prisma.user.findUnique({
     where: { email: userEmail },
-    include: { Courier: true },
   });
   let userCouriers = user["Courier"];
   userCouriers = userCouriers.filter((courier) => courier.name === "Leopards");
@@ -939,8 +949,6 @@ app.get("/stores", async (req, res) => {
   const stores = await prisma.store.findMany({});
   res.status(200).send(stores);
 });
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
