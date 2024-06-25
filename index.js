@@ -138,8 +138,6 @@ app.post("/update-temp-data", async (req, res) => {
 
 // Get user Info
 
-
-
 app.get("/users", async (req, res) => {
   const users = await prisma.user.findMany({});
   res.status(200).json({ users });
@@ -918,12 +916,14 @@ app.post("/update-user-events", async (req, res) => {
 app.post("/user", async (req, res) => {
   const { email } = req.body;
   try {
-    const user = await prisma.user.findUnique({
-      where: { email: email },
-      include: { Store: true, Product: true, Variant: true, VariantOnStores: true },
-    });
-
-    return res.status(200).json({ user });
+    const [products, user] = await prisma.$transaction([
+      prisma.product.findMany({ include: { Variant: true } }),
+      prisma.user.findUnique({
+        where: { email: email },
+        include: { Store: true, VariantOnStores: true },
+      }),
+    ]);
+    return res.status(200).json({ user, products });
   } catch (e) {
     console.log("Error: ", e);
     return res.status(400).json({ message: "User not found" });

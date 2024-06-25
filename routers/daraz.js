@@ -1419,6 +1419,10 @@ router.post("/import-products", async (req, res) => {
   const variantOnStoresToAppend = [];
 
   for (let product of productsToBeImported) {
+
+    // For every product, add an entry in inventory
+
+
     // Generate a random number of 9 digits
     // const randomNum = Math.floor(100000000 + Math.random() * 900000000);
     const product_id = product.item_id;
