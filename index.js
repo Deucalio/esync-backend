@@ -920,7 +920,7 @@ app.post("/user", async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { email: email },
-      include: { Store: true, Product: true },
+      include: { Store: true, Product: true, Variant: true, VariantOnStores: true },
     });
 
     return res.status(200).json({ user });

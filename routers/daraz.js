@@ -1497,7 +1497,6 @@ router.post("/import-products", async (req, res) => {
     skipDuplicates: true,
   });
   console.log("variantOnStoresAppended", variantOnStoresAppended);
-
   res.status(200).json({
     message: "done",
   });
