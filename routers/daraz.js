@@ -1359,7 +1359,7 @@ router.put("/mark-orders-as-received", async (req, res) => {
 
 // PRODUCTS
 router.get("/get-products", async (req, res) => {
-  const { at } = req.query;
+  const { at, name } = req.query;
   console.log("at", at);
 
   const product_url = generateDarazURL("/products/get", at, {
@@ -1378,7 +1378,7 @@ router.get("/get-products", async (req, res) => {
   }
   console.log("products", products);
 
-  res.status(200).json({ products: products });
+  res.status(200).json({ storeName: name, products: products });
 });
 
 router.get("/import-products", async (req, res) => {
