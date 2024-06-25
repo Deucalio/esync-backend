@@ -138,15 +138,7 @@ app.post("/update-temp-data", async (req, res) => {
 
 // Get user Info
 
-app.post("/user", async (req, res) => {
-  const { email } = req.body;
-  console.log("email: ", email);
-  const user = await prisma.user.findUnique({
-    where: { email: email },
-    include: { Store: true },
-  });
-  res.status(200).send(user);
-});
+
 
 app.get("/users", async (req, res) => {
   const users = await prisma.user.findMany({});
@@ -928,7 +920,7 @@ app.post("/user", async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { email: email },
-      include: { Store: true },
+      include: { Store: true, Product: true },
     });
 
     return res.status(200).json({ user });
