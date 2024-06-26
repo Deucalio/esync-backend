@@ -915,14 +915,22 @@ app.post("/update-user-events", async (req, res) => {
 
 app.post("/user", async (req, res) => {
   const { email } = req.body;
+
   try {
-    const [products, user] = await prisma.$transaction([
-      prisma.product.findMany({ include: { Variant: true } }),
-      prisma.user.findUnique({
-        where: { email: email },
-        include: { Store: true, VariantOnStores: true },
-      }),
-    ]);
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+      include: {
+        VariantOnStores: true,
+      }
+    });
+
+    const products = await prisma.product.findMany({
+      where: { user_id: user.id },
+      include: {
+        Variant: true
+      }
+    });
+
     return res.status(200).json({ user, products });
   } catch (e) {
     console.log("Error: ", e);
