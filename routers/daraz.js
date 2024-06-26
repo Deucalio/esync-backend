@@ -1350,14 +1350,9 @@ router.put("/mark-orders-as-received", async (req, res) => {
 // PRODUCTS
 router.get("/get-products", async (req, res) => {
   const { at, name, seller_id } = req.query;
-  
-  let limit = 20;
-  let totalProducts = 0;
 
-  // Limit is 20 
   const product_url = generateDarazURL("/products/get", at, {
     filter: "live",
-    limit: limit
   });
 
   let response = "";
@@ -1365,17 +1360,12 @@ router.get("/get-products", async (req, res) => {
 
   try {
     response = await axios.get(product_url);
-    
     totalProducts = response.data.data.total_products;
+    products = response.data.data.products;
   } catch (e) {
     console.log("error: ", e);
     return res.status(400).json({ message: "Could not get products" });
   }
-
-  // Get all the products
-  
-
-
 
   res
     .status(200)
