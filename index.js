@@ -913,27 +913,43 @@ app.post("/update-user-events", async (req, res) => {
   res.status(200).send(updatedUser);
 });
 
+app.get("/churger", async (req, res) => {
+  res.status(200).send(variant);
+});
+
 app.post("/user", async (req, res) => {
   const { email } = req.body;
+
+  // const products = await prisma.product.findMany({
+  //   include: {
+  //     Variant: {
+  //       include: {
+  //         VariantOnStores: true,
+  //         Inventory: true,
+  //       },
+  //     },
+  //   },
+  // });
 
   try {
     const user = await prisma.user.findUnique({
       where: { email: email },
       include: {
-        VariantOnStores: true,
-        Inventory: true,
         Store: true,
+        Product: {
+          include: {
+            Variant: {
+              include: {
+                Inventory: true,
+                VariantOnStores: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    const products = await prisma.product.findMany({
-      where: { user_id: user.id },
-      include: {
-        Variant: true,
-      },
-    });
-
-    return res.status(200).json({ user, products });
+    return res.status(200).json({ user });
   } catch (e) {
     console.log("Error: ", e);
     return res.status(400).json({ message: "User not found" });
