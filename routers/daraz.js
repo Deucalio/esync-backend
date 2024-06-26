@@ -56,16 +56,6 @@ function sign(secret, api, parameters) {
   return hmac.digest("hex").toUpperCase();
 }
 
-router.get("/sad", async (req, res) => {
-  res.status(200).json({
-    data: await prisma.darazOrder.findMany({
-      where: {
-        order_id: "187132552068523",
-      },
-    }),
-  });
-});
-
 // Define a function to send a request for each order
 
 router.post("/sign", async (req, res) => {
@@ -1383,46 +1373,36 @@ router.get("/get-products", async (req, res) => {
 
 // Remove
 router.delete("/products", async (req, res) => {
+  const i = await prisma.inventory.deleteMany({});
   const vof = await prisma.variantOnStores.deleteMany({});
   const v = await prisma.variant.deleteMany({});
   const p = await prisma.product.deleteMany({});
   res.status(200).json({ message: "Deleted" });
 });
 
+router.get("/sad", async (req, res) => {
+  const newCategory = await prisma.category.create({
+    data: {
+      name: "Unassigned",
+      user_id: 1,
+    },
+  });
+
+  res.status(200).json({ newCategory, message: "done" });
+});
+
 router.post("/import-products", async (req, res) => {
   const { productsToBeImported, user_id, seller_id, first_time } = req.body;
 
   // If the user is importing products for the first time, we need to create a warehouse and a category
-  let warehouse_id = "";
-  let category_id = "";
-  if (first_time) {
-    const newWarehouse = await prisma.warehouse.create({
-      data: {
-        name: "Unassigned",
-        user_id: user_id,
-      },
-    });
-
-    const newCategory = await prisma.category.create({
-      data: {
-        name: "Unassigned",
-        user_id: user_id,
-      },
-    });
-    category_id = newCategory.id;
-  } else {
-    return;
-  }
+  category_id = 9;
 
   const productsToAppend = [];
   const variantsToAppend = [];
   const variantOnStoresToAppend = [];
+  const inventoriesToAppend = [];
 
   for (let product of productsToBeImported) {
-
-    // For every product, add an entry in inventory
-
-
     // Generate a random number of 9 digits
     // const randomNum = Math.floor(100000000 + Math.random() * 900000000);
     const product_id = product.item_id;
@@ -1461,6 +1441,39 @@ router.post("/import-products", async (req, res) => {
         user_id: user_id,
       };
       variantsToAppend.push(newVariant);
+
+      // Warehouse ids (8 for fbl, 9 for unassigned)
+
+      if (sku.fblWarehouseInventories.length !== 0) {
+        // FBL
+        const newInventory = {
+          variant_id: newVariant.id,
+          warehouse_id: 8,
+          quantity: sku.fblWarehouseInventories.reduce(
+            (a, b) => a + b.totalQuantity,
+            0
+          ),
+          units: "pcs",
+          user_id: user_id,
+        };
+        inventoriesToAppend.push(newInventory);
+      }
+      if (sku.multiWarehouseInventories.length !== 0) {
+        // Unassigned
+        const newInventory = {
+          variant_id: newVariant.id,
+          warehouse_id: 9,
+          quantity: sku.multiWarehouseInventories.reduce(
+            (a, b) => a + b.totalQuantity,
+            0
+          ),
+          units: "pcs",
+          user_id: user_id,
+        };
+
+        inventoriesToAppend.push(newInventory);
+      }
+
       const VariantOnStore = {
         variant_id: newVariant.id,
         status: sku.Status,
@@ -1501,6 +1514,13 @@ router.post("/import-products", async (req, res) => {
     skipDuplicates: true,
   });
   console.log("variantOnStoresAppended", variantOnStoresAppended);
+
+  const inventoriesToAppendAppended = await prisma.inventory.createMany({
+    data: inventoriesToAppend,
+    skipDuplicates: true,
+  });
+  console.log("inventoriesToAppendAppended", inventoriesToAppendAppended);
+
   res.status(200).json({
     message: "done",
   });
