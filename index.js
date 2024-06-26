@@ -921,6 +921,7 @@ app.post("/user", async (req, res) => {
       where: { email: email },
       include: {
         VariantOnStores: true,
+        Inventory: true,
         Store: true,
       },
     });
