@@ -921,14 +921,15 @@ app.post("/user", async (req, res) => {
       where: { email: email },
       include: {
         VariantOnStores: true,
-      }
+        Store: true,
+      },
     });
 
     const products = await prisma.product.findMany({
       where: { user_id: user.id },
       include: {
-        Variant: true
-      }
+        Variant: true,
+      },
     });
 
     return res.status(200).json({ user, products });
