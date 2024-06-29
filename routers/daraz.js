@@ -1464,6 +1464,8 @@ router.post("/get-sellersku-products", async (req, res) => {
     },
   });
 
+  console.log("sellerSkus", sellerSkus)
+
   const access_token = store.store_info.access_token;
   const product_url = generateDarazURL("/products/get", access_token, {
     filter: "all",
