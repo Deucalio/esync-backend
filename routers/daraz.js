@@ -1350,10 +1350,24 @@ router.put("/mark-orders-as-received", async (req, res) => {
 // PRODUCTS
 router.get("/get-products", async (req, res) => {
   const { at, name, seller_id } = req.query;
+  let product_url = "";
 
-  const product_url = generateDarazURL("/products/get", at, {
-    filter: "live",
-  });
+  if (seller_id === "6005024235127") {
+    product_url = generateDarazURL("/products/get", at, {
+      filter: "all",
+      sku_seller_list: JSON.stringify(["DPRL", "LPS", "Sterilizer_Purple"]),
+    });
+  } else {
+    product_url = generateDarazURL("/products/get", at, {
+      filter: "all",
+      sku_seller_list: JSON.stringify([
+        "DPRL",
+        "Magic_Book",
+        "Sterilizer_Purple",
+        "S18",
+      ]),
+    });
+  }
 
   let response = "";
   let products = "";
@@ -1367,9 +1381,31 @@ router.get("/get-products", async (req, res) => {
     return res.status(400).json({ message: "Could not get products" });
   }
 
-  res
-    .status(200)
-    .json({ seller_id: seller_id, storeName: name, products: products });
+  // Make sure these products are not already in the database
+
+  const variants = await prisma.variantOnStores.findMany({
+    where: {
+      store_id: seller_id,
+    },
+  });
+
+  const skus = products.map((p) => p.skus).flat();
+
+  // These are the skus that are not in the database
+  const notInDBSkus = skus.filter(
+    (s) => !variants.find((vos) => vos.daraz_shop_sku === s.ShopSku)
+  );
+
+  // Given these skus find their matching products
+  const notInDBProducts = products.filter((p) => {
+    return p.skus.find((s) => notInDBSkus.find((n) => n.ShopSku === s.ShopSku));
+  });
+
+  res.status(200).json({
+    seller_id: seller_id,
+    storeName: name,
+    products: notInDBProducts,
+  });
 });
 
 // Remove
@@ -1392,8 +1428,331 @@ router.get("/sad", async (req, res) => {
   res.status(200).json({ newCategory, message: "done" });
 });
 
+// 366385470
+
+router.delete("/hehe", async (req, res) => {
+  const i = await prisma.inventory.deleteMany({});
+  const vof = await prisma.variantOnStores.deleteMany({});
+  const v = await prisma.variant.deleteMany({});
+  const p = await prisma.product.deleteMany({});
+
+  res.status(200).json({ message: "Deleted" });
+});
+
+router.post("/get-sellersku-products", async (req, res) => {
+  const { sellerSkus, seller_id } = req.body;
+
+  const store = await prisma.store.findUnique({
+    where: {
+      seller_id,
+    },
+  });
+
+  const access_token = store.store_info.access_token;
+  const product_url = generateDarazURL("/products/get", access_token, {
+    filter: "all",
+    sku_seller_list: JSON.stringify(sellerSkus),
+  });
+
+  const response = await axios.get(product_url);
+  if (Object.keys(response.data.data).length === 0) {
+    return res.status(400).json({ message: "Could not get products" });
+  }
+  const products = response.data.data.products;
+  if (products.length === 0) {
+    return res.status(400).json({ message: "No products found" });
+  }
+
+  console.log("products", products)
+
+  // Make sure these products are not already in the database
+
+  const variants = await prisma.variantOnStores.findMany({
+    where: {
+      store_id: seller_id,
+    },
+  });
+
+  const skus = products.map((p) => p.skus).flat();
+
+  // These are the skus that are not in the database
+  const notInDBSkus = skus.filter(
+    (s) => !variants.find((vos) => vos.daraz_shop_sku === s.ShopSku)
+  );
+
+  // Given these skus find their matching products
+  const notInDBProducts = products.filter((p) => {
+    return p.skus.find((s) => notInDBSkus.find((n) => n.ShopSku === s.ShopSku));
+  });
+
+  if (notInDBProducts.length === 0) {
+    return res.status(400).json({ message: "Product with this Seller SKU already exists" });
+  }
+  res.status(200).json({ notInDBProducts });
+});
+
 router.post("/import-products", async (req, res) => {
-  const { productsToBeImported, user_id, seller_id, first_time } = req.body;
+  const { user_id, seller_id, instruction, sku_seller_list } = req.body;
+
+  let { productsToBeImported } = req.body;
+
+  if (sku_seller_list) {
+    console.log("hehe");
+  }
+
+  let existingVariants = [];
+  let allVariants = [];
+
+  if (!instruction) {
+    // Check if the variants are already in the database
+    const variants = await prisma.variant.findMany({
+      where: {
+        user_id: user_id,
+      },
+    });
+    allVariants = variants;
+    const productsToBeImportedVariants = productsToBeImported
+      .map((p) => p.skus)
+      .flat();
+
+    // existingVariants = productsToBeImportedVariants.filter((g) =>
+    //   variants.find((q) => q.sku === g.SellerSku)
+    // );
+    // Do the above thing but use for loop
+    for (let g of productsToBeImportedVariants) {
+      for (let q of variants) {
+        if (q.sku === g.SellerSku) {
+          existingVariants.push({
+            ...q,
+            product_id: q.product_id,
+          });
+        }
+      }
+    }
+
+    // Remove those products variants of which are already in the database
+
+    productsToBeImported = productsToBeImported.filter(
+      (ps) =>
+        !existingVariants.find((v) =>
+          ps.skus.find((s) => s.SellerSku === v.sku)
+        )
+    );
+  } else if (instruction === "newProduct") {
+    // Create a new Product
+    // Do Nothing
+  } else if (instruction === "connect") {
+    // Do 2 things
+    // 1. for Variants that don't exists, Add them to Variants, and then add their entry on VaraintOnStores
+    // 2. for Variants that already exists, add an entry to VariantOnStores
+
+    const allVariants = productsToBeImported.map((p) => p.skus).flat();
+
+    const variantsToAppend = [];
+    const variantOnStoresToAppend = [];
+    const inventoriesToAppend = [];
+
+    for (let sku of allVariants) {
+      const product_id = sku.product_id;
+      if (sku.isConnected) {
+        // If this variant exist in the database, just add an entry to VariantOnStores
+        const VariantOnStore = {
+          variant_id: sku.variant_id,
+          status: sku.Status,
+          store_id: seller_id,
+          daraz_shop_sku: sku.ShopSku,
+          price: sku.price,
+          sale_price: sku.special_price,
+          deduction_unit: 1,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          platform_details: {
+            special_price_start_time: sku.special_from_date,
+            special_price_end_time: sku.special_to_date,
+          },
+          sku_id: sku.ShopSku.split("-")[1],
+          seller_sku: sku.SellerSku,
+          user_id: user_id,
+        };
+
+        variantOnStoresToAppend.push(VariantOnStore);
+      } else {
+        const randomNumber = Math.floor(100000000 + Math.random() * 900000000);
+
+        const newVariant = {
+          id: randomNumber,
+          name: sku.color_family ? sku.color_family : sku.SellerSku,
+          sku: sku.SellerSku,
+          cost: 0,
+          image_url: sku.Images.join(","),
+          product_id: product_id,
+          user_id: user_id,
+        };
+        variantsToAppend.push(newVariant);
+
+        // --
+
+        if (sku.fblWarehouseInventories.length !== 0) {
+          // FBL
+          const newInventory = {
+            variant_id: newVariant.id,
+            warehouse_id: 8,
+            quantity: sku.fblWarehouseInventories.reduce(
+              (a, b) => a + b.totalQuantity,
+              0
+            ),
+            units: "pcs",
+            user_id: user_id,
+          };
+          inventoriesToAppend.push(newInventory);
+        }
+        if (sku.multiWarehouseInventories.length !== 0) {
+          // Unassigned
+          const newInventory = {
+            variant_id: newVariant.id,
+            warehouse_id: 9,
+            quantity: sku.multiWarehouseInventories.reduce(
+              (a, b) => a + b.totalQuantity,
+              0
+            ),
+            units: "pcs",
+            user_id: user_id,
+          };
+
+          inventoriesToAppend.push(newInventory);
+        }
+
+        const VariantOnStore = {
+          variant_id: newVariant.id,
+          status: sku.Status,
+          store_id: seller_id,
+          daraz_shop_sku: sku.ShopSku,
+          price: sku.price,
+          sale_price: sku.special_price,
+          deduction_unit: 1,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          platform_details: {
+            special_price_start_time: sku.special_from_date,
+            special_price_end_time: sku.special_to_date,
+          },
+          sku_id: sku.ShopSku.split("-")[1],
+          seller_sku: sku.SellerSku,
+          user_id: user_id,
+        };
+        variantOnStoresToAppend.push(VariantOnStore);
+      }
+    }
+    const variantsAppended = await prisma.variant.createMany({
+      data: variantsToAppend,
+      skipDuplicates: true,
+    });
+
+    const variantOnStoresAppended = await prisma.variantOnStores.createMany({
+      data: variantOnStoresToAppend,
+      skipDuplicates: true,
+    });
+
+    const inventoriesToAppendAppended = await prisma.inventory.createMany({
+      data: inventoriesToAppend,
+      skipDuplicates: true,
+    });
+
+    console.log("variantsAppended", variantsAppended);
+    console.log("variantOnStoresAppended", variantOnStoresAppended);
+    console.log("inventoriesToAppendAppended", inventoriesToAppendAppended);
+
+    return res.status(200).json({ existingVariants: [], message: "done" });
+
+    // [
+    //   {
+    //     created_time: '1683460387602',
+    //     updated_time: '1708869785289',
+    //     images: [
+    //       'https://static-01.daraz.pk/p/7e9ff3e30f96dcb20fb536553ab7b6ab.jpg',
+    //       'https://static-01.daraz.pk/p/2dcca2235a18bd163ce5096984eea2d9.jpg',
+    //       'https://static-01.daraz.pk/p/8363c26afe73b329ce655bb873cc02be.png',
+    //       'https://static-01.daraz.pk/p/90c6b3aae21fb8e752acda1e44c6e11b.png'
+    //     ],
+    //     skus: [ [Object], [Object], [Object], [Object], [Object], [Object] ],
+    //     item_id: 418819114,
+    //     primary_category: 1724,
+    //     attributes: {
+    //       name: "Momdaughts' Medical Grade Menstrual Period Cup Large & Small, Pink Purple Black",
+    //       description: '<div bis_skin_checked="1"></div>',
+    //       video: '438994',
+    //       brand: 'MomDaughts',
+    //       description_en: `<p>Looking for a menstrual solution that's comfortable, eco-friendly, and ultra-secure? Try MomDaughts' Double Tailed Menstrual Cup! Made with soft, medical-grade silicone, this unique menstrual cup features two tails for easy insertion and removal. The double tails also provide an extra layer of security, helping to prevent the cup from slipping out of place or spilling. And with its leak-proof design, you can go about your day with confidence and peace of mind.</p><p>Not only is MomDaughts' Double Tailed Menstrual Cup a comfortable and convenient option for managing your period, it's also eco-friendly. By using a reusable menstrual cup instead of disposable pads and tampons, you can help reduce the amount of waste that ends up in landfills. It's a small change that can make a big impact on the environment.</p><p>So why wait? Make the switch to MomDaughts' Double Tailed Menstrual Cup today and experience the comfort, reliability, and eco-friendliness for yourself!</p><div bis_skin_checked="1"></div>`,
+    //       name_en: "Momdaughts' Medical Grade Menstrual Period Cup Large & Small, Pink Purple Black",
+    //       short_description_en: `<ul><li data-spm-anchor-id="0.0.0.i118.61497463aJowVS">The MomDaughts' Double Tailed Menstrual Cup is a menstrual solution that is comfortable, eco-friendly, and ultra-secure.</li><li data-spm-anchor-id="0.0.0.i118.61497463aJowVS">The cup is made with soft, medical-grade silicone and features two tails for easy insertion and removal.</li><li data-spm-anchor-id="0.0.0.i118.61497463aJowVS">The double tails provide an extra layer of security, helping to prevent the cup from slipping out of place or spilling.</li><li data-spm-anchor-id="0.0.0.i118.61497463aJowVS">The cup has a leak-proof design that allows you to go about your day with confidence and peace of mind.<br/></li><li data-spm-anchor-id="0.0.0.i118.61497463aJowVS">By using the reusable menstrual cup instead of disposable pads and tampons, you can help reduce the amount of waste that ends up in landfills.</li><li data-spm-anchor-id="0.0.0.i118.61497463aJowVS">Making the switch to MomDaughts' Double Tailed Menstrual Cup offers comfort, reliability, and eco-friendliness.</li></ul>`,
+    //       warranty_type: 'No Warranty',
+    //       promotion_whitebkg_image: [Array],
+    //       source: 'asc'
+    //     },
+    //     status: 'Active',
+    //     selected: true
+    //   }
+    // ]
+
+    // {
+    //   SellerSku: 'DPL',
+    //   ShopSku: '418819114_PK-1982920252',
+    //   units: 'Pink Large',
+    //   Url: 'http://www.daraz.pk/-i418819114-s1982920252.html',
+    //   package_height: '4.40',
+    //   fblWarehouseInventories: [],
+    //   price: 1499,
+    //   package_length: '2.00',
+    //   seller_promotion: 'Satin Bag',
+    //   special_from_date: '2023-05-07',
+    //   Available: 65,
+    //   special_to_date: '2026-05-03',
+    //   Status: 'active',
+    //   quantity: 65,
+    //   Images: [Array],
+    //   special_time_format: 'yyyy-MM-dd HH:mm:ss',
+    //   saleProp: [Object],
+    //   multiWarehouseInventories: [Array],
+    //   package_width: '5.00',
+    //   special_to_time: '2026-05-03 16:47:56',
+    //   special_from_time: '2023-05-07 16:47:56',
+    //   special_price: 899,
+    //   channelInventories: [Array],
+    //   package_weight: '0.1',
+    //   SkuId: 1982920252,
+    //   isConnected: false
+    // },
+
+    // Find the products
+
+    // const existingVariants = await prisma.variant.findMany({
+    //   where: {
+    //     id: {
+    //       in: existingVariantsIDS,
+    //     },
+    //   },
+    // });
+    // Find those Variants
+
+    // const VariantOnStore = {
+    //   variant_id: newVariant.id,
+    //   status: sku.Status,
+    //   store_id: seller_id,
+    //   daraz_shop_sku: sku.ShopSku,
+    //   price: sku.price,
+    //   sale_price: sku.special_price,
+    //   deduction_unit: 1,
+    //   created_at: new Date().toISOString(),
+    //   updated_at: new Date().toISOString(),
+    //   platform_details: {
+    //     special_price_start_time: sku.special_from_date,
+    //     special_price_end_time: sku.special_to_date,
+    //   },
+    //   sku_id: sku.ShopSku.split("-")[1],
+    //   seller_sku: sku.SellerSku,
+    //   user_id: user_id,
+    // };
+  }
 
   // If the user is importing products for the first time, we need to create a warehouse and a category
   category_id = 9;
@@ -1402,6 +1761,14 @@ router.post("/import-products", async (req, res) => {
   const variantsToAppend = [];
   const variantOnStoresToAppend = [];
   const inventoriesToAppend = [];
+
+  if (productsToBeImported.length === 0) {
+    return res.status(200).json({
+      allVariants: allVariants,
+      existingVariants: existingVariants,
+      message: "done",
+    });
+  }
 
   for (let product of productsToBeImported) {
     // Generate a random number of 9 digits
@@ -1523,6 +1890,8 @@ router.post("/import-products", async (req, res) => {
   console.log("inventoriesToAppendAppended", inventoriesToAppendAppended);
 
   res.status(200).json({
+    allVariants: allVariants,
+    existingVariants: existingVariants,
     message: "done",
   });
 });
