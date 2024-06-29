@@ -1439,6 +1439,22 @@ router.delete("/hehe", async (req, res) => {
   res.status(200).json({ message: "Deleted" });
 });
 
+router.get("/vvv", async (req, res) => {
+  const url = generateDarazURL(
+    "/products/get",
+    "50000900433xAvacuyiShpAOYQUih7fYHmvAtsf8eePhK1c97699bzVeR1xNBe",
+    {
+      filter: "all",
+      sku_seller_list: JSON.stringify(["Sterilizer_Purple"]),
+    }
+  );
+
+  const response = await axios.get(url);
+  console.log("response", response.data);
+
+  res.status(200).json({ response: response.data.data.products });
+});
+
 router.post("/get-sellersku-products", async (req, res) => {
   const { sellerSkus, seller_id } = req.body;
 
@@ -1454,8 +1470,10 @@ router.post("/get-sellersku-products", async (req, res) => {
     sku_seller_list: JSON.stringify(sellerSkus),
   });
 
-  const response = await axios.get(product_url);
-  if (Object.keys(response.data.data).length === 0) {
+  let response = "";
+  try {
+    response = await axios.get(product_url);
+  } catch (e) {
     return res.status(400).json({ message: "Could not get products" });
   }
   const products = response.data.data.products;
@@ -1463,7 +1481,7 @@ router.post("/get-sellersku-products", async (req, res) => {
     return res.status(400).json({ message: "No products found" });
   }
 
-  console.log("products", products)
+  console.log("products", products);
 
   // Make sure these products are not already in the database
 
@@ -1486,7 +1504,9 @@ router.post("/get-sellersku-products", async (req, res) => {
   });
 
   if (notInDBProducts.length === 0) {
-    return res.status(400).json({ message: "Product with this Seller SKU already exists" });
+    return res
+      .status(400)
+      .json({ message: "Product with this Seller SKU already exists" });
   }
   res.status(200).json({ notInDBProducts });
 });
