@@ -1475,6 +1475,10 @@ router.post("/get-sellersku-products", async (req, res) => {
   let response = "";
   try {
     response = await axios.get(product_url);
+    if (!response.data.data){
+      return res.status(400).json({ message: response.data.data.message });
+    }
+    console.log("r", response.data)
   } catch (e) {
     return res.status(400).json({ message: "Could not get products" });
   }
