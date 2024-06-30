@@ -42,6 +42,22 @@ router.post("/get-user", async (req, res) => {
 
   return res.status(200).json(user);
 });
+
+
+
+router.post("/hooks", async (req, res) => {
+
+  console.log("req.body", req.body);
+  res.status(200).json({ message: "Hook Received" });
+
+})
+router.get("/is-connected", async (req, res) => {
+
+  res.status(200).json({ message: "Connected" });
+})
+
+
+
 // ___________
 
 module.exports = router;

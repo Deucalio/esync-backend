@@ -1464,7 +1464,7 @@ router.post("/get-sellersku-products", async (req, res) => {
     },
   });
 
-  console.log("sellerSkus", sellerSkus)
+  console.log("sellerSkus", sellerSkus);
 
   const access_token = store.store_info.access_token;
   const product_url = generateDarazURL("/products/get", access_token, {
@@ -1475,10 +1475,10 @@ router.post("/get-sellersku-products", async (req, res) => {
   let response = "";
   try {
     response = await axios.get(product_url);
-    if (!response.data.data){
+    console.log("r", response.data);
+    if (!response.data.data) {
       return res.status(400).json({ message: response.data.data.message });
     }
-    console.log("r", response.data)
   } catch (e) {
     return res.status(400).json({ message: "Could not get products" });
   }
