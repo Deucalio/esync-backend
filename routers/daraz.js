@@ -1595,7 +1595,6 @@ router.post("/update-product-price", async (req, res) => {
         payload: payload,
       }
     );
-    console.log("payload", payload);
 
     return axios.post(DarazURL, { payload });
   });
@@ -1603,14 +1602,34 @@ router.post("/update-product-price", async (req, res) => {
   const results = [];
   const results_ = await Promise.all(requests);
 
-  results_.map((r) => {
-    results.push(r.data);
+  results_.map((r, index) => {
+    const variant_id = variantOnStores[index].variant_id;
+    const storeName = userStores.find(
+      (store) => store.seller_id === variantOnStores[index].store_id
+    ).name;
+    if (r.data) {
+      if (r.data.code === "0") {
+        console.log("Updated");
+        results.push({
+          code: r.data.code,
+          variant_id,
+          storeName,
+        });
+      } else {
+        results.push({
+          code: r.data.code,
+          variant_id,
+          storeName,
+          message: r.data.message ? r.data.message : "No Message",
+        });
+      }
+    }
   });
 
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
 
-  return res.status(200).json({ timeTaken,message: "done", results });
+  return res.status(200).json({ timeTaken, message: "done", results });
 });
 
 router.post("/import-products", async (req, res) => {
