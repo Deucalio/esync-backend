@@ -1609,11 +1609,15 @@ router.post("/update-product-price", async (req, res) => {
     ).name;
     if (r.data) {
       if (r.data.code === "0") {
-        console.log("Updated");
+        // Update the price in the database
+
         results.push({
           code: r.data.code,
+          database_id: variantOnStores[index].id,
           variant_id,
           storeName,
+          price: variantOnStores[index].price,
+          sale_price: variantOnStores[index].sale_price,
         });
       } else {
         results.push({
@@ -1625,6 +1629,21 @@ router.post("/update-product-price", async (req, res) => {
       }
     }
   });
+
+  // Update them in database as well
+  const variantsWithNoError = results.filter((r) => r.code !== "501");
+
+  const updatePromises = variantsWithNoError.map((variant) => {
+    return prisma.variantOnStores.update({
+      where: {
+        id: variant.database_id,
+      },
+      data: { price: variant.price, sale_price: variant.sale_price },
+    });
+  });
+
+  update = await prisma.$transaction(updatePromises);
+  console.log("Updated in DB", update);
 
   const end = new Date().getTime();
   const timeTaken = (end - start) / 1000;
@@ -1643,7 +1662,6 @@ router.post("/import-products", async (req, res) => {
 
   let existingVariants = [];
   let allVariants = [];
-
   if (!instruction) {
     // Check if the variants are already in the database
     const variants = await prisma.variant.findMany({
