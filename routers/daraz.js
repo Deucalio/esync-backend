@@ -1476,6 +1476,11 @@ router.post("/get-sellersku-products", async (req, res) => {
   try {
     response = await axios.get(product_url);
     console.log("r", response.data);
+
+    if (Object.keys(response.data.data).length === 0) {
+      return res.status(400).json({ message: "No products found" });
+    }
+
     if (!response.data.data) {
       return res.status(400).json({ message: response.data.data.message });
     }
