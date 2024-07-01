@@ -1517,6 +1517,102 @@ router.post("/get-sellersku-products", async (req, res) => {
   res.status(200).json({ notInDBProducts });
 });
 
+router.post("/details", async (req, res) => {
+  const { seller_skus } = req.body;
+
+  const url = generateDarazURL(
+    "/products/get",
+    "50000701700h145666c0bkirgrOlWBCSekUyejlQgxGVSmEbHTpDRQXRmKtsKp",
+    {
+      filter: "all",
+      sku_seller_list: JSON.stringify(seller_skus),
+    }
+  );
+
+  const response = await axios.get(url);
+  res.status(200).json({ response: response.data.data.products });
+});
+
+router.post("/update-product-price", async (req, res) => {
+  const { productBeingUpdated, user_id } = req.body;
+  const start = new Date().getTime();
+
+  const userStores = await prisma.store.findMany({
+    where: {
+      user_id,
+      platform: "daraz",
+    },
+  });
+  const variantOnStores = productBeingUpdated.Variant.map(
+    (v) => v.VariantOnStores
+  ).flat();
+
+  console.log("Received", variantOnStores.length, " variants");
+
+  const requests = variantOnStores.map((vos) => {
+    const store = userStores.find((s) => s.seller_id === vos.store_id);
+    const access_token = store.store_info.access_token;
+
+    const regex = /^(\d+)_PK-(\d+)$/;
+
+    // Execute the regex on the input string
+    const match = vos.daraz_shop_sku.match(regex);
+
+    let itemId = "";
+    let skuID = "";
+
+    if (match) {
+      itemId = match[1];
+      skuID = match[2];
+    } else {
+      console.log("The input string does not match the expected format.");
+      return res
+        .status(400)
+        .json({ message: "Atleast One Product has Invalid Daraz Shop Sku" });
+    }
+    let price = vos.price;
+    let salePrice = vos.sale_price;
+
+    const payload = `
+  <Request>
+  <Product>
+    <Skus>
+      <Sku>
+        <ItemId>${itemId}</ItemId>
+        <SkuId>${skuID}</SkuId>
+        <Price>${price}.00</Price>
+        <SalePrice>${salePrice}.00</SalePrice>
+        <SaleStartDate>2022-10-23</SaleStartDate>
+        <SaleEndDate>2029-02-09</SaleEndDate>
+      </Sku>
+    </Skus>
+  </Product>
+</Request>`;
+    const DarazURL = generateDarazURL(
+      "/product/price_quantity/update",
+      access_token,
+      {
+        payload: payload,
+      }
+    );
+    console.log("payload", payload);
+
+    return axios.post(DarazURL, { payload });
+  });
+
+  const results = [];
+  const results_ = await Promise.all(requests);
+
+  results_.map((r) => {
+    results.push(r.data);
+  });
+
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  return res.status(200).json({ timeTaken,message: "done", results });
+});
+
 router.post("/import-products", async (req, res) => {
   const { user_id, seller_id, instruction, sku_seller_list } = req.body;
 
