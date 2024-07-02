@@ -1656,6 +1656,136 @@ router.post("/update-product-price", async (req, res) => {
   return res.status(200).json({ timeTaken, message: "done", results });
 });
 
+router.post("/update-product-stock", async (req, res) => {
+  const { productBeingUpdated, user_id } = req.body;
+  const start = new Date().getTime();
+
+  const userStores = await prisma.store.findMany({
+    where: {
+      user_id,
+      platform: "daraz",
+    },
+  });
+  const inventories = productBeingUpdated.Variant.map(
+    (v) => v.Inventory
+  ).flat();
+
+  const inventoriesToPushToDB = inventories.map((i) => {
+    return prisma.inventory.update({
+      where: {
+        id: i.id,
+      },
+      data: { quantity: i.quantity },
+    });
+  });
+
+  const updatedInventories = await prisma.$transaction(inventoriesToPushToDB);
+  console.log("Updated in DB", updatedInventories.length);
+
+  const variantOnStores = productBeingUpdated.Variant.map(
+    (v) => v.VariantOnStores
+  ).flat();
+
+  console.log(
+    "Received",
+    inventories.length,
+    "inventories",
+    "With Amount: ",
+    inventories.reduce((a, b) => a + b.quantity, 0)
+  );
+  const SentData = [];
+  let quantityToSendToDaraz = "";
+  const requests = variantOnStores.map((vos) => {
+    quantityToSendToDaraz =
+      inventories.find((i) => i.variant_id === vos.variant_id).quantity /
+      variantOnStores.filter((vos_) => vos_.variant_id === vos.variant_id)
+        .length;
+
+    // console.log(
+    //   `${vos.seller_sku} Quantity to send to ${
+    //     variantOnStores.filter((vos_) => vos_.variant_id === vos.variant_id)
+    //       .length
+    //   } Shops On Daraz`,
+    //   quantityToSendToDaraz
+    // );
+
+    const store = userStores.find((s) => s.seller_id === vos.store_id);
+    const access_token = store.store_info.access_token;
+
+    const regex = /^(\d+)_PK-(\d+)$/;
+
+    // Execute the regex on the input string
+    const match = vos.daraz_shop_sku.match(regex);
+
+    let itemId = "";
+    let skuID = "";
+
+    if (match) {
+      itemId = match[1];
+      skuID = match[2];
+    } else {
+      console.log("The input string does not match the expected format.");
+      return res
+        .status(400)
+        .json({ message: "Atleast One Product has Invalid Daraz Shop Sku" });
+    }
+
+    const payload = `
+      <Request>
+      <Product>
+        <Skus>
+          <Sku>
+            <ItemId>${itemId}</ItemId>
+            <SkuId>${skuID}</SkuId>
+           <Quantity>${quantityToSendToDaraz}</Quantity>
+          </Sku>
+        </Skus>
+      </Product>
+    </Request>`;
+    const DarazURL = generateDarazURL(
+      "/product/price_quantity/update",
+      access_token,
+      {
+        payload: payload,
+      }
+    );
+    SentData.push({
+      sellerSKU: vos.seller_sku,
+      variant_id: vos.variant_id,
+      storeName: store.name,
+      quantityUpdated: quantityToSendToDaraz,
+      code: "",
+    });
+
+    return axios.post(DarazURL, { payload });
+  });
+
+  const results_ = await Promise.all(requests);
+  results_.map((r, index) => {
+    if (r.data) {
+      if (r.data.code === "0") {
+        // Update the price in the database
+        SentData[index].code = "0";
+        SentData[index].inventory_id = inventories.find(
+          (i) => i.variant_id === variantOnStores[index].variant_id
+        ).id;
+      } else {
+        SentData[index].code = r.data.code;
+        SentData[index].message = r.data.message
+          ? r.data.message
+          : "Couldn't update Stock";
+      }
+    }
+  });
+
+  const end = new Date().getTime();
+  const timeTaken = (end - start) / 1000;
+
+  return res
+    .status(200)
+    .json({ timeTaken, message: "done", sentData: SentData });
+});
+
 router.post("/import-products", async (req, res) => {
   const { user_id, seller_id, instruction, sku_seller_list } = req.body;
 
